@@ -1,4 +1,7 @@
 
+ASTRAL_UTM/settings/local.py
+db.sqlite3
+
 
 .DS_Store
 bin/
