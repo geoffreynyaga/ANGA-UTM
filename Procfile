@@ -1,1 +1,4 @@
-"web: gunicorn ASTRAL_UTM.wsgi" 
+ 
+
+
+web: gunicorn ASTRAL_UTM.wsgi --log-file -
