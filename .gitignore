@@ -1,5 +1,7 @@
 
 ASTRAL_UTM/settings/local.py
+ASTRAL_UTM/settings/local2.py
+
 db.sqlite3
 
 
