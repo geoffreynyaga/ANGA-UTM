@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    <title>EDIT Rpas</title>
+
+{%endblock%}
+
+{%block body%}
+<div class="">
+<br>
+</div>
+<div class="container">
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{%url 'rpas_list'%}">My RPAS</a></li>
+      <li class="breadcrumb-item"><a href="{%url 'rpas_detail' pk=rpas.pk%}">{{rpas.rpas_nickname}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">
+      Update
+    </li>
+    </ol>
+  </nav>
+</div>
+
+
+
+<div class="container">
+  <form class=""  action=""method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+      <div class="card" >
+         <div class="card-body">
+
+        {% load bootstrap3 %}
+
+          {% bootstrap_form form %}
+
+        </div>
+
+        <input value="Save" class="default" name="_save" type="submit">
+      </div>
+
+    </form>
+</div>
+
+{%endblock%}

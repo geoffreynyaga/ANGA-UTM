@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block head %}
+    <title>ADD Payload</title>
+{%endblock%}
+
+{%block body%}
+<div class="container">
+  <form class=""  method="POST" >
+    {% csrf_token %}
+
+    {{form.as_p}}
+
+    <input type="submit" class="btn btn-primary "value="Save">
+    <a href="{% url 'manufacturer_add' %}">add_manufacturer</a>
+
+  </form>
+</div>
+{%endblock%}
