@@ -21,6 +21,14 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
+	url(r'^$', views.home,name='home' ),
+    url(r'^account/', include("accounts.urls", namespace ='accounts') ),
+    url(r'^account/', include('django.contrib.auth.urls')),
+    url(r'^rpas/', include('rpas.urls')),
+    # url(r'^maps/', include('maps.urls')),
+    # url(r'^flight_plans/', include('flight_plans.urls')),
+    # url(r'^weather/', include('weather.urls')),
+    # url(r'^applications/', include('applications.urls')),
+    # url(r'^messages/', include('utm_messages.urls', namespace ='messages')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
