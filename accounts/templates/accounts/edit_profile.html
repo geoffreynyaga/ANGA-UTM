@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>My Profile</title>
+{% endblock %}
+
+
+
+{% block body %}
+
+<section class="content-header">
+      <h5>Hey  <b>{{ user.get_full_name }}</b>,
+    <small> Edit Your Profile</small> </h5>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><a href="">My Profile</a></li>
+  </ol>
+</section>
+
+<section class="content">
+
+
+
+  <form method="post"  enctype="multipart/form-data">
+  {% csrf_token %}
+  {% load bootstrap3 %}
+
+          {{ formset.management_form }}
+
+
+        {% bootstrap_form_errors noodle_form %}
+        {% bootstrap_formset_errors formset %}
+
+
+
+
+              {% for form in formset%}
+
+
+        {{form.id }}
+
+
+        <div class="row">
+
+          <div class="col-sm-4">
+
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="media-center">
+                  {% if request.user.userprofile.profile_pic %}
+                  <img class="img-responsive" src="{{request.user.userprofile.profile_pic.url}}" alt="Profile Pic Missing!">
+                  {% endif%}
+                </div>
+                <p>{% bootstrap_field form.profile_pic %}</p>
+                <hr>
+              </div>
+          </div>
+
+          </div>
+          <p></p>
+          <!-- To give spacing to next card in mobile -->
+
+          <div class="col-sm-4">
+
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">Personal Info</h3>
+              </div>
+              <div class="panel-body">
+                <h6 class="card-title">
+                  <b>{% bootstrap_field noodle_form.first_name %}
+                {% bootstrap_field noodle_form.last_name %}
+                {% bootstrap_field noodle_form.email %}
+                {% bootstrap_field form.phone_number %}
+                </b>
+              </h6>
+              </div>
+          </div>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">Organization</h3>
+            </div>
+            <div class="panel-body">
+              {% bootstrap_field form.organization %}
+              </div>
+          </div>
+
+          </div>
+
+      <div class="col-sm-4">
+
+        <div class="panel panel-primary">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Personal Info</div>
+            <div class="panel-body">
+              <h6 class="card-title">
+                  <b>{% bootstrap_field form.location %}</b>
+                  <b>{% bootstrap_field form.birth_date %}</b>
+                  <b>{% bootstrap_field form.bio %}</b>
+             </h6>
+            </div>
+        </div>
+
+      </div>
+
+
+        </div>
+
+
+<button type="submit" class="btn btn-primary btn-lg btn-block">Save changes</button>
+
+
+</form>
+
+</div><!--  Jumbotron -->
+  {%endfor%}
+
+
+</section>
+{% endblock %}

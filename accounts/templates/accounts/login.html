@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Login</title>
+
+{% endblock %}
+
+
+{% block body %}
+<br>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h1>Login</h1>
+      <form class="" action="" method="POST">
+        {% csrf_token %}
+
+        {% load bootstrap3 %}
+
+          {% bootstrap_form form %}
+
+
+        <input type="submit" name="" value="Login">
+      </form>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{%block includes%}
+{% endblock%}`

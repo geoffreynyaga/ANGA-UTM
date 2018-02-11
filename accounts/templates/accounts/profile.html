@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>My Profile</title>
+{% endblock %}
+
+
+
+{% block body %}
+
+
+<section class="content-header">
+
+  {% if request.user == userprofile.user%}
+      <h5> Hey  <b>{{ userprofile.user.get_full_name }}</b>,
+    <small> Welcome To Your Profile!</small> </h5>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><a href="">My Profile</a></li>
+  </ol>
+  {% else %}
+
+      <h5>  <b>{{ userprofile.user.get_full_name }}</b> |
+    <small> Profile Page</small> </h5>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><a href="">{{userprofile.user.username}}</a></li>
+  </ol>
+  {% endif %}
+</section>
+
+
+
+
+<section class="content">
+
+    <div class="row">
+
+      <div class="col-sm-4">
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="media-center">
+              {% if userprofile.profile_pic %}
+              <img class="img-responsive" src="{{userprofile.profile_pic.url}}" alt="Profile Pic Missing!">
+              {%else%}
+              <img class="img-responsive" src="" alt="Profile Pic Missing!">
+              {% endif %}
+            </div>
+            <hr>
+            <h4 class="card-title">{{ userprofile.user.get_full_name }}</h4>
+            <h6 class="card-title">Phone No: {{ userprofile.phone_number }}</h6>
+            <p class="card-text">Bio: {{ userprofile.bio|linebreaks }}</p>
+          </div>
+
+          {% if request.user == userprofile.user%}
+          <div class="panel-footer">
+            <a class="btn btn-primary" href="{% url 'accounts:edit_profile' pk=user.pk %}"
+            role="button"> <i class="fa fa-user-o" aria-hidden="true"></i>
+            Edit Profile</a>
+        </div>
+        {% endif %}
+      </div>
+
+      </div>
+      <p></p>
+      <!-- To give spacing to next card in mobile -->
+
+
+
+
+
+      <div class="col-sm-4">
+        <div class="panel panel-primary">
+          <!-- Default panel contents -->
+          <div class="panel-heading">My Flight Logs</div>
+          <div class="panel-body">
+          <small> Includes Flights even as co-pilot</small>
+          </div>
+          <ul class="list-group">
+              <!-- List group -->
+          {% for logs in myflightlogs %}
+
+            <li class="list-group-item">
+              <span class="badge">Done</span>
+              <a href="{% url 'log_detail' pk=logs.pk %}">{{logs}}</a>
+            </li>
+              {% endfor %}
+          </ul>
+        </div>
+
+        <div class="panel panel-primary">
+          <!-- Default panel contents -->
+          <div class="panel-heading">My RPAS</div>
+          <div class="panel-body">
+            <small> Includes All Rpas by your Organization</small>
+          </div>
+          <ul class="list-group">
+              <!-- List group -->
+          {% for rpas in myrpas %}
+
+            <li class="list-group-item">
+              <span class="badge">{{rpas.rpas_serial}}</span>
+              <a href="{% url 'rpas_detail' pk=rpas.pk %}"> {{rpas}}</a>
+            </li>
+              {% endfor %}
+          </ul>
+        </div>
+
+      <div class="list-group">
+        <a href="" class="list-group-item active">
+          Flights
+        </a>
+        <a href="#" class="list-group-item">
+          <i class="fa fa-clock-o" aria-hidden="true"></i>
+          Total Hours: xx
+        </a>
+        <a href="#" class="list-group-item">
+          <i class="fa fa-plane" aria-hidden="true"></i>
+          Rated Aircrafts: xx
+        </a>
+        <a href="#" class="list-group-item">
+          <i class="fa fa-certificate" aria-hidden="true"></i>
+          Certificates: xx
+        </a>
+      </div>
+
+</div>
+
+
+  <div class="col-sm-4">
+
+    <div class="panel panel-primary">
+      <!-- Default panel contents -->
+      <div class="panel-heading">Info</div>
+
+      <ul class="list-group">
+        <li class="list-group-item">
+          Username: {{ userprofile.user.username }}
+        </li>
+        <li class="list-group-item">
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+          Location: {{ userprofile.location }}
+        </li>
+        <li class="list-group-item">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+          Birth Date: {{ userprofile.birth_date }}
+        </li>
+
+      </ul>
+    </div>
+
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Organization</h3>
+      </div>
+      <div class="panel-body">
+
+        <i class="fa fa-building" aria-hidden="true"></i>
+        Company: {{ userprofile.organization.organization_details.name }}
+<p></p>
+        <i class="fa fa-certificate" aria-hidden="true"></i>
+        ROC No: {{ userprofile.organization }}</p>
+<p></p>
+        <i class="fa fa-map-marker" aria-hidden="true"></i>
+        Location: {{ userprofile.organization.organization_details.city }}
+<p></p>
+<a href="{{ userprofile.organization.organization_details.website}}" target="_blank">
+        <i class="fa fa-external-link" aria-hidden="true"></i>
+        {{ userprofile.organization.organization_details.website}}</a>
+
+      </div>
+    </div>
+
+  </div>
+
+
+    </div>
+
+
+</section>
+
+{% endblock %}
