@@ -39,6 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
 
+    'django.contrib.humanize',
+    'djgeojson',
+
+    'bootstrap3',
+    'datetimewidget',
+    'leaflet',
+
     'phonenumber_field',
 
 
