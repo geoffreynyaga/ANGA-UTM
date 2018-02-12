@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'maps',
     'flight_plans',
     'applications',
+    'weather',
+    'utm_messages',
 
 
 
