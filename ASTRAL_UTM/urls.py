@@ -34,6 +34,6 @@ urlpatterns = [
     url(r'^flight_plans/', include('flight_plans.urls')),
     # url(r'^weather/', include('weather.urls')),
     url(r'^applications/', include('applications.urls')),
-    # url(r'^messages/', include('utm_messages.urls', namespace ='messages')),
+    url(r'^messages/', include('utm_messages.urls', namespace ='messages')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
