@@ -159,13 +159,33 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'staticfiles'),
 )
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "rpas_list"
+
+LEAFLET_CONFIG = {
+
+    'DEFAULT_CENTER': (-1.5405, 36.6612),
+    'DEFAULT_ZOOM': 9,
+    'MAX_ZOOM': 17,
+    'MIN_ZOOM':7,
+    'SCALE': 'metric',
+    'ATTRIBUTION_PREFIX': 'Astral Aerial Maps',
+    # 'SPATIAL_EXTENT': (-0.970070, 33.903928, 3.959595, 41.899786)
+    # 'drawer': {
+    #     'css': 'https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css',
+    #     'js': 'https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js',
+    #     'auto-include': True,
+    # },
+}
 
 CORS_REPLACE_HTTPS_REFERER      = True
 HOST_SCHEME                     = "https://"
