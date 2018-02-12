@@ -37,3 +37,8 @@ urlpatterns = [
     url(r'^messages/', include('utm_messages.urls', namespace ='messages')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+from . import settings
+urlpatterns += patterns('',
+        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    )
