@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
 
     'storages',
+    'djangobower',
 
     'django.contrib.humanize',
     'djgeojson',
@@ -169,6 +170,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/adminlite/bower_components')
+
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+
+BOWER_INSTALLED_APPS = (
+    'jquery',
+    'bootstrap',
+)
 
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "rpas_list"
