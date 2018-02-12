@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+{% extends "base.html" %}
+
+{% block head %}
+<title>View Logs</title>
+{%endblock%}
+
+{%block body%}
+
+
+<section class="content">
+
+
+  <div class="row">
+    <div class="col-sm-4">
+      <nav aria-label="breadcrumb" role="navigation">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">My Logs</li>
+      </ol>
+      </nav>
+    </div>
+    <div class="col-sm-4">
+      <nav aria-label="breadcrumb" role="navigation">
+      <ol class="breadcrumb">
+        <li>Pilot: {{user.first_name}} {{user.last_name}}</li>
+      </ol>
+      </nav>
+    </div>
+    <div class="col-sm-4">
+      <a class="btn btn-primary btn-block" href="url{% url 'logs_add' %}"
+      role="button">
+      <i class="fa fa-plus-square " aria-hidden="true" ></i> Add a flight log
+       </a>
+    </div>
+  </div>
+<hr>
+
+<div class="row">
+  {% for log in mylogs %}
+
+  <div class="col-sm-3">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Flight Log No: {{log.log_number}}</h3>
+      </div>
+      <div class="panel-body">
+        <h6 class="card-subtitle mb-2 text-muted">Location: {{log.location}}</h6>
+      <p></p>
+        Altitude: {{log.pre_flight.altitude}}
+        <br>
+        Date: {{log.date}}
+        <br>
+        RPAS Used: {{log.rpas}}
+        <br>
+        Purpose: {{log.purpose}}
+        <br>
+        Number of flights: {{log.pre_flight.no_of_flights}}
+        <br>
+        Area Size: {{log.pre_flight.area_size}}
+        <br>
+      </div>
+      <div class="panel-footer">
+        <a class="btn btn-primary" href="{% url 'log_detail' pk=log.pk %}" role="button">View Log</a>
+      </div>
+    </div>
+  </div>
+
+    {%endfor%}
+</div>
+
+</section>
+
+
+  {%endblock%}

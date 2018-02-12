@@ -1,0 +1,20 @@
+
+      function our_layers(map,options){
+        var airport_geofences_datasets = new L.GeoJSON.AJAX("{% url 'geofences'%}",{
+
+          style: function colour(feature){
+            if (feature.properties.name) {
+              return{
+                color: 'red',
+              };
+            }
+          },
+
+            onEachFeature: function(feature,layer){
+              layer.bindPopup(feature.properties.name.toString());
+            },
+
+        });
+
+        airport_geofences_datasets.addTo(map);
+      }

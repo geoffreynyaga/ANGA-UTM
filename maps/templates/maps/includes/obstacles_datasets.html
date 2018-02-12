@@ -1,0 +1,42 @@
+var obstacles_datasets = new L.GeoJSON.AJAX("{% url 'obstacles_datasets'%}",{
+
+  style: function colour(feature){
+
+
+    if (feature.properties.obstacle_type == 'PWL') {
+      return{
+        color: '#FF6666',
+        dashArray: '10,10',
+        weight: 4
+      };
+    }
+    else if (feature.properties.status == 1){
+      return{
+        color: 'red',
+        stroke: false
+      };
+    }
+    else {
+      return{
+        color: '#FF6666',
+
+      };
+    }
+  },
+
+
+
+    onEachFeature: function(feature,layer){
+
+    layer.bindPopup(
+    '<h5>  '+feature.properties.type + '</h5>'
+    +'<p>Height: ' + feature.properties.height +' m</p>'
+    +'<p>Description: ' + feature.properties.description + '</p>'
+                  );
+
+    },
+
+
+});
+
+obstacles_datasets.addTo(map);

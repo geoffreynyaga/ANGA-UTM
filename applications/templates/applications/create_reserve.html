@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html>
+
+
+{% load static %}
+
+<head>
+
+
+    <title>Add Reserve</title>
+
+    <link rel="stylesheet" href="{% static 'adminlite/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {{ form.media }}
+
+
+
+
+
+  <link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}">
+
+{% load bootstrap3 %}
+{% load leaflet_tags %}
+{% leaflet_js  plugins="ALL" %}
+{% leaflet_css  plugins="ALL" %}
+
+
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+<link rel="stylesheet" href="{% static 'leaflet-measure/dist/leaflet-measure.css' %}">
+<link rel="stylesheet" href="{% static 'leaflet-measure/normalize.css/normalize.css' %}">
+
+<link rel="stylesheet" href="{% static 'leaflet-measure-path/leaflet-measure-path.css' %}">
+
+
+
+<style>
+    .leaflet-container {  /* all maps */
+        width:  100%;
+        height: 500px;
+    }
+
+    body {
+            padding: 20;
+            margin: 20;
+        }
+
+         #sidebar {
+            height: 40%;
+            font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+            margin-right: 20px;
+            margin-top: 250px;
+        }
+
+        .lorem {
+            font-style: italic;
+            color: #AAA;
+          }
+
+</style>
+
+
+
+  <link rel="stylesheet" href="{% static 'leaflet-sidebar/css/leaflet-sidebar.css' %}">
+
+ <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+ <link rel="stylesheet" href="{% static 'leaflet-sidebar/old-sidebar/L.Control.Sidebar.css' %}">
+
+
+</head>
+
+<body>
+
+<div class="container">
+
+      <form method="POST" enctype="multipart/form-data">
+
+          {% bootstrap_form_errors form %}
+
+          {% if form.errors %}
+          <div class="alert alert-warning">
+          <strong>Warning!</strong>    {{ form.errors }}
+        </div>
+        {% endif %}
+
+          <div class="row">
+            <div  class="col-sm-9">
+              {% bootstrap_field form.geom %}
+              {% csrf_token %}
+
+            {% include 'applications/includes/sidebar-right.html'%}
+
+            </div>
+
+          <div class="col-sm-3">
+            {% bootstrap_field form.rpas %}
+            {% bootstrap_field form.start_day %}
+            <hr>
+            Start Time :{{ form.start_time }}
+            End Time: {{ form.end }}
+
+<hr>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Waypoints Drawings Data
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
+                  <div class="panel-body">
+                    <h2><code>measurefinish</code> event data:</h2>
+                    <pre id="eventoutput">...</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+      <hr>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+          </div>
+
+        </div>
+
+
+  </form>
+</div>
+
+
+
+<script type="text/javascript">
+
+      function id_site_location_geom_map_callback(map, options) {
+          geodjango_id_site_location_geom.store_class = L.FieldStore;
+          (new geom(geodjango_id_site_location_geom)).addTo(map);
+
+      };
+
+              geom = L.GeometryField.extend({
+                    addTo: function (map) {
+
+                        L.GeometryField.prototype.addTo.call(this, map);
+                        // Customize map for field
+
+                        {% include 'applications/includes/search.html' %}
+
+                        drawControl = this._drawControl;
+                        drawControl._toolbars.draw.options.polyline = true;
+                        drawControl._toolbars.draw.options.polygon = true;
+                        drawControl._toolbars.draw.options.rectangle = false;
+                        drawControl._toolbars.draw.options.marker = false;
+                        map.addControl(drawControl);
+
+                        map.addControl(new L.Control.Fullscreen());
+
+                        {% include 'maps/includes/geofence_datasets.html' %}
+                        {% include 'applications/includes/reserved_airspace_datasets.html' %}
+                        {% include 'maps/includes/location_datasets.html'%}
+
+                        {% include 'applications/includes/location.html' %}
+
+
+                        var measureControl = L.control.measure();
+                        measureControl.addTo(map);
+
+                        var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(map);
+
+                        map.on('measurefinish', function (evt) {
+                          writeResults(evt);
+                        });
+
+                        function writeResults (results) {
+                          document.getElementById('eventoutput').innerHTML = JSON.stringify({
+                            area: results.area,
+                            areaDisplay: results.areaDisplay,
+                            lastCoord: results.lastCoord,
+                            length: results.length,
+                            lengthDisplay: results.lengthDisplay,
+                            pointCount: results.pointCount,
+                            points: results.points
+                          }, null, 2);
+                        }
+
+
+
+                    }
+
+                });
+</script>
+
+
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+<script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search.js' %}" ></script>
+
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<script type="text/javascript" src="{% static 'leaflet-measure/dist/leaflet-measure.js' %}" ></script>
+
+
+<script type="text/javascript" src="{% static 'leaflet-sidebar/js/leaflet-sidebar.js' %}" ></script>
+
+<!-- jQuery 3 -->
+<!-- <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script> -->
+<!-- Bootstrap 3.3.7 -->
+<script src="{% static 'adminlite/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'adminlite/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'adminlite/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+
+  <!-- Sparkline -->
+  <script src="{% static 'adminlite/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+  <!-- Slimscroll -->
+  <script src="{% static 'adminlite/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+  <!-- FastClick -->
+  <script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
+
+
+
+  </body>
+</html>

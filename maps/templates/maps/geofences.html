@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+      {% load static %}
+      {% load leaflet_tags %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}">
+
+      {%  leaflet_js %}
+      {%  leaflet_css %}
+
+<style type="text/css">
+  #gis {height:400px;}
+</style>
+
+<title>View Geofences</title>
+
+{% endblock %}
+
+{% block body %}
+<section class='content'>
+
+
+
+  <nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Maps | Geofences | Corridors | Highways</li>
+  </ol>
+</nav>
+<script type="text/javascript">
+
+          function our_layers(map,options){
+
+            {% include 'maps/includes/geofence_datasets.html'%}
+            {% include 'applications/includes/location_datasets.html'%}
+
+
+          }
+
+
+</script>
+
+    {%  leaflet_map "gis" callback="window.our_layers" %}
+
+
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+
+<script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search.js' %}" ></script>
+
+
+</section>
+
+{% endblock %}

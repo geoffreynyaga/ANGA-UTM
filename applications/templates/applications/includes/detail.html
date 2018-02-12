@@ -1,0 +1,163 @@
+<section class="content-header">
+  <h1>
+      My Dashboard
+    <small>Summary</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><a href="{% url 'applied_reserves' %}">All Applications</a></li>
+
+    <li class="breadcrumb-item active">Applied By: {{reserveairspace.created_by.get_full_name}} from {{reserveairspace.created_by.userprofile.organization.organization_details}} </li>
+  </ol>
+</section>
+
+
+
+<section class="content">
+
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Applied By:</h3>
+      </div>
+      <div class="panel-body">
+     {{reserveairspace.created_by.get_full_name}} from {{reserveairspace.created_by.userprofile.organization.organization_details}}
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Application Status:</h3>
+      </div>
+      <div class="panel-body">
+        {{reserveairspace.get_status_display}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- <div class="row">
+    <div class="col-sm-5">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Flight Times
+          </h3>
+        </div>
+        <div class="panel-body">
+          <p><i class="fa fa-calendar" aria-hidden="true"></i>
+          Start Day:  <b>{{reserveairspace.start_day}}</b></p>
+          <hr>
+          <p><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+          Start Time: <b>{{reserveairspace.start_time}}</b></p>
+          <hr>
+          <p><i class="fa fa-hourglass-end" aria-hidden="true"></i>
+          End: <b> {{reserveairspace.end}}</b></p>
+          <hr>
+          <p><i class="fa fa-align-left" aria-hidden="true"></i>
+          Reason For Reject/Approval:<b>{{reserveairspace.reason}}</b></p>
+          <hr>
+          <p><i class="fa fa-comment-o" aria-hidden="true"></i>
+          Comments from KCAA: <b>{{reserveairspace.comments}}</b></p>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div> -->
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+      <h3 class="panel-title">Rpas Details</h3>
+    </div>
+</div>
+
+
+<div class="panel">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <h4>
+          <li class="breadcrumb-item " ><p>{{reserveairspace.rpas.rpas_model}}</p></li>
+        </h4>
+        </ol>
+      </nav>
+    </h3>
+  </div>
+  <div class="panel-body">
+
+    <div class="row">
+
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <ul>
+              <li> Serial:  {{reserveairspace.rpas.rpas_serial}} </li>
+              <li> Payload:  {{reserveairspace.rpas.payload}} </li>
+              <li> Manufacturer:  {{reserveairspace.rpas.rpas_model.manufacturer}}  </li>
+              <li> Payload Manufacturer: {{reserveairspace.rpas.payload.manufacturer}} </li>
+              <li> Payload Serial: {{reserveairspace.rpas.payload.payload_serial}}  </li>
+            </ul>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+      <img class="mw-10" style="width: 100%;" src="{{reserveairspace.rpas.rpas_pic.url}}" alt="No RPAS Image">
+      <div class="">
+            <br>
+      </div>
+
+    </div>
+
+
+    <div class="col-sm-5">
+      <div class="card">
+        <div class="card-body">
+
+
+          <div class="media">
+            <div class="media-body">
+              <h4 class="media-heading">Manufacturer:  {{reserveairspace.rpas.rpas_model.manufacturer}} </h4>
+              <p>Country: {{reserveairspace.rpas.rpas_model.manufacturer.country}}</p>
+              <br>
+              weight: {{reserveairspace.rpas.rpas_model.weight}} kg
+
+            </div>
+            <div class="media-right">
+              {% if reserveairspace.rpas.rpas_model.manufacturer.logo%}
+              <a href="#">
+                <img class="media-object" style="width: 100px;" src="{{reserveairspace.rpas.rpas_model.manufacturer.logo.url}}" alt="...">
+              </a>
+              {%endif %}
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  </div>
+
+  <div class="panel-footer">
+      <a class="btn btn-primary" href="" role="button">
+      <i class="fa fa-external-link" aria-hidden="true"></i>
+         >> See Full Specs  </a>
+  </div>
+</div>
+
+
+
+<!-- </section> -->

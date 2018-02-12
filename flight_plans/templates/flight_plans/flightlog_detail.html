@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+
+
+
+{% block head %}
+    <title>Log Detail</title>
+{% endblock %}
+
+{% block body %}
+<section class="content">
+
+
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item"><a href="{%url 'logs_list'%} ">My Logs</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Log Details</li>
+    </ol>
+  </nav>
+
+  <div class="row">
+    <div class="col-sm-5">
+      <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Log Number: {{flightlog.log_number}}</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="col-sm-3">
+      <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item " aria-current="page">User: {{flightlog.user.first_name}}</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="col-sm-3">
+                <a class="btn btn-primary  btn-block"
+                 href="url{% url 'log_update' pk=flightlog.pk %}"
+                  role="button">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                  Update log</a>
+    </div>
+  </div>
+
+
+
+
+<div class="row">
+
+<div class="col-sm-4">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <h3 class="panel-title">Overall Details</h3>
+        </div>
+        <div class="panel-body">
+          <h6 class="card-subtitle mb-2 text-muted">Location:{{flightlog.location}} </h6>
+          <p class="card-text">Purpose: {{flightlog.purpose}}</p>
+          <p class="card-text">Date:  {{flightlog.date}}</p>
+          <p class="card-text">Emergency Info: {{flightlog.emmergency_info}}</p>
+          <p class="card-text">Pre Flight: {{flightlog.pre_flight}}</p>
+          <p class="card-text">Post Flight: {{flightlog.postflight}}</p>
+        </div>
+      </div>
+</div>
+
+
+<div class="col-sm-4">
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">Mission RPAS</h3>
+    </div>
+    <div class="panel-body">
+      <h6 class="card-subtitle mb-2 text-muted">RPAS: {{flightlog.rpas}}</h6>
+      <p class="card-text">Model: {{flightlog.rpas.rpas_model}}</p>
+      <p class="card-text">Model Type: {{flightlog.rpas.rpas_model.rpas_model_type}}</p>
+      <p class="card-text">Serial: {{flightlog.rpas.rpas_serial}}</p>
+      <p class="card-text">Nickname: {{flightlog.rpas.rpas_nickname}}</p>
+      <p class="card-text">Manufacturer: {{flightlog.rpas.manufacturer}}</p>
+    </div>
+  </div>
+</div>
+
+<div class="col-sm-4">
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">Mission Payload</h3>
+    </div>
+    <div class="panel-body">
+      <h6 class="card-subtitle mb-2 text-muted">Payload: {{flightlog.rpas.payload}}</h6>
+      <p class="card-text">Model: {{flightlog.rpas.payload.payload_model}}</p>
+      <p class="card-text">Model Type: {{flightlog.rpas.payload.payload_model.payload_model_type}}</p>
+      <p class="card-text">Serial: {{flightlog.rpas.payload.payload_serial}}</p>
+      <p class="card-text">Nickname: {{flightlog.rpas.payload.payload_nickname}}</p>
+      <p class="card-text">Manufacturer: {{flightlog.rpas.payload.manufacturer}}</p>
+    </div>
+  </div>
+</div>
+
+<div class="col-sm-8">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{flightlog.location}}</h3>
+      </div>
+      <div class="panel-body">
+        {% load static %}
+        {% load leaflet_tags %}
+        {%  leaflet_js %}
+        {%  leaflet_css  %}
+        <script type="text/javascript">
+        function our_layers(map,options){
+          var datasets = new L.GeoJSON.AJAX("{% url 'path_dataset' pk=flightlog.missionpath.pk %}",{
+
+          });
+          datasets.addTo(map);
+
+          datasets.on('layeradd', function (event) {
+            // Assuming the clicked feature is a shape, not a point marker.
+            map.fitBounds(event.layer.getBounds());
+          });
+        }
+        </script>
+        
+        {%  leaflet_map "gis" callback="window.our_layers" %}
+      </div>
+    </div>
+</div>
+
+<div class="col-sm-4">
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">Pre-flight</h3>
+    </div>
+    <div class="panel-body">
+      <h6 class="card-subtitle mb-2 text-muted">Pre Flight: {{flightlog.pre_flight}}</h6>
+      <br>
+      <p class="card-text">Altitude: {{flightlog.pre_flight.altitude}} ft</p>
+      <p class="card-text">Estimated Flight Time: {{flightlog.pre_flight.est_flight_time}} mins</p>
+      <p class="card-text">Area Size: {{flightlog.pre_flight.area_size}}</p>
+      <p class="card-text">No. of Flights: {{flightlog.pre_flight.no_of_flights }}</p>
+      <p class="card-text">Other Info: {{flightlog.pre_flight.other_info}}</p>
+      <p class="card-text">Batt Reminder: {{flightlog.pre_flight.batt_reminder }}%</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+
+</section>
+{% endblock %}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+      {% load static %}
+      {% load leaflet_tags %}
+{% block head %}
+
+      {%  leaflet_js %}
+      {%  leaflet_css %}
+
+
+
+<title>Airspace</title>
+{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}">
+
+
+<!-- <section class="content-header">
+  <h4>
+      Drone Airspace
+    <small>Summary</small>
+  </h4>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><a href="">All Applications</a></li>
+  </ol>
+</section> -->
+
+
+
+<section class="content">
+
+<div class="row" >
+
+
+    <div class="panel panel-primary" >
+        <!-- <div class="panel-heading"> <small>Maps | Geofences | Corridors | Highways</small></div> -->
+      <div class="panel-body" >
+        <!-- {{airspaces.0.created_by}} -->
+
+          {% load geojson_tags %}
+            <script type="text/javascript">
+
+
+              function our_layers(map,options){
+
+              {% include 'maps/includes/obstacles_datasets.html' %}
+              {% include 'applications/includes/reserved_airspace_datasets.html' %}
+              {% include 'maps/includes/geofence_datasets.html'%}
+              {% include 'maps/includes/location_datasets.html'%}
+
+
+              {% include 'applications/includes/location.html'%}
+
+
+              {% include 'applications/includes/search.html' %}
+
+
+} //end function
+
+
+            </script>
+
+          {%  leaflet_map "gis" callback="window.our_layers" %}
+
+
+
+
+  <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+
+<script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search.js' %}" ></script>
+<!-- <script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search-geocoder.js' %}" ></script> -->
+
+
+
+      </div>
+    </div>
+
+</div>
+
+
+    <style type="text/css">
+      #gis{height:80vh}
+    </style>
+
+    <!-- <style>
+            #gis {
+               margin: 0;
+               padding: 0;
+               width: 100%;
+               height: 100%;
+           }
+       </style> -->
+
+</section>
+
+
+{% endblock %}

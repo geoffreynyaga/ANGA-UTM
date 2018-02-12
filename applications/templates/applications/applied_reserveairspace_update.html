@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+
+{% load static %}
+
+
+{% block head %}
+    <title>Update Reserve</title>
+
+
+{%endblock%}
+
+
+{%block body%}
+
+
+
+{% load bootstrap3 %}
+
+{% load leaflet_tags %}
+{% leaflet_js plugins="forms" %}
+{% leaflet_css plugins="forms" %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="{% static 'adminlite/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+    {{ form.media }}
+
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">Approval Page</div>
+    <div class="panel-body">
+      <form method="POST">
+
+          {% csrf_token %}
+
+          <!-- {{ form.as_p }} -->
+          <!-- {% bootstrap_form form %} -->
+
+        <h2>  {% bootstrap_form_errors form %} </h2>
+
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Rpas to be used</h3>
+        </div>
+        <div class="panel-body">
+          <div class="alert alert-info" role="alert"> Do not Change this!! You can although
+             Recomend in the comments section below for the Applicant to change</div>
+          {% bootstrap_field form.rpas %}
+        </div>
+      </div>
+
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Flight Times</h3>
+        </div>
+        <div class="panel-body">
+          <div class="alert alert-info" role="alert"> If you change this for the applicant,
+            Make sure to note it down in the comments section
+         </div>
+         <span class="label label-primary">Change Start Day :</span>
+          {% bootstrap_field form.start_day %}
+         <br>
+        <span class="label label-primary">Change Start Time :</span>
+          {{ form.start_time }}
+         <br>
+         <span class="label label-primary">Change End Time: :</span>
+         {{ form.end }}
+
+        </div>
+      </div>
+
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Change the Applicant's Requested Airspace</h3>
+        </div>
+        <div class="panel-body">
+          <div class="alert alert-info" role="alert">You can change this</div>
+          {% bootstrap_field form.geom %}
+        </div>
+      </div>
+
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">APPROVE/REJECT/IGNORE APPLICATION</h3>
+              </div>
+              <div class="panel-body">
+                <div class="alert alert-info" role="alert">Approve/reject and write comments below</div>
+                {% bootstrap_field form.status %}
+              </div>
+          </div>
+          <div class="panel panel-success">
+              <div class="panel-heading">
+                  <h3 class="panel-title">Add Comments for applicant to change</h3>
+                </div>
+                <div class="panel-body">
+
+                {% bootstrap_field form.comments %}
+            </div>
+
+
+
+
+          <input  type="submit" value="Submit" />
+
+
+      </form>
+    </div>
+
+    </div>
+  </div>
+
+
+
+
+
+</section>
+{%endblock%}

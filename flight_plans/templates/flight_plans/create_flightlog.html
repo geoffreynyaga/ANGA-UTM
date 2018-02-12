@@ -1,0 +1,247 @@
+
+{% extends "base.html" %}
+
+{% block head %}
+    <title>ADD Flight Log</title>
+{%endblock%}
+
+{%block body%}
+
+
+<div class="container">
+
+  <form class=""  action=""method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+<div class="card" >
+  <div class="card-body">
+  <div class="row">
+    <div class="col-3">
+      Pilot In Command
+    </div>
+    <div class="col-4">
+      <div class="container">
+        {{ form.user}}
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="container">
+
+      </div>
+     </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div class="card" >
+  <div class="card-body">
+  <div class="row">
+    <div class="col-3">
+LOG NUMBER    </div>
+    <div class="col-4">
+      <div class="container">
+        {{ form.log_number }}
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="container">
+
+      </div>
+     </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div class="card" >
+  <div class="card-body">
+  <div class="row">
+    <div class="col-3">
+      PURPOSE
+    </div>
+    <div class="col-4">
+      <div class="container">
+    {{ form.purpose }}
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="container">
+        <a href="{% url 'objective_add' %}" class="btn btn-primary  active" role="button" aria-pressed="true">
+          <i class="fa fa-plus-square " aria-hidden="true"></i>
+        </a>
+      </div>
+     </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div class="card" >
+  <div class="card-body">
+  <div class="row">
+    <div class="col-3">
+      Date of Operation
+    </div>
+    <div class="col-4">
+      <div class="container">
+        {{ form.date }}
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="container">
+<p>YYYY-MM-DD</p>
+      </div>
+     </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div class="card" >
+  <div class="card-body">
+  <div class="row">
+    <div class="col-3">
+      RPAS USED
+    </div>
+    <div class="col-4">
+      <div class="container">
+      {{ form.rpas }}
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="container">
+        <a href="{% url 'rpas_add' %}" class="btn btn-primary  active" role="button" aria-pressed="true">
+          <i class="fa fa-plus-square " aria-hidden="true"></i>
+        </a>
+      </div>
+     </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div class="card" >
+  <div class="card-body">
+  <div class="row">
+    <div class="col-3">
+      LOCATION of Ops
+    </div>
+    <div class="col-4">
+      <div class="container">
+        {{ form.location }}
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="container">
+        <a href="{% url 'location_add' %}" class="btn btn-primary  active" role="button" aria-pressed="true">
+          <i class="fa fa-plus-square " aria-hidden="true"></i>
+        </a>
+      </div>
+     </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div class="card" >
+  <div class="card-body">
+  <div class="row">
+    <div class="col-3">
+      Emmergency Info
+    </div>
+    <div class="col-4">
+      <div class="container">
+        {{ form.emmergency_info }}
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="container">
+        <a href="{% url 'emergency_add' %}" class="btn btn-primary  active" role="button" aria-pressed="true">
+          <i class="fa fa-plus-square " aria-hidden="true"></i>
+        </a>
+      </div>
+     </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div class="card" >
+  <div class="card-body">
+  <div class="row">
+    <div class="col-3">
+      Pre-Flight
+    </div>
+    <div class="col-4">
+      <div class="container">
+        {{ form.pre_flight }}
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="container">
+        <a href="{% url 'pre_flight_add' %}" class="btn btn-primary  active" role="button" aria-pressed="true">
+          <i class="fa fa-plus-square " aria-hidden="true"></i>
+        </a>
+      </div>
+     </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div class="card" >
+  <div class="card-body">
+  <div class="row">
+    <div class="col-3">
+      Post Flight
+    </div>
+    <div class="col-4">
+      <div class="container">
+        {{ form.postflight }}
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="container">
+        <a href="{% url 'rpas_model_add' %}" class="btn btn-primary  active" role="button" aria-pressed="true">
+          <i class="fa fa-plus-square " aria-hidden="true"></i>
+        </a>
+      </div>
+     </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div class="card" >
+  <div class="card-body">
+  <div class="row">
+    <div class="col-3">
+      Waypoints
+    </div>
+    <div class="col-4">
+      <div class="container">
+        {{ form.missionpath }}
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="container">
+        <a href="{% url 'path_add' %}" class="btn btn-primary  active" role="button" aria-pressed="true">
+          <i class="fa fa-plus-square " aria-hidden="true"></i>
+        </a>
+      </div>
+     </div>
+  </div>
+</div>
+</div>
+<br>
+
+
+<input value="Save" class="default" name="_save" type="submit">
+
+</form>
+
+
+</div>
+
+{%endblock%}

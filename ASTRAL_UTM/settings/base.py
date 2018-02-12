@@ -42,7 +42,10 @@ INSTALLED_APPS = [
 
     'organizations',
     'rpas',
-    # 'accounts',
+    'accounts',
+    'maps',
+    'flight_plans',
+    'applications',
 ]
 
 MIDDLEWARE = [

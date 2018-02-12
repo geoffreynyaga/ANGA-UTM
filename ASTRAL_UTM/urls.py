@@ -20,20 +20,20 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-# from rpas import views
+from rpas import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-	# url(r'^$', views.home,name='home' ),
+	url(r'^$', views.home,name='home' ),
 
     url(r'^rpas/', include('rpas.urls')),
 
-    # url(r'^account/', include("accounts.urls", namespace ='accounts') ),
-    # url(r'^account/', include('django.contrib.auth.urls')),
-    # url(r'^maps/', include('maps.urls')),
-    # url(r'^flight_plans/', include('flight_plans.urls')),
+    url(r'^account/', include("accounts.urls", namespace ='accounts') ),
+    url(r'^account/', include('django.contrib.auth.urls')),
+    url(r'^maps/', include('maps.urls')),
+    url(r'^flight_plans/', include('flight_plans.urls')),
     # url(r'^weather/', include('weather.urls')),
-    # url(r'^applications/', include('applications.urls')),
+    url(r'^applications/', include('applications.urls')),
     # url(r'^messages/', include('utm_messages.urls', namespace ='messages')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

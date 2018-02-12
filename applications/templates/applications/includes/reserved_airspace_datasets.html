@@ -1,0 +1,57 @@
+var all_applied_datasets = new L.GeoJSON.AJAX("{% url 'airspace_datasets'%}",{
+
+  pointToLayer: function (feature, layer) {
+              return L.marker(layer, {icon: myIcon})
+              },
+
+
+  style: function colour(feature){
+    if (feature.properties.status == 0) {
+      return{
+        color: 'yellow',
+      };
+    }
+    else if (feature.properties.status == 1){
+      return{
+        color: 'black',
+      };
+    }
+    else {
+      return{
+        color: 'green',
+      };
+    }
+  },
+
+  pointToLayer: function (feature, latlng) {
+
+         var smallIcon = L.icon({
+                            iconSize: [100, 100],
+                            iconAnchor: [13, 27],
+                            popupAnchor:  [1, -24],
+                            iconUrl: 'https://programminghistorian.org/assets/mapping-with-python-leaflet/exercises/exercise05/leaf.png'
+                    });
+
+           return L.marker(latlng, {icon: smallIcon});
+          },
+
+onEachFeature: function onEachFeature(feature, layer) {
+  var props = feature.properties;
+  var userPk = props.created_by;
+  var content = `
+  <h6>Pilot: <a href="/account/profile/${props.created_by}">${props.get_name}</a></h6>
+  <p>Organization: <b> ${props.get_organization}</b> </p>
+  <p>Phone No: <b> <a href="tel:${props.get_phone_number}">${props.get_phone_number}</a></b> </p>
+  <p></p>
+  <p>Mission Start: <b>${props.get_start_day}</b> from <b>${props.start_time}</b> </p>
+  <p>to: <b>${props.end}</b></p>
+  <p>RPAS: <b>${props.get_rpas}</b>
+  <img width="80" src="${props.get_rpas_pic}"/> </p>
+  `;
+  layer.bindPopup(content);
+
+    },
+
+
+});
+all_applied_datasets.addTo(map);

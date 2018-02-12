@@ -39,8 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
 
+    'phonenumber_field',
+
+
     'organizations',
     'rpas',
+    'accounts',
+    'maps',
+    'flight_plans',
+    'applications',
+
 
 
 ]

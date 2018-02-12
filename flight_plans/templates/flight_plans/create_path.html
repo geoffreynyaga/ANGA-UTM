@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    <title>ADD Waypoints</title>
+
+
+{%endblock%}
+
+
+{%block body%}
+<div class="container">
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">
+      <i class="fa fa-map-o" aria-hidden="true"></i>
+      Add Waypoints
+    </li>
+    </ol>
+  </nav>
+</div>
+
+
+{% load leaflet_tags %}
+{% leaflet_js plugins="forms" %}
+{% leaflet_css plugins="forms" %}
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <form method="POST">
+          {{ form.as_p }}
+          
+          {% csrf_token %}
+          <br>
+          <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+{%endblock%}
