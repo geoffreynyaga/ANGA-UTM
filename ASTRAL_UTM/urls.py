@@ -36,9 +36,12 @@ urlpatterns = [
     url(r'^applications/', include('applications.urls')),
     url(r'^messages/', include('utm_messages.urls', namespace ='messages')),
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
 
-from . import settings
-urlpatterns += patterns('',
-        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-    )
+from django.views.static import serve
+
+urlpatterns += [
+        url(r'^static/(?P<path>.*)$', serve, {
+            'document_root': settings.STATIC_ROOT,
+        }),
+    ] 
