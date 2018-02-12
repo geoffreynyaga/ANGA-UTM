@@ -214,3 +214,4 @@ SECURE_HSTS_SECONDS             = 1000000
 SECURE_FRAME_DENY               = True
 
 
+from ASTRAL_UTM.aws.conf import *

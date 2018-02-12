@@ -3,7 +3,7 @@
 
 from .production import *
 
-try:
-   from .local2 import *
-except:
-   pass
+# try:
+#    from .local2 import *
+# except:
+#    pass
