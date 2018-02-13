@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
 
     'storages',
-    'djangobower',
+    # 'djangobower',
 
     'django.contrib.humanize',
     'djgeojson',
@@ -173,19 +173,20 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/adminlite/bower_components')
+# BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/adminlite/bower_components')
 
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'djangobower.finders.BowerFinder',
-)
+# STATICFILES_FINDERS = (
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#     'djangobower.finders.BowerFinder',
+# )
 
-BOWER_INSTALLED_APPS = (
-    'jquery',
-    'bootstrap',
-)
+# BOWER_INSTALLED_APPS = (
+#     'jquery',
+#     'bootstrap',
+# )
 
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "rpas_list"
@@ -198,12 +199,7 @@ LEAFLET_CONFIG = {
     'MIN_ZOOM':7,
     'SCALE': 'metric',
     'ATTRIBUTION_PREFIX': 'Astral Aerial Maps',
-    # 'SPATIAL_EXTENT': (-0.970070, 33.903928, 3.959595, 41.899786)
-    # 'drawer': {
-    #     'css': 'https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css',
-    #     'js': 'https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js',
-    #     'auto-include': True,
-    # },
+   
 }
 
 CORS_REPLACE_HTTPS_REFERER      = True
