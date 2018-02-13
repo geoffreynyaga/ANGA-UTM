@@ -61,8 +61,6 @@ INSTALLED_APPS = [
     'weather',
     'utm_messages',
 
-
-
 ]
 
 MIDDLEWARE = [
