@@ -2,6 +2,15 @@
 
 {% block title %}{{ title }} | {{ site_title|default:_('ASTRAL site admin') }}{% endblock %}
 
+{% load static %}
+
+
+
+{% block extrahead %}
+    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" />
+{% endblock %}
+
+
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">ASTRAL AERIAL ADMIN PAGE</a></h1>
 {% endblock %}
