@@ -24,5 +24,5 @@ AWS_HEADERS = {
     'Cache-Control': 'max-age=%d' % (int(two_months.total_seconds()), ),
 }
 
-from ASTRAL_UTM.aws.conf import *
+
 

@@ -216,5 +216,4 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS  = True
 SECURE_HSTS_SECONDS             = 1000000
 SECURE_FRAME_DENY               = True
 
-# AWS_QUERYSTRING_AUTH = False
 from ASTRAL_UTM.aws.conf import *
