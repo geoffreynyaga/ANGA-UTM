@@ -16,9 +16,15 @@ class UserProfile(models.Model):
     profile_pic = models.ImageField(upload_to = 'images/profile_pic', blank=True)
     organization = models.ForeignKey(Organization, blank=True, null = True)
 
+    def __str__(self):
+        return str(self.user.username)
+
+
 def create_profile(sender, **kwargs):
     user = kwargs["instance"]
     if kwargs["created"]:
         user_profile = UserProfile(user=user)
         user_profile.save()
 post_save.connect(create_profile, sender=User)
+
+

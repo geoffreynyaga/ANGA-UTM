@@ -1,7 +1,7 @@
+{% load static %}
 var obstacles_datasets = new L.GeoJSON.AJAX("{% url 'obstacles_datasets'%}",{
 
-  style: function colour(feature){
-
+style: function colour(feature){
 
     if (feature.properties.obstacle_type == 'PWL') {
       return{
@@ -25,18 +25,73 @@ var obstacles_datasets = new L.GeoJSON.AJAX("{% url 'obstacles_datasets'%}",{
   },
 
 
+    onEachFeature: function(feature,layer){    
+     
 
-    onEachFeature: function(feature,layer){
 
-    layer.bindPopup(
+    var x = (
     '<h5>  '+feature.properties.type + '</h5>'
     +'<p>Height: ' + feature.properties.height +' m</p>'
     +'<p>Description: ' + feature.properties.description + '</p>'
                   );
 
+
+
+     if (feature.properties.obstacle_type === 'PWL') {
+            var url_mask = "{% static 'leaflet-icons/powerline.png' %}";
+                var airportIcon = L.icon({
+                
+                iconUrl: url_mask,
+                shadowUrl: 'leaf-shadow.png',
+
+                iconSize:     [25, 25], // size of the icon
+                shadowSize:   [50, 64], // size of the shadow
+                <!-- iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location -->
+                shadowAnchor: [4, 62],  // the same for the shadow
+                <!-- popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor -->
+            });
+
+            // Don't stroke and do opaque fill
+            layer.setStyle({
+                <!-- 'weight': 1, -->
+                'fillOpacity': 1
+            });
+            // Get bounds of polygon
+            var bounds = layer.getBounds();
+            // Get center of bounds
+            var center = bounds.getCenter();
+            // Use center to put marker on map
+            var marker = L.marker(center, {icon: airportIcon}).addTo(map).bindPopup(x);
+        }
+          else if (feature.properties.obstacle_type === 'TWR') {
+          var url_mask = "{% static 'leaflet-icons/tower.png' %}";
+            var airportIcon = L.icon({
+                iconUrl: url_mask,
+                shadowUrl: 'leaf-shadow.png',
+
+                iconSize:     [20, 20], // size of the icon
+                shadowSize:   [50, 64], // size of the shadow
+                <!-- iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location -->
+                shadowAnchor: [4, 62],  // the same for the shadow
+                <!-- popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor -->
+            });
+            // Don't stroke and do opaque fill
+            layer.setStyle({
+                <!-- 'weight': 0.5, -->
+                'fillOpacity': 0.2
+            });
+            // Get bounds of polygon
+            var bounds = layer.getBounds();
+            // Get center of bounds
+            var center = bounds.getCenter();
+            // Use center to put marker on map
+            var marker = L.marker(center, {icon: airportIcon}).addTo(map).bindPopup(x);
+        }
+
+      
+
+
     },
-
-
 });
 
 obstacles_datasets.addTo(map);

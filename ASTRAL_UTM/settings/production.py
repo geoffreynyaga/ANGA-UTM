@@ -174,7 +174,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/adminlite/bower_components')
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATICFILES_STORAGE  = 'storages.backends.s3boto.S3BotoStorage'
 
 # STATICFILES_FINDERS = (
 #     'django.contrib.staticfiles.finders.FileSystemFinder',

@@ -1,33 +1,79 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block head %}
     <title>Login</title>
+
+
+   <style type="text/css">
+
+  .lockscreen-wrapper {
+    margin-top: 10px;
+
+    }
+    </style>
+
 
 {% endblock %}
 
 
 {% block body %}
+<!-- 
+<section class="content-header">
+ <h5> <b>Hey Visitor</b>,
+    <small> Please Log in</small> </h5>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><a href="">Login</a></li>
+  </ol>
+
+</section> -->
+
 <br>
-<div class="container">
-  <div class="card">
-    <div class="card-body">
-      <h1>Login</h1>
-      <form class="" action="" method="POST">
-        {% csrf_token %}
 
-        {% load bootstrap3 %}
-
-          {% bootstrap_form form %}
-
-
-        <input type="submit" name="" value="Login">
-      </form>
+<body class="hold-transition lockscreen">
+<!-- Automatic element centering -->
+    <div class="lockscreen-wrapper">
+      <div class="lockscreen-logo"  >
+        <img src="{% static 'logo/logo.png' %}" class="img-responsive center-block" alt="." style="max-height:60px">
+          <b>Login</b>
     </div>
 
+  <!-- START LOCK SCREEN ITEM -->
+  <div class="lockscreen-item">
+ <!-- lockscreen credentials (contains the form) -->
+    <form class="lockscreen-credentials"  method="POST">
+      
+      <div class="input-group">
+        {% csrf_token %}
+        <span>Username: {{form.username}}</span>
+        <span>Password: {{form.password}}  <button type="submit" class="btn"><i class="fa fa-arrow-right text-muted"></i></button></span>
+        <p></p>
+      </div>
+
+    </form>
   </div>
+  <!-- /.lockscreen-item -->
+
+  <div class="help-block text-center">
+    Enter your password to retrieve your session
+  </div>
+  <div class="text-center">
+    <a href="{% url 'accounts:signup' %}"> <b>Or Sign Up here</b></a>
+  </div>
+  <div class="lockscreen-footer text-center">
+    Copyright  <b>ASTRAL UTM &copy; 2018</b> <a href="https://adminlte.io" class="text-black"> | Astral Aerial Solutions</a><br>
+    All rights reserved
+  </div>
+
 </div>
 
+</body>
 {% endblock %}
 
+
+
 {%block includes%}
-{% endblock%}`
+{% endblock%}
+

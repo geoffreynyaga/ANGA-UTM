@@ -30,7 +30,7 @@ urlpatterns = [
         url(r'^obstacles/create/$', views.ObstaclesCreateView.as_view(), name='create_obstacles'),
 
         url(r'^obstacles/datasets$', GeoJSONLayerView.as_view(model=Obstacles,
-        properties=('height','type','description')),
+        properties=('height','type','description','obstacle_type')),
         name='obstacles_datasets'),
 
 ]

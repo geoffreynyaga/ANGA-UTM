@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load bootstrap3 %}
+
 {% block head %}
     <title>Sign Up</title>
 
@@ -8,26 +10,49 @@
 
 
 {% block body %}
-<br>
-<div class="container">
-  <div class="card">
-    <div class="card-body">
-      <h1>Sign Up</h1>
+<section class="content">
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h4>Sign Up</h4>
       <form class="" action="" method="POST">
+
+          {% bootstrap_form_errors form %}
+
+        <div class="row">
+          <div class="col-sm-4">
+            <span>{% bootstrap_field form.username %}</span>
+          </div>
+          <div class="col-sm-2">
+            
+          </div>
+          <div class="col-sm-3">
+            {% bootstrap_field form.email %}
+          </div>
+          
+        </div>
         {% csrf_token %}
+        <br>
+    <div class="row">
+      <div class="col-sm-6">
+               {% bootstrap_field form.password1 %}
+          </div>
+          <div class="col-sm-4">
+            <!-- {{form.password1}} -->
+            {% bootstrap_field form.password2 %}
+          </div>
+      
+    </div>
 
-          {% load bootstrap3 %}
+      
+           <button type="submit" class="btn btn-primary btn-lg btn-block">Sign Me Up!</button>
 
-            {% bootstrap_form form %}
-
-        <input type="submit" name="" value="Sign Me Up!">
       </form>
     </div>
 
   </div>
-</div>
-
+</section>
 {% endblock %}
 
 {%block includes%}
-{% endblock%}`
+{% endblock%}

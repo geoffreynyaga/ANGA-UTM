@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.views import generic
 from django.http import HttpResponseRedirect
 
+from django.urls import reverse
 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -72,7 +73,9 @@ def edit_user(request, pk):
                 if formset.is_valid():
                     created_user.save()
                     formset.save()
-                    return HttpResponseRedirect('/account/profile/')
+                    # return HttpResponseRedirect('/account/profile/')
+                    return HttpResponseRedirect(reverse('accounts:view_profile', args=(user.id,)))
+                    
 
         return render(request, "accounts/edit_profile.html", {
             "noodle": pk,
