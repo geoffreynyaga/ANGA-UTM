@@ -81,8 +81,9 @@
 </head>
 
 <body>
-
-<div class="container">
+<br>
+<div class="container-fluid">
+  
 
       <form method="POST" enctype="multipart/form-data">
 
@@ -95,15 +96,22 @@
         {% endif %}
 
           <div class="row">
+            
             <div  class="col-sm-9">
-              {% bootstrap_field form.geom %}
+              <div class="panel panel-default">
+              <div class="panel-body">
+                {{form.geom}}
               {% csrf_token %}
 
             {% include 'applications/includes/sidebar-right.html'%}
-
             </div>
+            </div>
+            </div>
+             
 
           <div class="col-sm-3">
+            <div class="panel panel-default">
+            <div class="panel-body">
             {% bootstrap_field form.rpas %}
             {% bootstrap_field form.start_day %}
             <hr>
@@ -131,12 +139,16 @@
 
       <hr>
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+            </div>
+            </div>
           </div>
 
         </div>
 
 
   </form>
+  
 </div>
 
 
