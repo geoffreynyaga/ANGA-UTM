@@ -19,7 +19,7 @@
 
 
 {% block body %}
-<!-- 
+<!--
 <section class="content-header">
  <h5> <b>Hey Visitor</b>,
     <small> Please Log in</small> </h5>
@@ -44,7 +44,7 @@
   <div class="lockscreen-item">
  <!-- lockscreen credentials (contains the form) -->
     <form class="lockscreen-credentials"  method="POST">
-      
+
       <div class="input-group">
         {% csrf_token %}
         <span>Username: {{form.username}}</span>
@@ -56,9 +56,9 @@
   </div>
   <!-- /.lockscreen-item -->
 
-  <div class="help-block text-center">
+  <!-- <div class="help-block text-center">
     Enter your password to retrieve your session
-  </div>
+  </div> -->
   <div class="text-center">
     <a href="{% url 'accounts:signup' %}"> <b>Or Sign Up here</b></a>
   </div>
@@ -76,4 +76,3 @@
 
 {%block includes%}
 {% endblock%}
-
