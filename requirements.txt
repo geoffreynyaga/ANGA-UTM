@@ -16,7 +16,6 @@ django-leaflet==0.22.0
 django-phonenumber-field==2.0.0
 django-storages==1.6.5
 docutils==0.14
-GDAL==2.2.3
 gunicorn==19.7.1
 jmespath==0.9.3
 jsonfield==2.0.2
