@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['astral-utm.herokuapp.com']
 
@@ -198,7 +198,7 @@ LEAFLET_CONFIG = {
     'MIN_ZOOM':7,
     'SCALE': 'metric',
     'ATTRIBUTION_PREFIX': 'Astral Aerial Maps',
-   
+
 }
 
 CORS_REPLACE_HTTPS_REFERER      = True
