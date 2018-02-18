@@ -14,7 +14,8 @@
 
 
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css">
-
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'adminlite/bower_components/Ionicons/css/ionicons.min.css' %}">
 
     <link rel="stylesheet" href="{% static 'adminlite/dist/css/AdminLTE.min.css' %}">
 
@@ -47,7 +48,7 @@
 <style>
     .leaflet-container {  /* all maps */
         width:  100%;
-        height: 500px;
+        height: 450px;
     }
 
     body {
@@ -58,8 +59,8 @@
          #sidebar {
             height: 40%;
             font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
-            margin-top: 260px;
-            margin-right: 20px;
+            margin-top: 240px;
+            margin-right: 30px;
         }
 
         .lorem {
@@ -73,7 +74,7 @@
 
   <link rel="stylesheet" href="{% static 'leaflet-sidebar/css/leaflet-sidebar.css' %}">
 
- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+ <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"> -->
 
  <link rel="stylesheet" href="{% static 'leaflet-sidebar/old-sidebar/L.Control.Sidebar.css' %}">
 
@@ -82,8 +83,6 @@
 
 <body>
 <br>
-<div class="container-fluid">
-  
 
       <form method="POST" enctype="multipart/form-data">
 
@@ -95,11 +94,22 @@
         </div>
         {% endif %}
 
+
           <div class="row">
-            
+
             <div  class="col-sm-9">
+              <div class="col-sm-6">
+                <div class="alert alert-info alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                  <strong>Tip!</strong>
+                  <p>Click  the fullscreen icon ( <i class="ion-android-expand"></i> ) on the map for a better experience.</p>
+                </div>
+              </div>
+
               <div class="panel panel-default">
               <div class="panel-body">
+
                 {{form.geom}}
               {% csrf_token %}
 
@@ -107,7 +117,7 @@
             </div>
             </div>
             </div>
-             
+
 
           <div class="col-sm-3">
             <div class="panel panel-default">
@@ -130,7 +140,7 @@
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
                   <div class="panel-body">
-                    <h2><code>measurefinish</code> event data:</h2>
+                    <h5><code>measurefinish</code> event data:</h5>
                     <pre id="eventoutput">...</pre>
                   </div>
                 </div>
@@ -148,18 +158,22 @@
 
 
   </form>
-  
-</div>
+
+
 
 
 
 <script type="text/javascript">
+
+
 
       function id_site_location_geom_map_callback(map, options) {
           geodjango_id_site_location_geom.store_class = L.FieldStore;
           (new geom(geodjango_id_site_location_geom)).addTo(map);
 
       };
+
+
 
               geom = L.GeometryField.extend({
                     addTo: function (map) {
@@ -183,6 +197,9 @@
                         {% include 'maps/includes/location_datasets.html'%}
 
                         {% include 'applications/includes/location.html' %}
+
+
+                        {% include 'maps/includes/offline_layers.html' %}
 
 
                         var measureControl = L.control.measure();
@@ -223,10 +240,12 @@
 
 <script type="text/javascript" src="{% static 'leaflet-sidebar/js/leaflet-sidebar.js' %}" ></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.js"></script>
+<script type="text/javascript" src="{% static 'leaflet-offline/leaflet-offline.min.js' %}" ></script>
 <!-- jQuery 3 -->
 <!-- <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script> -->
 <!-- Bootstrap 3.3.7 -->
-<script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 
 
 

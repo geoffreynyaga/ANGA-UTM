@@ -43,8 +43,13 @@
           {% load geojson_tags %}
             <script type="text/javascript">
 
+            bounds = new L.LatLngBounds(new L.LatLng(4.740950, 41.858445), new L.LatLng(-4.921208, 33.891347));
 
               function our_layers(map,options){
+
+                // center: bounds.getCenter(),
+                //
+			          //  maxBounds: bounds,
 
               {% include 'maps/includes/obstacles_datasets.html' %}
               {% include 'applications/includes/reserved_airspace_datasets.html' %}
@@ -57,8 +62,14 @@
 
               {% include 'applications/includes/search.html' %}
 
+              var latlngs = L.rectangle(bounds).getLatLngs();
+              // L.polyline(latlngs[0].concat(latlngs[0][0])).addTo(map);
+              map.setMaxBounds(bounds);	// Should not enter infinite recursion
+
 
 } //end function
+
+
 
 
             </script>
