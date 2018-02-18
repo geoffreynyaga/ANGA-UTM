@@ -47,10 +47,18 @@ class RpasDetailView(DetailView):
     model = Rpas
 
 class RpasCreateView(CreateView):
-    fields = ('rpas_nickname','organization',
+    fields = ('rpas_nickname',
             'rpas_model','payload','rpas_serial','rpas_pic')
     template_name = 'rpas/add_rpas.html'
     model = Rpas
+    success_url = '/rpas/rpas-main'
+
+    def form_valid(self, form):
+            rpas = form.save(commit=False)
+            rpas.user = User.objects.get(username=self.request.user)  # use your own profile here
+            rpas.organization = rpas.user.userprofile.organization  # use your own profile here
+            rpas.save()
+            return HttpResponseRedirect(self.success_url)
 
 class RpasUpdateView(UpdateView):
     fields = ('rpas_nickname','organization',
@@ -60,7 +68,6 @@ class RpasUpdateView(UpdateView):
 
 
 class ManufacturerCreateView(CreateView):
-    # fields = ('name','country')
     template_name = 'rpas/add_manufacturer.html'
     # model = Manufacturer
     form_class = ManufacturerForm

@@ -12,6 +12,14 @@
     margin-top: 10px;
 
     }
+
+    .pull-right {
+    float: right; // Use of important emulates bootstrap
+    }
+
+    .lockscreen-credentials{
+      width: 50%;
+    }
     </style>
 
 
@@ -40,25 +48,40 @@
           <b>Login</b>
     </div>
 
+<p><strong>{{ form.non_field_errors }}</strong></p>
+
+
   <!-- START LOCK SCREEN ITEM -->
   <div class="lockscreen-item">
  <!-- lockscreen credentials (contains the form) -->
+
+
     <form class="lockscreen-credentials"  method="POST">
+
+
 
       <div class="input-group">
         {% csrf_token %}
+        {{ form.fieldname.errors }}
+
         <span>Username: {{form.username}}</span>
-        <span>Password: {{form.password}}  <button type="submit" class="btn"><i class="fa fa-arrow-right text-muted"></i></button></span>
         <p></p>
+        <span>Password: {{form.password}}</span>
+        <p></p>
+          <span><button type="submit" class="btn" style="float: right">
+            <i class="fa fa-arrow-right text-muted fa-2x"></i></button></span>
+            <p></p>
+            <span></span>
+
       </div>
 
     </form>
   </div>
   <!-- /.lockscreen-item -->
 
-  <div class="help-block text-center">
+  <!-- <div class="help-block text-center">
     Enter your password to retrieve your session
-  </div>
+  </div> -->
   <div class="text-center">
     <a href="{% url 'accounts:signup' %}"> <b>Or Sign Up here</b></a>
   </div>
