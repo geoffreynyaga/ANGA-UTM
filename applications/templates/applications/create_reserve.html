@@ -43,6 +43,10 @@
 
 <link rel="stylesheet" href="{% static 'leaflet-measure-path/leaflet-measure-path.css' %}">
 
+<link rel="stylesheet" href="{% static 'leaflet-coordinates/Leaflet.Coordinates-0.1.5.css' %}">
+
+
+
 
 
 <style>
@@ -174,12 +178,18 @@
       };
 
 
+      bounds = new L.LatLngBounds(new L.LatLng(4.740950, 41.858445), new L.LatLng(-4.921208,  33.922226));
+
+
 
               geom = L.GeometryField.extend({
                     addTo: function (map) {
 
                         L.GeometryField.prototype.addTo.call(this, map);
                         // Customize map for field
+
+
+
 
                         {% include 'applications/includes/search.html' %}
 
@@ -200,7 +210,7 @@
 
 
                         {% include 'maps/includes/offline_layers.html' %}
-
+                        {% include 'maps/includes/mouse_coordinates.html' %}
 
                         var measureControl = L.control.measure();
                         measureControl.addTo(map);
@@ -223,6 +233,11 @@
                           }, null, 2);
                         }
 
+                        var latlngs = L.rectangle(bounds).getLatLngs();
+                        // L.polyline(latlngs[0].concat(latlngs[0][0])).addTo(map);
+                        map.setMaxBounds(bounds);	// Should not enter infinite recursion
+
+
 
 
                     }
@@ -242,6 +257,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.js"></script>
 <script type="text/javascript" src="{% static 'leaflet-offline/leaflet-offline.min.js' %}" ></script>
+<script type="text/javascript" src="{% static 'leaflet-coordinates/Leaflet.Coordinates-0.1.5.min.js' %}" ></script>
+
+
+
 <!-- jQuery 3 -->
 <!-- <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script> -->
 <!-- Bootstrap 3.3.7 -->
