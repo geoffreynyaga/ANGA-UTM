@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 
 {% block head %}
+
+{% if request.user == userprofile.user%}
     <title>My Profile</title>
+    {% else %}
+    <title>Profile</title>
+    {% endif %}
 {% endblock %}
 
 

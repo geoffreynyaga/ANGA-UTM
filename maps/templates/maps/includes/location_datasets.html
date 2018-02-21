@@ -29,12 +29,7 @@ var location_datasets = new L.GeoJSON.AJAX("{% url 'location_datasets'%}",{
 
     {% include 'maps/includes/onEachFeatureAirportIcon.html' %}
 
-    layer.bindPopup('<h5>  '+ feature.properties.name +'</h5>'
-     +' <p>  <small> IATA code: ' +feature.properties.IATA_shortcode + '</small></p>'
 
-     + '<p><small>ICAO code: ' + feature.properties.ICAO_shortcode  +'</small></p>'
-     + '<small>Call Sign: ' + 'xxx' +'</small>'
-     );
 
     },
 

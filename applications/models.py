@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 
 from rpas.models import Rpas
 
-from maps.models import GeofenceLocations
+from maps.models import GeofenceLocations,LocationPoints
 from django.utils import timezone
 from datetime import datetime, date, timedelta
 
@@ -111,9 +111,10 @@ class ReserveAirspace(gis_models.Model):
                 raise ValidationError("Cannot book airspace less than four hours to take-off! Try from " '{:%H:%M:%S}'.format(four_hours_from_now) )
 
         if self.geom:
-            reserve_qs = ReserveAirspace.objects.all().exclude(pk=self.pk).filter(geom__intersects=self.geom)
-            geo_qs     = GeofenceLocations.objects.filter(geom__intersects=self.geom)
-            if reserve_qs or geo_qs :
+            reserve_qs  = ReserveAirspace.objects.all().exclude(pk=self.pk).filter(geom__intersects=self.geom)
+            geo_qs      = GeofenceLocations.objects.filter(geom__intersects=self.geom)
+            airports_qs = LocationPoints.objects.filter(geom__intersects=self.geom)
+            if reserve_qs or geo_qs or airports_qs:
                 e = []
                 for qs in reserve_qs:
                     error = str(qs.start_day)
@@ -123,13 +124,34 @@ class ReserveAirspace(gis_models.Model):
                     error = str(qs.name)
                     e.append(error)
 
+                for qs in airports_qs:
+                    error = str(qs.name)
+                    e.append(error)
+
                 raise ValidationError(
-                    ((mark_safe('Cannot book airspace in this zone!!'+
-                    "You have violed the folowing Airspace(s)" + '<br> '
-                    + str(e) + '<br> ' + '<a href="/applications/airspace/">Go To Airspace</a>')))
+
+                    ((mark_safe
+                    ('Cannot book airspace in this zone!!'+
+                    "You have violed the folowing Airspace(s)"
+                      + '<hr>' + '<br>'
+                     + '<b>' + str(e) + '<br> '
+                     + '<hr>' + '<br>'
+                     + '<a href="/applications/airspace/">Go To Airspace</a>'
+
+                     # + '<table>'
+                     #    +   '<tr>'
+                     #            + '<td>' + e[0] + '</td>'
+                     #            +'</tr>'
+                     #    +   '<tr>'
+                     #            + '<td>' + e[1] + '</td>'
+                     #            +'</tr>'
+                     #
+                     #    +'</table>'
+                     )
+                     ))
 
                                     )
-            x = self.geom.area* 12365.1613
+            x = self.geom.area * 12365.1613
             # geom_area = loc_obj.area_ * 12365.1613 * 10**6
             if x > 9:
                 raise ValidationError('This Airspace is greater than the recommended value of 9sq km')
@@ -193,3 +215,7 @@ class ReserveAirspace(gis_models.Model):
         from django.contrib.humanize.templatetags.humanize import naturalday
         natural_day = naturalday(self.start_day)
         return str(natural_day)
+
+    @property
+    def get_airframe_type(self):
+        return str(self.rpas.rpas_model.rpas_model_type)
