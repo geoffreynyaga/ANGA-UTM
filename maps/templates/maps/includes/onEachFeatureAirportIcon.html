@@ -1,7 +1,8 @@
+{% load static %}
         if (feature.geometry.type === 'Polygon') {
             var airportIcon = L.icon({
-                <!-- iconUrl: 'http://www.iconninja.com/files/581/468/39/airport-icon.svg', -->
-                iconUrl: '/static/leaflet-icons/airport-icon.png',
+                <!-- iconUrl: '/static/leaflet-icons/airport-icon.png', -->
+                iconUrl: '{% static "leaflet-icons/airport-icon.png" %}',
                 <!-- shadowUrl: 'leaf-shadow.png', -->
 
                 iconSize:     [15, 15], // size of the icon

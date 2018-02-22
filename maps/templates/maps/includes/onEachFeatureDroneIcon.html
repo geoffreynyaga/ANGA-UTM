@@ -1,16 +1,15 @@
-
+{% load static %}
         if (feature.geometry.type === 'Polygon') {
 
             if (props.get_airframe_type === 'QUADCOPTER') {
 
                 var airportIcon = L.icon({
-                    iconUrl: 'https://cdn3.iconfinder.com/data/icons/avion/512/nanocopter-512.png',
+                    iconUrl: '{% static "leaflet-icons/quadcopter.png" %}',
                     <!-- shadowUrl: 'leaf-shadow.png', -->
-
                     iconSize:     [25, 25], // size of the icon
                     <!-- shadowSize:   [50, 64], // size of the shadow -->
                     <!-- iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location -->
-                    shadowAnchor: [4, 62],  // the same for the shadow
+                    <!-- shadowAnchor: [4, 62],  // the same for the shadow -->
                     <!-- popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor -->
                 });
 
@@ -18,15 +17,12 @@
             else if (props.get_airframe_type === 'PLANE'){
 
                 var airportIcon = L.icon({
-                    <!-- iconUrl: 'https://farmsolutions.com/images/inline-images/uav-aerial-services/farm-icons-01.png', -->
-                    iconUrl: '/static/leaflet-icons/fixed-wing.png',
-
-                    <!-- shadowUrl: 'leaf-shadow.png', -->
-
+                    iconUrl: '{% static "leaflet-icons/fixed-wing.png" %}',
+                   <!-- shadowUrl: 'leaf-shadow.png', -->
                     iconSize:     [20, 15], // size of the icon
                     <!-- shadowSize:   [50, 64], // size of the shadow -->
                     <!-- iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location -->
-                    shadowAnchor: [4, 62],  // the same for the shadow
+                    <!-- shadowAnchor: [4, 62],  // the same for the shadow -->
                     <!-- popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor -->
                 });
             }
