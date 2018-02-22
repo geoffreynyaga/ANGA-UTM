@@ -74,7 +74,7 @@ class ReserveAirspace(gis_models.Model):
         d = t.total_seconds()
         if (d/3600) < 0:
             self.expiry = True
-                
+
         self.centroid = self.geom.centroid
 
         if self.created_by.userprofile.organization.organization_type == 'ROC':
@@ -125,8 +125,15 @@ class ReserveAirspace(gis_models.Model):
             if reserve_qs or geo_qs or airports_qs:
                 e = []
                 for qs in reserve_qs:
-                    error = str(qs.start_day)
-                    e.append(error)
+                    booking_time_start = datetime.combine(self.start_day, self.start_time)
+                    booking_time_end = datetime.combine(self.start_day, self.end)
+
+                    booking_time_qs_start = datetime.combine(qs.start_day, qs.start_time)
+                    booking_time_qs_end = datetime.combine(qs.start_day, qs.end)
+
+                    if booking_time_qs_start < booking_time_start < booking_time_qs_end:
+                        error = str(qs.get_name + "'s" + " " + "Airspace" + "" + "(Kindly  book after the current mission ends, try from " + qs.get_start_day + "  "+ booking_time_qs_end.strftime("%H:%M:%S")  )
+                        e.append(error)
 
                 for qs in geo_qs:
                     error = str(qs.name)
@@ -136,29 +143,30 @@ class ReserveAirspace(gis_models.Model):
                     error = str(qs.name)
                     e.append(error)
 
-                raise ValidationError(
+                if e:
+                    raise ValidationError(
 
-                    ((mark_safe
-                    ('Cannot book airspace in this zone!!'+
-                    "You have violed the folowing Airspace(s)"
-                      + '<hr>' + '<br>'
-                     + '<b>' + str(e) + '<br> '
-                     + '<hr>' + '<br>'
-                     + '<a href="/applications/airspace/">Go To Airspace</a>'
+                        ((mark_safe
+                        ('Cannot book airspace in this zone!!'+
+                        "You have violed the folowing Airspace(s)"
+                          + '<hr>' + '<br>'
+                         + '<b>' + str(e) + '<br> '
+                         + '<hr>' + '<br>'
+                         + '<a href="/applications/airspace/">Go To Airspace</a>'
 
-                     # + '<table>'
-                     #    +   '<tr>'
-                     #            + '<td>' + e[0] + '</td>'
-                     #            +'</tr>'
-                     #    +   '<tr>'
-                     #            + '<td>' + e[1] + '</td>'
-                     #            +'</tr>'
-                     #
-                     #    +'</table>'
-                     )
-                     ))
+                         # + '<table>'
+                         #    +   '<tr>'
+                         #            + '<td>' + e[0] + '</td>'
+                         #            +'</tr>'
+                         #    +   '<tr>'
+                         #            + '<td>' + e[1] + '</td>'
+                         #            +'</tr>'
+                         #
+                         #    +'</table>'
+                         )
+                         ))
 
-                                    )
+                            )
             x = self.geom.area * 12365.1613
             # geom_area = loc_obj.area_ * 12365.1613 * 10**6
             if x > 9:
