@@ -125,15 +125,16 @@ class ReserveAirspace(gis_models.Model):
             if reserve_qs or geo_qs or airports_qs:
                 e = []
                 for qs in reserve_qs:
-                    booking_time_start = datetime.combine(self.start_day, self.start_time)
-                    booking_time_end = datetime.combine(self.start_day, self.end)
+                    if  self.start_time and self.end:
+                        booking_time_start = datetime.combine(self.start_day, self.start_time)
+                        booking_time_end = datetime.combine(self.start_day, self.end)
 
-                    booking_time_qs_start = datetime.combine(qs.start_day, qs.start_time)
-                    booking_time_qs_end = datetime.combine(qs.start_day, qs.end)
+                        booking_time_qs_start = datetime.combine(qs.start_day, qs.start_time)
+                        booking_time_qs_end = datetime.combine(qs.start_day, qs.end)
 
-                    if booking_time_qs_start < booking_time_start < booking_time_qs_end:
-                        error = str(qs.get_name + "'s" + " " + "Airspace" + "" + "(Kindly  book after the current mission ends, try from " + qs.get_start_day + "  "+ booking_time_qs_end.strftime("%H:%M:%S")  )
-                        e.append(error)
+                        if booking_time_qs_start < booking_time_start < booking_time_qs_end:
+                            error = str(qs.get_name + "'s" + " " + "Airspace" + "" + "(Kindly  book after the current mission ends, try from " + qs.get_start_day + "  "+ booking_time_qs_end.strftime("%H:%M:%S")  )
+                            e.append(error)
 
                 for qs in geo_qs:
                     error = str(qs.name)
