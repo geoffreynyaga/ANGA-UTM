@@ -20,6 +20,8 @@ class Organization(models.Model):
             ('REC', 'RECREATIONAL'),
             ('PVT', 'PRIVATE'),
             ('ATO', 'Training Organization'),
+            ('CLB', 'RC Club'),
+
         )
     organization_type = models.CharField(max_length=3, choices=ORGANIZATION_TYPE,null=True)
     kcaa_no = models.CharField(max_length = 50, unique=True)

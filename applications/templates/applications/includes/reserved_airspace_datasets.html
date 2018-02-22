@@ -36,10 +36,11 @@ onEachFeature: function onEachFeature(feature, layer) {
   <p>Organization: <b> ${props.get_organization}</b> </p>
   <p>Phone No: <b> <a href="tel:${props.get_phone_number}">${props.get_phone_number}</a></b> </p>
   <p></p>
-  <p>Mission Start: <b>${props.get_start_day}</b> from <b>${props.start_time}</b> </p>
-  <p>to: <b>${props.end}</b></p>
-  <p>RPAS: <b>${props.get_rpas}</b>  Type:  <b> ${props.get_airframe_type}</b>
-  <img width="80" src="${props.get_rpas_pic}"/> </p>
+  <p>Mission Start: <b>${props.get_start_day}</b></p>
+  <p>from <b>${props.start_time}</b>
+  to: <b>${props.end}</b></p>
+  <p>RPAS: <b>${props.get_rpas}</b>  Type:  <b> ${props.get_airframe_type}</b></p>
+  <img width="80" src="${props.get_rpas_pic}"/>
 
   `
 
