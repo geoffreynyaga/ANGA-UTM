@@ -65,11 +65,18 @@ class ReserveAirspace(gis_models.Model):
     reason = models.CharField(max_length = 255, blank=True, null=True, help_text='If Rejected: Reason for Rejecting')
     comments = models.TextField(blank=True, null=True, help_text='Additional Comments, if any ')
     centroid = gis_models.PointField(blank=True,null=True)
-
-
+    expiry = gis_models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
+
+        now = datetime.now()
+        t = datetime.combine(self.start_day, self.start_time) - datetime.now()
+        d = t.total_seconds()
+        if (d/3600) < 0:
+            self.expiry = True
+                
         self.centroid = self.geom.centroid
+
         if self.created_by.userprofile.organization.organization_type == 'ROC':
             x = "FP/KCAA/ROC/"
             y = self.pk
@@ -96,6 +103,7 @@ class ReserveAirspace(gis_models.Model):
 
     def clean(self):
         super(ReserveAirspace, self).clean()
+
         if self.start_time and self.end:
             booking_time = datetime.combine(date.min, self.end) - datetime.combine(date.min, self.start_time)
             c = booking_time.total_seconds()

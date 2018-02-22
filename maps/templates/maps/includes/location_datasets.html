@@ -29,7 +29,7 @@ var location_datasets = new L.GeoJSON.AJAX("{% url 'location_datasets'%}",{
 
     {% include 'maps/includes/onEachFeatureAirportIcon.html' %}
 
-
+layer.bindPopup(x)
 
     },
 

@@ -1,28 +1,24 @@
 var all_applied_datasets = new L.GeoJSON.AJAX("{% url 'airspace_datasets'%}",{
 
-  pointToLayer: function (feature, layer) {
-              return L.marker(layer, {icon: myIcon})
-              },
-
 
   style: function colour(feature){
-
-    if (feature.properties.status == 0) {
-      return{
-        color: 'yellow',
-      };
-    }
-    else if (feature.properties.status == 1){
-      return{
-        color: 'black',
-      };
-    }
-    else {
-      return{
-        color: 'green',
-      };
-    }
-  },
+          if (feature.properties.status == 0) {
+            return{
+              color: 'yellow',
+              fillOpacity: .2
+            };
+          }
+          else if (feature.properties.status == 1){
+            return{
+              color: 'black',
+            };
+          }
+          else {
+            return{
+              color: 'green',
+            };
+          }
+        },
 
 
 
@@ -44,7 +40,7 @@ onEachFeature: function onEachFeature(feature, layer) {
 
   `
 
-  <!-- layer.bindPopup(content); -->
+  layer.bindPopup(x);
 
   {% include 'maps/includes/onEachFeatureDroneIcon.html' %}
 

@@ -61,10 +61,15 @@ def view_airspace(request):
     airspaces = ReserveAirspace.objects.all()
     return render(request, 'applications/airspaces.html',{'airspaces':airspaces})
 
-def airspace_datasets(request):
-    airspace = serialize('geojson', ReserveAirspace.objects.all())
-    return HttpResponse(airspace, content_type='json')
+from djgeojson.views import GeoJSONLayerView
+class MyModelLayer(GeoJSONLayerView):
+    def get_queryset(self):
+        context = ReserveAirspace.objects.filter(expiry=False)
+        return context
 
+# def airspace_datasets(request):
+#     airspace = serialize('geojson', ReserveAirspace.objects.all())
+#     return HttpResponse(airspace, content_type='json')
 
 
 class AppliedReserveAirspaceListView(ListView):

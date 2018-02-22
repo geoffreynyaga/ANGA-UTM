@@ -7,7 +7,7 @@
                     iconUrl: 'https://cdn3.iconfinder.com/data/icons/avion/512/nanocopter-512.png',
                     <!-- shadowUrl: 'leaf-shadow.png', -->
 
-                    iconSize:     [20, 20], // size of the icon
+                    iconSize:     [25, 25], // size of the icon
                     <!-- shadowSize:   [50, 64], // size of the shadow -->
                     <!-- iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location -->
                     shadowAnchor: [4, 62],  // the same for the shadow
@@ -18,7 +18,9 @@
             else if (props.get_airframe_type === 'PLANE'){
 
                 var airportIcon = L.icon({
-                    iconUrl: 'https://farmsolutions.com/images/inline-images/uav-aerial-services/farm-icons-01.png',
+                    <!-- iconUrl: 'https://farmsolutions.com/images/inline-images/uav-aerial-services/farm-icons-01.png', -->
+                    iconUrl: '/static/leaflet-icons/fixed-wing.png',
+
                     <!-- shadowUrl: 'leaf-shadow.png', -->
 
                     iconSize:     [20, 15], // size of the icon
@@ -34,7 +36,7 @@
             layer.setStyle({
                 'weight': 0.7,
                 'fillOpacity': 0.5
-                
+
             });
             // Get bounds of polygon
             var bounds = layer.getBounds();
