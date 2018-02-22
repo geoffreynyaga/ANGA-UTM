@@ -5,7 +5,8 @@ var all_applied_datasets = new L.GeoJSON.AJAX("{% url 'airspace_datasets'%}",{
           if (feature.properties.status == 0) {
             return{
               color: 'yellow',
-              fillOpacity: .2
+              dashArray: 3
+
             };
           }
           else if (feature.properties.status == 1){
