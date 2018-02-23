@@ -9,7 +9,6 @@ from django.core.urlresolvers import reverse
 from rpas.models import Rpas
 
 from maps.models import GeofenceLocations,LocationPoints
-from django.utils import timezone
 from datetime import datetime, date, timedelta
 
 from .validators import validate_start_date
@@ -104,19 +103,20 @@ class ReserveAirspace(gis_models.Model):
     def clean(self):
         super(ReserveAirspace, self).clean()
 
-        if self.start_time and self.end:
-            booking_time = datetime.combine(date.min, self.end) - datetime.combine(date.min, self.start_time)
-            c = booking_time.total_seconds()
-            if (c/3600) > 3:
-                raise ValidationError('Cannot book airspace for more three hours!')
-            elif (c/3600) < 0:
-                raise ValidationError("Cmon man!! You can not start a flight at " '{:%H:%M:%S}'.format(self.start_time)  +  " and then GO BACK IN TIME to "  + '{:%H:%M:%S}'.format(self.end) + " to end your flight")
+        # if self.start_time and self.end:
+        #     booking_time = datetime.combine(date.min, self.end) - datetime.combine(date.min, self.start_time)
+        #     c = booking_time.total_seconds()
+        #     if (c/3600) > 3:
+        #         raise ValidationError('Cannot book airspace for more three hours!')
+        #     elif (c/3600) < 0:
+        #         raise ValidationError("Cmon man!! You can not start a flight at " '{:%H:%M:%S}'.format(self.start_time)  +  " and then GO BACK IN TIME to "  + '{:%H:%M:%S}'.format(self.end) + " to end your flight")
+        #
+        #     booking_schedule = datetime.combine(self.start_day, self.start_time) - datetime.now()
+        #     d = booking_schedule.total_seconds()
+        #     if (d/3600) < 4:
+        #         four_hours_from_now = datetime.now() + timedelta(hours=4)
+        #         raise ValidationError("Cannot book airspace less than four hours to take-off! Try from " '{:%H:%M:%S}'.format(four_hours_from_now) )
 
-            booking_schedule = datetime.combine(self.start_day, self.start_time) - datetime.now()
-            d = booking_schedule.total_seconds()
-            if (d/3600) < 4:
-                four_hours_from_now = datetime.now() + timedelta(hours=4)
-                raise ValidationError("Cannot book airspace less than four hours to take-off! Try from " '{:%H:%M:%S}'.format(four_hours_from_now) )
 
         if self.geom:
             reserve_qs  = ReserveAirspace.objects.all().exclude(pk=self.pk).filter(geom__intersects=self.geom)

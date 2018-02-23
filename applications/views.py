@@ -62,9 +62,18 @@ def view_airspace(request):
     return render(request, 'applications/airspaces.html',{'airspaces':airspaces})
 
 from djgeojson.views import GeoJSONLayerView
+from datetime import datetime
 class MyModelLayer(GeoJSONLayerView):
+
     def get_queryset(self):
-        context = ReserveAirspace.objects.filter(expiry=False)
+        a = ReserveAirspace.objects.exclude(expiry=True)
+        # a = ReserveAirspace.objects.all()
+        for x in a:
+            t = datetime.combine(x.start_day, x.start_time) - datetime.now()
+            d = t.total_seconds()
+            if (d/3600) < 0:
+                x.expiry = True
+        context = a.filter(expiry=False)
         return context
 
 # def airspace_datasets(request):
