@@ -71,7 +71,6 @@ class MyModelLayer(GeoJSONLayerView):
         for x in a:
             t = datetime.combine(x.start_day, x.start_time) - datetime.now()
             d = t.total_seconds()
-            print (x, "ddddddddddddddddd")
             if (d/3600) < 0:
                 x.expiry = True
                 x.save()

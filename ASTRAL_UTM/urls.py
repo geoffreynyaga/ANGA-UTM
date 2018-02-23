@@ -52,4 +52,5 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
+        url('', include('pwa.urls')),  # You MUST use an empty string as the URL prefix
     ] + urlpatterns

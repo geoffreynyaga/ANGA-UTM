@@ -8,11 +8,12 @@
 
 <html>
 
-
+{% load pwa %}
   <head>
 
+{% progressive_web_app_meta %}
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{% static 'favicons/favicon.ico' %}" type="image/x-icon" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- <title>Astral UTM | Dashboard</title> -->
     <!-- Tell the browser to be responsive to screen width -->
@@ -47,6 +48,29 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'favicons/apple-icon-57x57.png ' %}">
+    <link rel="apple-touch-icon" sizes="60x60"  href="{% static 'favicons/apple-icon-60x60.png ' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'favicons/apple-icon-72x72.png ' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'favicons/apple-icon-76x76.png ' %}">
+    <link rel="apple-touch-icon"  sizes="114x114"  href="{% static 'favicons/apple-icon-114x114.png' %}">
+    <link rel="apple-touch-icon"  sizes="120x120"  href="{% static 'favicons/apple-icon-120x120.png ' %}">
+    <link rel="apple-touch-icon" sizes="144x144"   href="{% static 'favicons/apple-icon-144x144.png ' %}">
+    <link rel="apple-touch-icon"  sizes="152x152"  href="{% static 'favicons/apple-icon-152x152.png ' %}">
+    <link rel="apple-touch-icon"  sizes="180x180"  href="{% static 'favicons/apple-icon-180x180.png ' %}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{% static 'favicons/android-icon-192x192.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32"  href="{% static 'favicons/favicon-32x32.png ' %}">
+    <link rel="icon" type="image/png" sizes="96x96"  href="{% static 'favicons/favicon-96x96.png ' %}">
+    <link rel="icon" type="image/png" sizes="16x16"  href="{% static 'favicons/favicon-16x16.png ' %}">
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{% static 'favicons/ms-icon-144x144.png' %}">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- Path to manifest.json -->
+    <link rel="manifest" href="{% static 'manifest.json' %} ">
+
     {% block head %}
       <title>Astral UTM</title>
     {% endblock %}
@@ -66,9 +90,9 @@
       <!-- Logo -->
       <a href=" {% url 'home' %} " class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>UTM</b></span>
+        <span class="logo-mini"> <img src="{% static 'favicons/favicon-32x32.png'%}" alt="xxx"><b>UTM</b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Astral</b>UTM</span>
+        <span class="logo-lg"> <img src="{% static 'favicons/favicon-32x32.png'%}" alt="xxx"> <b>Astral</b>UTM</span>
       </a>
       <!-- Header Navbar: style can be found in header.less -->
       <nav class="navbar navbar-static-top">
@@ -516,6 +540,9 @@
 
 <!-- AdminLTE App -->
 <script src="{% static 'adminlite/dist/js/adminlte.min.js' %}"></script>
+
+
+
 
 </body>
 </html>
