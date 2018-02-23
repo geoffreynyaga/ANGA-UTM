@@ -14,13 +14,6 @@ urlpatterns = [
         url(r'^myreserve/$', views.ReserveAirspaceListView.as_view(), name='my_reserve_list'),
         url(r'^myreserve/datasets$', views.my_reserve_datasets, name='my_reserve_datasets'),
 
-        # url(r'^submissions/datasets$', GeoJSONLayerView.as_view(model=ReserveAirspace,
-        # properties=('start_time','start_day','end','status','get_name','get_rpas',
-        #             'get_organization','get_rpas_pic','get_start_day','get_phone_number',
-        #             'created_by','get_airframe_type','get_expiry')),
-        # name='airspace_datasets'),
-
-
         url(r'^submissions/datasets$',  views.MyModelLayer.as_view(model=ReserveAirspace,
         properties=('start_time','start_day','end','status','get_name','get_rpas',
                     'get_organization','get_rpas_pic','get_start_day','get_phone_number',
