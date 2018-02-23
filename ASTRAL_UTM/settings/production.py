@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
 
+    'pwa',
+
     'storages',
 
     'django.contrib.humanize',
@@ -211,3 +213,17 @@ SECURE_HSTS_SECONDS             = 1000000
 SECURE_FRAME_DENY               = True
 
 from ASTRAL_UTM.aws.conf import *
+
+
+PWA_APP_NAME = 'Astral UTM'
+PWA_APP_DESCRIPTION = "Keep It Simple, Stupid"
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_START_URL = "/"
+PWA_APP_ICONS = [
+    {
+        'src': '/static/favicons/apple-icon-180x180.png',
+        'sizes': '180x180'
+    }
+]
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR,  'serviceworker.js')
