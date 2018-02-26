@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['astral-utm.herokuapp.com']
 
@@ -172,21 +172,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-# BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static/adminlite/bower_components')
-
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE  = 'storages.backends.s3boto.S3BotoStorage'
 
-# STATICFILES_FINDERS = (
-#     'django.contrib.staticfiles.finders.FileSystemFinder',
-#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#     'djangobower.finders.BowerFinder',
-# )
-
-# BOWER_INSTALLED_APPS = (
-#     'jquery',
-#     'bootstrap',
-# )
 
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "rpas_list"
@@ -217,7 +205,7 @@ from ASTRAL_UTM.aws.conf import *
 
 PWA_APP_NAME = 'Astral UTM'
 PWA_APP_DESCRIPTION = "Keep It Simple, Stupid"
-PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_THEME_COLOR = '#AA0F0F'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_START_URL = "/"
 PWA_APP_ICONS = [
