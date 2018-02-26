@@ -221,9 +221,40 @@ PWA_APP_THEME_COLOR = '#0A0302'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_START_URL = "/"
 PWA_APP_ICONS = [
-    {
-        'src': 'https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/192x192.png',
-        'sizes': '192x192'
-    }
+
+        {
+        "src": 'https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/android-icon-36x36.png',
+        "sizes": "36x36"
+        },
+        {
+        "src": 'https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/android-icon-48x48.png',
+        "sizes": "48x48"
+        },
+        {
+        "src": 'https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/android-icon-72x72.png',
+        "sizes": "72x72"
+        },
+        {
+        "src": 'https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/android-icon-96x96.png',
+        "sizes": "96x96"
+        },
+        {
+         "src": 'https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/android-icon-144x144.png',
+         "sizes": "144x144"
+        },
+        {
+            'src': 'https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/192x192.png',
+            'sizes': '192x192'
+        },
+        {
+            'src': 'https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/384x384.png',
+            'sizes': '384x384'
+        },
+        {
+            'src': 'https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/512x512.png',
+            'sizes': '512x512'
+        }
+
+
 ]
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR,  'static/pwabuilder-sw.js')
