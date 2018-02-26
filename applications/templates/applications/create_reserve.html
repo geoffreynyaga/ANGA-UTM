@@ -186,9 +186,9 @@
                         {% include 'applications/includes/search.html' %}
 
                         drawControl = this._drawControl;
-                        drawControl._toolbars.draw.options.polyline = true;
+                        drawControl._toolbars.draw.options.polyline = false;
                         drawControl._toolbars.draw.options.polygon = true;
-                        drawControl._toolbars.draw.options.rectangle = false;
+                        drawControl._toolbars.draw.options.rectangle = true;
                         drawControl._toolbars.draw.options.marker = false;
                         map.addControl(drawControl);
 
