@@ -222,8 +222,8 @@ PWA_APP_DISPLAY = 'standalone'
 PWA_APP_START_URL = "/"
 PWA_APP_ICONS = [
     {
-        'src': '/static/favicons/192x192.png',
-        'sizes': '150x150'
+        'src': 'https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/192x192.png',
+        'sizes': '192x192'
     }
 ]
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR,  'static/pwabuilder-sw.js')
