@@ -222,8 +222,8 @@ PWA_APP_DISPLAY = 'standalone'
 PWA_APP_START_URL = "/"
 PWA_APP_ICONS = [
     {
-        'src': '/static/favicons/apple-icon-180x180.png',
-        'sizes': '180x180'
+        'src': '/static/favicons/192x192.png',
+        'sizes': '150x150'
     }
 ]
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR,  'serviceworker.js')
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR,  'static/pwabuilder-sw.js')
