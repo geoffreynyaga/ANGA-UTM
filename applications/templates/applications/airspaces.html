@@ -9,6 +9,7 @@
       {%  leaflet_css %}
 
 
+      <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
 
 <title>Airspace</title>
 {% endblock %}
@@ -66,6 +67,8 @@
               // L.polyline(latlngs[0].concat(latlngs[0][0])).addTo(map);
               map.setMaxBounds(bounds);	// Should not enter infinite recursion
 
+              map.addControl(new L.Control.Fullscreen());
+
 
 } //end function
 
@@ -79,11 +82,12 @@
 
 
 
-  <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
 
+<script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search-geocoder.js' %}" ></script>
 <script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search.js' %}" ></script>
-<!-- <script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search-geocoder.js' %}" ></script> -->
 
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
 
 
       </div>
