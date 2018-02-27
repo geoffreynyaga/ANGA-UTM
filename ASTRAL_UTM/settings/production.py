@@ -62,6 +62,10 @@ INSTALLED_APPS = [
     'weather',
     'utm_messages',
 
+    "djcelery",
+    "pushy",
+    'notams',
+
 ]
 
 MIDDLEWARE = [
