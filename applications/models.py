@@ -183,12 +183,11 @@ class ReserveAirspace(gis_models.Model):
 
     def get_perimeter(self):
         x = self.geom.length
-
         return x*111
 
 
     def __str__(self):
-    	return str(self.start_day)
+    	return str(self.application_number)
 
     def get_start_datetime(self):
         booking_schedule = datetime.combine(self.start_day, self.start_time)

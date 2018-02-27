@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^applications/', include('applications.urls')),
     url(r'^messages/', include('utm_messages.urls', namespace ='messages')),
 
+    url(r'^notams/', include('notams.urls')),
 ]
 
 
