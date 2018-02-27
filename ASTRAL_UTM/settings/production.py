@@ -62,8 +62,8 @@ INSTALLED_APPS = [
     'weather',
     'utm_messages',
 
-    'djcelery',
-    'pushy',
+    # 'djcelery',
+    # 'pushy',
     'notams',
 
 ]
@@ -250,13 +250,3 @@ PWA_APP_ICONS = [
 
 ]
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR,  'static/pwabuilder-sw.js')
-
-# Android
-PUSHY_GCM_API_KEY = 'AAAAR6tqn_U:APA91bGz9QfoTnOSBXlAu35c07Er459XXtNByCyFvLULmYA-G1d4zlxUyqVauTXMkG-hlRv85ixT6fuZpAg3vFtB-So7dvvGuDKYGNcZPfVpny4rHURz3rzUFpTqWufFH_cf4fAyLL1H'
-
-# Send JSON or plaintext payload to GCM server (default is JSON)
-PUSHY_GCM_JSON_PAYLOAD = True
-
-
-PUSHY_QUEUE_DEFAULT_NAME = 'default'
-PUSHY_DEVICE_KEY_LIMIT = 1000
