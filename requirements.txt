@@ -32,5 +32,5 @@ whitenoise==3.3.1
 psycopg2
 pandas
 django-pushy
-django-celery==3.6
+django-celery==3.1
 pushjack==1.3.0
