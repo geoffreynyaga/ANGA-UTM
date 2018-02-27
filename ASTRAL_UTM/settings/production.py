@@ -62,8 +62,8 @@ INSTALLED_APPS = [
     'weather',
     'utm_messages',
 
-    "djcelery",
-    "pushy",
+    'djcelery',
+    'pushy',
     'notams',
 
 ]
