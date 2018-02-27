@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
 
 
-        url(r'^push/$', views.pushy_notification, name='push'),
+        # url(r'^push/$', views.pushy_notification, name='push'),
 
 
 
