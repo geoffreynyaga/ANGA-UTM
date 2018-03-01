@@ -13,6 +13,8 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 
+from djgeojson.views import GeoJSONLayerView
+from datetime import datetime
 
 class ReserveAirspaceMainView(TemplateView):
     template_name = 'applications/includes/reserve_main.html'
@@ -61,15 +63,14 @@ def view_airspace(request):
     airspaces = ReserveAirspace.objects.all()
     return render(request, 'applications/airspaces.html',{'airspaces':airspaces})
 
-from djgeojson.views import GeoJSONLayerView
-from datetime import datetime
+
 class MyModelLayer(GeoJSONLayerView):
 
     def get_queryset(self):
         a = ReserveAirspace.objects.exclude(expiry=True)
         # a = ReserveAirspace.objects.all()
         for x in a:
-            t = datetime.combine(x.start_day, x.start_time) - datetime.now()
+            t = datetime.combine(x.start_day, x.end) - datetime.now()
             d = t.total_seconds()
             if (d/3600) < 0:
                 x.expiry = True

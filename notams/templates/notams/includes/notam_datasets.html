@@ -1,0 +1,38 @@
+var notam_datasets = new L.GeoJSON.AJAX("{% url 'notam_datasets'%}",{
+
+  style: function colour(feature){
+    if (feature.properties.status == 0) {
+      return{
+        color: 'black',
+      };
+    }
+    else if (feature.properties.status == 1){
+      return{
+        color: 'red',
+      };
+    }
+    else {
+      return{
+        color: 'grey',
+      };
+    }
+  },
+
+  onEachFeature: function(feature,layer){
+
+    var x = (
+    '<h4>  '+feature.properties.notam_number+'</h4>'+''
+          +'</h3>' + '</h3><h5>' + feature.properties.get_start_day +'</h5>'
+          + '<p>start: ' + feature.properties.start_time +'</p>'
+          + '<p>end: ' + feature.properties.end +'</p>'
+                  );
+
+    {% include 'notams/includes/onEachFeatureNotamIcon.html' %}
+
+layer.bindPopup(x)
+  },
+
+
+});
+
+notam_datasets.addTo(map);

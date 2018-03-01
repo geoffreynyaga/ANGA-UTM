@@ -52,16 +52,27 @@
                 //
 			          //  maxBounds: bounds,
 
-              {% include 'maps/includes/obstacles_datasets.html' %}
-              {% include 'applications/includes/reserved_airspace_datasets.html' %}
-              {% include 'maps/includes/geofence_datasets.html'%}
-              {% include 'maps/includes/location_datasets.html'%}
 
 
+              {% include 'notams/includes/notam_datasets.html' %}
               {% include 'applications/includes/location.html'%}
 
 
+              {% include 'maps/includes/geofence_datasets.html'%}
+              {% include 'applications/includes/reserved_airspace_datasets.html' %}
+
+              {% include 'maps/includes/location_datasets.html'%}
+
+
+              {% include 'maps/includes/obstacles_datasets.html' %}
+
+
+
+
+
               {% include 'applications/includes/search.html' %}
+
+
 
               var latlngs = L.rectangle(bounds).getLatLngs();
               // L.polyline(latlngs[0].concat(latlngs[0][0])).addTo(map);
