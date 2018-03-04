@@ -20,7 +20,7 @@ class NotamCreateForm(forms.ModelForm):
     class Meta:
         model = NotamAirspace
 
-        fields = ( 'reason','start_day','start_time','end','geom')
+        fields = ( 'reason','start_day','start_time','end','geom','notam_file')
         widgets = {'geom': ExtLeafletWidget(),
                     'start_day': widgets.SelectDateWidget(),
 

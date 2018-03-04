@@ -30,6 +30,8 @@ class NotamAirspace(gis_models.Model):
     created_by = gis_models.ForeignKey(User, on_delete=gis_models.CASCADE)
     notam_number = gis_models.CharField(max_length = 255, blank=True, null=True)
 
+    notam_file = gis_models.FileField(upload_to='uploads/%Y/%m/%d/',blank=True, null=True)
+
     PENDING = 0
     ACTIVE = 1
 
@@ -130,3 +132,11 @@ class NotamAirspace(gis_models.Model):
         from django.contrib.humanize.templatetags.humanize import naturalday
         natural_day = naturalday(self.start_day)
         return str(natural_day)
+
+    @property
+    def get_file_url(self):
+        if self.notam_file:
+            file_url = self.notam_file.url
+            return str(file_url)
+        else:
+            return str('#')
