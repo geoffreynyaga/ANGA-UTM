@@ -86,13 +86,13 @@ class NotamAirspace(gis_models.Model):
                 for qs in reserve_qs:
                     affected_parties = str(qs.created_by)
                     affected.append(affected_parties)
-                    from utm_messages.models import UserToUserMessages
-                    message = UserToUserMessages
-                    message.title = 'title'
-                    message.text = 'text'
-                    message.sender = request.user
-                    message.receiver = qs.created_by
-                    message.save()
+                    # from utm_messages.models import UserToUserMessages
+                    # message = UserToUserMessages
+                    # message.title = 'title'
+                    # message.text = 'text'
+                    # message.sender = request.user
+                    # message.receiver = qs.created_by
+                    # message.save()
 
                 if e:
                     raise ValidationError(
