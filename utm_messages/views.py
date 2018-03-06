@@ -24,18 +24,25 @@ class SentMessagesListView(ListView):
     template_name = 'utm_messages/sent.html'
 
     def get_queryset(self):
-        return UserToUserMessages.objects.filter(sender=self.request.user)
+        return UserToUserMessages.objects.filter(sender=self.request.user).order_by('-id')
 
 class InboxListView(ListView):
     context_object_name = 'inbox'
     template_name = 'utm_messages/inbox.html'
 
     def get_queryset(self):
-        return UserToUserMessages.objects.filter(receiver=self.request.user)
+        return UserToUserMessages.objects.filter(receiver=self.request.user).order_by('-id')
 
 class MessageDetailView(DetailView):
     model = UserToUserMessages
     template_name = 'utm_messages/message_detail.html'
+
+    def get_object(self, queryset=None):
+        obj = super(MessageDetailView, self).get_object(queryset=queryset)
+        obj.is_read = True
+        obj.save()
+        return obj
+
 
 class MessagesMainView(TemplateView):
     template_name = 'utm_messages/main.html'

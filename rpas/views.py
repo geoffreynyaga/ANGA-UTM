@@ -17,19 +17,19 @@ from django.core.urlresolvers import reverse
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-# from . import views
+
+from utm_messages.models import UserToUserMessages
 
 # Create your views here.
 @login_required()
 def home(request):
     name = 'Welcome!!'
-    args = {'myName':name}
+    x = UserToUserMessages.objects.filter(receiver=request.user).filter(is_read=False).order_by('-id')[:5]
+    y = x.count()
+    args = {'myName':name, 'unread_messages':x, 'unread_messages_number':y}
+
     return render(request, 'home/mainhome.html', args)
 
-# @login_required()
-# def rpas_list(request):
-#     args = {'myrpas': Rpas.objects.all()}
-#     return render(request, 'rpas/rpas_list.html',args)
 
 class RpasMainView(TemplateView):
     template_name = 'rpas/includes/rpas_main.html'

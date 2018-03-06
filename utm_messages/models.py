@@ -8,3 +8,4 @@ class UserToUserMessages(models.Model):
     receiver = models.ForeignKey(User, related_name='sent_to')
 
     date_created  = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)

@@ -1,5 +1,6 @@
 
 {% extends "base.html" %}
+
 {%load static %}
 
 {% block head %}
@@ -122,7 +123,7 @@
                     <td><input type="checkbox"></td>
                     <td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
                     <td class="mailbox-name"><a href="{% url 'messages:message_detail' pk=message.pk %}">{{message.receiver.get_full_name}}</a></td>
-                    <td class="mailbox-subject"><b>{{message.title}}</b>
+                    <td class="mailbox-subject">{{message.title}}
                     </td>
                     <td class="mailbox-attachment"></td>
                     <td class="mailbox-date">{{message.date_created|timesince }} ago</td>

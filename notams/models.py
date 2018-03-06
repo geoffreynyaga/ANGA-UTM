@@ -13,8 +13,6 @@ from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 
 
-
-
 class NotamAirspace(gis_models.Model):
 
     geom    = gis_models.PolygonField()
@@ -88,6 +86,13 @@ class NotamAirspace(gis_models.Model):
                 for qs in reserve_qs:
                     affected_parties = str(qs.created_by)
                     affected.append(affected_parties)
+                    from utm_messages.models import UserToUserMessages
+                    message = UserToUserMessages
+                    message.title = 'title'
+                    message.text = 'text'
+                    message.sender = request.user
+                    message.receiver = qs.created_by
+                    message.save()
 
                 if e:
                     raise ValidationError(
@@ -103,7 +108,6 @@ class NotamAirspace(gis_models.Model):
                          ))
 
                             )
-
 
 
 
