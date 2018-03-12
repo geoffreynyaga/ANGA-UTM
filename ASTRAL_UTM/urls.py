@@ -25,6 +25,7 @@ from rpas import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include('pwa.urls')),  # You MUST use an empty string as the URL prefix
+
 	url(r'^$', views.home,name='home' ),
 
     url(r'^rpas/', include('rpas.urls')),

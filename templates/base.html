@@ -177,23 +177,23 @@
             <li class="dropdown notifications-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-bell-o"></i>
-                <span class="label label-warning">10</span>
+                <span class="label label-warning">{{unread_notifications_count}}</span>
               </a>
               <ul class="dropdown-menu">
-                <li class="header">You have 10 notifications</li>
+                <li class="header">You have {{unread_notifications_count}} notifications</li>
                 <li>
                   <!-- inner menu: contains the actual data -->
                   <ul class="menu">
+                    {% for unread_notification in unread_notifications%}
+
                     <li>
                       <a href="#">
-                        <i class="fa fa-users text-aqua"></i> Your flight has been approved
+                        <i class="fa fa-warning text-yellow"></i>
+                        {{unread_notification.title }}
                       </a>
                     </li>
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-warning text-yellow"></i> NOTAMS TODAY
-                      </a>
-                    </li>
+                    {% endfor %}
+
                     <li>
                       <a href="#">
                         <i class="fa fa-users text-red"></i> License expiry this month
@@ -204,9 +204,10 @@
                         <i class="fa fa-user text-red"></i> You changed your username
                       </a>
                     </li>
+
                   </ul>
                 </li>
-                <li class="footer"><a href="#">View all</a></li>
+                <li class="footer"><a href="{% url 'messages:notifications_list'%}">View all</a></li>
               </ul>
             </li>
             <!-- Tasks: style can be found in dropdown.less -->
@@ -514,6 +515,27 @@
 <!-- ./wrapper -->
 
 
+<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js'"></script>
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-messaging.js"></script>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyA9ekunjhx2zwSF3_-R-4Y4ujM1XUIXKik",
+    authDomain: "utm-heroku.firebaseapp.com",
+    databaseURL: "https://utm-heroku.firebaseio.com",
+    projectId: "utm-heroku",
+    storageBucket: "utm-heroku.appspot.com",
+    messagingSenderId: "512044437745"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+
   <!-- jQuery 3 -->
   <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script>
 
@@ -536,10 +558,11 @@
   <script src="{% static 'adminlite/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
   <!-- Slimscroll -->
   <script src="{% static 'adminlite/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
-  <!-- FastClick -->
-  <script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
+
 
 {% endblock extra_js %}
+<!-- FastClick -->
+<script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
 
 <!-- AdminLTE App -->
 <script src="{% static 'adminlite/dist/js/adminlte.min.js' %}"></script>

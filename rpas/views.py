@@ -18,7 +18,7 @@ from django.core.urlresolvers import reverse
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from utm_messages.models import UserToUserMessages
+from utm_messages.models import UserToUserMessages,Notifications
 
 # Create your views here.
 @login_required()
@@ -26,7 +26,12 @@ def home(request):
     name = 'Welcome!!'
     x = UserToUserMessages.objects.filter(receiver=request.user).filter(is_read=False).order_by('-id')[:5]
     y = x.count()
-    args = {'myName':name, 'unread_messages':x, 'unread_messages_number':y}
+
+    unread_notifications = Notifications.objects.filter(receiver=request.user).filter(is_read=False).order_by('-id')[:5]
+    unread_notifications_count = unread_notifications.count()
+
+    args = {'myName':name, 'unread_messages':x, 'unread_messages_number':y,
+            'unread_notifications':unread_notifications, 'unread_notifications_count':unread_notifications_count}
 
     return render(request, 'home/mainhome.html', args)
 

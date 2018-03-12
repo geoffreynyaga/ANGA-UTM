@@ -46,7 +46,7 @@
             margin: 0px;
         }
 
-         #sidebar {
+         /* #sidebar {
             height: 40%;
             font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
             margin-top: 240px;
@@ -56,12 +56,12 @@
         .lorem {
             font-style: italic;
             color: #AAA;
-          }
+          } */
 
 </style>
 
- <link rel="stylesheet" href="{% static 'leaflet-sidebar/css/leaflet-sidebar.css' %}">
- <link rel="stylesheet" href="{% static 'leaflet-sidebar/old-sidebar/L.Control.Sidebar.css' %}">
+ <!-- <link rel="stylesheet" href="{% static 'leaflet-sidebar/css/leaflet-sidebar.css' %}">
+ <link rel="stylesheet" href="{% static 'leaflet-sidebar/old-sidebar/L.Control.Sidebar.css' %}"> -->
 </head>
 
 <body>
@@ -91,7 +91,9 @@
                 {{form.geom}}
               {% csrf_token %}
 
-            {% include 'applications/includes/sidebar-right.html'%}
+
+<!-- //  include 'applications/includes/sidebar-right.html'  -->
+
             </div>
             </div>
             </div>
@@ -186,7 +188,7 @@
                         var measureControl = L.control.measure();
                         measureControl.addTo(map);
 
-                        var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(map);
+                        // var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(map);
 
                         map.on('measurefinish', function (evt) {
                           writeResults(evt);
@@ -224,7 +226,7 @@
 <script type="text/javascript" src="{% static 'leaflet-measure/dist/leaflet-measure.js' %}" ></script>
 
 
-<script type="text/javascript" src="{% static 'leaflet-sidebar/js/leaflet-sidebar.js' %}" ></script>
+<!-- <script type="text/javascript" src="{% static 'leaflet-sidebar/js/leaflet-sidebar.js' %}" ></script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.js"></script>
 <script type="text/javascript" src="{% static 'leaflet-offline/leaflet-offline.min.js' %}" ></script>

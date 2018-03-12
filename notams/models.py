@@ -84,15 +84,24 @@ class NotamAirspace(gis_models.Model):
 
                 affected = []
                 for qs in reserve_qs:
-                    affected_parties = str(qs.created_by)
-                    affected.append(affected_parties)
-                    # from utm_messages.models import UserToUserMessages
-                    # message = UserToUserMessages
-                    # message.title = 'title'
-                    # message.text = 'text'
-                    # message.sender = request.user
-                    # message.receiver = qs.created_by
-                    # message.save()
+                    # affected_parties = str(qs.created_by)
+                    # affected.append(affected_parties)
+                    if  self.start_time and self.end:
+
+                        booking_time_qs_start = datetime.combine(qs.start_day, qs.start_time)
+                        booking_time_qs_end = datetime.combine(qs.start_day, qs.end)
+
+                        notam_start = datetime.combine(self.start_day, self.start_time)
+                        notam_end = datetime.combine(self.start_day, self.end)
+
+                        if  notam_start < booking_time_qs_start < notam_end or notam_start < booking_time_qs_end < notam_end:
+
+                            from utm_messages.models import Notifications as n
+                            n.objects.create(title = "Land Immediately",
+                                             receiver = qs.created_by,
+                                            )
+
+
 
                 if e:
                     raise ValidationError(
