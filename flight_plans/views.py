@@ -10,41 +10,43 @@ from django.views.generic import (ListView,DetailView,
                                 CreateView,UpdateView,DeleteView,)
 from django.http import HttpResponse
 
-from .forms import MissionObjectiveForm,MissionPathForm
-from .models import (FlightLog,MissionPath,
-                    Checklist,MissionObjective,MissionLocation,EmmergencyInfo,PreFlight)
+from .forms import FlightLogCreateForm
+from .models import (FlightLog,Checklist,EmmergencyInfo,PreFlight,MissionWrap)
 
 
 
 # Create your views here.
 
+###################### MISSION PATH ############################################
+# class MissionPathDetailView(DetailView):
+#     # context_object_name = 'paths'
+#     model = MissionPath
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(MissionPathDetailView, self).get_context_data(**kwargs)
+#         context['path_list'] = MissionPath.objects.filter(pk=self.kwargs['pk'])
+#         return context
 
-class MissionPathDetailView(DetailView):
-    # context_object_name = 'paths'
-    model = MissionPath
 
-    def get_context_data(self, **kwargs):
-        context = super(MissionPathDetailView, self).get_context_data(**kwargs)
-        context['path_list'] = MissionPath.objects.filter(pk=self.kwargs['pk'])
-        return context
+# class MissionPathListView(ListView):
+#     context_object_name = 'paths'
+#     model = MissionPath
 
 
-class MissionPathListView(ListView):
-    context_object_name = 'paths'
-    model = MissionPath
+# def path_datasets(request,pk):
+#     mypath = MissionPath.objects.filter(pk=pk)
+#     path = serialize('geojson', mypath)
+#     return HttpResponse(path, content_type='json')
 
-def path_datasets(request,pk):
-    mypath = MissionPath.objects.filter(pk=pk)
-    path = serialize('geojson', mypath)
-    # path = serialize('geojson', MissionPath.objects.filter(id=7))
-    return HttpResponse(path, content_type='json')
+#
+# class MissionPathCreateView(CreateView):
+#     form_class = MissionPathForm
+#     template_name = 'flight_plans/create_path.html'
 
-class MissionPathCreateView(CreateView):
-    # fields = ('name','path')
-    # model = MissionPath
-    form_class = MissionPathForm
-    template_name = 'flight_plans/create_path.html'
+###################### END MISSIONPATHS ########################################
 
+
+###################### FLIGHT LOGS #############################################
 class FlightLogListView(ListView):
     context_object_name = 'mylogs'
     model = FlightLog
@@ -56,19 +58,48 @@ class FlightLogListView(ListView):
 
 class FlightLogDetailView(DetailView):
     model = FlightLog
+    template_name = 'flight_plans/flightlog_detail.html'
+
 
 class FlightLogUpdateView(UpdateView):
-    fields = ('log_number','purpose','rpas','emmergency_info','pre_flight','postflight','missionpath','date')
+    fields = ('emmergency_info',
+                'pre_flight','post_flight')
     model = FlightLog
     template_name = 'flight_plans/edit_flightlog.html'
 
+
 class FlightLogCreateView(CreateView):
-    fields = ('user','log_number','purpose','date','rpas','location','emmergency_info',
-            'pre_flight','postflight','missionpath')
     model = FlightLog
     template_name = 'flight_plans/create_flightlog.html'
+    form_class = FlightLogCreateForm
     # paginate_by = 1
 
+    def get_form_kwargs(self):
+        kwargs = super(FlightLogCreateView,self).get_form_kwargs()
+        kwargs['user'] = self.request.user #passing the 'user' in kwargs
+        return kwargs
+
+class PostFlightUpdateView(UpdateView):
+    fields = ('damages','comments','mission_success')
+    model = MissionWrap
+    template_name = 'flight_plans/update_post_flight.html'
+
+class PreFlightUpdateView(UpdateView):
+
+    fields = ('weather','altitude','est_flight_time','area_size','no_of_flights',
+                'other_info','batt_reminder')
+    model = PreFlight
+    template_name = 'flight_plans/update_pre_flight.html'
+
+class EmmergencyInfoUpdateView(UpdateView):
+
+    fields = ('closest_hosp','fire_dept','nearest_police_stn','security_service',
+                'other',)
+    model = EmmergencyInfo
+    template_name = 'flight_plans/update_emergency_info.html'
+###################### END FLIGHTLOGS ##########################################
+
+###################### CHECKLISTS ##############################################
 class ChecklistListView(ListView):
     model = Checklist
     template_name = 'flight_plans/checklist_list.html'
@@ -84,19 +115,21 @@ class ChecklistUpdateView(UpdateView):
             'connection_check')
     template_name = 'flight_plans/checklist_update.html'
 
-class MissionObjectiveCreateView(CreateView):
-    model = MissionObjective
-    fields = ('objective',)
-    template_name = 'flight_plans/create_objective.html'
+####################### END CHECKLISTS##########################################
 
-class MissionLocationCreateView(CreateView):
-    model = MissionLocation
-    fields = ('name','location')
-    template_name = 'flight_plans/create_mission_location.html'
+# class MissionObjectiveCreateView(CreateView):
+#     model = MissionObjective
+#     fields = ('objective',)
+#     template_name = 'flight_plans/create_objective.html'
+
+# class MissionLocationCreateView(CreateView):
+#     model = MissionLocation
+#     fields = ('name','location')
+#     template_name = 'flight_plans/create_mission_location.html'
 
 class EmmergencyInfoCreateView(CreateView):
     model = EmmergencyInfo
-    fields = ('location','closest_hosp','fire_dept','nearest_police_stn','location','security_service','other',)
+    fields = ('closest_hosp','fire_dept','nearest_police_stn','location','security_service','other',)
     template_name = 'flight_plans/create_emergency_info.html'
 
 class PreFlightCreateView(CreateView):

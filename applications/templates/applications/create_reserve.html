@@ -108,8 +108,8 @@
             Start Time :{{ form.start_time }}
             End Time: {{ form.end }}
 
-<hr>
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+<!-- <hr> -->
+            <!-- <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
               <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingOne">
                   <h4 class="panel-title">
@@ -125,7 +125,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
       <hr>
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
@@ -190,21 +190,21 @@
 
                         // var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(map);
 
-                        map.on('measurefinish', function (evt) {
-                          writeResults(evt);
-                        });
+                        // map.on('measurefinish', function (evt) {
+                        //   writeResults(evt);
+                        // });
 
-                        function writeResults (results) {
-                          document.getElementById('eventoutput').innerHTML = JSON.stringify({
-                            area: results.area,
-                            areaDisplay: results.areaDisplay,
-                            lastCoord: results.lastCoord,
-                            length: results.length,
-                            lengthDisplay: results.lengthDisplay,
-                            pointCount: results.pointCount,
-                            points: results.points
-                          }, null, 2);
-                        }
+                        // function writeResults (results) {
+                        //   document.getElementById('eventoutput').innerHTML = JSON.stringify({
+                        //     area: results.area,
+                        //     areaDisplay: results.areaDisplay,
+                        //     lastCoord: results.lastCoord,
+                        //     length: results.length,
+                        //     lengthDisplay: results.lengthDisplay,
+                        //     pointCount: results.pointCount,
+                        //     points: results.points
+                        //   }, null, 2);
+                        // }
 
                         var latlngs = L.rectangle(bounds).getLatLngs();
                         // L.polyline(latlngs[0].concat(latlngs[0][0])).addTo(map);

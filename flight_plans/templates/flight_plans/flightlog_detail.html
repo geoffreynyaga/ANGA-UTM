@@ -20,6 +20,7 @@
     </ol>
   </nav>
 
+
   <div class="row">
     <div class="col-sm-5">
       <nav aria-label="breadcrumb" role="navigation">
@@ -37,7 +38,7 @@
     </div>
     <div class="col-sm-3">
                 <a class="btn btn-primary  btn-block"
-                 href="url{% url 'log_update' pk=flightlog.pk %}"
+                 href="{% url 'log_update' pk=flightlog.pk %}"
                   role="button">
                   <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                   Update log</a>
@@ -110,7 +111,7 @@
         {%  leaflet_css  %}
         <script type="text/javascript">
         function our_layers(map,options){
-          var datasets = new L.GeoJSON.AJAX("{% url 'path_dataset' pk=flightlog.missionpath.pk %}",{
+          var datasets = new L.GeoJSON.AJAX("{% url 'my_airspace_datasets' pk=flightlog.reserve_airspace.pk %}",{
 
           });
           datasets.addTo(map);
@@ -121,7 +122,9 @@
           });
         }
         </script>
-        
+
+
+
         {%  leaflet_map "gis" callback="window.our_layers" %}
       </div>
     </div>

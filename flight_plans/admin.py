@@ -1,24 +1,23 @@
 
 from django.contrib import admin
 
-from .models import (MissionLocation,MissionObjective,MissionWrap,CrewBriefing,
-                    SiteSurvey,BatteryLog,PreFlight,FlightLog,EmmergencyInfo,
-                    MissionPath,Checklist)
+from .models import (MissionWrap,CrewBriefing,BatteryLog,PreFlight,FlightLog,EmmergencyInfo,
+                      Checklist)
 
 from leaflet.admin import LeafletGeoAdmin
 # from django.contrib.gis.db import OSMG
 # from django.contrib.gis.db import models
 
 # Register your models here.
-class MissionLocationAdmin(admin.ModelAdmin):
-    list_display = ('name','location')
+# class MissionLocationAdmin(admin.ModelAdmin):
+#     list_display = ('name','location')
+#
+# admin.site.register(MissionLocation, MissionLocationAdmin)
+#
+# class MissionObjectivesAdmin(admin.ModelAdmin):
+#     list_display = ('objective',)
 
-admin.site.register(MissionLocation, MissionLocationAdmin)
-
-class MissionObjectivesAdmin(admin.ModelAdmin):
-    list_display = ('objective',)
-
-admin.site.register(MissionObjective, MissionObjectivesAdmin)
+# admin.site.register(MissionObjective, MissionObjectivesAdmin)
 
 class MissionWrapAdmin(admin.ModelAdmin):
     list_display = ('damages','comments')
@@ -31,10 +30,10 @@ class CrewBriefingAdmin(admin.ModelAdmin):
 admin.site.register(CrewBriefing, CrewBriefingAdmin)
 ############################################################################
 
-class SiteSurveyAdmin(admin.ModelAdmin):
-    list_display = ('location','weather')
-
-admin.site.register(SiteSurvey, SiteSurveyAdmin)
+# class SiteSurveyAdmin(admin.ModelAdmin):
+#     list_display = ('location','weather')
+#
+# admin.site.register(SiteSurvey, SiteSurveyAdmin)
 
 class BatteryLogAdmin(admin.ModelAdmin):
     list_display = ('end_volts',)
@@ -53,7 +52,7 @@ admin.site.register(EmmergencyInfo, EmmergencyInfoAdmin)
 
 ###############################################################################
 class FlightLogAdmin(admin.ModelAdmin):
-    list_display = ('log_number',)
+    list_display = ('reserve_airspace',)
 
 admin.site.register(FlightLog, FlightLogAdmin)
 
@@ -61,10 +60,10 @@ admin.site.register(FlightLog, FlightLogAdmin)
 # from django.contrib.gis import admin as geoadmin
 # admin.site.register(GeofenceLocations, geoadmin.OSMGeoAdmin)
 
-class MissionPathAdmin(LeafletGeoAdmin):
-    list_display = ('name',)
-
-admin.site.register(MissionPath, MissionPathAdmin)
+# class MissionPathAdmin(LeafletGeoAdmin):
+#     list_display = ('name',)
+#
+# admin.site.register(MissionPath, MissionPathAdmin)
 
 class ChecklistAdmin(admin.ModelAdmin):
     list_display = ('rpas_model',)

@@ -51,14 +51,28 @@ class ReserveAirspace(gis_models.Model):
     end        = models.TimeField(help_text='HH:MM:SS')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    PENDING = 0
-    DENIED = 1
+    PENDING  = 0
+    DENIED   = 1
     APPROVED = 2
     STATUS = (
         (PENDING,"PENDING"),
         (DENIED,"DENIED"),
         (APPROVED, "APPROVED"),
     )
+
+    OBJECTIVE = (
+            ('TRAIN', 'Training'),
+            ('MAPP', 'Mapping'),
+            ('3DM', '3D Mapping'),
+            ('DELV', 'Delivery'),
+            ('INSP', 'Inspection'),
+            ('SURV', 'Surveillance'),
+            ('REC', 'Recreational'),
+            ('OTH', 'Other'),
+
+        )
+    mission_type  = models.CharField(max_length=5, choices=OBJECTIVE, null=False, default='OTH')
+
     application_number = models.CharField(max_length = 255, blank=True, null=True)
     status = models.IntegerField(default=0,choices=STATUS, blank=True, null=True)
     reason = models.CharField(max_length = 255, blank=True, null=True, help_text='If Rejected: Reason for Rejecting')
@@ -70,6 +84,7 @@ class ReserveAirspace(gis_models.Model):
 
 
         self.centroid = self.geom.centroid
+        super(ReserveAirspace,self).save(*args,**kwargs)
 
         if self.created_by.userprofile.organization.organization_type == 'ROC':
             x = "FP/KCAA/ROC/"
@@ -92,7 +107,26 @@ class ReserveAirspace(gis_models.Model):
             y = self.pk
             self.application_number = x + str(y)
 
+        # if not self.date_created:
+        #     from flight_plans.models import FlightLog
+        #     x = FlightLog.objects.create(
+        #         reserve_airspace_id = self.pk,
+        #         user_id=self.created_by.pk
+        #         )
+        #     x.save()
+        #     print('wwwwwwwwwwwwwwwooooooooooooooooooooooow!')
+
+
+        if  self.date_created == self.date_modified:
+            from flight_plans.models import FlightLog
+            x = FlightLog.objects.create(
+                reserve_airspace_id = self.pk,
+                user_id=self.created_by.pk
+                )
+            x.save()
+            print('wwwwwwwwwwwwwwwooooooooooooooooooooooow!')
         super(ReserveAirspace,self).save(*args,**kwargs)
+
 
 
     def clean(self):
