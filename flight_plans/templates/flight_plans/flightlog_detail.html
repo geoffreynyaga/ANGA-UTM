@@ -25,27 +25,30 @@
     <div class="col-sm-5">
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item active" aria-current="page">Log Number: {{flightlog.log_number}}</li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Log Number: {{flightlog.reserve_airspace.application_number}}</li>
         </ol>
       </nav>
     </div>
     <div class="col-sm-3">
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item " aria-current="page">User: {{flightlog.user.first_name}}</li>
+          <li class="breadcrumb-item " aria-current="page">Pilot: {{flightlog.user.first_name}}</li>
         </ol>
       </nav>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
                 <a class="btn btn-primary  btn-block"
                  href="{% url 'log_update' pk=flightlog.pk %}"
                   role="button">
                   <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  Update log</a>
+                  Update log
+                </a>
     </div>
   </div>
 
 
+<p></p>
 
 
 <div class="row">
@@ -56,12 +59,13 @@
           <h3 class="panel-title">Overall Details</h3>
         </div>
         <div class="panel-body">
-          <h6 class="card-subtitle mb-2 text-muted">Location:{{flightlog.location}} </h6>
-          <p class="card-text">Purpose: {{flightlog.purpose}}</p>
-          <p class="card-text">Date:  {{flightlog.date}}</p>
-          <p class="card-text">Emergency Info: {{flightlog.emmergency_info}}</p>
-          <p class="card-text">Pre Flight: {{flightlog.pre_flight}}</p>
-          <p class="card-text">Post Flight: {{flightlog.postflight}}</p>
+          <h6 class="card-subtitle mb-2 text-muted">
+            Organization:  {{flightlog.reserve_airspace.get_organization}}
+          </h6>
+          <p class="card-text">Purpose: {{flightlog.reserve_airspace.get_mission_type_display}}</p>
+          <p class="card-text">Date:  {{flightlog.reserve_airspace.get_start_datetime}}</p>
+          <p class="card-text">Approval:  {{flightlog.reserve_airspace.get_status_display}}</p>
+
         </div>
       </div>
 </div>
@@ -73,12 +77,12 @@
       <h3 class="panel-title">Mission RPAS</h3>
     </div>
     <div class="panel-body">
-      <h6 class="card-subtitle mb-2 text-muted">RPAS: {{flightlog.rpas}}</h6>
-      <p class="card-text">Model: {{flightlog.rpas.rpas_model}}</p>
-      <p class="card-text">Model Type: {{flightlog.rpas.rpas_model.rpas_model_type}}</p>
-      <p class="card-text">Serial: {{flightlog.rpas.rpas_serial}}</p>
-      <p class="card-text">Nickname: {{flightlog.rpas.rpas_nickname}}</p>
-      <p class="card-text">Manufacturer: {{flightlog.rpas.manufacturer}}</p>
+      <h6 class="card-subtitle mb-2 text-muted">RPAS: {{flightlog.reserve_airspace.rpas}}</h6>
+      <p class="card-text">Model: {{flightlog.reserve_airspace.rpas.rpas_model}}</p>
+      <p class="card-text">Model Type: {{flightlog.reserve_airspace.rpas.rpas_model.rpas_model_type}}</p>
+      <p class="card-text">Serial: {{flightlog.reserve_airspace.rpas.rpas_serial}}</p>
+      <p class="card-text">Nickname: {{flightlog.reserve_airspace.rpas.rpas_nickname}}</p>
+      <p class="card-text">Manufacturer: {{flightlog.reserve_airspace.rpas.rpas_model.manufacturer}}</p>
     </div>
   </div>
 </div>
@@ -89,12 +93,12 @@
       <h3 class="panel-title">Mission Payload</h3>
     </div>
     <div class="panel-body">
-      <h6 class="card-subtitle mb-2 text-muted">Payload: {{flightlog.rpas.payload}}</h6>
-      <p class="card-text">Model: {{flightlog.rpas.payload.payload_model}}</p>
-      <p class="card-text">Model Type: {{flightlog.rpas.payload.payload_model.payload_model_type}}</p>
-      <p class="card-text">Serial: {{flightlog.rpas.payload.payload_serial}}</p>
-      <p class="card-text">Nickname: {{flightlog.rpas.payload.payload_nickname}}</p>
-      <p class="card-text">Manufacturer: {{flightlog.rpas.payload.manufacturer}}</p>
+      <h6 class="card-subtitle mb-2 text-muted">Payload: {{flightlog.reserve_airspace.rpas.payload}}</h6>
+      <p class="card-text">Model: {{flightlog.reserve_airspace.rpas.payload.payload_model}}</p>
+      <p class="card-text">Model Type: {{flightlog.reserve_airspace.rpas.payload.payload_model.payload_model_type}}</p>
+      <p class="card-text">Serial: {{flightlog.reserve_airspace.rpas.payload.payload_serial}}</p>
+      <p class="card-text">Nickname: {{flightlog.reserve_airspace.rpas.payload.payload_nickname}}</p>
+      <p class="card-text">Manufacturer: {{flightlog.reserve_airspace.rpas.payload.manufacturer}}</p>
     </div>
   </div>
 </div>
@@ -136,8 +140,6 @@
       <h3 class="panel-title">Pre-flight</h3>
     </div>
     <div class="panel-body">
-      <h6 class="card-subtitle mb-2 text-muted">Pre Flight: {{flightlog.pre_flight}}</h6>
-      <br>
       <p class="card-text">Altitude: {{flightlog.pre_flight.altitude}} ft</p>
       <p class="card-text">Estimated Flight Time: {{flightlog.pre_flight.est_flight_time}} mins</p>
       <p class="card-text">Area Size: {{flightlog.pre_flight.area_size}}</p>
@@ -148,7 +150,43 @@
   </div>
 </div>
 
+
 </div>
+
+<div class="row">
+
+  <div class="col-sm-4">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">Emergency Info</h3>
+      </div>
+      <div class="panel-body">
+
+        <p class="card-text">closest Hospital: {{flightlog.emmergency_info.closest_hosp}}</p>
+        <p class="card-text">closest Fire Dept: {{flightlog.emmergency_info.fire_dept}}</p>
+        <p class="card-text">closest Police Station: {{flightlog.emmergency_info.nearest_police_stn}}</p>
+        <p class="card-text">Security Service: {{flightlog.emmergency_info.security_service}}</p>
+        <p class="card-text">Other: {{flightlog.emmergency_info.other}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">Post-flight</h3>
+      </div>
+      <div class="panel-body">
+
+        <p class="card-text">damages: {{flightlog.post_flight.damages}} </p>
+        <p class="card-text">Comments: {{flightlog.post_flight.comments}} </p>
+        <p class="card-text">Success? : {{flightlog.post_flight.mission_success}} </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 
 
 <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>

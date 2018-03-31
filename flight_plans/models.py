@@ -126,8 +126,7 @@ class EmmergencyInfo(models.Model):
 #         return reverse("logs_add")
 
 class MissionWrap(models.Model):
-    # location = models.ForeignKey(MissionLocation,on_delete=models.CASCADE,default='')
-    # flight_end_time    = models.CharField(max_length=20,default='')
+
     damages            = models.CharField(max_length = 20,blank=True,null=True)
     comments           = models.CharField(max_length=500,blank=True,null=True)
     mission_success    = models.BooleanField(default=False)
@@ -144,22 +143,14 @@ class MissionWrap(models.Model):
 class FlightLog(models.Model):
 
     user        = models.ForeignKey(User,on_delete=models.CASCADE)
-    # log_number  = models.CharField(max_length=20,default = '2017/11/', unique=True,
-    #                             help_text = "2018/01/23/001")
-    # purpose     = models.ForeignKey(MissionObjective,on_delete=models.CASCADE)
-    reserve_airspace    = models.ForeignKey(ReserveAirspace,on_delete=models.CASCADE,blank=True,null=True)
 
+    reserve_airspace    = models.ForeignKey(ReserveAirspace,on_delete=models.CASCADE,blank=True,null=True)
     emmergency_info = models.ForeignKey(EmmergencyInfo,blank=True, null=True,on_delete=models.CASCADE)
     pre_flight  = models.ForeignKey(PreFlight, blank=True, null=True,on_delete=models.CASCADE)
     post_flight  = models.ForeignKey(MissionWrap,blank=True, null=True,on_delete=models.CASCADE)
-    # date        = models.DateField(auto_now=False,auto_now_add=False, help_text = 'YYYY-MM-DD')
-    # rpas        = models.ForeignKey(Rpas,on_delete=models.CASCADE)
-    # location    = models.ForeignKey(MissionLocation,on_delete=models.CASCADE)
-    # missionpath = models.ForeignKey(MissionPath,on_delete=models.CASCADE)
 
-
-    # def __str__(self):
-    # 	return str(self.reserve_airspace.application_number)
+    def __str__(self):
+    	return str(self.reserve_airspace.application_number)
 
     def save(self, *args, **kwargs):
 
@@ -199,7 +190,7 @@ class FlightLog(models.Model):
         post_flight_pk = self.post_flight.pk
         return post_flight_pk
 
-    def get_preflight_completion(self):
+    def get_pre_flight_completion(self):
 
         est_flight_time = self.pre_flight.est_flight_time
         weather = self.pre_flight.weather
@@ -210,11 +201,35 @@ class FlightLog(models.Model):
         fields = [est_flight_time,weather,altitude,area_size,no_of_flights,batt_reminder]
         initial_count = int(len(fields))
         for field in fields:
-            if field == '':
+            if field == '' or field == None:
                 fields.remove(field)
         final_count = int(len(fields))
 
         progress = (final_count/initial_count)*100
+
+
+        return progress
+
+    def get_post_flight_completion(self):
+
+        damages = self.post_flight.damages
+        comments = self.post_flight.comments
+        mission_success = self.post_flight.mission_success
+
+
+
+        fields = [damages,comments]
+        initial_count = int(len(fields))
+
+        fin = []
+        for field in fields:
+            if field == '' or field == None:
+                fin.append(field)
+        final_count = int(len(fin))
+
+        print(final_count,"daaaaaaaaaaaaaaaaaaaaaaaaaaaamages")
+
+        progress = ((initial_count-final_count)/initial_count)*100
 
         return progress
 

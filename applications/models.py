@@ -110,7 +110,6 @@ class ReserveAirspace(gis_models.Model):
 
         saving_time = self.date_modified - self.date_created
         saving_time_seconds = saving_time.total_seconds()
-        print((saving_time_seconds/60),"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
 
         #saving time to be less than 6 minutes
         if (saving_time_seconds/60) < 6:
@@ -120,7 +119,6 @@ class ReserveAirspace(gis_models.Model):
                 user_id=self.created_by.pk
                 )
             x.save()
-            print('wwwwwwwwwwwwwwwooooooooooooooooooooooow!')
         super(ReserveAirspace,self).save(*args,**kwargs)
 
 

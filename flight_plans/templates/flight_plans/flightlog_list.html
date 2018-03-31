@@ -44,21 +44,21 @@
         <h4 class="panel-title">Log No: {{log.reserve_airspace.application_number}}</h4>
       </div>
       <div class="panel-body">
-        <h6 class="card-subtitle mb-2 text-muted">Date: {{log.date}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">Date: {{log.reserve_airspace.get_start_datetime}}</h6>
       <p></p>
-        RPAS Used: {{log.rpas}}
+        RPAS Used: {{log.reserve_airspace.rpas}}
         <br>
-        Purpose: {{log.purpose}}
+        Purpose: {{log.reserve_airspace.get_mission_type_display}}
         <br>
         Number of flights: {{log.pre_flight.no_of_flights}}
         <br>
         Area Size: {{log.pre_flight.area_size}}
         <p></p>
 
-        <small>preflight completion</small>
+        <small>Pre-Flight Completion</small>
         <span class='pull-right'>
 
-            {% if log.get_preflight_completion != 100 %}
+            {% if log.get_pre_flight_completion != 100 %}
               <a href="{% url 'pre_flight_update' pk=log.get_pre_flight_pk %}">
                 <i class="fa fa-external-link" aria-hidden="true">
                   <small> Complete</small>
@@ -73,9 +73,51 @@
 
         <div class="progress">
           <div class="progress-bar progress-bar-striped" role="progressbar"
-          style="width: {{log.get_preflight_completion}}%" aria-valuenow="{{log.get_preflight_completion}}"
+          style="width: {{log.get_pre_flight_completion}}%" aria-valuenow="{{log.get_pre_flight_completion}}"
           aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+
+        <small> Post-Flight Completion</small>
+        <span class='pull-right'>
+
+            {% if log.get_post_flight_completion != 100 %}
+              <a href="{% url 'post_flight_update' pk=log.get_post_flight_pk %}">
+                <i class="fa fa-external-link" aria-hidden="true">
+                  <small> Complete</small>
+                </i>
+              </a>
+              {% else %}
+              <i class="fa fa-check" aria-hidden="true"></i>
+                <small> Done</small>
+              </i>
+            {% endif %}
+        </span>
+
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar"
+          style="width: {{log.get_post_flight_completion}}%" aria-valuenow="{{log.get_po_flight_completion}}"
+          aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+
+        <small>Approval Status</small>
+        <span class='pull-right'>
+            {% if log.reserve_airspace.status == 0 %}
+            <i class="fa fa-spinner" aria-hidden="true"></i>
+                <small> Pending</small>
+              </i>
+              {% elif log.reserve_airspace.status == 1 %}
+              <i class="fa fa-times" aria-hidden="true"></i>
+                <small> Rejected</small>
+              </i>
+              {% else %}
+              <i class="fa fa-check" aria-hidden="true"></i>
+                <small> Approved</small>
+              </i>
+            {% endif %}
+        </span>
+
+
+
       </div>
 
       <div class="panel-footer">
