@@ -107,17 +107,13 @@ class ReserveAirspace(gis_models.Model):
             y = self.pk
             self.application_number = x + str(y)
 
-        # if not self.date_created:
-        #     from flight_plans.models import FlightLog
-        #     x = FlightLog.objects.create(
-        #         reserve_airspace_id = self.pk,
-        #         user_id=self.created_by.pk
-        #         )
-        #     x.save()
-        #     print('wwwwwwwwwwwwwwwooooooooooooooooooooooow!')
 
+        saving_time = self.date_modified - self.date_created
+        saving_time_seconds = saving_time.total_seconds()
+        print((saving_time_seconds/60),"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
 
-        if  self.date_created == self.date_modified:
+        #saving time to be less than 6 minutes
+        if (saving_time_seconds/60) < 6:
             from flight_plans.models import FlightLog
             x = FlightLog.objects.create(
                 reserve_airspace_id = self.pk,
