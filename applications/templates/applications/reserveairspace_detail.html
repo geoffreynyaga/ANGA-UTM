@@ -135,7 +135,7 @@
         </div>
         <div class="panel-body">
 
-          <!-- <script type="text/javascript">
+          <script type="text/javascript">
           function our_layers(map,options){
 
               var datasets = new L.GeoJSON.AJAX("{% url 'my_airspace_datasets' pk=reserveairspace.pk %}",{
@@ -152,7 +152,7 @@
 
     }
 
-          </script> -->
+          </script>
 
 
           {%  leaflet_map "gis" callback="window.our_layers" %}

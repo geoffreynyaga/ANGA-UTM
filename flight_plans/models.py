@@ -158,8 +158,8 @@ class FlightLog(models.Model):
     # missionpath = models.ForeignKey(MissionPath,on_delete=models.CASCADE)
 
 
-    def __str__(self):
-    	return str(self.reserve_airspace.application_number)
+    # def __str__(self):
+    # 	return str(self.reserve_airspace.application_number)
 
     def save(self, *args, **kwargs):
 
