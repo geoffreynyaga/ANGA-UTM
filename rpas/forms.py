@@ -9,10 +9,13 @@ class ManufacturerForm(ModelForm):
 
 
 class PayloadForm(ModelForm):
+    
     class Meta:
         model = Payload
         fields = (
-        'manufacturer',
-        'payload_nickname',
         'payload_serial',
+        'payload_model',
+        'payload_nickname',
+                
         )
+

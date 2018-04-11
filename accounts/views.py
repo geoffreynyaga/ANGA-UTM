@@ -24,7 +24,7 @@ from . import forms
 
 class LoginView(generic.FormView):
     form_class = AuthenticationForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('view_airspace')
     template_name= "accounts/login.html"
 
     def get_form (self, form_class=None):

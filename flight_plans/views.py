@@ -14,7 +14,6 @@ from .forms import FlightLogCreateForm
 from .models import (FlightLog,Checklist,EmmergencyInfo,PreFlight,MissionWrap)
 
 
-
 # Create your views here.
 
 ###################### MISSION PATH ############################################

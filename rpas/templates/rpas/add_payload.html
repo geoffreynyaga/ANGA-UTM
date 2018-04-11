@@ -2,19 +2,83 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title>ADD Payload</title>
+    <title>Add Payload</title>
 {%endblock%}
 
 {%block body%}
-<div class="container">
-  <form class=""  method="POST" >
-    {% csrf_token %}
 
-    {{form.as_p}}
+{% load bootstrap3 %}
 
-    <input type="submit" class="btn btn-primary "value="Save">
-    <a href="{% url 'manufacturer_add' %}">add_manufacturer</a>
+<section class="content">
 
-  </form>
-</div>
+  <div class="row">
+    <div class="col-xs-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title text-center">
+            <b>Payload Update </b>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <form class="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %} {% bootstrap_form form %}
+            <p></p>
+            <input type="submit" class="btn btn-primary " value="Save">
+          </form>
+      
+      
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-2">
+      
+      <span class='text-align'>
+        <h5>OR <i class="fa fa-long-arrow-right fa-2x" ></i>
+        </h5>
+        
+      </span>
+       
+    </div>
+
+    <div class="col-xs-4">
+
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title text-center">
+            
+            <b>1. add a manufacturer </b>
+          </h3>
+        </div>
+        <div class="panel-body">
+      
+          <a href="{% url 'manufacturer_add' %}">
+            <i class="fa fa-plus-circle fa-4x" aria-hidden="true"></i>
+          </a>
+          
+        </div>
+      </div>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title text-center">
+      
+            <b>2. add a Payload Model </b>
+          </h3>
+        </div>
+        <div class="panel-body">
+      
+          <a href="{% url 'manufacturer_add' %}">
+            <i class="fa fa-plus-circle fa-4x" aria-hidden="true"></i>
+          </a>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+
+</section>
 {%endblock%}

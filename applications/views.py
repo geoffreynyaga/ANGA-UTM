@@ -63,8 +63,6 @@ class ReserveAirspaceUpdateView(UpdateView):
 
 
 
-
-
 def view_airspace(request):
     airspaces = ReserveAirspace.objects.all()
     return render(request, 'applications/airspaces.html',{'airspaces':airspaces})
@@ -107,7 +105,6 @@ class AppliedReserveAirspaceUpdateView(UpdateView):
     model = ReserveAirspace
     # template_name = 'applications/applied_reserveairspace_update.html'
     template_name = 'applications/approve.html'
-
     success_url = '/applications/applied-reserves'
 
 

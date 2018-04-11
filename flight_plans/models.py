@@ -10,56 +10,8 @@ from applications.models import ReserveAirspace
 
 # Create your models here.
 
-# class MissionObjective(models.Model):
-#
-#     OBJECTIVE = (
-#             ('TRAIN', 'Training'),
-#             ('MAPP', 'Mapping'),
-#             ('3DM', '3D Mapping'),
-#             ('DELV', 'Delivery'),
-#             ('INSP', 'Inspection'),
-#             ('SURV', 'Surveillance'),
-#             ('REC', 'Recreational'),
-#             ('OTH', 'Other'),
-#
-#         )
-#
-#     objective  = models.CharField(max_length=5, choices=OBJECTIVE, null=False)
-#
-#     def __str__(self):
-#     	return self.get_objective_display()
-#
-#     def get_absolute_url(self):
-#         return reverse("logs_add")
-
-
-# class MissionLocation(models.Model):
-#
-#     name        = models.CharField(max_length = 20)
-#     location    = models.CharField(max_length = 20)
-#     map_location = models.PointField(srid=4326)
-#     objects = models.GeoManager()
-#
-#     def __str__(self):
-#     	return self.name
-#
-#     def get_absolute_url(self):
-#         return reverse("logs_add")
-
-
-# class SiteSurvey(models.Model):
-#
-#     location    = models.ForeignKey(MissionLocation,on_delete=models.CASCADE,                                )
-#     weather     = models.CharField(max_length = 20)
-#     # perm_letter = models.BooleanField()
-#
-#     def __str__(self):
-#     	return self.weather
-
 class PreFlight(models.Model):
 
-    # take_off_time   = models.TimeField(blank=True,null=True)
-    # sitesurvey      = models.ForeignKey(SiteSurvey,on_delete=models.CASCADE)
     weather         = models.CharField(max_length = 20,default='')
     altitude        = models.CharField(max_length = 20)
     est_flight_time = models.CharField(max_length = 20)
@@ -76,7 +28,6 @@ class PreFlight(models.Model):
 
 class BatteryLog(models.Model):
 
-    # flightlog = models.ForeignKey(SiteSurvey,on_delete=models.CASCADE)
     batt_number = models.ForeignKey(Battery)
     end_amps    = models.DecimalField(max_digits=5,decimal_places=1)
     end_volts   = models.CharField(max_length = 20)
@@ -88,7 +39,6 @@ class CrewBriefing(models.Model):
 
     no_of_flights = models.IntegerField()
     duties        = models.CharField(max_length = 20)
-    # tk_off_area        = models.CharField(max_length = 20)
     alt_landing_area   = models.CharField(max_length = 20)
     env_factors        = models.TextField(max_length = 20)
     air_band_radio     = models.CharField(max_length = 20)
@@ -101,7 +51,6 @@ class CrewBriefing(models.Model):
 
 class EmmergencyInfo(models.Model):
 
-    # location       = models.ForeignKey(MissionLocation)
     closest_hosp   = models.CharField(max_length=100)
     fire_dept      = models.CharField(max_length = 20)
     nearest_police_stn = models.CharField(max_length = 20)
@@ -114,23 +63,12 @@ class EmmergencyInfo(models.Model):
     def get_absolute_url(self):
         return reverse("logs_add")
 
-# class MissionPath(models.Model):
-#     name = models.CharField(max_length=100)
-#     path = models.MultiLineStringField()
-#     objects = models.GeoManager()
-#
-#     def __str__(self):
-#     	return self.name
-#
-#     def get_absolute_url(self):
-#         return reverse("logs_add")
 
 class MissionWrap(models.Model):
 
     damages            = models.CharField(max_length = 20,blank=True,null=True)
     comments           = models.CharField(max_length=500,blank=True,null=True)
     mission_success    = models.BooleanField(default=False)
-    # flight_duration    = models.DurationField()
 
     def __str__(self):
     	return str(self.comments)
@@ -204,10 +142,7 @@ class FlightLog(models.Model):
             if field == '' or field == None:
                 fields.remove(field)
         final_count = int(len(fields))
-
         progress = (final_count/initial_count)*100
-
-
         return progress
 
     def get_post_flight_completion(self):
@@ -216,21 +151,14 @@ class FlightLog(models.Model):
         comments = self.post_flight.comments
         mission_success = self.post_flight.mission_success
 
-
-
         fields = [damages,comments]
         initial_count = int(len(fields))
-
         fin = []
         for field in fields:
             if field == '' or field == None:
                 fin.append(field)
         final_count = int(len(fin))
-
-        print(final_count,"daaaaaaaaaaaaaaaaaaaaaaaaaaaamages")
-
         progress = ((initial_count-final_count)/initial_count)*100
-
         return progress
 
 

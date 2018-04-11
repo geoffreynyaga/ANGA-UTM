@@ -22,11 +22,15 @@ from django.views.static import serve
 
 from rpas import views
 
+from applications.views import view_airspace
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include('pwa.urls')),  # You MUST use an empty string as the URL prefix
 
-	url(r'^$', views.home,name='home' ),
+	url(r'^home$', views.home,name='home' ),
+
+    url(r'^$', view_airspace, name='view_airspace'),
 
     url(r'^rpas/', include('rpas.urls')),
 

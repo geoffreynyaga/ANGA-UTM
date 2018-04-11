@@ -194,7 +194,7 @@
                     </li>
                     {% endfor %}
 
-                    <li>
+                    <!-- <li>
                       <a href="#">
                         <i class="fa fa-users text-red"></i> License expiry this month
                       </a>
@@ -203,69 +203,69 @@
                       <a href="#">
                         <i class="fa fa-user text-red"></i> You changed your username
                       </a>
-                    </li>
+                    </li> -->
 
                   </ul>
                 </li>
                 <li class="footer"><a href="{% url 'messages:notifications_list'%}">View all</a></li>
               </ul>
             </li>
+
+
             <!-- Tasks: style can be found in dropdown.less -->
             <li class="dropdown tasks-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-flag-o"></i>
-                <span class="label label-danger">9</span>
+                <span class="label label-danger">{{all_rpas_tasks_count}}</span>
               </a>
               <ul class="dropdown-menu">
-                <li class="header">You have 9 tasks</li>
+                <li class="header">You have {{all_rpas_tasks_count}} tasks</li>
                 <li>
                   <!-- inner menu: contains the actual data -->
                   <ul class="menu">
+
+                    {% for unfinished_rpas_model_task in unfinished_rpas_model_tasks %}
                     <li><!-- Task item -->
-                      <a href="#">
+                      <a href="{% url 'rpas_model_update' pk=unfinished_rpas_model_task.get_rpas_model_pk %}">
                         <h3>
-                          Do Flight Plan
-                          <small class="pull-right">20%</small>
+                          Finish <b>{{unfinished_rpas_model_task}}</b> model creation
+                          <small class="pull-right">{{unfinished_rpas_model_task.get_rpas_model_completion}}%</small>
                         </h3>
                         <div class="progress xs">
-                          <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
-                               aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                            <span class="sr-only">20% Complete</span>
+                          <div class="progress-bar progress-bar-red"
+                               style="width: {{unfinished_rpas_model_task.get_rpas_model_completion}}%"
+                               role="progressbar"
+                               aria-valuenow="20"
+                               aria-valuemin="0" aria-valuemax="100">
+                            <span class="sr-only">{{unfinished_rpas_model_task.get_rpas_model_completion}}% Complete</span>
                           </div>
                         </div>
                       </a>
                     </li>
+                    {% endfor %}
                     <!-- end task item -->
+
+                    {% for unfinished_rpas_payload_task in unfinished_rpas_payload_tasks %}
                     <li><!-- Task item -->
-                      <a href="#">
+                      <a href="{% url 'payload_update' pk=unfinished_rpas_payload_task.payload.pk %}">
                         <h3>
-                          Submit Logs to KCAA
-                          <small class="pull-right">40%</small>
+                          Finish <b>{{unfinished_rpas_payload_task.payload}}</b> payload creation
+                          <small class="pull-right">{{unfinished_rpas_payload_task.get_payload_completion}}%</small>
                         </h3>
                         <div class="progress xs">
-                          <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
-                               aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                            <span class="sr-only">40% Complete</span>
+                          <div class="progress-bar progress-bar-red"
+                               style="width: {{unfinished_rpas_payload_task.get_payload_completion}}%"
+                               role="progressbar"
+                               aria-valuenow="20"
+                               aria-valuemin="0" aria-valuemax="100">
+                            <span class="sr-only">{{unfinished_rpas_payload_task.get_payload_completion}}% Complete</span>
                           </div>
                         </div>
                       </a>
                     </li>
+                    {% endfor %}
                     <!-- end task item -->
-                    <li><!-- Task item -->
-                      <a href="#">
-                        <h3>
-                          Complete Club Registration
-                          <small class="pull-right">60%</small>
-                        </h3>
-                        <div class="progress xs">
-                          <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
-                               aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                            <span class="sr-only">60% Complete</span>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <!-- end task item -->
+
 
                   </ul>
                 </li>
@@ -515,13 +515,13 @@
 <!-- ./wrapper -->
 
 
-<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+<!-- <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js'"></script>
 
-<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-messaging.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-messaging.js"></script> -->
 
-<script>
+<!-- <script>
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyA9ekunjhx2zwSF3_-R-4Y4ujM1XUIXKik",
@@ -532,7 +532,7 @@
     messagingSenderId: "512044437745"
   };
   firebase.initializeApp(config);
-</script>
+</script> -->
 
 
 

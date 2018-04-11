@@ -35,7 +35,7 @@
         </div>
         <div class="col-sm-4">
               <p class="bg-primary">
-                <a class="btn btn-primary btn-block" href="url{% url 'rpas_add' %}"
+                <a class="btn btn-primary btn-block" href="{% url 'rpas_add' %}"
                 role="button">
                 <i class="fa fa-plus-square " aria-hidden="true" ></i>  Add Rpas
               </a>
@@ -62,6 +62,47 @@
         {% endif %}
 <br>
         <p>Serial No: {{rpas.rpas_serial}}</p>
+
+        {{rpas.get_rpas_model_completion}} rpas model completion
+        <p></p>
+        {{rpas.get_payload_completion}} payload completion
+
+         {% if rpas.get_rpas_model_completion == 100 %}
+        <small>Rpas Model Completion</small>
+        <span class='pull-right'>
+
+          <a href="{% url 'rpas_model_update' pk=rpas.get_rpas_model_pk %}">
+            <i class="fa fa-external-link" aria-hidden="true">
+              <small> Complete</small>
+            </i>
+          </a>
+        </span>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar"
+          style="width: {{rpas.get_rpas_model_completion}}%"
+          aria-valuenow="{{rpas.get_rpas_model_completion}}"
+          aria-valuemin="0" aria-valuemax="100">
+          </div>
+        </div>
+         {% endif %}
+
+         {% if rpas.get_payload_completion == 100 %}
+        <small>Payload Completion</small>
+        <span class='pull-right'>
+
+          <a href="{% url 'payload_update' pk=rpas.payload.pk %}">
+            <i class="fa fa-external-link" aria-hidden="true">
+              <small> Complete</small>
+            </i>
+          </a>
+        </span>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar"
+          style="width: {{rpas.get_payload_completion}}%" aria-valuenow="{{rpas.get_payload_completion}}"
+          aria-valuemin="0" aria-valuemax="100">
+          </div>
+        </div>
+        {% endif %}
 
       </div>
       <div class="panel-footer">

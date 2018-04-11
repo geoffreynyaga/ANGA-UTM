@@ -10,6 +10,8 @@ urlpatterns = [
         url(r'^sent/$', views.SentMessagesListView.as_view(), name='sent'),
         url(r'^compose/$', views.MessagesCreateView.as_view(), name='compose'),
 
+        # url(r'^compose-all/$', views.SendToAll.as_view(), name='compose_to_all'),
+
         url(r'^(?P<pk>\d+)/$', views.MessageDetailView.as_view(), name='message_detail'),
 
         url(r'^calendar/$', views.CalendarView.as_view(), name='calendar'),

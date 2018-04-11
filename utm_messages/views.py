@@ -13,10 +13,22 @@ class MessagesCreateView(CreateView):
     success_url = '/messages/'
 
     def form_valid(self, form):
-            usertousermessages = form.save(commit=False)
-            usertousermessages.sender = User.objects.get(username=self.request.user)  # use your own profile here
-            usertousermessages.save()
-            return HttpResponseRedirect(self.success_url)
+        usertousermessages = form.save(commit=False)
+        usertousermessages.sender = User.objects.get(username=self.request.user)  # use your own profile here
+        usertousermessages.save()
+        return HttpResponseRedirect(self.success_url)
+
+
+# class SendToAll(CreateView):
+#     form_class = UserToUserMessagesForm
+#     template_name = 'utm_messages/compose.html'
+#     success_url = '/messages/'
+
+#     def form_valid(self, form):
+#         usertousermessages = form.save(commit=False)
+#         usertousermessages.sender = User.objects.get(username=self.request.user)  # use your own profile here
+#         usertousermessages.save()
+#         return HttpResponseRedirect(self.success_url)
 
 
 class SentMessagesListView(ListView):

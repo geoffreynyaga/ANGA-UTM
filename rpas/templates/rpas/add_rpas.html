@@ -2,107 +2,68 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title>ADD Rpas</title>
+    <title>Add RPAS</title>
 {%endblock%}
 
 {%block body%}
 
+ 
+ {% load bootstrap3 %}
+
 <section class="content">
 
+  <div class="row">
 
-<!-- <div class="container"> -->
+    <div class="col-xs-7">
 
-
-  <form class=""  action=""method="POST" enctype="multipart/form-data">
-
-    {{form.errors}}
-  {% csrf_token %}
-
-
-  <div class="panel panel-primary">
-    <div class="panel-body">
-      <div class="row">
-        <div class="col-sm-3">
-          <p>RPAS NICKNAME</p>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title text-center">
+              <b>ADD YOUR RPAS </b>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <form class="" method="POST" enctype="multipart/form-data">
+              {{form.errors}} {% csrf_token %} {% bootstrap_form form %}
+              <p></p>
+              <input type="submit" class="btn btn-primary " value="Save">
+            </form>
+          </div>
         </div>
-        <div class="col-sm-4">
-            {{ form.rpas_nickname }}
+
+    </div>
+    <div class="col-xs-5">
+
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <span class="pull-left">
+            <i class="fa fa-info" aria-hidden="true"></i>
+          </span>
+          <span >
+            <h3 class="panel-title text-center">
+            <em> Hey, some pointers here</em>
+            </h3>
+          </span>
+        </div>
+        <div class="panel-body">
+          
+            <li>Rpas Serial number as found on the drone</li>
+            <li>The nickname is whatever name you uniquely give to your drone, its not compulsory</li>
+          
+          
         </div>
       </div>
+
+      
+
     </div>
-  </div>
-  <div class="panel panel-primary">
-    <div class="panel-body">
-      <div class="row">
-        <div class="col-sm-3">
-          RPAS MODEL
-        </div>
-        <div class="col-sm-4">
-            {{ form.rpas_model }}
-        </div>
-        <p></p>
-        <div class="col-sm-3">
-            <a href="{% url 'rpas_model_add' %}" class="btn btn-primary  active" role="button" aria-pressed="true">
-              <i class="fa fa-plus-square " aria-hidden="true">  Add New</i>
-            </a>
-         </div>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-primary">
-    <div class="panel-body">
-      <div class="row">
-        <div class="col-sm-3">
-          RPAS Serial
-        </div>
-        <div class="col-sm-4">
-        {{ form.rpas_serial }}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-primary">
-    <div class="panel-body">
-    <div class="row">
-      <div class="col-sm-3">
-        PAYLOAD
-      </div>
-      <div class="col-sm-4">
-          {{ form.payload }}
-      </div>
-      <div class="col-sm-2">
-          <a href="{% url 'payload_add' %}" class="btn btn-primary  active"
-           role="button" aria-pressed="true">
-            <i class="fa fa-plus-square " aria-hidden="true"> Add Payload</i>
-          </a>
-       </div>
-    </div>
-    </div>
-  </div>
-  <div class="panel panel-primary">
-    <div class="panel-body">
-      <div class="row">
-        <div class="col-sm-3">
-          RPAS PICTURE
-        </div>
-        <div class="col-sm-4">
-        {{ form.rpas_pic }}
-        </div>
-      </div>
-    </div>
+
   </div>
 
-
-
-
-
-<input value="Save" class="default" name="_save" type="submit">
-
-</form>
-
-
-<!-- </div> -->
+  
 
 
 </section>
+
 {%endblock%}
+

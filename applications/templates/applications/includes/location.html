@@ -11,14 +11,14 @@ function onLocationFound(e) {
     <!-- shadowUrl: '', -->
     <!-- shadowSize: [68, 95], -->
     <!-- shadowAnchor: [22, 94] -->
-});
+      });
+
+    L.marker(e.latlng, {icon: myIcon}).addTo(map);
+
+    <!-- L.marker(e.latlng, {icon: myIcon}).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup(); -->
 
 
-
-    L.marker(e.latlng, {icon: myIcon}).addTo(map)
-        .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-    <!-- L.circle(e.latlng, radius).addTo(map); -->
+<!-- L.circle(e.latlng, radius).addTo(map); -->
 }
 
 map.on('locationfound', onLocationFound);

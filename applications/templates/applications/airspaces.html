@@ -33,11 +33,34 @@
 
 <section class="content">
 
-  <div class="text-center">
-    <a href="{%url 'logs_list'%}" class="btn btn-primary btn-sm active " role="button">
-      Go to Flight Logs
-      <i class="fa fa-arrow-right" aria-hidden="true"></i>
-    </a>
+  <div class="row">
+    <div class="col-xs-4">
+      <div class="pull-left">
+        <a href="{%url 'create_reserve'%}" >
+          Create Flight Plan
+          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="text-center">
+          <a href="{%url 'home'%}" >
+            <i class="fa fa-home fa-2x" aria-hidden="true"></i>
+            Home
+          </a>
+        </div>
+
+    </div>
+    <div class="col-xs-4">
+      <div class="pull-right">
+        <a href="{%url 'logs_list'%}" >
+          Go to Flight Logs
+          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        </a>
+      </div>
+    
+    </div>
+
   </div>
 
 <div class="row" >

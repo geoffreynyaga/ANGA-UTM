@@ -15,7 +15,7 @@
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-          <li class="breadcrumb-item"><a href="{%url 'rpas_list'%} ">My RPAS List</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'rpas_list'%} ">My RPAS List</a></li>
           <li class="breadcrumb-item active" aria-current="page">Rpas Details</li>
         </ol>
       </nav>
@@ -95,7 +95,7 @@
         </div>
 
         <div class="panel-footer">
-              <a class="btn btn-primary" href="url{% url 'rpas_update' pk=rpas.pk %}" role="button">
+              <a class="btn btn-primary" href="{% url 'rpas_update' pk=rpas.pk %}" role="button">
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                Update {{rpas.rpas_nickname}}</a>
         </div>
