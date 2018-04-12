@@ -216,10 +216,10 @@
             <li class="dropdown tasks-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-flag-o"></i>
-                <span class="label label-danger">{{all_rpas_tasks_count}}</span>
+                <span class="label label-danger">{{all_tasks_count}}</span>
               </a>
               <ul class="dropdown-menu">
-                <li class="header">You have {{all_rpas_tasks_count}} tasks</li>
+                <li class="header">You have {{all_tasks_count}} tasks</li>
                 <li>
                   <!-- inner menu: contains the actual data -->
                   <ul class="menu">
@@ -228,7 +228,7 @@
                     <li><!-- Task item -->
                       <a href="{% url 'rpas_model_update' pk=unfinished_rpas_model_task.get_rpas_model_pk %}">
                         <h3>
-                          Finish <b>{{unfinished_rpas_model_task}}</b> model creation
+                          Finish <b>{{unfinished_rpas_model_task}}</b>  creation
                           <small class="pull-right">{{unfinished_rpas_model_task.get_rpas_model_completion}}%</small>
                         </h3>
                         <div class="progress xs">
@@ -249,7 +249,7 @@
                     <li><!-- Task item -->
                       <a href="{% url 'payload_update' pk=unfinished_rpas_payload_task.payload.pk %}">
                         <h3>
-                          Finish <b>{{unfinished_rpas_payload_task.payload}}</b> payload creation
+                          Finish <b>{{unfinished_rpas_payload_task.payload}}</b> creation
                           <small class="pull-right">{{unfinished_rpas_payload_task.get_payload_completion}}%</small>
                         </h3>
                         <div class="progress xs">
@@ -266,11 +266,32 @@
                     {% endfor %}
                     <!-- end task item -->
 
+                    {% for unfinished_pre_flight_log in unfinished_pre_flight_logs %}
+                    <li><!-- Task item -->
+                      <a href="{% url 'pre_flight_update' pk=unfinished_pre_flight_log.get_pre_flight_pk %}">
+                        <h3>
+                          complete flightlog <b>{{unfinished_pre_flight_log}}</b>
+                          <small class="pull-right">{{unfinished_pre_flight_log.get_pre_flight_completion}}%</small>
+                        </h3>
+                        <div class="progress xs">
+                          <div class="progress-bar progress-bar-red"
+                               style="width: {{unfinished_pre_flight_log.get_pre_flight_completion}}%"
+                               role="progressbar"
+                               aria-valuenow="20"
+                               aria-valuemin="0" aria-valuemax="100">
+                            <span class="sr-only">{{unfinished_pre_flight_log.get_payload_completion}}% Complete</span>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    {% endfor %}
+                    <!-- end task item -->
+
 
                   </ul>
                 </li>
                 <li class="footer">
-                  <a href="#">View all tasks</a>
+                  <a href="{% url 'unfinished_logs_notifications'%}">View all tasks</a>
                 </li>
               </ul>
             </li>

@@ -51,7 +51,7 @@ class PayloadModelAdmin(admin.ModelAdmin):
 admin.site.register(PayloadModel, PayloadModelAdmin)
 
 class PayloadAdmin(admin.ModelAdmin):
-    list_display = ('payload_nickname',)
+    list_display = ('payload_serial','payload_nickname',)
 
 admin.site.register(Payload, PayloadAdmin)
 

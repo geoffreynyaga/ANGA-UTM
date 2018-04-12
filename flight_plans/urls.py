@@ -23,4 +23,7 @@ urlpatterns = [
         url(r'^preflight/(?P<pk>\d+)/update$' , views.PreFlightUpdateView.as_view(), name='pre_flight_update'),
         url(r'^emergency-info/(?P<pk>\d+)/update$' , views.EmmergencyInfoUpdateView.as_view(), name='emmergency_info_update'),
 
+
+        url(r'^notifications/$' , views.unfinished_logs_notifications, name='unfinished_logs_notifications'),
+
 ]

@@ -135,3 +135,36 @@ class PreFlightCreateView(CreateView):
     model = PreFlight
     fields = ('take_off_time','sitesurvey','altitude','est_flight_time','area_size','no_of_flights','other_info','batt_reminder')
     template_name = 'flight_plans/create_pre_flight.html'
+
+
+""" This is also done in the homepage ....
+    Do a DRY approach
+"""
+@login_required()
+def unfinished_logs_notifications(request):
+
+    user_flight_logs = FlightLog.objects.filter(user=request.user)
+    unfinished_pre_flight_logs = []
+    unfinished_post_flight_logs = []
+    for flight_log in user_flight_logs:
+        if flight_log.get_pre_flight_completion() != 100:
+            unfinished_pre_flight_logs.append(flight_log)
+        if flight_log.get_post_flight_completion() != 100:
+            unfinished_post_flight_logs.append(flight_log)
+
+
+    all_flightlog_tasks_count = len(unfinished_pre_flight_logs) + len(unfinished_post_flight_logs)
+
+
+
+
+    args = {
+
+            'all_flightlog_tasks_count':all_flightlog_tasks_count,
+
+            'unfinished_pre_flight_logs':unfinished_pre_flight_logs,
+            'unfinished_post_flight_logs':unfinished_post_flight_logs,
+            }
+
+
+    return render(request, 'flight_plans/unfinished_logs_notifications.html', args)

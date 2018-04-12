@@ -63,11 +63,8 @@
 <br>
         <p>Serial No: {{rpas.rpas_serial}}</p>
 
-        {{rpas.get_rpas_model_completion}} rpas model completion
-        <p></p>
-        {{rpas.get_payload_completion}} payload completion
 
-         {% if rpas.get_rpas_model_completion == 100 %}
+         {% if rpas.get_rpas_model_completion != 100 %}
         <small>Rpas Model Completion</small>
         <span class='pull-right'>
 
@@ -86,7 +83,7 @@
         </div>
          {% endif %}
 
-         {% if rpas.get_payload_completion == 100 %}
+         {% if rpas.get_payload_completion != 100 %}
         <small>Payload Completion</small>
         <span class='pull-right'>
 

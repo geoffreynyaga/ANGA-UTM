@@ -253,3 +253,9 @@ class ReserveAirspace(gis_models.Model):
     @property
     def get_airframe_type(self):
         return str(self.rpas.rpas_model.rpas_model_type)
+
+    @property
+    def get_log_completion_deadline(self):
+        end_datetime = datetime.combine(self.start_day, self.end)
+        deadline =  end_datetime + timedelta(days=2)
+        return deadline

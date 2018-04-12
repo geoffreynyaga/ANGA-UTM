@@ -3,7 +3,6 @@ from django.shortcuts import (render,redirect,HttpResponseRedirect,
 from django.contrib.auth.models import User
 
 
-
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.forms.models import inlineformset_factory
@@ -19,7 +18,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from utm_messages.models import UserToUserMessages,Notifications
-
+from flight_plans.models import FlightLog
 
 
 # Create your views here.
@@ -41,23 +40,44 @@ def home(request):
     unfinished_rpas_payload_tasks = []
     unfinished_rpas_model_tasks   = []
     for rpas_task in rpas_tasks.iterator():
-        if rpas_task.get_payload_completion() == 100.0:
+        if rpas_task.get_payload_completion() != 100.0:
             unfinished_rpas_payload_tasks.append(rpas_task)
 
-        if rpas_task.get_rpas_model_completion() == 100.0:
+        if rpas_task.get_rpas_model_completion() != 100.0:
             unfinished_rpas_model_tasks.append(rpas_task)
 
     all_rpas_tasks_count = len(unfinished_rpas_payload_tasks) + len(unfinished_rpas_model_tasks)
 
 ###############################################################################
 
+    user_flight_logs = FlightLog.objects.filter(user=request.user)
+    unfinished_pre_flight_logs = []
+    unfinished_post_flight_logs = []
+    for flight_log in user_flight_logs:
+        if flight_log.get_pre_flight_completion() != 100:
+            unfinished_pre_flight_logs.append(flight_log)
+        if flight_log.get_post_flight_completion() != 100:
+            unfinished_post_flight_logs.append(flight_log)
+
+
+    all_flightlog_tasks_count = len(unfinished_pre_flight_logs) + len(unfinished_post_flight_logs)
+
+
+    all_tasks_count = all_rpas_tasks_count+all_flightlog_tasks_count
+
+
     args = {'myName':name, 'unread_messages':x, 'unread_messages_number':y,
             'unread_notifications':unread_notifications,
             'unread_notifications_count':unread_notifications_count,
 
-            'all_rpas_tasks_count':all_rpas_tasks_count,
+            'all_tasks_count':all_tasks_count,
             'unfinished_rpas_payload_tasks':unfinished_rpas_payload_tasks,
-            'unfinished_rpas_model_tasks':unfinished_rpas_model_tasks}
+            'unfinished_rpas_model_tasks':unfinished_rpas_model_tasks,
+
+            'unfinished_pre_flight_logs':unfinished_pre_flight_logs,
+            'unfinished_post_flight_logs':unfinished_post_flight_logs,
+            }
+
 
     return render(request, 'home/mainhome.html', args)
 

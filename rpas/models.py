@@ -114,7 +114,7 @@ class Payload(models.Model):
     payload_nickname = models.CharField(max_length = 20,blank=True, null=True, help_text='if any.....')
 
     def __str__(self):
-    	return str(self.payload_nickname)
+    	return str(self.payload_serial)
 
     def get_absolute_url(self,*args,**kwargs):
         return reverse('rpas_list')
@@ -180,7 +180,7 @@ class Rpas(models.Model):
                 fields.remove(field)
         final_count = int(len(fields))
         progress = (final_count/initial_count)*100
-        return progress
+        return round(progress,2)
 
 
     def get_payload_completion(self):
@@ -196,4 +196,4 @@ class Rpas(models.Model):
                 fields.remove(field)
         final_count = int(len(fields))
         progress = (final_count/initial_count)*100
-        return progress
+        return round(progress,2)
