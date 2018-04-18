@@ -1,5 +1,7 @@
 from django.shortcuts import (render,redirect,render_to_response,
                             get_object_or_404)
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import RequestContext
 
 
@@ -46,7 +48,7 @@ from .models import (FlightLog,Checklist,EmmergencyInfo,PreFlight,MissionWrap)
 
 
 ###################### FLIGHT LOGS #############################################
-class FlightLogListView(ListView):
+class FlightLogListView(LoginRequiredMixin,ListView):
     context_object_name = 'mylogs'
     model = FlightLog
 
@@ -67,7 +69,7 @@ class FlightLogUpdateView(UpdateView):
     template_name = 'flight_plans/edit_flightlog.html'
 
 
-class FlightLogCreateView(CreateView):
+class FlightLogCreateView(LoginRequiredMixin,CreateView):
     model = FlightLog
     template_name = 'flight_plans/create_flightlog.html'
     form_class = FlightLogCreateForm

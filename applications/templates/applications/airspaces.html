@@ -33,6 +33,8 @@
 
 <section class="content">
 
+  {% if user.is_authenticated %}
+
   <div class="row">
     <div class="col-xs-4">
       <div class="pull-left">
@@ -58,10 +60,12 @@
           <i class="fa fa-arrow-right" aria-hidden="true"></i>
         </a>
       </div>
-    
+
     </div>
 
   </div>
+
+  {% endif %}
 
 <div class="row" >
 
