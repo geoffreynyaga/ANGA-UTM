@@ -180,7 +180,7 @@ class Rpas(models.Model):
                 fields.remove(field)
         final_count = int(len(fields))
         progress = (final_count/initial_count)*100
-        return round(progress,2)
+        return round(progress,1)
 
 
     def get_payload_completion(self):
@@ -196,4 +196,4 @@ class Rpas(models.Model):
                 fields.remove(field)
         final_count = int(len(fields))
         progress = (final_count/initial_count)*100
-        return round(progress,2)
+        return round(progress,1)
