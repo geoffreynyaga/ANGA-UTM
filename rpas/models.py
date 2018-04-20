@@ -150,7 +150,7 @@ class Rpas(models.Model):
             x = Payload.objects.create()
             x.payload_nickname = ''
             x.save()
-            self.payload_model = x
+            self.payload = x
 
         super(Rpas,self).save(*args,**kwargs)
 

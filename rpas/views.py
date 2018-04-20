@@ -36,7 +36,7 @@ def home(request):
 #     Perhaps create an boolean or better a float field where the get_completion
 #     methods save the values to the model and we access the modelfield value from
 #     get_queryset  filter.... """
-    rpas_tasks = Rpas.objects.all()
+    rpas_tasks = Rpas.objects.filter(user=request.user)
     unfinished_rpas_payload_tasks = []
     unfinished_rpas_model_tasks   = []
     for rpas_task in rpas_tasks.iterator():
@@ -62,8 +62,13 @@ def home(request):
 
     all_flightlog_tasks_count = len(unfinished_pre_flight_logs) + len(unfinished_post_flight_logs)
 
+    print(len(unfinished_pre_flight_logs),"this is unfinished preflights")
+    print(len(unfinished_post_flight_logs),"this is unfinished postflights")
+    print(len(unfinished_rpas_model_tasks),"this is unfinished unfinished_rpas_model_tasks")
+    print(len(unfinished_rpas_payload_tasks),"this is unfinished unfinished_rpas_payload_tasks")
 
-    all_tasks_count = all_rpas_tasks_count+all_flightlog_tasks_count
+
+    all_tasks_count = all_rpas_tasks_count + all_flightlog_tasks_count
 
 
     args = {'myName':name, 'unread_messages':x, 'unread_messages_number':y,
@@ -101,7 +106,7 @@ class RpasCreateView(CreateView):
     fields = ('rpas_nickname', 'rpas_serial','rpas_pic')
     template_name = 'rpas/add_rpas.html'
     model = Rpas
-    success_url = '/rpas/rpas-main'
+    success_url = '/rpas'
 
     def form_valid(self, form):
             rpas = form.save(commit=False)

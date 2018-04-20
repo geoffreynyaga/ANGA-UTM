@@ -13,6 +13,8 @@
 <section class='content'>
 
   <div class="row">
+{% if unfinished_pre_flight_logs_count > 0 %}
+<!-- #################### Unfinished Pre Flight Logs ########################-->
     <div class="col-sm-6">
       <!-- TO DO List -->
       <div class="box box-primary">
@@ -20,16 +22,6 @@
           <i class="ion ion-clipboard"></i>
 
           <h3 class="box-title">Unfinished Pre Flights</h3>
-
-          <div class="box-tools pull-right">
-            <ul class="pagination pagination-sm inline">
-              <li><a href="#">&laquo;</a></li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">&raquo;</a></li>
-            </ul>
-          </div>
         </div>
         <!-- /.box-header -->
 
@@ -46,7 +38,7 @@
                     <i class="fa fa-ellipsis-v"></i>
                   </span>
               <!-- todo text -->
-              <span class="text">complete {{unfinished_pre_flight_log}}</span>
+              <span class="text">{{unfinished_pre_flight_log}}</span>
               <!-- Emphasis label -->
               <small class="label label-danger"><i class="fa fa-clock-o"></i>
                 Due {{unfinished_pre_flight_log.reserve_airspace.get_log_completion_deadline | timeuntil}}
@@ -62,7 +54,57 @@
 
             {% endfor %}
 
+          </ul>
+        </div>
+        <!-- /.box-body -->
 
+      </div>
+      <!-- /.box -->
+    </div>
+{% endif %}
+
+{% if unfinished_post_flight_logs_count > 0 %}
+<!-- #################### Unfinished Post Flight Logs #######################-->
+
+    <div class="col-sm-6">
+
+      <!-- TO DO List -->
+      <div class="box box-primary">
+        <div class="box-header">
+          <i class="ion ion-clipboard"></i>
+
+          <h3 class="box-title">Unfinished Post Flights</h3>
+        </div>
+        <!-- /.box-header -->
+
+        <div class="box-body">
+          <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+          <ul class="todo-list">
+
+            {% for unfinished_post_flight_log in unfinished_post_flight_logs %}
+
+            <li>
+              <!-- drag handle -->
+              <span class="handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                  </span>
+              <!-- todo text -->
+              <span class="text">{{unfinished_post_flight_log}}</span>
+              <!-- Emphasis label -->
+              <small class="label label-danger"><i class="fa fa-clock-o"></i>
+                Due {{unfinished_post_flight_log.reserve_airspace.get_log_completion_deadline | timeuntil}}
+              </small>
+
+              <!-- General tools such as edit or delete-->
+              <div class="tools">
+                <a href="{% url 'post_flight_update' pk=unfinished_post_flight_log.get_post_flight_pk %}">
+                    <i class="fa fa-edit">Go</i>
+                </a>
+              </div>
+            </li>
+
+            {% endfor %}
 
           </ul>
         </div>
@@ -71,11 +113,114 @@
       </div>
       <!-- /.box -->
     </div>
+    <!-- col -->
+{% endif %}
+
+
+{% if unfinished_rpas_model_tasks_count > 0 %}
+<!-- #################### Unfinished RPAS Models details #######################-->
+
     <div class="col-sm-6">
 
+      <!-- TO DO List -->
+      <div class="box box-primary">
+        <div class="box-header">
+          <i class="ion ion-clipboard"></i>
+
+          <h3 class="box-title">Unfinished Rpas Model details</h3>
+        </div>
+        <!-- /.box-header -->
+
+        <div class="box-body">
+          <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+          <ul class="todo-list">
+
+            {% for unfinished_rpas_model_task in unfinished_rpas_model_tasks %}
+
+            <li>
+              <!-- drag handle -->
+              <span class="handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                  </span>
+              <!-- todo text -->
+              <span class="text">{{unfinished_rpas_model_task}}</span>
+              <!-- General tools such as edit or delete-->
+              <div class="tools">
+                <a href="{% url 'rpas_model_update' pk=unfinished_rpas_model_task.get_rpas_model_pk %}">
+                    <i class="fa fa-edit">Go</i>
+                </a>
+              </div>
+            </li>
+
+            {% endfor %}
+
+          </ul>
+        </div>
+        <!-- /.box-body -->
+
+      </div>
+      <!-- /.box -->
     </div>
+    <!-- col -->
+  {% endif %}
+
+
+  {% if unfinished_rpas_payload_tasks_count > 0 %}
+
+<!-- ##################### Unfinished Payload details #######################-->
+
+    <div class="col-sm-6">
+
+      <!-- TO DO List -->
+      <div class="box box-primary">
+        <div class="box-header">
+          <i class="ion ion-clipboard"></i>
+
+          <h3 class="box-title">Unfinished Payload details</h3>
+        </div>
+        <!-- /.box-header -->
+
+        <div class="box-body">
+          <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+          <ul class="todo-list">
+
+        {% for unfinished_rpas_payload_task in unfinished_rpas_payload_tasks %}
+
+            <li>
+              <!-- drag handle -->
+              <span class="handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                  </span>
+              <!-- todo text -->
+              <span class="text">{{unfinished_rpas_payload_task}}</span>
+              <!-- General tools such as edit or delete-->
+              <div class="tools">
+                <a href="{% url 'payload_update' pk=unfinished_rpas_payload_task.get_payload_pk %}">
+                    <i class="fa fa-edit">Go</i>
+                </a>
+              </div>
+            </li>
+
+            {% endfor %}
+
+          </ul>
+        </div>
+        <!-- /.box-body -->
+
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- col -->
+{% endif %}
+
+
+
+
 
   </div>
+  <!-- row -->
 
 
 

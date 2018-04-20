@@ -15,6 +15,7 @@ from django.http import HttpResponse
 from .forms import FlightLogCreateForm
 from .models import (FlightLog,Checklist,EmmergencyInfo,PreFlight,MissionWrap)
 
+from rpas.models import Rpas
 
 # Create your views here.
 
@@ -154,18 +155,39 @@ def unfinished_logs_notifications(request):
         if flight_log.get_post_flight_completion() != 100:
             unfinished_post_flight_logs.append(flight_log)
 
+    unfinished_pre_flight_logs_count  = len(unfinished_pre_flight_logs)
+    unfinished_post_flight_logs_count = len(unfinished_post_flight_logs)
 
-    all_flightlog_tasks_count = len(unfinished_pre_flight_logs) + len(unfinished_post_flight_logs)
+    rpas_tasks = Rpas.objects.filter(user=request.user)
+    unfinished_rpas_payload_tasks = []
+    unfinished_rpas_model_tasks   = []
+    for rpas_task in rpas_tasks.iterator():
+        if rpas_task.get_rpas_model_completion() != 100.0:
+            unfinished_rpas_model_tasks.append(rpas_task)
+
+        if rpas_task.get_payload_completion() != 100.0:
+            unfinished_rpas_payload_tasks.append(rpas_task)
 
 
+    unfinished_rpas_payload_tasks_count = len(unfinished_rpas_payload_tasks)
+    unfinished_rpas_model_tasks_count   = len(unfinished_rpas_model_tasks)
 
 
     args = {
 
-            'all_flightlog_tasks_count':all_flightlog_tasks_count,
-
             'unfinished_pre_flight_logs':unfinished_pre_flight_logs,
             'unfinished_post_flight_logs':unfinished_post_flight_logs,
+
+            'unfinished_pre_flight_logs_count':unfinished_pre_flight_logs_count,
+            'unfinished_post_flight_logs_count':unfinished_post_flight_logs_count,
+
+            'unfinished_rpas_payload_tasks':unfinished_rpas_payload_tasks,
+            'unfinished_rpas_model_tasks':unfinished_rpas_model_tasks,
+
+            'unfinished_rpas_payload_tasks_count':unfinished_rpas_payload_tasks_count,
+            'unfinished_rpas_model_tasks_count':unfinished_rpas_model_tasks_count,
+
+
             }
 
 
