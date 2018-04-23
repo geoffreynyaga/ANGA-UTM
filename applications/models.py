@@ -107,6 +107,11 @@ class ReserveAirspace(gis_models.Model):
             y = self.pk
             self.application_number = x + str(y)
 
+        elif self.created_by.userprofile.organization.organization_type == 'CLB':
+            x = "FP/KCAA/CLB/"
+            y = self.pk
+            self.application_number = x + str(y)
+
 
         saving_time = self.date_modified - self.date_created
         saving_time_seconds = saving_time.total_seconds()

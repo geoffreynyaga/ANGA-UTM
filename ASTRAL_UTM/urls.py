@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^messages/', include('utm_messages.urls', namespace ='messages')),
 
     url(r'^notams/', include('notams.urls')),
+    url(r'^organizations/', include('organizations.urls')),
 ]
 
 

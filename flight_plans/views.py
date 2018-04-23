@@ -54,8 +54,8 @@ class FlightLogListView(LoginRequiredMixin,ListView):
     model = FlightLog
 
     def get_queryset(self):
-        queryset = super(FlightLogListView, self).get_queryset()
-        queryset = queryset.filter(user=self.request.user).order_by('-id')
+        # queryset = super(FlightLogListView, self).get_queryset()
+        queryset = FlightLog.objects.filter(user=self.request.user).order_by('-id')
         return queryset
 
 class FlightLogDetailView(DetailView):
