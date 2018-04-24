@@ -86,10 +86,6 @@ class MyModelLayer(GeoJSONLayerView):
         context = a.filter(expiry=False)
         return context
 
-# def airspace_datasets(request):
-#     airspace = serialize('geojson', ReserveAirspace.objects.all())
-#     return HttpResponse(airspace, content_type='json')
-
 
 class AppliedReserveAirspaceListView(ListView):
     context_object_name = 'applied_reserves'
@@ -123,11 +119,15 @@ class MyApprovalLettersDetailView(DetailView):
     model = ReserveAirspace
     template_name = 'applications/appoval-letter.html'
 
+
+########################################################################################
 class LogsUploadCreateView(CreateView):
     form_class = LogsUploadForm
     template_name = 'applications/create_log_upload.html'
     success_url = '/applications/airspace'
 
+
+""" CHECK THIS OUT IF WE NEED IT REALLY"""
 class LogsUploadListView(ListView):
     model = LogsUpload
     template_name = 'applications/log_uploads_list.html'

@@ -49,7 +49,6 @@ def home(request):
     all_rpas_tasks_count = len(unfinished_rpas_payload_tasks) + len(unfinished_rpas_model_tasks)
 
 ###############################################################################
-
     user_flight_logs = FlightLog.objects.filter(user=request.user)
     unfinished_pre_flight_logs = []
     unfinished_post_flight_logs = []
@@ -59,17 +58,8 @@ def home(request):
         if flight_log.get_post_flight_completion() != 100:
             unfinished_post_flight_logs.append(flight_log)
 
-
     all_flightlog_tasks_count = len(unfinished_pre_flight_logs) + len(unfinished_post_flight_logs)
-
-    print(len(unfinished_pre_flight_logs),"this is unfinished preflights")
-    print(len(unfinished_post_flight_logs),"this is unfinished postflights")
-    print(len(unfinished_rpas_model_tasks),"this is unfinished unfinished_rpas_model_tasks")
-    print(len(unfinished_rpas_payload_tasks),"this is unfinished unfinished_rpas_payload_tasks")
-
-
     all_tasks_count = all_rpas_tasks_count + all_flightlog_tasks_count
-
 
     args = {'myName':name, 'unread_messages':x, 'unread_messages_number':y,
             'unread_notifications':unread_notifications,
@@ -82,8 +72,7 @@ def home(request):
             'unfinished_pre_flight_logs':unfinished_pre_flight_logs,
             'unfinished_post_flight_logs':unfinished_post_flight_logs,
             }
-
-
+            
     return render(request, 'home/mainhome.html', args)
 
 

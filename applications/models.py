@@ -264,3 +264,7 @@ class ReserveAirspace(gis_models.Model):
         end_datetime = datetime.combine(self.start_day, self.end)
         deadline =  end_datetime + timedelta(days=2)
         return deadline
+    
+    @property
+    def get_user_profile_pic(self):
+        return str(self.created_by.userprofile.profile_pic.url)
