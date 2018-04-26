@@ -55,5 +55,4 @@ urlpatterns = [
         url(r'^logs/create/$', views.LogsUploadCreateView.as_view(), name='create_log_upload'),
         url(r'^logs/$', views.LogsUploadListView.as_view(), name='log_list_geom'),
 
-
 ]

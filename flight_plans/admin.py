@@ -41,7 +41,7 @@ class BatteryLogAdmin(admin.ModelAdmin):
 admin.site.register(BatteryLog, BatteryLogAdmin)
 
 class PreFlightAdmin(admin.ModelAdmin):
-    list_display = ('area_size',)
+    list_display = ('est_flight_time',)
 
 admin.site.register(PreFlight, PreFlightAdmin)
 

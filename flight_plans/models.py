@@ -15,13 +15,12 @@ class PreFlight(models.Model):
     weather         = models.CharField(max_length = 20,default='')
     altitude        = models.CharField(max_length = 20)
     est_flight_time = models.CharField(max_length = 20)
-    area_size       = models.CharField(max_length = 20)
     no_of_flights   = models.CharField(max_length = 20, default = '1')
     other_info      = models.CharField(max_length=300, blank = True, null=True)
     batt_reminder   = models.CharField(max_length=10,default='')
 
     def __str__(self):
-    	return str(self.area_size)
+    	return str(self.est_flight_time)
 
     def get_absolute_url(self):
         return reverse("logs_add")
@@ -133,10 +132,9 @@ class FlightLog(models.Model):
         est_flight_time = self.pre_flight.est_flight_time
         weather = self.pre_flight.weather
         altitude = self.pre_flight.altitude
-        area_size = self.pre_flight.area_size
         no_of_flights = self.pre_flight.no_of_flights
         batt_reminder = self.pre_flight.batt_reminder
-        fields = [est_flight_time,weather,altitude,area_size,no_of_flights,batt_reminder]
+        fields = [est_flight_time,weather,altitude,no_of_flights,batt_reminder]
         initial_count = int(len(fields))
         for field in fields:
             if field == '' or field == None:

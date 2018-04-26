@@ -54,7 +54,7 @@
 
 
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
 
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -64,36 +64,65 @@
         </div>
         <div class="panel-body">
 
-          {{reserveairspace.date_created}}
-          <p></p>
-          {{reserveairspace.date_modified}}
+          created on: <b>{{reserveairspace.date_created}}</b> 
+          <br>
+       
           <p><i class="fa fa-calendar" aria-hidden="true"></i>
-          Start Day:  <b>{{reserveairspace.start_day}}</b></p>
+             Start Day:
+            <span class="pull-right">
+              <b>{{reserveairspace.start_day}}</b>
+            </span>
+          </p>
           <hr>
-          <p><i class="fa fa-hourglass-start" aria-hidden="true"></i>
-          Start Time: <b>{{reserveairspace.start_time}}</b></p>
+            <p><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+            Start Time: 
+              <span class="pull-right">
+                <b>{{reserveairspace.start_time}}</b> 
+              </span>
+            </p>
           <hr>
-          <p><i class="fa fa-hourglass-end" aria-hidden="true"></i>
-          End: <b> {{reserveairspace.end}}</b></p>
+            <p><i class="fa fa-hourglass-end" aria-hidden="true"></i>
+            End: 
+              <span class="pull-right">
+              <b> {{reserveairspace.end}}</b>
+              </span>
+            </p>
           <hr>
-          <p><i class="fa fa-map-o" aria-hidden="true"></i></i>
-          Area :  <b>{{reserveairspace.get_area}}</b>sq. km </p>
+            <p><i class="fa fa-map-o" aria-hidden="true"></i> 
+            Area :  
+              <span class="pull-right">
+                <b>{{reserveairspace.get_area}}</b> sq. km 
+              </span>
+            </p>
+          
           <hr>
-          <p><i class="fa fa-map-o" aria-hidden="true"></i></i>
-          Perimiter :  <b>{{reserveairspace.get_perimeter}}</b>km </p>
+            <p><i class="fa fa-map-o" aria-hidden="true"></i>
+            Perimiter :  
+              <span class="pull-right">
+                <b>{{reserveairspace.get_perimeter}}</b> km
+              </span> 
+            </p>
           <hr>
-          <p><i class="fa fa-align-left" aria-hidden="true"></i>
-          Reason For Reject/Approval:<b>{{reserveairspace.reason}}</b></p>
+            <p><i class="fa fa-align-left" aria-hidden="true"></i>
+            Reason For Reject/Approval:
+              <span class="pull-right">
+                <b>{{reserveairspace.reason}}</b>
+              </span>
+            </p>
           <hr>
-          <p><i class="fa fa-comment-o" aria-hidden="true"></i>
-          Comments from KCAA: <b>{{reserveairspace.comments}}</b></p>
+            <p><i class="fa fa-comment-o" aria-hidden="true"></i>
+            Comments from KCAA: 
+              <span class="pull-right">
+                <b>{{reserveairspace.comments}}</b>
+              </span>
+            </p>
         </div>
       </div>
     </div>
 
 
 
-    <div class="col-sm-8">
+    <div class="col-sm-9">
 
       <div class="panel panel-danger">
         <div class="panel-heading">
@@ -251,7 +280,7 @@
   <div class="panel-footer">
         <a class="btn btn-primary" href="" role="button">
         <i class="fa fa-external-link" aria-hidden="true"></i>
-           >> See Full Specs  </a>
+            See Full Specs  </a>
   </div>
 </div>
 

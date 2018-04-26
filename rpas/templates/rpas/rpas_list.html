@@ -55,11 +55,13 @@
       </div>
       <div class="panel-body">
         Type:  {{ rpas.rpas_model.rpas_model_type }}
+        <span class="pull-right">
         {% if rpas.rpas_model.rpas_model_type.airframe_type == 'PLANE' %}
-        <i class="fa fa-plane" aria-hidden="true"></i>
+          <i class="fa fa-plane" aria-hidden="true"></i>
         {% elif rpas.rpas_model.rpas_model_type.airframe_type == 'QUAD'  %}
         <img src="{% static 'icons/quad.png' %}" alt="" height="26" >
         {% endif %}
+        </span>
 <br>
         <p>Serial No: {{rpas.rpas_serial}}</p>
 

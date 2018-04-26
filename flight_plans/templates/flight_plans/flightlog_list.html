@@ -41,18 +41,19 @@
   <div class="col-sm-3">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h4 class="panel-title">Log No: {{log.reserve_airspace.application_number}}</h4>
+        <h4 class="panel-title">Log No:<b> {{log.reserve_airspace.application_number}}</b></h4>
       </div>
       <div class="panel-body">
-        <h6 class="card-subtitle mb-2 text-muted">Date: {{log.reserve_airspace.get_start_datetime}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">Date: <b>{{log.reserve_airspace.get_start_datetime}}</b></h6>
       <p></p>
-        RPAS Used: {{log.reserve_airspace.rpas}}
+        RPAS Used: <b>{{log.reserve_airspace.rpas}}</b>
         <br>
-        Purpose: {{log.reserve_airspace.get_mission_type_display}}
+        Purpose: <b>{{log.reserve_airspace.get_mission_type_display}}</b>
         <br>
-        Number of flights: {{log.pre_flight.no_of_flights}}
+        Number of flights: <b>{{log.pre_flight.no_of_flights}}</b>
         <br>
-        Area Size: {{log.pre_flight.area_size}}
+        Area Size:<b> {{log.reserve_airspace.get_area}}</b>
+        
         <p></p>
 
         <small>Pre-Flight Completion</small>

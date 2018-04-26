@@ -212,11 +212,11 @@ class ReserveAirspace(gis_models.Model):
 
     def get_area(self):
         x = self.geom.area * 12365.1613
-        return x   #sq km
+        return round(x,3)  #sq km
 
     def get_perimeter(self):
-        x = self.geom.length
-        return x*111
+        x = self.geom.length * 111
+        return round(x,2) #km
 
 
     def __str__(self):

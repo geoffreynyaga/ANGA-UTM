@@ -156,4 +156,19 @@
 </section>
 
 
+
+<cdn>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+</cdn>
+
+<div id='map' style='width: 400px; height: 300px;'></div>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvZmZyZXlueWFnYSIsImEiOiJjamdmM3Q5NG4wdnprMnhyMGJqd3U1N25yIn0.R_3l_E-DDVpHQ0rL3zgElQ';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v10'
+  });
+</script>
+
 {% endblock %}

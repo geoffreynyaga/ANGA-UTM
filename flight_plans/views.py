@@ -58,6 +58,8 @@ class FlightLogListView(LoginRequiredMixin,ListView):
         queryset = FlightLog.objects.filter(user=self.request.user).order_by('-id')
         return queryset
 
+
+
 class FlightLogDetailView(DetailView):
     model = FlightLog
     template_name = 'flight_plans/flightlog_detail.html'
@@ -88,7 +90,7 @@ class PostFlightUpdateView(UpdateView):
 
 class PreFlightUpdateView(UpdateView):
 
-    fields = ('weather','altitude','est_flight_time','area_size','no_of_flights',
+    fields = ('weather','altitude','est_flight_time','no_of_flights',
                 'other_info','batt_reminder')
     model = PreFlight
     template_name = 'flight_plans/update_pre_flight.html'
@@ -136,7 +138,7 @@ class EmmergencyInfoCreateView(CreateView):
 
 class PreFlightCreateView(CreateView):
     model = PreFlight
-    fields = ('take_off_time','sitesurvey','altitude','est_flight_time','area_size','no_of_flights','other_info','batt_reminder')
+    fields = ('take_off_time','sitesurvey','altitude','est_flight_time','no_of_flights','other_info','batt_reminder')
     template_name = 'flight_plans/create_pre_flight.html'
 
 
