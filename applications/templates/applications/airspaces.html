@@ -36,30 +36,30 @@
   {% if user.is_authenticated %}
 
   <div class="row">
-    <div class="col-xs-4">
-      <div class="pull-left">
+    <div class="col-xs-5">
+      <span class="pull-left">
         <a href="{%url 'create_reserve'%}" >
           Create Flight Plan
           <i class="fa fa-arrow-right" aria-hidden="true"></i>
         </a>
-      </div>
+      </span>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-2">
         <div class="text-center">
           <a href="{%url 'home'%}" >
             <i class="fa fa-home fa-2x" aria-hidden="true"></i>
-            Home
+            
           </a>
         </div>
 
     </div>
-    <div class="col-xs-4">
-      <div class="pull-right">
+    <div class="col-xs-5">
+      <span class="pull-right">
         <a href="{%url 'logs_list'%}" >
-          Go to Flight Logs
+          Go to Flight Logs 
           <i class="fa fa-arrow-right" aria-hidden="true"></i>
         </a>
-      </div>
+      </span>
 
     </div>
 
@@ -155,20 +155,5 @@
 
 </section>
 
-
-
-<cdn>
-  <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
-</cdn>
-
-<div id='map' style='width: 400px; height: 300px;'></div>
-<script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvZmZyZXlueWFnYSIsImEiOiJjamdmM3Q5NG4wdnprMnhyMGJqd3U1N25yIn0.R_3l_E-DDVpHQ0rL3zgElQ';
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v10'
-  });
-</script>
 
 {% endblock %}
