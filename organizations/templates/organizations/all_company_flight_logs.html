@@ -12,6 +12,7 @@
 <section class='content'>
 
 <div class="row">
+welcome {{request.user}},
 
     <div class="col-md-4">
         <!-- Widget: user widget style 1 -->
@@ -47,7 +48,7 @@
                 <ul class="nav nav-stacked">
                     {% for all_company_log in all_company_logs %}
                     <li>
-                        <a href="#">{{all_company_log}}
+                        <a href="#">{{all_company_log}}  by {{all_company_log.reserve_airspace.created_by}}
                             <span class="pull-right badge bg-blue">{{all_company_log.reserve_airspace.get_status_display}}</span>
                         </a>
                     </li> 
@@ -67,7 +68,7 @@
                 <h3 class="widget-user-username">Employees</h3>
             </div>
             <div class="box-footer">
-                {% for org in all_employees %}
+                {% for org in organization_and_users %}
                 <div>
                     <h5>{{org.organization_details}}</h5>
                 </div>
@@ -91,25 +92,7 @@
 </div>
 
 <div class="row">
-    <hr> 
-     <h4>employees</h4> 
-    {% for org in all_employees %}
-        <h5>{{org.organization_details}}</h5>
     
-        {% for user in org.users.all%}
-            <p>{{user}}</p>
-        {% endfor %}
-
-    {% endfor %}
-
-
-     {% for all_company_flight_log in all_company_flight_logs%}
-    
-    <p>
-        {{all_company_flight_log}}
-    </p>
-    
-    {% endfor %}    
     <!-- {% if is_paginated %}
         <div class="pagination">
             <span class="page-links">
