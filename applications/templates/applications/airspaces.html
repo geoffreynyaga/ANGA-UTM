@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 
-      {% load static %}
-      {% load leaflet_tags %}
+{% load static %}
+
+      
+ 
 {% block head %}
 
-      {%  leaflet_js %}
-      {%  leaflet_css %}
+     {% load leaflet_tags %} {% leaflet_js plugins="ALL" %} {% leaflet_css plugins="ALL" %}
+
+      <link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}">
 
 
       <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
@@ -15,19 +18,7 @@
 {% endblock %}
 
 {% block body %}
-<link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}">
 
-
-<!-- <section class="content-header">
-  <h4>
-      Drone Airspace
-    <small>Summary</small>
-  </h4>
-  <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><a href="">All Applications</a></li>
-  </ol>
-</section> -->
 
 
 
@@ -128,7 +119,6 @@
 
 <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
 
-<script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search-geocoder.js' %}" ></script>
 <script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search.js' %}" ></script>
 
 <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
