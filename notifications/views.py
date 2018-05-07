@@ -18,5 +18,4 @@ def send_test_notification(request):
     from . import send_a_notification as s
     s.send_a_notification(request.user,"test function","yeeeey")
     from django.http import HttpResponseRedirect
-
     return HttpResponseRedirect('/home')
