@@ -1,24 +1,19 @@
-from django.shortcuts import (render,redirect,HttpResponseRedirect,
-                            get_object_or_404,)
+from django.shortcuts import (render,HttpResponseRedirect,
+                              get_object_or_404,)
 from django.contrib.auth.models import User
 
-
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
-from django.forms.models import inlineformset_factory
 
-from django.views.generic import (ListView,DetailView,
-                                CreateView,UpdateView,DeleteView,TemplateView)
-from .forms import ManufacturerForm,PayloadForm
+from django.views.generic import (ListView, DetailView,
+                                  CreateView, UpdateView, TemplateView)
+from .forms import ManufacturerForm,PayloadForm,RpasCreateForm
 from .models import Rpas,Payload,Manufacturer,RpasModel
-
-from django.core.urlresolvers import reverse
-
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from utm_messages.models import UserToUserMessages,Notifications
+from utm_messages.models import UserToUserMessages
 from flight_plans.models import FlightLog
+from notifications.models import Notifications
 
 
 # Create your views here.
@@ -32,10 +27,11 @@ def home(request):
     unread_notifications_count = unread_notifications.count()
 
 ##################### RPAS/PAYLOAD CREATE COMPLETION TASKS######################
-# """ come up with a better way to iterate or queryset the damn Tasks
-#     Perhaps create an boolean or better a float field where the get_completion
-#     methods save the values to the model and we access the modelfield value from
-#     get_queryset  filter.... """
+    """ come up with a better way to iterate or queryset the damn Tasks
+        Perhaps create an boolean or better a float field where the get_completion
+        methods save the values to the model and we access the modelfield value from
+        get_queryset  filter.... """
+
     rpas_tasks = Rpas.objects.filter(user=request.user)
     unfinished_rpas_payload_tasks = []
     unfinished_rpas_model_tasks   = []
@@ -62,7 +58,7 @@ def home(request):
     all_tasks_count = all_rpas_tasks_count + all_flightlog_tasks_count
 
     args = {'myName':name, 'unread_messages':x, 'unread_messages_number':y,
-            'unread_notifications':unread_notifications,
+            'unread_notifications': unread_notifications,
             'unread_notifications_count':unread_notifications_count,
 
             'all_tasks_count':all_tasks_count,
@@ -72,12 +68,13 @@ def home(request):
             'unfinished_pre_flight_logs':unfinished_pre_flight_logs,
             'unfinished_post_flight_logs':unfinished_post_flight_logs,
             }
-            
+
     return render(request, 'home/mainhome.html', args)
 
 
 class RpasMainView(TemplateView):
     template_name = 'rpas/includes/rpas_main.html'
+
 
 class RpasListView(LoginRequiredMixin,ListView):
     context_object_name = 'myrpas'
@@ -88,26 +85,37 @@ class RpasListView(LoginRequiredMixin,ListView):
         queryset = queryset.filter(user = self.request.user)
         return queryset
 
+
 class RpasDetailView(DetailView):
     model = Rpas
 
+
 class RpasCreateView(CreateView):
-    fields = ('rpas_nickname', 'rpas_serial','rpas_pic')
+    # fields = ('rpas_nickname', 'rpas_serial','rpas_pic')
     template_name = 'rpas/add_rpas.html'
     model = Rpas
+    form_class = RpasCreateForm
     success_url = '/rpas'
 
     def form_valid(self, form):
             rpas = form.save(commit=False)
             rpas.user = User.objects.get(username=self.request.user)  # use your own profile here
-            rpas.organization = rpas.user.userprofile.organization  # use your own profile here
+            # rpas.organization = rpas.user.userprofile.organization  # use your own profile here
             #########################################################################################
             """ but in organizations model i have put multiple organizations but one in userprofile
                 Perhaps doa queryset here and listview organizations in profile
+                
+                --FIXED
             """
             ########################################################################################
             rpas.save()
             return HttpResponseRedirect(self.success_url)
+
+    def get_form_kwargs(self):
+        kwargs = super(RpasCreateView, self).get_form_kwargs()
+        kwargs['rpas_user'] = self.request.user
+        return kwargs
+
 
 class RpasUpdateView(UpdateView):
     fields = ('rpas_nickname','organization',
@@ -122,21 +130,23 @@ class RpasModelUpdateView(UpdateView):
     template_name = 'rpas/rpas_model_update.html'
 
 
-
 class ManufacturerCreateView(CreateView):
     template_name = 'rpas/add_manufacturer.html'
     form_class = ManufacturerForm
+
 
 class RpasModelCreateView(CreateView):
     fields = ('manufacturer','rpas_model_type','model_name','weight')
     template_name = 'rpas/add_rpas_model.html'
     model = RpasModel
 
+
 class PayloadCreateView(CreateView):
     # fields = ('manufacturer','payload_model','payload_serial','payload_nickname')
     template_name = 'rpas/add_payload.html'
     model = Payload
     form_class = PayloadForm
+
 
 class PayloadUpdateView(UpdateView):
     fields = ('payload_model','payload_serial','payload_nickname')
@@ -148,44 +158,8 @@ def rpas_manufacturer_detail(request, rpas_pk, manufacturer_pk):
     manufacturer = get_object_or_404(Manufacturer,rpas= rpas_pk,pk=manufacturer_pk)
     return render(request, 'rpas/manufacturer_details.html',{'manufacturer':manufacturer})
 
+
 def rpas_model_view(request, rpas_pk, rpas_model_pk):
     rpas_model = get_object_or_404(RpasModel,rpas= rpas_pk,pk=rpas_model_pk)
     return render(request, 'rpas/rpas_model_view.html',{'rpas_model':rpas_model})
 
-
-# @login_required() # only logged in users should access this
-# def edit_payload(request):
-#     # querying the User object with pk from url
-#     user = User.objects.get(pk=1)
-
-#     manufacturer=Manufacturer.objects.get(name='DJI')
-#      # prepopulate UserProfileForm with retrieved user values from above.
-#     user_form = PayloadForm(instance=manufacturer)
-#     ProfileInlineFormset = inlineformset_factory(Manufacturer, Payload,
-#                             fields=('payload_nickname','payload_serial',
-#                                     'manufacturer'))
-
-#     formset = ProfileInlineFormset(instance=manufacturer)
-
-#     if request.user.is_authenticated() and request.user.id == user.id:
-#         if request.method == "POST":
-#             user_form = PayloadForm(request.POST, request.FILES, instance=manufacturer)
-#             formset = ProfileInlineFormset(request.POST, request.FILES, instance=manufacturer)
-
-#             if user_form.is_valid():
-#                 created_user = user_form.save()
-#                 formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
-
-#                 if formset.is_valid():
-#                     created_user.save()
-#                     formset.save()
-#                     print('good form')
-#                     return HttpResponseRedirect('/rpas/rpas/')
-
-#         return render(request, "rpas/edit_payload.html", {
-#             "noodle": 'DJI',
-#             "noodle_form": user_form,
-#             "formset": formset,
-#         })
-#     else:
-#         raise PermissionDenied

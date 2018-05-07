@@ -36,7 +36,7 @@ class RpasModelType(models.Model):
     airframe_type = models.CharField(max_length=5, choices=AIRFRAME_TYPE,null=False)
 
     def __str__(self):
-    	return self.get_airframe_type_display()
+        return self.get_airframe_type_display()
 
     def get_absolute_url(self,*args,**kwargs):
         return reverse('rpas_add')
@@ -47,11 +47,15 @@ class RpasModel(models.Model):
     manufacturer = models.ForeignKey(Manufacturer,on_delete=models.CASCADE,blank=True, null=True)
     rpas_model_type = models.ForeignKey(RpasModelType,on_delete=models.CASCADE,blank=True, null=True)
 
-    model_name = models.CharField(max_length = 20, unique=True)
+    """" come up with unique dropdown for modelname, 
+    unique=true doesnt work since its users who create
+    """
+
+    model_name = models.CharField(max_length = 20,blank=True, null=True)
     weight = models.FloatField(blank=True, null=True)
 
     def __str__(self):
-    	return str(self.model_name)
+        return str(self.model_name)
 
     def get_absolute_url(self,*args,**kwargs):
         return reverse('rpas_list')
@@ -122,7 +126,7 @@ class Payload(models.Model):
 
 class Rpas(models.Model):
     user         = models.ForeignKey(User,on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization,on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization,on_delete=models.CASCADE,blank=True,null=True)
 
     rpas_model   = models.ForeignKey(RpasModel,on_delete=models.CASCADE,blank=True,null=True)
     payload      = models.ForeignKey(Payload,on_delete=models.CASCADE,blank=True,null=True)
@@ -133,7 +137,7 @@ class Rpas(models.Model):
     rpas_pic = models.ImageField(upload_to = 'images/rpas')
 
     def __str__(self):
-    	return str(self.rpas_nickname)
+        return str(self.rpas_nickname)
 
     def get_absolute_url(self):
         return reverse("rpas_detail", kwargs={"pk":self.pk})

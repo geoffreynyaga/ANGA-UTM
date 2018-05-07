@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 {%load static %}
 
+{% load webpush_notifications %}
 
 {% block head %}
 
   <title> Notifications</title>
 
+  {# {% webpush %} #}
+
 {%endblock%}
 
 {%block body%}
+
+
+
+
     <section class="content-header">
       <h1>
         Notifications
@@ -18,6 +25,10 @@
 
     <!-- Main content -->
     <section class="content">
+
+      <p> Hello World! </p>
+
+        {% webpush_button %}
 
       <!-- row -->
       <div class="row">

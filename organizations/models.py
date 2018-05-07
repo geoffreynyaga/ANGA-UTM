@@ -10,7 +10,8 @@ class OrganizationDetails(models.Model):
     logo = models.ImageField(upload_to = 'images/logo', blank=True)
 
     def __str__(self):
-    	return self.name
+        return self.name
+
 
 class Organization(models.Model):
     organization_details = models.OneToOneField(OrganizationDetails,on_delete = models.CASCADE)

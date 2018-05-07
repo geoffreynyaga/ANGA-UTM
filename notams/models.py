@@ -82,10 +82,9 @@ class NotamAirspace(gis_models.Model):
                             error = str(qs.notam_number +  " "  + "(Kindly  book after the curent NOTAM ends, try from " + qs.get_start_day + "  "+ booking_time_qs_end.strftime("%H:%M:%S")  )
                             e.append(error)
 
-                affected = []
+
                 for qs in reserve_qs:
-                    # affected_parties = str(qs.created_by)
-                    # affected.append(affected_parties)
+
                     if  self.start_time and self.end:
 
                         booking_time_qs_start = datetime.combine(qs.start_day, qs.start_time)
@@ -96,12 +95,12 @@ class NotamAirspace(gis_models.Model):
 
                         if  notam_start < booking_time_qs_start < notam_end or notam_start < booking_time_qs_end < notam_end:
 
-                            from utm_messages.models import Notifications as n
-                            n.objects.create(title = "Land Immediately",
+                            from notifications.models import Notifications as n
+                            from notifications.send_a_notification import send_a_notification
+                            n.objects.create(title = "Notam Alert",
                                              receiver = qs.created_by,
                                             )
-
-
+                            send_a_notification(qs.created_by, "Notam Alert", str(self.reason))
 
                 if e:
                     raise ValidationError(

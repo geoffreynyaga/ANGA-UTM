@@ -27,8 +27,9 @@ from applications.views import view_airspace
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include('pwa.urls')),  # You MUST use an empty string as the URL prefix
+    url(r'^webpush/', include('webpush.urls')),
 
-	url(r'^home$', views.home,name='home' ),
+    url(r'^home$', views.home,name='home' ),
 
     url(r'^$', view_airspace, name='view_airspace'),
 
@@ -44,6 +45,8 @@ urlpatterns = [
 
     url(r'^notams/', include('notams.urls')),
     url(r'^organizations/', include('organizations.urls')),
+
+    url(r'^notifications/', include('notifications.urls', namespace ='notifications')),
 ]
 
 
