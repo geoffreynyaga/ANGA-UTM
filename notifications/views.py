@@ -14,6 +14,7 @@ class NotificationsListView(ListView):
     def get_queryset(self):
         return Notifications.objects.filter(receiver=self.request.user).order_by('-id')
 
+
 def send_test_notification(request):
     from . import send_a_notification as s
     s.send_a_notification(request.user,"test function","yeeeey")

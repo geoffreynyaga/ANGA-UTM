@@ -1,6 +1,5 @@
 from webpush import send_user_notification
 
-
 """" the head and body parameters must be a string
 In user parameter, a user object should be passed
 The user will get notification to all of his subscribed browser. A user can subscribe many browsers.
