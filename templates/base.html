@@ -9,11 +9,8 @@
 <html>
 
 {% load pwa %}
-
-{% load webpush_notifications %}
-
   <head>
-{% webpush %}
+
 {% progressive_web_app_meta %}
     <meta charset="utf-8">
     <link rel="shortcut icon" href="{% static 'favicons/favicon.ico' %}" type="image/x-icon" />
@@ -35,7 +32,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
          <link rel="stylesheet" href="{% static 'adminlite/dist/css/skins/_all-skins.min.css' %}">
-
+    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -208,8 +205,7 @@
 
                   </ul>
                 </li>
-                <li class="footer"><a href="{% url 'notifications:notifications_list'%}">View all</a></li>
-                <li>{% webpush_button %} </li>
+                <li class="footer"><a href="{% url 'messages:notifications_list'%}">View all</a></li>
               </ul>
             </li>
 

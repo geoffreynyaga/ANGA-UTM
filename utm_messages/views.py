@@ -3,7 +3,7 @@ from django.views.generic import (ListView,DetailView,
                                 CreateView,UpdateView,DeleteView,TemplateView)
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from .models import UserToUserMessages
+from .models import UserToUserMessages,Notifications
 from .forms import UserToUserMessagesForm
 # Create your views here.
 
@@ -38,14 +38,12 @@ class SentMessagesListView(ListView):
     def get_queryset(self):
         return UserToUserMessages.objects.filter(sender=self.request.user).order_by('-id')
 
-
 class InboxListView(ListView):
     context_object_name = 'inbox'
     template_name = 'utm_messages/inbox.html'
 
     def get_queryset(self):
         return UserToUserMessages.objects.filter(receiver=self.request.user).order_by('-id')
-
 
 class MessageDetailView(DetailView):
     model = UserToUserMessages
@@ -65,3 +63,9 @@ class MessagesMainView(TemplateView):
 class CalendarView(TemplateView):
     template_name = 'utm_messages/calendar.html'
 
+class NotificationsListView(ListView):
+    context_object_name = 'notifications_list'
+    template_name = 'utm_messages/notifications_list.html'
+
+    def get_queryset(self):
+        return Notifications.objects.filter(receiver=self.request.user).order_by('-id')

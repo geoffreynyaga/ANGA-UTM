@@ -49,8 +49,8 @@ INSTALLED_APPS = [
     'bootstrap3',
     'datetimewidget',
     'leaflet',
+
     'phonenumber_field',
-    'webpush',
 
 
     'organizations',
@@ -61,8 +61,10 @@ INSTALLED_APPS = [
     'applications',
     'weather',
     'utm_messages',
+
+    # 'djcelery',
+    # 'pushy',
     'notams',
-    'notifications',
 
 ]
 
@@ -248,11 +250,3 @@ PWA_APP_ICONS = [
 
 ]
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR,  'static/pwabuilder-sw.js')
-
-
-
-WEBPUSH_SETTINGS = {
-    "VAPID_PUBLIC_KEY": "BFfW-MIg-7oCHy0Wxe5_bVJlM0mhLEuKHSUz5Cub8ZDPZWhqX9Phc9QUjlwhL8A7go76pA9kzlxVcMQ-1R9h1Xc",
-    "VAPID_PRIVATE_KEY":"LzjOEfKkkUYuGn3ni7BZ1Ku0OwI11vbAMukb6bESL2U",
-    "VAPID_ADMIN_EMAIL": "geoffreynyagak@gmail.com"
-}

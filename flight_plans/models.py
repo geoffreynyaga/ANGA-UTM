@@ -87,7 +87,7 @@ class FlightLog(models.Model):
     post_flight  = models.ForeignKey(MissionWrap,blank=True, null=True,on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.reserve_airspace.application_number)
+    	return str(self.reserve_airspace.application_number)
 
     def save(self, *args, **kwargs):
 
@@ -110,6 +110,7 @@ class FlightLog(models.Model):
             self.emmergency_info = x
 
         super(FlightLog,self).save(*args,**kwargs)
+
 
     def get_absolute_url(self):
         return reverse("log_detail", kwargs={"pk":self.pk})
@@ -146,16 +147,19 @@ class FlightLog(models.Model):
 
         damages = self.post_flight.damages
         comments = self.post_flight.comments
+        mission_success = self.post_flight.mission_success
 
         fields = [damages,comments]
         initial_count = int(len(fields))
         fin = []
         for field in fields:
-            if field == '' or field is None:
+            if field == '' or field == None:
                 fin.append(field)
         final_count = int(len(fin))
         progress = ((initial_count-final_count)/initial_count)*100
         return progress
+
+
 
 ###############################################################################
 class Checklist(models.Model):
@@ -172,7 +176,7 @@ class Checklist(models.Model):
     connection_check     = models.TextField(max_length = 200)
 
     def __str__(self):
-        return self.rpas_model.model_name
+    	return self.rpas_model.model_name
 
     def get_absolute_url(self):
         return reverse("checklist_detail", kwargs={"pk":self.pk})
