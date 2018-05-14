@@ -10,7 +10,6 @@ from django.http import HttpResponseRedirect
 
 from django.urls import reverse
 
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import UserProfile
@@ -20,12 +19,14 @@ from .forms import UserForm
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
 from . import forms
+
 # Create your views here.
+
 
 class LoginView(generic.FormView):
     form_class = AuthenticationForm
     success_url = reverse_lazy('view_airspace')
-    template_name= "accounts/login.html"
+    template_name = "accounts/login.html"
 
     def get_form (self, form_class=None):
         if form_class is None:
@@ -36,9 +37,11 @@ class LoginView(generic.FormView):
         login(self.request, form.get_user())
         return super().form_valid(form)
 
+
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/account/login')
+
 
 class SignUp(generic.CreateView):
     form_class = forms.UserCreateForm
@@ -95,7 +98,6 @@ def edit_user(request, pk):
 #         myflightlogs = FlightLog.objects.filter(user = request.user)
 #         args = {'myrpas': myrpas, 'myflightlogs':myflightlogs}
 #         return render(request, self.template_name ,args)
-
 
 
 class ViewProfile(LoginRequiredMixin,generic.DetailView):

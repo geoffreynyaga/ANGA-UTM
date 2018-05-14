@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{%load static %}
+
+{% load webpush_notifications %}
+
+{% block head %}
+
+  <title> Notifications</title>
+
+    <!--{% webpush %}-->
+
+{%endblock%}
+
+{%block body%}
+
+{% webpush_button %}
+
+<p> Hello World! </p>
+
+
+
+{%endblock%}

@@ -1,12 +1,8 @@
 from django.shortcuts import render
 
-
-
 from django.views.generic import (ListView,DetailView,
-                                CreateView,UpdateView,DeleteView)
+                                  CreateView,UpdateView)
 from django.views.generic.base import TemplateView
-
-
 
 from .models import ReserveAirspace,LogsUpload
 from .forms import ReserveAirspaceForm,AppliedReserveAirspaceUpdateForm,LogsUploadForm
@@ -20,8 +16,10 @@ from django.http import HttpResponseRedirect
 from djgeojson.views import GeoJSONLayerView
 from datetime import datetime
 
+
 class ReserveAirspaceMainView(TemplateView):
     template_name = 'applications/includes/reserve_main.html'
+
 
 class ReserveAirspaceCreateView(CreateView):
     form_class = ReserveAirspaceForm
@@ -35,6 +33,11 @@ class ReserveAirspaceCreateView(CreateView):
             reserveairspace.save()
             return HttpResponseRedirect(self.success_url)
 
+    def get_form_kwargs(self):
+        kwargs = super(ReserveAirspaceCreateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
 
 class ReserveAirspaceListView(ListView):
     context_object_name = 'my_reserves'
@@ -44,27 +47,30 @@ class ReserveAirspaceListView(ListView):
         return ReserveAirspace.objects.filter(created_by=self.request.user)
 
 ##############################################################################################
-#this one will just output all datasets to template
+
+
+# this one will just output all datasets to template
 def my_reserve_datasets(request):
     airspace = serialize('geojson', ReserveAirspace.objects.filter(created_by=request.user))
     return HttpResponse(airspace, content_type='json')
 
-#this one you have to pass on a pk in template to access a single instance
+# this one you have to pass on a pk in template to access a single instance
 def my_airspace_datasets(request,pk):
     my_reserve_airspace = ReserveAirspace.objects.filter(pk=pk)
     path = serialize('geojson', my_reserve_airspace)
     return HttpResponse(path, content_type='json')
 ################################################################################################
 
+
 class ReserveAirspaceDetailView(DetailView):
     model = ReserveAirspace
     template_name = 'applications/reserveairspace_detail.html'
+
 
 class ReserveAirspaceUpdateView(UpdateView):
     template_name = 'applications/update_my_airspace.html'
     model = ReserveAirspace
     form_class = ReserveAirspaceForm
-
 
 
 def view_airspace(request):

@@ -12,6 +12,6 @@ class FlightLogCreateForm(forms.ModelForm):
                 'pre_flight','post_flight')
 
     def __init__(self, *args,**kwargs):
-        user = kwargs.pop('user',None) #apparentl i'm popping the user from kwargs dictionary
+        user = kwargs.pop('user',None) #apparently i'm popping the user from kwargs dictionary
         super(FlightLogCreateForm, self).__init__(*args,**kwargs)
         self.fields['reserve_airspace']=forms.ModelChoiceField(queryset=ReserveAirspace.objects.filter(created_by=user).order_by('-id')[:3])

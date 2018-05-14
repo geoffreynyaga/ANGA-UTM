@@ -1,7 +1,5 @@
 from django.db import models
 
-from djgeojson.fields import PolygonField
-
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models as gis_models
 from django.core.urlresolvers import reverse
@@ -29,14 +27,13 @@ class LogsUpload(models.Model):
         from django.contrib.gis.geos import LineString, MultiLineString
         super(LogsUpload,self).save(*args,**kwargs)
         if self.log:
-            url = self.log.path
-            DATA =  mission_planner_logs(url)
+            url  = self.log.path
+            DATA = mission_planner_logs(url)
             line = LineString(DATA)
             multi_line = MultiLineString(line)
             self.geom = multi_line
 
         super(LogsUpload,self).save(*args,**kwargs)
-
 
 
 class ReserveAirspace(gis_models.Model):
@@ -82,7 +79,6 @@ class ReserveAirspace(gis_models.Model):
 
     def save(self, *args, **kwargs):
 
-
         self.centroid = self.geom.centroid
         super(ReserveAirspace,self).save(*args,**kwargs)
 
@@ -90,7 +86,6 @@ class ReserveAirspace(gis_models.Model):
             x = "FP/KCAA/ROC/"
             y = self.pk
             self.application_number = x + str(y)
-
 
         elif self.created_by.userprofile.organization.organization_type == 'REC':
             x = "FP/KCAA/REC/"
@@ -112,11 +107,10 @@ class ReserveAirspace(gis_models.Model):
             y = self.pk
             self.application_number = x + str(y)
 
-
         saving_time = self.date_modified - self.date_created
         saving_time_seconds = saving_time.total_seconds()
 
-        #saving time to be less than 6 minutes
+        # saving time to be less than 6 minutes
         if (saving_time_seconds/60) < 6:
             from flight_plans.models import FlightLog
             x = FlightLog.objects.create(
@@ -124,9 +118,16 @@ class ReserveAirspace(gis_models.Model):
                 user_id=self.created_by.pk
                 )
             x.save()
+
+        # if self.status == 1:
+        #     from notifications.send_a_notification import send_a_notification
+        #     send_a_notification(self.created_by,"Your flight has been Rejected Flight",str(self.comments))
+        # elif self.status == 2:
+        #     from notifications.send_a_notification import send_a_notification
+        #     x = mark_safe('<a href="/applications/airspace/"> Go To Airspace</a>')
+        #     send_a_notification(self.created_by, x, str(self.comments))
+
         super(ReserveAirspace,self).save(*args,**kwargs)
-
-
 
     def clean(self):
         super(ReserveAirspace, self).clean()
@@ -144,7 +145,6 @@ class ReserveAirspace(gis_models.Model):
             if (d/3600) < 4:
                 four_hours_from_now = datetime.now() + timedelta(hours=4)
                 raise ValidationError("Cannot book airspace less than four hours to take-off! Try from " '{:%H:%M:%S}'.format(four_hours_from_now) )
-
 
         if self.geom:
             reserve_qs  = ReserveAirspace.objects.all().exclude(pk=self.pk).filter(geom__intersects=self.geom)
@@ -182,15 +182,6 @@ class ReserveAirspace(gis_models.Model):
                          + '<b>' + str(e) + '<br> '
                          + '<hr>' +  '<a href="/applications/airspace/">Go To Airspace</a>'
 
-                         # + '<table>'
-                         #    +   '<tr>'
-                         #            + '<td>' + e[0] + '</td>'
-                         #            +'</tr>'
-                         #    +   '<tr>'
-                         #            + '<td>' + e[1] + '</td>'
-                         #            +'</tr>'
-                         #
-                         #    +'</table>'
                          )
                          ))
 
@@ -199,7 +190,6 @@ class ReserveAirspace(gis_models.Model):
             # geom_area = loc_obj.area_ * 12365.1613 * 10**6
             if x > 9:
                 raise ValidationError('This Airspace is greater than the recommended value of 9sq km')
-
 
     def dist_from_airports(self):
         dis = GeofenceLocations.objects.all()
@@ -220,7 +210,7 @@ class ReserveAirspace(gis_models.Model):
 
 
     def __str__(self):
-    	return str(self.application_number)
+        return str(self.application_number)
 
     def get_start_datetime(self):
         booking_schedule = datetime.combine(self.start_day, self.start_time)
@@ -264,7 +254,7 @@ class ReserveAirspace(gis_models.Model):
         end_datetime = datetime.combine(self.start_day, self.end)
         deadline =  end_datetime + timedelta(days=2)
         return deadline
-    
+
     @property
     def get_user_profile_pic(self):
         return str(self.created_by.userprofile.profile_pic.url)
