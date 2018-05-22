@@ -35,8 +35,8 @@ class AllCompanyFlightLogs(ListView):
                 if not user in refined_user_list:
                     refined_user_list.append(user)
 
-        all_company_logs = []
 
+        all_company_logs = []
         for org_user in refined_user_list:
             x = (FlightLog.objects.filter(user=org_user))
             if x:
