@@ -13,6 +13,7 @@
 
 <div class="row">
 welcome {{request.user}},
+<p></p>
 
     <div class="col-md-4">
         <!-- Widget: user widget style 1 -->
@@ -46,9 +47,6 @@ welcome {{request.user}},
             </div>
             <div class="box-footer no-padding">
                 <ul class="nav nav-stacked">
-                    {{all_company_logs}}
-                    <p></p>
-                    {{all_employees}}
                     {% for all_company_log in all_company_logs %}
                     <li>
                         <a href="#">{{all_company_log}}  by {{all_company_log.reserve_airspace.created_by}}
