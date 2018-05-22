@@ -12,7 +12,7 @@ from django.views.generic import (ListView,DetailView,
                                 CreateView,UpdateView,DeleteView,)
 from django.http import HttpResponse
 
-from .forms import FlightLogCreateForm
+# from .forms import FlightLogCreateForm
 from .models import (FlightLog,Checklist,EmmergencyInfo,PreFlight,MissionWrap)
 
 from rpas.models import Rpas
@@ -59,7 +59,6 @@ class FlightLogListView(LoginRequiredMixin,ListView):
         return queryset
 
 
-
 class FlightLogDetailView(DetailView):
     model = FlightLog
     template_name = 'flight_plans/flightlog_detail.html'
@@ -69,19 +68,19 @@ class FlightLogUpdateView(UpdateView):
     fields = ('emmergency_info',
                 'pre_flight','post_flight')
     model = FlightLog
-    template_name = 'flight_plans/edit_flightlog.html'
+    template_name = 'flight_plans/flightlog_update.html'
 
 
-class FlightLogCreateView(LoginRequiredMixin,CreateView):
-    model = FlightLog
-    template_name = 'flight_plans/create_flightlog.html'
-    form_class = FlightLogCreateForm
-    # paginate_by = 1
+# class FlightLogCreateView(LoginRequiredMixin,CreateView):
+#     model = FlightLog
+#     template_name = 'flight_plans/create_flightlog.html'
+#     form_class = FlightLogCreateForm
+#     # paginate_by = 1
 
-    def get_form_kwargs(self):
-        kwargs = super(FlightLogCreateView,self).get_form_kwargs()
-        kwargs['user'] = self.request.user #passing the 'user' in kwargs
-        return kwargs
+#     def get_form_kwargs(self):
+#         kwargs = super(FlightLogCreateView,self).get_form_kwargs()
+#         kwargs['user'] = self.request.user #passing the 'user' in kwargs
+#         return kwargs
 
 class PostFlightUpdateView(UpdateView):
     fields = ('damages','comments','mission_success')
@@ -101,6 +100,9 @@ class EmmergencyInfoUpdateView(UpdateView):
                 'other',)
     model = EmmergencyInfo
     template_name = 'flight_plans/update_emergency_info.html'
+
+    # def get_absolute_url(self):
+    #     return reverse("log_detail", kwargs={"pk":self.pk})
 ###################### END FLIGHTLOGS ##########################################
 
 ###################### CHECKLISTS ##############################################

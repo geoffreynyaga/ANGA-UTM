@@ -23,7 +23,7 @@ class PreFlight(models.Model):
     	return str(self.est_flight_time)
 
     def get_absolute_url(self):
-        return reverse("logs_add")
+        return reverse("logs_list")
 
 class BatteryLog(models.Model):
 
@@ -60,7 +60,7 @@ class EmmergencyInfo(models.Model):
     	return str(self.security_service)
 
     def get_absolute_url(self):
-        return reverse("logs_add")
+        return reverse("logs_list")
 
 
 class MissionWrap(models.Model):

@@ -4,7 +4,7 @@ from . import views
 from djgeojson.views import GeoJSONLayerView
 
 urlpatterns = [
-        url(r'^add/$', views.FlightLogCreateView.as_view(), name='logs_add'),
+        # url(r'^add/$', views.FlightLogCreateView.as_view(), name='logs_add'),
 
         url(r'^logs/$', views.FlightLogListView.as_view(), name='logs_list'),
         url(r'^logs/(?P<pk>\d+)/$' , views.FlightLogDetailView.as_view(), name='log_detail'),
