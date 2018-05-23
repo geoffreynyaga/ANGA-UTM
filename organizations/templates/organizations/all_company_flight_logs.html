@@ -12,17 +12,24 @@
 <section class='content'>
 
 <div class="row">
-welcome {{request.user}},
-<p></p>
+    <div class="col-xs-8">
+        <p>Welcome {{request.user.first_name}},</p>
+    </div>
+    
+</div>
+
+<div class="row">
+    
 
     <div class="col-md-4">
         <!-- Widget: user widget style 1 -->
         <div class="box box-widget widget-user-2">
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-yellow">
-                <h5>My Affiliated Companies</h5>
+                <h5>My Postholds</h5>
             </div>
-            <div class="box-footer no-padding">
+            <div class="box-footer">
+                {% if my_postholds %}
                 <ul class="nav nav-stacked">
                      {% for my_posthold in my_postholds %}
                     <li>
@@ -32,6 +39,26 @@ welcome {{request.user}},
                     </li>
                     {% endfor %}
                 </ul>
+                {% else %}
+                <p>You currently have no approved positions</p>
+                <p>Kindly communicate to your company admin to do so</p>
+
+                {%endif%}
+
+                {% if my_role == 'managerial' %}
+                <hr>
+
+                    <span class='pull-right'>
+                        <a href="{% url 'postholder_create'%}">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            Create A Position
+                        </a>
+                    </span>
+                        
+
+                {% endif %}
+
+                
             </div>
         </div>
         <!-- /.widget-user -->

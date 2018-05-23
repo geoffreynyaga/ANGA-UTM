@@ -131,6 +131,8 @@ class ReserveAirspace(gis_models.Model):
 
     def clean(self):
         super(ReserveAirspace, self).clean()
+        """ Do i really need the super method above?
+        """
 
         if self.start_time and self.end:
             booking_time = datetime.combine(date.min, self.end) - datetime.combine(date.min, self.start_time)

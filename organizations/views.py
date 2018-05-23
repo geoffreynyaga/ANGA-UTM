@@ -1,7 +1,11 @@
 from django.shortcuts import render
-
+from django.http import HttpResponseRedirect
 from django.views.generic import (ListView,DetailView,
                                 CreateView,UpdateView,DeleteView,TemplateView)
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.contrib.auth.models import User
 
 from .models import Organization,PostHolder
 
@@ -42,6 +46,11 @@ class AllCompanyFlightLogs(ListView):
             if x:
                 for log in x:
                     all_company_logs.append(log)
+        
+        all_user_postholds = PostHolder.objects.filter(user = self.request.user)
+        for posthold in all_user_postholds:
+            if posthold.role == 'Man':
+                context['my_role']   = "managerial"
 
         context['my_affiliate_companies'] = Organization.objects.filter(users=self.request.user)
         context['my_postholds']           = PostHolder.objects.filter(user=self.request.user)
@@ -51,3 +60,29 @@ class AllCompanyFlightLogs(ListView):
 
 
         return context
+
+class PostHolderCreateView(LoginRequiredMixin,CreateView):
+    model = PostHolder
+    template_name = 'organizations/postholder_create.html'
+    fields = ('user','organization','role')
+    success_url = reverse_lazy('all_company_flight_logs')
+    # form_class = FlightLogCreateForm
+    # paginate_by = 1
+
+    # def get_form_kwargs(self):
+    #     kwargs = super(PostHolderCreateView,self).get_form_kwargs()
+    #     kwargs['current_user'] = self.request.user #passing the 'user' in kwargs
+    #     return kwargs
+
+    def form_valid(self, form):
+        form = form
+        # reserveairspace.created_by = User.objects.get(username=self.request.user)  # use your own profile here
+        # reserveairspace.save()
+        from utm_messages.models import UserToUserMessages
+        UserToUserMessages.objects.create(title="New Position", 
+                                        text=f"Congratulations on being appointed the newest position of  {form.data['role']} in {Organization.objects.get(pk = form.data['organization'])} ",
+                                        sender = self.request.user,
+                                        receiver=User.objects.get(pk = form.data['user'])
+                                        )
+        form.save()
+        return HttpResponseRedirect(self.success_url)

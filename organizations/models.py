@@ -1,6 +1,8 @@
 from django.db import models
 
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.core.exceptions import ValidationError
 
 
 class OrganizationDetails(models.Model):
@@ -79,3 +81,31 @@ class PostHolder(models.Model):
     def __str__(self):
     	return self.role
 
+    def get_absolute_url(self):
+        return reverse("all_company_flight_logs")
+
+    def clean(self):
+        """ Need to remove the blank=True and null=True in organization as this will bring logical proborganizationlems 
+            when trying to use clean and validation for both postholder and organization
+
+            --FIXED by using the clean method below to ascertain organization is an input
+        """
+        if not self.organization:
+            raise ValidationError("Kindly select the organization from the dropdown")
+
+        if self.user and self.organization:
+            """ Doesnt make sense having the if statement cz user must be input and the above clean method 
+                ascertains there must be an organization
+            """
+            x = PostHolder.objects.filter(user = self.user)
+            for posthold in x:
+                if posthold.role == self.role and posthold.organization == self.organization:
+                    raise ValidationError('This user has this position already!')
+    
+    def save(self,*args,**kwargs):
+
+        from notifications.models import Notifications
+        Notifications.objects.create(title="New Position",receiver=self.user)
+        
+
+        super(PostHolder,self).save(*args,**kwargs)
