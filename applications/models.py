@@ -2,85 +2,107 @@ from django.db import models
 
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models as gis_models
-from django.core.urlresolvers import reverse
-
-from rpas.models import Rpas
-
-from maps.models import GeofenceLocations,LocationPoints
-from datetime import datetime, date, timedelta
-
-from .validators import validate_start_date
 from django.core.exceptions import ValidationError
-
+from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
+from datetime import datetime, date, timedelta
+
+from maps.models import GeofenceLocations, LocationPoints
+from rpas.models import Rpas
 
 from .logs import mission_planner_logs
+from .validators import validate_start_date
 
 
 class LogsUpload(models.Model):
     name = models.CharField(max_length=240)
-    geom  = gis_models.GeometryField(blank=True, null=True)
-    log = models.FileField(upload_to='mission-planner-logs/', blank=True, null=True)
+    geom = gis_models.GeometryField(blank=True, null=True)
+    log = models.FileField(
+        upload_to='mission-planner-logs/', blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        from django.contrib.gis.geos import LineString, MultiLineString
-        super(LogsUpload,self).save(*args,**kwargs)
+        super(LogsUpload, self).save(*args, **kwargs)
+
         if self.log:
-            url  = self.log.path
+            from django.contrib.gis.geos import LineString, MultiLineString
+            url = self.log.path
             DATA = mission_planner_logs(url)
             line = LineString(DATA)
             multi_line = MultiLineString(line)
+
             self.geom = multi_line
 
-        super(LogsUpload,self).save(*args,**kwargs)
+        super(LogsUpload, self).save(*args, **kwargs)
 
 
 class ReserveAirspace(gis_models.Model):
-
-    geom    = gis_models.PolygonField()
+    geom = gis_models.PolygonField(blank=True, null=True)
+    log = models.FileField(
+        upload_to='mission-planner-logs/', blank=True, null=True)
     objects = gis_models.GeoManager()
-    rpas    = models.ForeignKey(Rpas)
-    date_created  = models.DateTimeField(auto_now_add=True)
+    rpas = models.ForeignKey(Rpas)
+    date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    start_day  = models.DateField(default=date.today, validators=[validate_start_date])
-    start_time = models.TimeField( help_text='HH:MM:SS')
-    end        = models.TimeField(help_text='HH:MM:SS')
+    start_day = models.DateField(
+        default=date.today, validators=[validate_start_date])
+    start_time = models.TimeField(help_text='HH:MM:SS')
+    end = models.TimeField(help_text='HH:MM:SS')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    PENDING  = 0
-    DENIED   = 1
+    PENDING = 0
+    DENIED = 1
     APPROVED = 2
     STATUS = (
-        (PENDING,"PENDING"),
-        (DENIED,"DENIED"),
+        (PENDING, "PENDING"),
+        (DENIED, "DENIED"),
         (APPROVED, "APPROVED"),
     )
 
     OBJECTIVE = (
-            ('TRAIN', 'Training'),
-            ('MAPP', 'Mapping'),
-            ('3DM', '3D Mapping'),
-            ('DELV', 'Delivery'),
-            ('INSP', 'Inspection'),
-            ('SURV', 'Surveillance'),
-            ('REC', 'Recreational'),
-            ('OTH', 'Other'),
+        ('TRAIN', 'Training'),
+        ('MAPP', 'Mapping'),
+        ('3DM', '3D Mapping'),
+        ('DELV', 'Delivery'),
+        ('INSP', 'Inspection'),
+        ('SURV', 'Surveillance'),
+        ('REC', 'Recreational'),
+        ('OTH', 'Other'),
 
-        )
-    mission_type  = models.CharField(max_length=5, choices=OBJECTIVE, null=False, default='OTH')
+    )
+    mission_type = models.CharField(
+        max_length=5, choices=OBJECTIVE, null=False, default='OTH')
 
-    application_number = models.CharField(max_length = 255, blank=True, null=True)
-    status = models.IntegerField(default=0,choices=STATUS, blank=True, null=True)
-    reason = models.CharField(max_length = 255, blank=True, null=True, help_text='If Rejected: Reason for Rejecting')
-    comments = models.TextField(blank=True, null=True, help_text='Additional Comments, if any ')
-    centroid = gis_models.PointField(blank=True,null=True)
+    application_number = models.CharField(
+        max_length=255, blank=True, null=True)
+    status = models.IntegerField(
+        default=0, choices=STATUS, blank=True, null=True)
+    reason = models.CharField(max_length=255, blank=True,
+                              null=True, help_text='If Rejected: Reason for Rejecting')
+    comments = models.TextField(
+        blank=True, null=True, help_text='Additional Comments, if any ')
+    centroid = gis_models.PointField(blank=True, null=True)
     expiry = gis_models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
 
-        self.centroid = self.geom.centroid
-        super(ReserveAirspace,self).save(*args,**kwargs)
+        if self.geom:
+            self.centroid = self.geom.centroid
+
+        super(ReserveAirspace, self).save(*args, **kwargs)
+
+        if self.log:
+            from django.contrib.gis.geos import LineString, MultiLineString
+            url = self.log.path
+            DATA = mission_planner_logs(url)
+            line = LineString(DATA)
+            multi_line = MultiLineString(line)
+            multi_line_to_polygon = multi_line.convex_hull
+            # print(multi_line, "this is the multi line ")   Returns a multilinestring
+            # print(multi_line.convex_hull, "this is the convex ")  Converts the multilinestring to polygon
+            self.geom = multi_line_to_polygon
+
+            self.centroid = self.geom.centroid
 
         if self.created_by.userprofile.organization.organization_type == 'ROC':
             x = "FP/KCAA/ROC/"
@@ -111,12 +133,12 @@ class ReserveAirspace(gis_models.Model):
         saving_time_seconds = saving_time.total_seconds()
 
         # saving time to be less than 6 minutes
-        if (saving_time_seconds/60) < 6:
+        if (saving_time_seconds / 60) < 6:
             from flight_plans.models import FlightLog
             x = FlightLog.objects.create(
-                reserve_airspace_id = self.pk,
+                reserve_airspace_id=self.pk,
                 user_id=self.created_by.pk
-                )
+            )
             x.save()
 
         # if self.status == 1:
@@ -127,7 +149,7 @@ class ReserveAirspace(gis_models.Model):
         #     x = mark_safe('<a href="/applications/airspace/"> Go To Airspace</a>')
         #     send_a_notification(self.created_by, x, str(self.comments))
 
-        super(ReserveAirspace,self).save(*args,**kwargs)
+        super(ReserveAirspace, self).save(*args, **kwargs)
 
     def clean(self):
         super(ReserveAirspace, self).clean()
@@ -135,35 +157,51 @@ class ReserveAirspace(gis_models.Model):
         """
 
         if self.start_time and self.end:
-            booking_time = datetime.combine(date.min, self.end) - datetime.combine(date.min, self.start_time)
+            booking_time = datetime.combine(
+                date.min, self.end) - datetime.combine(date.min, self.start_time)
             c = booking_time.total_seconds()
-            if (c/3600) > 3:
-                raise ValidationError('Cannot book airspace for more three hours!')
-            elif (c/3600) < 0:
-                raise ValidationError("Cmon man!! You can not start a flight at " '{:%H:%M:%S}'.format(self.start_time)  +  " and then GO BACK IN TIME to "  + '{:%H:%M:%S}'.format(self.end) + " to end your flight")
+            if (c / 3600) > 3:
+                raise ValidationError(
+                    'Cannot book airspace for more three hours!')
+            elif (c / 3600) < 0:
+                raise ValidationError("Cmon man!! You can not start a flight at " '{:%H:%M:%S}'.format(
+                    self.start_time) + " and then GO BACK IN TIME to " + '{:%H:%M:%S}'.format(
+                    self.end) + " to end your flight")
 
-            booking_schedule = datetime.combine(self.start_day, self.start_time) - datetime.now()
+            booking_schedule = datetime.combine(
+                self.start_day, self.start_time) - datetime.now()
             d = booking_schedule.total_seconds()
-            if (d/3600) < 4:
+            if (d / 3600) < 4:
                 four_hours_from_now = datetime.now() + timedelta(hours=4)
-                raise ValidationError("Cannot book airspace less than four hours to take-off! Try from " '{:%H:%M:%S}'.format(four_hours_from_now) )
+                raise ValidationError(
+                    "Cannot book airspace less than four hours to take-off! Try from " '{:%H:%M:%S}'.format(
+                        four_hours_from_now))
 
         if self.geom:
-            reserve_qs  = ReserveAirspace.objects.all().exclude(pk=self.pk).filter(geom__intersects=self.geom)
-            geo_qs      = GeofenceLocations.objects.filter(geom__intersects=self.geom)
-            airports_qs = LocationPoints.objects.filter(geom__intersects=self.geom)
+            reserve_qs = ReserveAirspace.objects.all().exclude(
+                pk=self.pk).filter(geom__intersects=self.geom)
+            geo_qs = GeofenceLocations.objects.filter(
+                geom__intersects=self.geom)
+            airports_qs = LocationPoints.objects.filter(
+                geom__intersects=self.geom)
             if reserve_qs or geo_qs or airports_qs:
                 e = []
                 for qs in reserve_qs:
-                    if  self.start_time and self.end:
-                        booking_time_start = datetime.combine(self.start_day, self.start_time)
-                        booking_time_end = datetime.combine(self.start_day, self.end)
+                    if self.start_time and self.end:
+                        booking_time_start = datetime.combine(
+                            self.start_day, self.start_time)
+                        booking_time_end = datetime.combine(
+                            self.start_day, self.end)
 
-                        booking_time_qs_start = datetime.combine(qs.start_day, qs.start_time)
-                        booking_time_qs_end = datetime.combine(qs.start_day, qs.end)
+                        booking_time_qs_start = datetime.combine(
+                            qs.start_day, qs.start_time)
+                        booking_time_qs_end = datetime.combine(
+                            qs.start_day, qs.end)
 
                         if booking_time_qs_start < booking_time_start < booking_time_qs_end:
-                            error = str(qs.get_name + "'s" + " " + "Airspace" + "" + "(Kindly  book after the current mission ends, try from " + qs.get_start_day + "  "+ booking_time_qs_end.strftime("%H:%M:%S")  )
+                            error = str(
+                                qs.get_name + "'s" + " " + "Airspace" + "" + "(Kindly  book after the current mission ends, try from " +
+                                qs.get_start_day + "  " + booking_time_qs_end.strftime("%H:%M:%S"))
                             e.append(error)
 
                 for qs in geo_qs:
@@ -178,38 +216,38 @@ class ReserveAirspace(gis_models.Model):
                     raise ValidationError(
 
                         ((mark_safe
-                        ('Cannot book airspace in this zone!!'+
-                        "You have violed the folowing Airspace(s)"
-                          + '<hr>' + '<p></p>'
-                         + '<b>' + str(e) + '<br> '
-                         + '<hr>' +  '<a href="/applications/airspace/">Go To Airspace</a>'
+                          ('Cannot book airspace in this zone!!' +
+                           "You have violed the folowing Airspace(s)"
+                           + '<hr>' + '<p></p>'
+                           + '<b>' + str(e) + '<br> '
+                           + '<hr>' + '<a href="/applications/airspace/">Go To Airspace</a>'
 
-                         )
-                         ))
+                           )
+                          ))
 
-                            )
+                    )
             x = self.geom.area * 12365.1613
             # geom_area = loc_obj.area_ * 12365.1613 * 10**6
             if x > 9:
-                raise ValidationError('This Airspace is greater than the recommended value of 9sq km')
+                raise ValidationError(
+                    'This Airspace is greater than the recommended value of 9sq km')
 
     def dist_from_airports(self):
         dis = GeofenceLocations.objects.all()
         fin = {}
         for x in dis:
-            y = self.centroid.distance(x.centroid)/111 *10000
-            if y<15:
+            y = self.centroid.distance(x.centroid) / 111 * 10000
+            if y < 15:
                 fin.update({x.name: y})
         return fin
 
     def get_area(self):
         x = self.geom.area * 12365.1613
-        return round(x,3)  #sq km
+        return round(x, 3)  # sq km
 
     def get_perimeter(self):
         x = self.geom.length * 111
-        return round(x,2) #km
-
+        return round(x, 2)  # km
 
     def __str__(self):
         return str(self.application_number)
@@ -254,7 +292,7 @@ class ReserveAirspace(gis_models.Model):
     @property
     def get_log_completion_deadline(self):
         end_datetime = datetime.combine(self.start_day, self.end)
-        deadline =  end_datetime + timedelta(days=2)
+        deadline = end_datetime + timedelta(days=2)
         return deadline
 
     @property

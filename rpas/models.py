@@ -1,11 +1,10 @@
 from django.db import models
+# from django.db.models.signals import post_save
 
 from django.contrib.auth.models import User
-
-# from django.db.models.signals import post_save
 from django.core.urlresolvers import reverse
 
-from django.utils import timezone
+# from django.utils import timezone
 
 from organizations.models import Organization
 
@@ -17,7 +16,7 @@ class Manufacturer(models.Model):
     logo = models.ImageField(upload_to = 'images/logo/manufacturer',  blank=True, null=True)
 
     def __str__(self):
-    	return self.name
+        return self.name
 
     def get_absolute_url(self,*args,**kwargs):
         return reverse('rpas_add')
@@ -47,7 +46,7 @@ class RpasModel(models.Model):
     manufacturer = models.ForeignKey(Manufacturer,on_delete=models.CASCADE,blank=True, null=True)
     rpas_model_type = models.ForeignKey(RpasModelType,on_delete=models.CASCADE,blank=True, null=True)
 
-    """" come up with unique dropdown for modelname, 
+    """" TODO: come up with unique dropdown for modelname, 
     unique=true doesnt work since its users who create
     """
 
@@ -70,7 +69,7 @@ class Battery(models.Model):
     batt_number = models.IntegerField()
 
     def __str__(self):
-    	return self.batt_name
+        return self.batt_name
 
     def get_absolute_url(self,*args,**kwargs):
         return reverse('rpas_add')
@@ -90,7 +89,7 @@ class PayloadModelType(models.Model):
     payload_type = models.CharField(max_length=5, choices=PAYLOAD_TYPE,null=False)
 
     def __str__(self):
-    	return str(self.payload_type)
+        return str(self.payload_type)
 
     def get_absolute_url(self,*args,**kwargs):
         return reverse('rpas_add')
@@ -105,7 +104,7 @@ class PayloadModel(models.Model):
     payload_weight = models.CharField(max_length = 20)
 
     def __str__(self):
-    	return str(self.payload_name)
+        return str(self.payload_name)
 
     def get_absolute_url(self,*args,**kwargs):
         return reverse('rpas_add')
@@ -118,7 +117,7 @@ class Payload(models.Model):
     payload_nickname = models.CharField(max_length = 20,blank=True, null=True, help_text='if any.....')
 
     def __str__(self):
-    	return str(self.payload_serial)
+        return str(self.payload_serial)
 
     def get_absolute_url(self,*args,**kwargs):
         return reverse('rpas_list')
@@ -158,7 +157,6 @@ class Rpas(models.Model):
 
         super(Rpas,self).save(*args,**kwargs)
 
-
     def get_absolute_url(self):
         return reverse("log_detail", kwargs={"pk":self.pk})
 
@@ -186,7 +184,6 @@ class Rpas(models.Model):
         progress = (final_count/initial_count)*100
         return round(progress,1)
 
-
     def get_payload_completion(self):
 
         payload_model  = self.payload.payload_model
@@ -196,7 +193,7 @@ class Rpas(models.Model):
         fields = [payload_model,payload_serial,payload_nickname]
         initial_count = int(len(fields))
         for field in fields:
-            if field == '' or field == None:
+            if field == '' or field == None:  # FIXME: PYCHARM suggests that its: field is None
                 fields.remove(field)
         final_count = int(len(fields))
         progress = (final_count/initial_count)*100

@@ -1,9 +1,9 @@
 from django.conf.urls import url
-from . import views
 
 from djgeojson.views import GeoJSONLayerView
-from .models import GeofenceLocations,LocationPoints,Obstacles
 
+from .models import GeofenceLocations,LocationPoints,Obstacles
+from . import views
 
 urlpatterns = [
         url(r'^$', views.view_maps, name='view_maps'),

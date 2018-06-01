@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.gis.db import models as gis_models
 
-from djgeojson.fields import PolygonField
+# from djgeojson.fields import PolygonField
 
 
 class LocationPoints(gis_models.Model):
@@ -19,9 +19,8 @@ class LocationPoints(gis_models.Model):
 
     objects = gis_models.GeoManager()
 
-
     def __str__(self):
-    	return self.name
+        return self.name
 
     def save(self, *args, **kwargs):
         center = self.location
@@ -42,7 +41,7 @@ class GeofenceLocations(gis_models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-    	return self.name
+        return self.name
 
 
 class Obstacles(gis_models.Model):
@@ -61,7 +60,6 @@ class Obstacles(gis_models.Model):
     geom = gis_models.GeometryField()
     status = gis_models.BooleanField(default=False)
 
-
     def save(self, *args, **kwargs):
         if self.geom.geom_type == 'Point':
             center = self.geom
@@ -70,10 +68,9 @@ class Obstacles(gis_models.Model):
             self.geom = circle
         super().save(*args, **kwargs)
 
-
     def __str__(self):
-    	return self.get_obstacle_type_display()
+        return self.get_obstacle_type_display()
 
     @property
     def type(self):
-    	return str(self.get_obstacle_type_display())
+        return str(self.get_obstacle_type_display())

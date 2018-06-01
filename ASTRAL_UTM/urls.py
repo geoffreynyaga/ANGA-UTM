@@ -17,9 +17,12 @@ from django.conf.urls import url,include
 from django.contrib import admin
 
 from django.conf import settings
+from django.conf.urls import handler404, handler500
 from django.conf.urls.static import static
+
 from django.views.static import serve
 
+from accounts.views import error_404, error_500
 from rpas import views
 
 from applications.views import view_airspace
@@ -65,3 +68,6 @@ if settings.DEBUG:
         url(r'^__debug__/', include(debug_toolbar.urls)),
 
     ] + urlpatterns
+
+handler404 = error_404
+handler500 = error_500

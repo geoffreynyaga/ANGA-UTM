@@ -1,9 +1,10 @@
 from django import forms
 
-from .models import LocationPoints,Obstacles
-from django.forms import widgets
+# from django.forms import widgets
 
 from applications.forms import ExtLeafletWidget
+
+from .models import LocationPoints,Obstacles
 
 
 class LocationPointsForm(forms.ModelForm):

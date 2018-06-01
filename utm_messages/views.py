@@ -1,11 +1,12 @@
-from django.shortcuts import render
-from django.views.generic import (ListView,DetailView,
-                                CreateView,UpdateView,DeleteView,TemplateView)
+# from django.shortcuts import render
+
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from .models import UserToUserMessages
+from django.views.generic import (ListView,DetailView,CreateView,TemplateView)
+
 from .forms import UserToUserMessagesForm
-# Create your views here.
+from .models import UserToUserMessages
+
 
 class MessagesCreateView(CreateView):
     form_class = UserToUserMessagesForm
@@ -58,8 +59,8 @@ class MessageDetailView(DetailView):
         return obj
 
 
-class MessagesMainView(TemplateView):
-    template_name = 'utm_messages/main.html'
+# class MessagesMainView(TemplateView):
+#     template_name = 'utm_messages/main.html'
 
 
 class CalendarView(TemplateView):

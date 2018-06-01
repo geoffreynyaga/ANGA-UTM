@@ -1,7 +1,8 @@
 from django.conf.urls import url
-from . import views
 
 from djgeojson.views import GeoJSONLayerView
+
+from . import views
 
 urlpatterns = [
         # url(r'^add/$', views.FlightLogCreateView.as_view(), name='logs_add'),

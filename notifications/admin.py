@@ -4,6 +4,6 @@ from .models import Notifications
 
 
 class NotificationsAdmin(admin.ModelAdmin):
-    list_display = ('title','date_created','is_read')
+    list_display = ('title', 'date_created', 'is_read')
 
-admin.site.register(Notifications,NotificationsAdmin)
+admin.site.register(Notifications, NotificationsAdmin)

@@ -1,11 +1,11 @@
 from django import forms
-
-from .models import ReserveAirspace,LogsUpload
-from rpas.models import Rpas
-from leaflet.forms.widgets import LeafletWidget
 from django.forms import widgets
-
 from datetimewidget.widgets import TimeWidget
+from leaflet.forms.widgets import LeafletWidget
+
+from rpas.models import Rpas
+
+from .models import ReserveAirspace
 
 
 class ExtLeafletWidget(LeafletWidget):
@@ -13,8 +13,8 @@ class ExtLeafletWidget(LeafletWidget):
 
 
 class ReserveAirspaceForm(forms.ModelForm):
-
-    start_time = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
+    start_time = forms.TimeField(
+        widget=TimeWidget(usel10n=True, bootstrap_version=3))
     end = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
 
     class Meta:
@@ -22,15 +22,16 @@ class ReserveAirspaceForm(forms.ModelForm):
 
         # rpas = forms.ModelMultipleChoiceField(queryset=Rpas.objects.filter(user=request.user).order_by('-id'))
 
-        fields = ('rpas', 'start_day', 'start_time', 'end', 'geom')
+        fields = ('rpas', 'start_day', 'start_time', 'end', 'geom', 'log')
         widgets = {'geom': ExtLeafletWidget(),
                    'start_day': widgets.SelectDateWidget(),
 
-        }
+                   }
 
-    def __init__(self, *args,**kwargs):
-        user = kwargs.pop('user', None)  #apparently i'm popping the user from kwargs dictionary
-        super(ReserveAirspaceForm, self).__init__(*args,**kwargs)
+    def __init__(self, *args, **kwargs):
+        # apparently i'm popping the user from kwargs dictionary
+        user = kwargs.pop('user', None)
+        super(ReserveAirspaceForm, self).__init__(*args, **kwargs)
 
         org = user.userprofile.organization
 
@@ -40,26 +41,29 @@ class ReserveAirspaceForm(forms.ModelForm):
         """ Come up with proper queryset for all rpas in the organization for the dropdown
         """
 
-        self.fields['rpas'] = forms.ModelChoiceField(queryset=Rpas.objects.filter(organization=org).order_by('-id'))
+        self.fields['rpas'] = forms.ModelChoiceField(
+            queryset=Rpas.objects.filter(organization=org).order_by('-id'))
 
 
 class AppliedReserveAirspaceUpdateForm(forms.ModelForm):
     class Meta:
         model = ReserveAirspace
-        fields = ('rpas','start_day','start_time','end','geom','status','reason','comments')
+        fields = ('rpas', 'start_day', 'start_time', 'end',
+                  'geom', 'log', 'status', 'reason', 'comments')
         widgets = {'geom': LeafletWidget(),
-                    'start_day': widgets.SelectDateWidget(),
-                    # 'rpas': forms.widgets.Select(attrs={'readonly': True,
-                    #                                       'disabled': True})
-        }
-    start_time= forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
+                   'start_day': widgets.SelectDateWidget(),
+                   # 'rpas': forms.widgets.Select(attrs={'readonly': True,
+                   #                                       'disabled': True})
+                   }
 
-    end= forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
+    start_time = forms.TimeField(
+        widget=TimeWidget(usel10n=True, bootstrap_version=3))
 
+    end = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
 
-class LogsUploadForm(forms.ModelForm):
-    class Meta:
-        model = LogsUpload
+# class LogsUploadForm(forms.ModelForm):
+#     class Meta:
+#         model = LogsUpload
 
-        fields = ( 'name','geom','log')
-        widgets = {'geom': LeafletWidget(), }
+#         fields = ('name', 'log')
+#         widgets = {'geom': LeafletWidget(), }

@@ -8,9 +8,7 @@
 
       {%  leaflet_js %}
       {%  leaflet_css %}
-      <!-- <style type="text/css">
-        #gis {height:400px;}
-      </style> -->
+
       <title>My Reserves</title>
 
 {% endblock %}
@@ -18,8 +16,8 @@
 {% block body %}
 
 <section class="content">
+  
 <div class="row">
-
 
 <div class="col-md-3 ">
   <div class="panel panel-success">
@@ -49,6 +47,7 @@
     </div>
   </div>
 </div>
+
 <div class="col-md-5 ">
   <div class="panel panel-danger">
     <div class="panel-heading">
@@ -121,8 +120,8 @@
     <div class="col-sm-12">
       <script type="text/javascript">
       function our_layers(map,options){
-        var datasets = new L.GeoJSON.AJAX("{% url 'my_reserve_datasets'%}",{
 
+        var datasets = new L.GeoJSON.AJAX("{% url 'my_reserve_datasets'%}",{
         });
 
         datasets.addTo(map);
@@ -131,6 +130,7 @@
 
       {%  leaflet_map "gis" callback="window.our_layers" %}
     </div>
+
 <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" >
 
 </script>

@@ -1,18 +1,17 @@
-from django.shortcuts import (render,redirect,render_to_response,
-                            get_object_or_404)
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.template import RequestContext
+# from django.core.serializers import serialize
+# from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import render
+# from django.template import RequestContext
 
 
-from django.contrib.auth.decorators import login_required
-from django.core.serializers import serialize
-from django.core.urlresolvers import reverse_lazy
 from django.views.generic import (ListView,DetailView,
-                                CreateView,UpdateView,DeleteView,)
-from django.http import HttpResponse
-
+                                CreateView,UpdateView)
+# from django.http import HttpResponse
 # from .forms import FlightLogCreateForm
+
 from .models import (FlightLog,Checklist,EmmergencyInfo,PreFlight,MissionWrap)
 
 from rpas.models import Rpas
@@ -193,6 +192,5 @@ def unfinished_logs_notifications(request):
 
 
             }
-
 
     return render(request, 'flight_plans/unfinished_logs_notifications.html', args)

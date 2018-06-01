@@ -1,25 +1,24 @@
 from django.shortcuts import render
 
 from django.contrib.auth import login,logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.core.urlresolvers import reverse_lazy
-from django.views import generic
-from django.http import HttpResponseRedirect
-
-from django.urls import reverse
-
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from .models import UserProfile
-from rpas.models import Rpas
-from flight_plans.models import FlightLog
-from .forms import UserForm
-from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
-from . import forms
+from django.core.urlresolvers import reverse_lazy
+from django.forms.models import inlineformset_factory
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.views import generic
 
+from flight_plans.models import FlightLog
+from rpas.models import Rpas
+
+from . import forms #TODO: where is this needed? see line below and resolve to use just one in this doc
+from .forms import UserForm
+from .models import UserProfile
 # Create your views here.
 
 
@@ -78,7 +77,6 @@ def edit_user(request, pk):
                     formset.save()
                     # return HttpResponseRedirect('/account/profile/')
                     return HttpResponseRedirect(reverse('accounts:view_profile', args=(user.id,)))
-                    
 
         return render(request, "accounts/edit_profile.html", {
             "noodle": pk,
@@ -112,3 +110,13 @@ class ViewProfile(LoginRequiredMixin,generic.DetailView):
         context['myrpas'] = Rpas.objects.filter(organization = org)
         context['myflightlogs'] = FlightLog.objects.filter(user = thisuser)
         return (context)
+
+
+def error_404(request):
+        data = {}
+        return render(request, 'errors/404.html', data)
+
+
+def error_500(request):
+        data = {}
+        return render(request, 'errors/500.html', data)

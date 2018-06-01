@@ -3,50 +3,46 @@
 <html>
 
 <head>
-    <title>Add Reserve</title>
+  <title>Add Reserve</title>
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" type="image/x-icon" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
-
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'adminlite/bower_components/Ionicons/css/ionicons.min.css' %}">
-    <link rel="stylesheet" href="{% static 'adminlite/dist/css/AdminLTE.min.css' %}">
-    <link rel="stylesheet" href="{% static 'adminlite/dist/css/skins/_all-skins.min.css' %}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" type="image/x-icon" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    {{ form.media }}
-
-  <link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}">
-
-{% load bootstrap3 %}
-{% load leaflet_tags %}
-{% leaflet_js  plugins="ALL" %}
-{% leaflet_css  plugins="ALL" %}
+  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'adminlite/bower_components/Ionicons/css/ionicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'adminlite/dist/css/AdminLTE.min.css' %}">
+  <link rel="stylesheet" href="{% static 'adminlite/dist/css/skins/_all-skins.min.css' %}">
 
 
-<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
-<link rel="stylesheet" href="{% static 'leaflet-measure/dist/leaflet-measure.css' %}">
-<link rel="stylesheet" href="{% static 'leaflet-measure/normalize.css/normalize.css' %}">
-<link rel="stylesheet" href="{% static 'leaflet-measure-path/leaflet-measure-path.css' %}">
-<link rel="stylesheet" href="{% static 'leaflet-coordinates/Leaflet.Coordinates-0.1.5.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  {{ form.media }}
 
-<style>
-    .leaflet-container {  /* all maps */
-        width:  100%;
-        height: 450px;
+  <link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}"> {% load bootstrap3 %} {% load leaflet_tags %} {% leaflet_js plugins="ALL" %} {% leaflet_css plugins="ALL" %}
+
+
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+  <link rel="stylesheet" href="{% static 'leaflet-measure/dist/leaflet-measure.css' %}">
+  <link rel="stylesheet" href="{% static 'leaflet-measure/normalize.css/normalize.css' %}">
+  <link rel="stylesheet" href="{% static 'leaflet-measure-path/leaflet-measure-path.css' %}">
+  <link rel="stylesheet" href="{% static 'leaflet-coordinates/Leaflet.Coordinates-0.1.5.css' %}">
+
+  <style>
+    .leaflet-container {
+      /* all maps */
+      width: 100%;
+      height: 450px;
     }
 
     body {
-            padding: 0px;
-            margin: 0px;
-        }
+      padding: 0px;
+      margin: 0px;
+    }
 
-         /* #sidebar {
+    /* #sidebar {
             height: 40%;
             font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
             margin-top: 240px;
@@ -57,58 +53,71 @@
             font-style: italic;
             color: #AAA;
           } */
+  </style>
 
-</style>
-
- <!-- <link rel="stylesheet" href="{% static 'leaflet-sidebar/css/leaflet-sidebar.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'leaflet-sidebar/css/leaflet-sidebar.css' %}">
  <link rel="stylesheet" href="{% static 'leaflet-sidebar/old-sidebar/L.Control.Sidebar.css' %}"> -->
 </head>
 
 <body>
-<br>
+  <br>
 
-      <form method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data">
 
-          {% bootstrap_form_errors form %}
-          {{ form.fieldname.errors }}
+    {% bootstrap_form_errors form %} {{ form.fieldname.errors }}
+
+   {% csrf_token %}
+    <div class="row">
+
+      <div class="col-sm-9">
+        <div class="col-sm-8">
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <!-- <strong>Tip!</strong> -->
+            <p><strong>Tip!</strong> Click the fullscreen icon (
+              <i class="ion-android-expand"></i> ) on the map for a better experience.
+            </p>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+
+            {{form.geom}} 
+
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col-sm-1">
+        <h2>OR </h2>
+      </div>
+
+      <div class="col-sm-2">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            {% bootstrap_field form.log %}
+
+          </div>
+        </div>
+      </div> -->
 
 
-          <div class="row">
-
-            <div  class="col-sm-9">
-              <div class="col-sm-6">
-                <div class="alert alert-info alert-dismissible" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                  <strong>Tip!</strong>
-                  <p>Click  the fullscreen icon ( <i class="ion-android-expand"></i> ) on the map for a better experience.</p>
-                </div>
-              </div>
-
-              <div class="panel panel-default">
-              <div class="panel-body">
-
-                {{form.geom}}
-              {% csrf_token %}
-
-
-<!-- //  include 'applications/includes/sidebar-right.html'  -->
-
-            </div>
-            </div>
-            </div>
-
-
-          <div class="col-sm-3">
-            <div class="panel panel-default">
-            <div class="panel-body">
-            {% bootstrap_field form.rpas %}
-            {% bootstrap_field form.start_day %}
-            <hr>
-            Start Time :{{ form.start_time }}
+      <div class="col-sm-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+              <em>Alternatively, you can upload a mission planner log instead of drawing on the map</em>
+             {% bootstrap_field form.log %}
+             <hr>
+            {% bootstrap_field form.rpas %} 
+            {% bootstrap_field form.start_day  %}
+            
+            Start Time :{{ form.start_time  }}
             End Time: {{ form.end }}
 
-<!-- <hr> -->
+            <!-- <hr> -->
             <!-- <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
               <div class="panel panel-default">
                 <div class="panel-heading" role="tab" id="headingOne">
@@ -127,14 +136,14 @@
               </div>
             </div> -->
 
-      <hr>
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+            <hr>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
 
-            </div>
-            </div>
           </div>
-
         </div>
+      </div>
+
+    </div>
 
   </form>
 
@@ -142,110 +151,107 @@
 
 
 
-<script type="text/javascript">
+  <script type="text/javascript">
+    function id_site_location_geom_map_callback(map, options) {
+      geodjango_id_site_location_geom.store_class = L.FieldStore;
+      (new geom(geodjango_id_site_location_geom)).addTo(map);
 
-      function id_site_location_geom_map_callback(map, options) {
-          geodjango_id_site_location_geom.store_class = L.FieldStore;
-          (new geom(geodjango_id_site_location_geom)).addTo(map);
-
-      };
-
-
-      bounds = new L.LatLngBounds(new L.LatLng(4.740950, 41.858445), new L.LatLng(-4.921208,  33.922226));
+    };
 
 
-
-              geom = L.GeometryField.extend({
-                    addTo: function (map) {
-
-                        L.GeometryField.prototype.addTo.call(this, map);
-                        // Customize map for field
+    bounds = new L.LatLngBounds(new L.LatLng(4.740950, 41.858445), new L.LatLng(-4.921208, 33.922226));
 
 
 
+    geom = L.GeometryField.extend({
+      addTo: function (map) {
 
-                        {% include 'applications/includes/search.html' %}
-
-                        drawControl = this._drawControl;
-                        drawControl._toolbars.draw.options.polyline = false;
-                        drawControl._toolbars.draw.options.polygon = true;
-                        drawControl._toolbars.draw.options.rectangle = true;
-                        drawControl._toolbars.draw.options.marker = false;
-                        map.addControl(drawControl);
-
-                        map.addControl(new L.Control.Fullscreen());
-
-                        {% include 'maps/includes/geofence_datasets.html' %}
-                        {% include 'notams/includes/notam_datasets.html' %}
-                        {% include 'applications/includes/reserved_airspace_datasets.html' %}
-                        {% include 'maps/includes/location_datasets.html'%}
-
-                        {% include 'applications/includes/location.html' %}
+        L.GeometryField.prototype.addTo.call(this, map);
+        // Customize map for field
 
 
-                        {% include 'maps/includes/offline_layers.html' %}
-                        {% include 'maps/includes/mouse_coordinates.html' %}
+        {% include 'applications/includes/search.html' %}
 
-                        var measureControl = L.control.measure();
-                        measureControl.addTo(map);
+        drawControl = this._drawControl;
+        drawControl._toolbars.draw.options.polyline = false;
+        drawControl._toolbars.draw.options.polygon = true;
+        drawControl._toolbars.draw.options.rectangle = true;
+        drawControl._toolbars.draw.options.marker = false;
+        map.addControl(drawControl);
 
-                        // var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(map);
+        map.addControl(new L.Control.Fullscreen());
 
-                        // map.on('measurefinish', function (evt) {
-                        //   writeResults(evt);
-                        // });
+        {% include 'maps/includes/geofence_datasets.html' %} 
+        {% include 'notams/includes/notam_datasets.html' %}
+        {% include 'applications/includes/reserved_airspace_datasets.html' %} 
+        {% include 'maps/includes/location_datasets.html' %}
 
-                        // function writeResults (results) {
-                        //   document.getElementById('eventoutput').innerHTML = JSON.stringify({
-                        //     area: results.area,
-                        //     areaDisplay: results.areaDisplay,
-                        //     lastCoord: results.lastCoord,
-                        //     length: results.length,
-                        //     lengthDisplay: results.lengthDisplay,
-                        //     pointCount: results.pointCount,
-                        //     points: results.points
-                        //   }, null, 2);
-                        // }
+        {% include 'applications/includes/location.html' %}
 
-                        var latlngs = L.rectangle(bounds).getLatLngs();
-                        // L.polyline(latlngs[0].concat(latlngs[0][0])).addTo(map);
-                        map.setMaxBounds(bounds);	// Should not enter infinite recursion
+
+        {% include 'maps/includes/offline_layers.html' %} 
+        {% include 'maps/includes/mouse_coordinates.html' %}
+
+        var measureControl = L.control.measure();
+        measureControl.addTo(map);
+
+        // var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(map);
+
+        // map.on('measurefinish', function (evt) {
+        //   writeResults(evt);
+        // });
+
+        // function writeResults (results) {
+        //   document.getElementById('eventoutput').innerHTML = JSON.stringify({
+        //     area: results.area,
+        //     areaDisplay: results.areaDisplay,
+        //     lastCoord: results.lastCoord,
+        //     length: results.length,
+        //     lengthDisplay: results.lengthDisplay,
+        //     pointCount: results.pointCount,
+        //     points: results.points
+        //   }, null, 2);
+        // }
+
+        var latlngs = L.rectangle(bounds).getLatLngs();
+        // L.polyline(latlngs[0].concat(latlngs[0][0])).addTo(map);
+        map.setMaxBounds(bounds); // Should not enter infinite recursion
 
 
 
 
-                    }
+      }
 
-                });
-</script>
-
-
-<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
-<script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search.js' %}" ></script>
-
-<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
-<script type="text/javascript" src="{% static 'leaflet-measure/dist/leaflet-measure.js' %}" ></script>
+    });
+  </script>
 
 
-<!-- <script type="text/javascript" src="{% static 'leaflet-sidebar/js/leaflet-sidebar.js' %}" ></script> -->
+  <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}"></script>
+  <script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search.js' %}"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.js"></script>
-<script type="text/javascript" src="{% static 'leaflet-offline/leaflet-offline.min.js' %}" ></script>
-<script type="text/javascript" src="{% static 'leaflet-coordinates/Leaflet.Coordinates-0.1.5.min.js' %}" ></script>
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+  <script type="text/javascript" src="{% static 'leaflet-measure/dist/leaflet-measure.js' %}"></script>
+
+
+  <!-- <script type="text/javascript" src="{% static 'leaflet-sidebar/js/leaflet-sidebar.js' %}" ></script> -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.js"></script>
+  <script type="text/javascript" src="{% static 'leaflet-offline/leaflet-offline.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'leaflet-coordinates/Leaflet.Coordinates-0.1.5.min.js' %}"></script>
 
 
 
-<!-- jQuery 3 -->
-<!-- <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script> -->
-<!-- Bootstrap 3.3.7 -->
-<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+  <!-- jQuery 3 -->
+  <!-- <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script> -->
+  <!-- Bootstrap 3.3.7 -->
+  <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 
 
 
 
 
-<!-- jQuery UI 1.11.4 -->
-<script src="{% static 'adminlite/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="{% static 'adminlite/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
 
   <!-- Sparkline -->
   <!-- Slimscroll -->
@@ -255,5 +261,6 @@
 
 
 
-  </body>
+</body>
+
 </html>

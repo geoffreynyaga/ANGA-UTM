@@ -1,6 +1,5 @@
 var all_applied_datasets = new L.GeoJSON.AJAX("{% url 'airspace_datasets'%}",{
 
-
   style: function colour(feature){
           if (feature.properties.status == 0) {
             return{
@@ -20,7 +19,6 @@ var all_applied_datasets = new L.GeoJSON.AJAX("{% url 'airspace_datasets'%}",{
             };
           }
         },
-
 
 
 onEachFeature: function onEachFeature(feature, layer) {

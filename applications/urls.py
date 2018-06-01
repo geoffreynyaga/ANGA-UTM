@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from . import views
 
-from djgeojson.views import GeoJSONLayerView
+# from djgeojson.views import GeoJSONLayerView
 from .models import ReserveAirspace
 
 urlpatterns = [
@@ -52,7 +52,7 @@ urlpatterns = [
         # url(r'^emergency-info/add$', views.EmmergencyInfoCreateView.as_view(), name='emergency_add'),
         # url(r'^pre-flight/add$', views.PreFlightCreateView.as_view(), name='pre_flight_add'),
 
-        url(r'^logs/create/$', views.LogsUploadCreateView.as_view(), name='create_log_upload'),
-        url(r'^logs/$', views.LogsUploadListView.as_view(), name='log_list_geom'),
+        # url(r'^logs/create/$', views.LogsUploadCreateView.as_view(), name='create_log_upload'),
+        # url(r'^logs/$', views.LogsUploadListView.as_view(), name='log_list_geom'),
 
 ]

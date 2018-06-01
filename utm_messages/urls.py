@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from . import views
 
+from . import views
 
 urlpatterns = [
 
@@ -14,5 +14,4 @@ urlpatterns = [
 
         url(r'^calendar/$', views.CalendarView.as_view(), name='calendar'),
 
-
-]
+        ]

@@ -1,8 +1,7 @@
 
 from django.contrib import admin
 
-from .models import (MissionWrap,CrewBriefing,BatteryLog,PreFlight,FlightLog,EmmergencyInfo,
-                      Checklist)
+from .models import (MissionWrap,CrewBriefing,BatteryLog,PreFlight,FlightLog,EmmergencyInfo,Checklist)
 
 from leaflet.admin import LeafletGeoAdmin
 # from django.contrib.gis.db import OSMG

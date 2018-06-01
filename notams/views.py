@@ -1,14 +1,15 @@
-from django.shortcuts import render
-from django.views.generic import (ListView,DetailView,
-                                CreateView,UpdateView,DeleteView)
-from djgeojson.views import GeoJSONLayerView
 from datetime import datetime
+
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+# from django.shortcuts import render
+from django.views.generic import CreateView
+
+from djgeojson.views import GeoJSONLayerView
 
 from .models import NotamAirspace
 from .forms import NotamCreateForm
 
-from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
 
 class NotamLayer(GeoJSONLayerView):
     def get_queryset(self):
@@ -30,6 +31,6 @@ class NotamCreateView(CreateView):
 
     def form_valid(self, form):
             notamairspace = form.save(commit=False)
-            notamairspace.created_by = User.objects.get(username=self.request.user)  # use your own profile here
+            notamairspace.created_by = User.objects.get(username=self.request.user)
             notamairspace.save()
             return HttpResponseRedirect(self.success_url)
