@@ -9,6 +9,20 @@
 
     {# {% webpush %} #}
 
+    <style>
+      #unread-timeline-item {
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    border-radius: 3px;
+    margin-top: 0;
+    background: #d2d6de;
+    color: #444;
+    margin-left: 60px;
+    margin-right: 15px;
+    padding: 0;
+    position: relative;
+}
+    </style>
 {%endblock%}
 
 {%block body%}
@@ -22,6 +36,7 @@
         Notifications
         <small>All</small>
       </h1>
+      
     </section>
 
     <!-- Main content -->
@@ -37,23 +52,36 @@
                   <span class="bg-red">
                    2018 only
                   </span>
+                  <span class="pull-right">
+                    <a  href="{% url 'notifications:mark_all_as_read' %}" >Mark all As Read</a>
+                  </span>
             </li>
+           
 {% for unread_notification in notifications_list %}
             <li>
               <i class="fa fa-exclamation-triangle bg-red"></i>
 
-              <div class="timeline-item">
-                <span class="time"><i class="fa fa-clock-o"></i> {{unread_notification.date_created | timesince }} ago </span>
+              <div class="timeline-item" {% if not unread_notification.is_read %}
+                 id=unread-timeline-item
+              {% endif %}    >
+                
 
                 <!-- <h3 class="timeline-header"><a href="#"> NOTAM ALERT! </a> <small>Urgent action required</small></h3> -->
 
                 <div class="timeline-body">
                 {{unread_notification.title}}
+                <span class="pull-right">
+                  <i class="fa fa-clock-o"></i> {{unread_notification.date_created | timesince }} ago 
+                  <a class="btn btn-danger btn-xs" href={% url 'notifications:notification_delete' pk=unread_notification.pk%}>X</a>
+                </span>
+                  
+                  
+                </span>
+                
                 </div>
-                <div class="timeline-footer">
-                  <a class="btn btn-primary btn-xs">Read more</a>
-                  <a class="btn btn-danger btn-xs">Delete</a>
-                </div>
+                <!-- <span class="time">
+                  <i class="fa fa-clock-o"></i> {{unread_notification.date_created | timesince }} ago 
+                </span> -->
               </div>
             </li>
 

@@ -6,7 +6,6 @@ The user will get notification to all of his subscribed browser. A user can subs
 """
 
 
-def send_a_notification(user, head, body):
+def send_a_notification(user, head, body): # FIXME: Notifications: Change to send_a_webpush_notification
     payload = {"head": head, "body": body}
-
     send_user_notification(user=user, payload=payload, ttl=1000)

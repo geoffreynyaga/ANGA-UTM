@@ -8,6 +8,8 @@ import logging
 def fetch_data():
     api_token = '146b384d03128d96'
     url = 'http://api.wunderground.com/api/' + api_token + '/conditions/q/KE/Nairobi.json'
+    # TODO: Wunderground API is dead. Moved to IBM
+    # TODO: Weather API Key move to settings app
 
     r = requests.get(url).json()
     data = r['current_observation']
@@ -21,6 +23,12 @@ def fetch_data():
     icon_url = data['icon_url']
     observation_time = data['observation_time']
 
+
+    #TODO: TRY EXCEPT STATEMENT FOR CITY.
+    """" THE FIRST ATTEMPT IS IF the city is already queried in db, then update
+        the except then adds the listed city to db
+        """
+        #TODO: VERBATIM IN MODELS IN SAVE( 2nd icon of locate)
     try:
         conn = psycopg2.connect(dbname='astral_utm', user='postgres', host='localhost', password='19Scazorla')
         print('opened db successfully')

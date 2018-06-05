@@ -9,4 +9,3 @@ class Notifications(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
 
-    # TODO: Notifications is_read

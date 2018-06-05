@@ -20,7 +20,7 @@
       <h5> Hey  <b>{{ userprofile.user.get_full_name }}</b>,
     <small> Welcome To Your Profile!</small> </h5>
   <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="{% url 'home' %}"><i class="fa fa-dashboard"></i> Home</a></li>
     <li class="active"><a href="">My Profile</a></li>
   </ol>
   {% else %}
@@ -28,7 +28,7 @@
       <h5>  <b>{{ userprofile.user.get_full_name }}</b> |
     <small> Profile Page</small> </h5>
   <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="{% url 'home' %}"><i class="fa fa-dashboard"></i> Home</a></li>
     <li class="active"><a href="">{{userprofile.user.username}}</a></li>
   </ol>
   {% endif %}

@@ -14,7 +14,7 @@ from .models import Rpas, Payload, Manufacturer, RpasModel
 
 @login_required()
 def home(request):
-    name = 'Welcome!!'
+
     x = UserToUserMessages.objects.filter(receiver=request.user).filter(is_read=False).order_by('-id')[:5]
     y = x.count()
 
@@ -22,6 +22,7 @@ def home(request):
     unread_notifications_count = unread_notifications.count()
 
     ##################### RPAS/PAYLOAD CREATE COMPLETION TASKS######################
+
     """ come up with a better way to iterate or queryset the damn Tasks
         Perhaps create an boolean or better a float field where the get_completion
         methods save the values to the model and we access the modelfield value from
@@ -52,7 +53,7 @@ def home(request):
     all_flightlog_tasks_count = len(unfinished_pre_flight_logs) + len(unfinished_post_flight_logs)
     all_tasks_count = all_rpas_tasks_count + all_flightlog_tasks_count
 
-    args = {'myName': name, 'unread_messages': x, 'unread_messages_number': y,
+    args = {'unread_messages': x, 'unread_messages_number': y,
             'unread_notifications': unread_notifications,
             'unread_notifications_count': unread_notifications_count,
 

@@ -6,7 +6,9 @@
 
 <html>
 
-{% load pwa %}
+{% load pwa %} 
+<!-- TODO: PWA BASE.HTML is the above supposed to be above <head> ? -->
+
   <head>
 
 {% progressive_web_app_meta %}
@@ -15,7 +17,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- <title>Astral UTM | Dashboard</title> -->
     <!-- Tell the browser to be responsive to screen width -->
-
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{% static 'adminlite/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
@@ -93,8 +94,6 @@
 
 
 
-
-
   <body class="hold-transition skin-blue sidebar-mini">
 
   <div class="wrapper">
@@ -124,7 +123,7 @@
             <li class="dropdown messages-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-envelope-o"></i>
-                {% if unread_messages_number != 0 %}
+                {% if unread_messages_number != 0 %} 
                 <span class="label label-success">{{unread_messages_number}}{{x}}</span>
                 {% endif %}
               </a>
@@ -168,12 +167,17 @@
 
                 {% endif %}
             {% endfor %}
+            <!-- TODO: BASE.HTML What is the above for? -->
 
             <!-- Notifications: style can be found in dropdown.less -->
             <li class="dropdown notifications-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-bell-o"></i>
-                <span class="label label-warning">{{unread_notifications_count}}</span>
+                 {% if unread_notifications_count != 0 %}
+                <span class="label label-warning">
+                     {{unread_notifications_count}}
+                </span>
+                 {% endif %}
               </a>
               <ul class="dropdown-menu">
                 <li class="header">You have {{unread_notifications_count}} notifications</li>
@@ -207,12 +211,14 @@
               </ul>
             </li>
 
-
             <!-- Tasks: style can be found in dropdown.less -->
             <li class="dropdown tasks-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-flag-o"></i>
-                <span class="label label-danger">{{all_tasks_count}}</span>
+                {% if all_tasks_count != 0 %}
+                  <span class="label label-danger">{{all_tasks_count}}</span>
+                {% endif %}
+                
               </a>
               <ul class="dropdown-menu">
                 <li class="header">You have {{all_tasks_count}} tasks</li>
@@ -262,6 +268,7 @@
                     {% endfor %}
                     <!-- end task item -->
 
+
                     {% for unfinished_pre_flight_log in unfinished_pre_flight_logs %}
                     <li><!-- Task item -->
                       <a href="{% url 'pre_flight_update' pk=unfinished_pre_flight_log.get_pre_flight_pk %}">
@@ -294,7 +301,6 @@
 
 
 
-
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
 
@@ -309,7 +315,7 @@
 
                   {% if request.user.userprofile.profile_pic %}
                   <img src="{{request.user.userprofile.profile_pic.url}}" class="img-circle" alt="">
-                  {%endif%}
+                  {% endif %}
 
                   <p>{{ user.get_full_name }}</p>
 
@@ -349,7 +355,7 @@
               <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
             </li> -->
           </ul>
-          {%endif%}
+          {% endif %}
         <!-- </div> -->
       </nav>
     </header>
@@ -570,7 +576,6 @@
   <!-- jQuery 3 -->
   <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script>
 
-
   <!-- Bootstrap 3.3.7 -->
   <script src="{% static 'adminlite/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
@@ -583,15 +588,14 @@
   </script>
 
 
-
 {% block extra_js %}
   <!-- Sparkline -->
   <script src="{% static 'adminlite/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
   <!-- Slimscroll -->
   <script src="{% static 'adminlite/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
 
-
 {% endblock extra_js %}
+
 <!-- FastClick -->
 <script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
 

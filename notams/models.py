@@ -55,7 +55,7 @@ class NotamAirspace(gis_models.Model):
             booking_time = datetime.combine(date.min, self.end) - datetime.combine(date.min, self.start_time)
             c = booking_time.total_seconds()
             if (c / 3600) > 3:
-                raise ValidationError('Cannot book airspace for more three hours!')
+                raise ValidationError('Cannot create Notam Airspace for more three hours!')
             elif (c / 3600) < 0:
                 raise ValidationError("You can not start a Notam at " '{:%H:%M:%S}'.format(
                     self.start_time) + " and then end it at " + '{:%H:%M:%S}'.format(self.end))
@@ -79,7 +79,10 @@ class NotamAirspace(gis_models.Model):
                                     "%H:%M:%S"))
                             e.append(error)
 
-                for qs in reserve_qs:
+                            
+                # TODO: NOTAM SEND NOTIFICATION/EMAIL/MESSAGE: this is in clean, does it mean if its OK but the above is wrong its sends all the time?
+                # Can this be send into save()? as there is no validationError raised anyway?
+                for qs in reserve_qs: # TODO: qs in reserve_qs: is qs a single object or qs? if not rename
                     if self.start_time and self.end:
 
                         booking_time_qs_start = datetime.combine(qs.start_day, qs.start_time)
@@ -90,7 +93,6 @@ class NotamAirspace(gis_models.Model):
 
                         if notam_start < booking_time_qs_start < notam_end or notam_start < booking_time_qs_end < notam_end:
                             from notifications.models import Notifications as n
-
                             n.objects.create(title="Notam Alert",
                                              receiver=qs.created_by,
                                              )

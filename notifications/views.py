@@ -1,6 +1,8 @@
 # from django.shortcuts import render
 
-from django.views.generic import ListView
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.views.generic import ListView,DeleteView
 
 from .models import Notifications
 
@@ -18,5 +20,22 @@ class NotificationsListView(ListView):
         return Notifications.objects.filter(receiver=self.request.user).order_by('-id')
 
 
-# TODO: Notifications DELETEVIEW
+# TODO: Notifications DELETEVIEW or ajax/jquery delete and/or mark  all as read?
 
+# TO DO: Notifications is_read
+# -- FIXED
+
+def mark_all_notifications_as_read(request):
+    all_user_unread_notifications = Notifications.objects.filter(
+        receiver=request.user).filter(is_read = False)
+
+    for all_user_unread_notification in all_user_unread_notifications:
+        all_user_unread_notification.is_read = True
+        all_user_unread_notification.save()
+
+    return HttpResponseRedirect(reverse('notifications:notifications_list'))
+
+
+class NotificationDeleteView(DeleteView):
+    model = Notifications
+    success_url = '/notifications/'

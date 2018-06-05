@@ -101,7 +101,8 @@ class ReserveAirspace(gis_models.Model):
             # print(multi_line, "this is the multi line ")   Returns a multilinestring
             # print(multi_line.convex_hull, "this is the convex ")  Converts the multilinestring to polygon
             self.geom = multi_line_to_polygon
-
+            # TODO: LOG UPLOAD: still retain the main log upload or merge the polygon to multiline string in detail_view
+            
             self.centroid = self.geom.centroid
 
         if self.created_by.userprofile.organization.organization_type == 'ROC':
