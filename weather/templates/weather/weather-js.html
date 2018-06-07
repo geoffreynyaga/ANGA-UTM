@@ -45,17 +45,21 @@
   
     <div class="page-wrap">
       <header class="search-bar">
+        <span>
         <p class="search-text">
-          <span class="search-location-text">Location
-            <input id="search-location-input" class="search-location-input" type="text" placeholder="City/Town">
+          <span class="search-location-text ">
+            <input id="search-location-input" class="search-location-input pull-left" type="text" placeholder="City/Town">
+          
+          
+            <button id="search-location-button" class="fa fa-search search-location-button search-button "></button>
+          
+          
+          <button id="geo-button" class="geo-button fa fa-location-arrow search-button pull-right"></button>
+
           </span>
         </p>
-        <div class="search-location-button-group">
-          <button id="search-location-button" class="fa fa-search search-location-button search-button"></button>
-          <!--
-                  -->
-          <button id="geo-button" class="geo-button fa fa-location-arrow search-button"></button>
-        </div>
+        
+        </span>
       </header>
       <div id="geo-error-message" class="geo-error-message hide">
         <button id='close-error' class='fa fa-times close-error'></button>
