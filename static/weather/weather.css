@@ -62,6 +62,7 @@
 
 .geo-button {
     border-left: 1px solid #fff;
+
 }
 
 .search-location-input {
@@ -135,8 +136,8 @@
 
 
 body {
-    margin:0;
-    padding:0;
+    margin:auto;
+    padding:auto;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -349,6 +350,7 @@ html, body {
 }
 .page-wrap {
   min-height: 100%;
+  width: 100%;
   /* equal to footer height */
   margin-bottom: -100px; 
 }

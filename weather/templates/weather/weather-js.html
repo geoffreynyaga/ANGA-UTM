@@ -1,0 +1,113 @@
+<html>
+
+{% load static %} 
+
+<head>
+
+<title>Weather</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'adminlite/bower_components/font-awesome/css/font-awesome.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'weather/weather.css' %}">
+
+<style>
+  .change-units{
+    font-size: 12;
+    color: aliceblue;
+  }
+</style>
+</head>
+
+
+<div class="row">
+  <div class="col-xs-12">
+    <a href="{% url 'home' %}" class="btn btn-primary btn-block">Home </a>
+  </div>
+</div>
+
+  <body id="weather-background" class="default-weather">
+    <canvas id="rain-canvas"> </canvas>
+    <canvas id="cloud-canvas"> </canvas>
+    <canvas id="weather-canvas"> </canvas>
+    <canvas id="time-canvas"> </canvas>
+    <canvas id="lightning-canvas"> </canvas>
+  
+    <div class="page-wrap">
+      <header class="search-bar">
+        <p class="search-text">
+          <span class="search-location-text">Location
+            <input id="search-location-input" class="search-location-input" type="text" placeholder="City/Town">
+          </span>
+        </p>
+        <div class="search-location-button-group">
+          <button id="search-location-button" class="fa fa-search search-location-button search-button"></button>
+          <!--
+                  -->
+          <button id="geo-button" class="geo-button fa fa-location-arrow search-button"></button>
+        </div>
+      </header>
+      <div id="geo-error-message" class="geo-error-message hide">
+        <button id='close-error' class='fa fa-times close-error'></button>
+        Uh oh! It looks like we can't find your location. Please type your city into the search box above!</div>
+      <div id="front-page-description" class="front-page-description middle">
+        <h2>Type your City/town in the box above</h2>
+        <h2>OR</h2>
+        <h2> Click on <i class="fa fa-location-arrow" aria-hidden="true"></i> to get weather of your current location </h2>
+      </div>
+
+      <div id="weather" class="weather middle hide">
+        <div class="location" id="location"></div>
+        <div class="weather-container">
+          <div id="temperature-info" class="temperature-info">
+            <div class="temperature" id="temperature"></div>
+            <div class="weather-description" id="weather-description"></div>
+          </div>
+          <div class="weather-box">
+            <ul class="weather-info" id="weather-info">
+              <li class="weather-item humidity">Humidity:
+                <span id="humidity"></span>%</li>
+              <!--
+                       -->
+              <li class="weather-item wind">Wind:
+                <span id="wind-direction"></span>
+                <span id="wind"></span>
+                <span id="speed-unit"></span>
+              </li>
+            </ul>
+          </div>
+          <div class="temp-change">
+            <p id="change-units">Change Units </p>
+            <button id="celsius" class="temp-change-button celsius">&deg;C</button>
+            <button id="fahrenheit" class="temp-change-button fahrenheit">&deg;F</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <footer class="site-footer">
+      <div class="attribution site-footer-section">Powered by
+        <a href="http://openweathermap.org/" rel="nofollow">OpenWeatherMap</a>, Icons from
+        <button id="noun-project" class="noun-project">Noun Project</button>
+      </div>
+
+      <p class="author site-footer-section">Made by
+        <a href="" rel="nofollow">Heather Tovey</a> for
+        <a href="" rel="nofollow">Free Code Camp</a>
+      </p>
+    </footer>
+    
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+      <script src="{% static 'weather/weather.js' %}"></script>
+ 
+  </body>
+
+
+
+
+
+</html>
+
+
+
