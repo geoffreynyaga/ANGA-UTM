@@ -17,6 +17,7 @@ def home(request):
 
     x = UserToUserMessages.objects.filter(receiver=request.user).filter(is_read=False).order_by('-id')[:5]
     y = x.count()
+    # TODO: better naming above
 
     unread_notifications = Notifications.objects.filter(receiver=request.user).filter(is_read=False).order_by('-id')[:5]
     unread_notifications_count = unread_notifications.count()
@@ -25,7 +26,7 @@ def home(request):
 
     """ come up with a better way to iterate or queryset the damn Tasks
         Perhaps create an boolean or better a float field where the get_completion
-        methods save the values to the model and we access the modelfield value from
+        methods save the values to the model and we access the ModelField value from
         get_queryset  filter.... """
 
     rpas_tasks = Rpas.objects.filter(user=request.user)

@@ -10,7 +10,6 @@ def weather(request):
     return render(request,'weather/weather.html',{'data':data})
 
 
-
 class WeatherView(TemplateView):
 
     template_name = "weather/weather-js.html"

@@ -2,7 +2,8 @@
 
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.views.generic import (ListView,DetailView,CreateView,TemplateView)
+from django.views.generic import (
+    ListView, DetailView, CreateView, TemplateView)
 
 from .forms import UserToUserMessagesForm
 from .models import UserToUserMessages
@@ -15,7 +16,8 @@ class MessagesCreateView(CreateView):
 
     def form_valid(self, form):
         usertousermessages = form.save(commit=False)
-        usertousermessages.sender = User.objects.get(username=self.request.user)  # use your own profile here
+        usertousermessages.sender = User.objects.get(
+            username=self.request.user)  # use your own profile here
         usertousermessages.save()
         return HttpResponseRedirect(self.success_url)
 
@@ -65,4 +67,3 @@ class MessageDetailView(DetailView):
 
 class CalendarView(TemplateView):
     template_name = 'utm_messages/calendar.html'
-
