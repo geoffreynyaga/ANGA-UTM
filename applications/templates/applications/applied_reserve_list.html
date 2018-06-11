@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 
-      {% load static %}
-      {% load leaflet_tags %}
+{% load static %}
+
 {% load humanize %}
+{% load group_perms %}
+{% load leaflet_tags %}
+
 {% block head %}
 
-      {%  leaflet_js %}
-      {%  leaflet_css %}
-      <style type="text/css">
-        #gis {height:400px;}
-      </style>
+    <title>Applied Reserves</title>
+
+    {%  leaflet_js %}
+    {%  leaflet_css %}
+
+    <style type="text/css">
+      #gis {height:400px;}
+    </style>
 {% endblock %}
 
 {% block body %}
-<title>Applied Reserves</title>
+
 
 
 <section class="content-header">
+   {% if request.user|has_group:"KCAA" %}
+
   <h1>
       My Dashboard
     <small>Summary</small>
@@ -56,11 +64,11 @@
     <div class="col-sm-6">
       <div class="panel panel-primary">
         <!-- Default panel contents -->
-        <div class="panel-heading">Panel heading</div>
-        <div class="panel-body">
-          <p>Summary of approval stats</p>
+        <div class="panel-heading">
+          SUMMARY DASHBOARD
         </div>
-
+        <div class="panel-body">
+        
         <!-- List group -->
         <ul class="list-group">
           <li class="list-group-item">
@@ -68,35 +76,34 @@
             Number of Pending Approvals
           </li>
           <li class="list-group-item">
-            <span class="badge">14</span>
+            <span class="badge">{{approved_airspaces_count}}</span>
             Number of Approved Flights
           </li>
           <li class="list-group-item">
-            <span class="badge">14</span>
+            <span class="badge">{{rejected_airspaces_count}}</span>
             Number of Rejected Flights
           </li>
           <li class="list-group-item">
-            <span class="badge">14</span>
+            <span class="badge">x</span>
             Commercial Flights Pending Approvals
           </li>
           <li class="list-group-item">
-            <span class="badge">14</span>
+            <span class="badge">x</span>
             Private Flights Pending Approvals
           </li>
           <li class="list-group-item">
-            <span class="badge">14</span>
+            <span class="badge">x</span>
             Clubs Flights Pending Approvals
           </li>
 
         </ul>
+        </div>
       </div>
     </div>
 </div>
 
 
 <div class="row">
-
-
 
       {% for applied_reserve in applied_reserves %}
       <div class="col-sm-3">
@@ -136,9 +143,37 @@
 
       {% endfor %}
 
+
+{% else %}
+
+<div class="row">
+  <div class="col-xs-3">
+
+  </div>
+  <div class="col-xs-6">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        OOPS!
+      </div>
+      <div class="panel-body">
+        You've wandered off to a place you are not supposed to be!!!!
+
+        <p>Go Home immediately!</p>
+
+        <hr> Meanwhile, we have noted this and our guy(s) are working on it.
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-3">
+
+  </div>
+</div>
+
+{% endif %}
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}"></script>
 </section>
 
 
-<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+
 
 {% endblock %}

@@ -9,18 +9,17 @@
 
   <section class="content">
 
-
-<!-- <div class="container"> -->
-
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+           {% if request.user == rpas.user %}
           <li class="breadcrumb-item"><a href="{% url 'rpas_list'%} ">My RPAS List</a></li>
+          {% comment %} This is because in approval stage, the KCAA can be given a link to this and they shouldn't be {% endcomment %}
+
+            {% endif %}
           <li class="breadcrumb-item active" aria-current="page">Rpas Details</li>
         </ol>
       </nav>
-
-
 
       <div class="panel ">
         <div class="panel-heading">
@@ -94,16 +93,21 @@
 
         </div>
 
-        <div class="panel-footer">
-              <a class="btn btn-primary" href="{% url 'rpas_update' pk=rpas.pk %}" role="button">
-              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-               Update {{rpas.rpas_nickname}}</a>
-        </div>
+        {% if request.user == rpas.user %}
+
+          {% comment %} This is because in approval stage, the KCAA can be given a link to this and they shouldn't be
+          able to edit, only see, so is anyone with the link 
+          {% endcomment %}
+
+          <div class="panel-footer">
+                <a class="btn btn-primary" href="{% url 'rpas_update' pk=rpas.pk %}" role="button">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                Update {{rpas.rpas_nickname}}</a>
+          </div>
+
+        {% endif %}
       </div>
 
-
-
-<!-- </div> -->
 
 
 

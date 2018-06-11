@@ -17,8 +17,10 @@
   <link rel="stylesheet" href="{% static 'adminlite/dist/css/AdminLTE.min.css' %}">
   <link rel="stylesheet" href="{% static 'adminlite/dist/css/skins/_all-skins.min.css' %}">
 
+    <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  
   {{ form.media }}
 
   <link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}"> {% load bootstrap3 %} {% load leaflet_tags %} {% leaflet_js plugins="ALL" %} {% leaflet_css plugins="ALL" %}
@@ -34,37 +36,39 @@
     .leaflet-container {
       /* all maps */
       width: 100%;
-      height: 450px;
+      height: 70vh;
     }
 
     body {
       padding: 0px;
       margin: 0px;
+      padding-top: 0px;
+      margin-top: 0px;
+
     }
 
-    /* #sidebar {
-            height: 40%;
-            font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
-            margin-top: 240px;
-            margin-right: 30px;
-        }
 
-        .lorem {
-            font-style: italic;
-            color: #AAA;
-          } */
   </style>
 
-  <!-- <link rel="stylesheet" href="{% static 'leaflet-sidebar/css/leaflet-sidebar.css' %}">
- <link rel="stylesheet" href="{% static 'leaflet-sidebar/old-sidebar/L.Control.Sidebar.css' %}"> -->
-</head>
+  </head>
 
 <body>
-  <br>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <a href="{% url 'home' %}" class="btn btn-primary btn-block">Home</a>
+    </div>
+  </div>
+
+{% if my_pending_approval_airspaces_count <= 40 %}
 
   <form method="POST" enctype="multipart/form-data">
+    <div class="text-center">
+       {% bootstrap_form_errors form %} 
+       {{ form.fieldname.errors }}
 
-    {% bootstrap_form_errors form %} {{ form.fieldname.errors }}
+    </div>
+    
 
    {% csrf_token %}
     <div class="row">
@@ -158,17 +162,13 @@
 
     };
 
-
     bounds = new L.LatLngBounds(new L.LatLng(4.740950, 41.858445), new L.LatLng(-4.921208, 33.922226));
-
-
 
     geom = L.GeometryField.extend({
       addTo: function (map) {
 
         L.GeometryField.prototype.addTo.call(this, map);
         // Customize map for field
-
 
         {% include 'applications/includes/search.html' %}
 
@@ -217,9 +217,6 @@
         // L.polyline(latlngs[0].concat(latlngs[0][0])).addTo(map);
         map.setMaxBounds(bounds); // Should not enter infinite recursion
 
-
-
-
       }
 
     });
@@ -260,7 +257,43 @@
   <script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
 
 
+{% else %}
+<p></p>
+<div class="row">
+  <div class="col-sm-3">
 
+  </div>
+  <div class="col-sm-6">
+    <div class="panel panel-danger" >
+      <div class="panel-heading" style="text-align:center">
+        Sorry, Can't Make a New Flight
+      </div>
+      <div class="panel-body">
+        <h6 class='text-center'>
+          You have already reached the max number un-approved Flights (10).
+          You are required to have less the number to make a new Flight
+        </h6>
+        <hr>
+        <h6>Your Last {{my_pending_approval_airspaces_count}} are:</h6>
+        {% for my_pending_approval_airspace in my_pending_approval_airspaces %}
+        <p>
+          <a href="{% url 'myreserve_detail' pk=my_pending_approval_airspace.pk %}">{{my_pending_approval_airspace}}</a>
+        </p>
+        {% endfor %}
+      </div>
+      <div class="panel-footer">
+        Kindly Go to
+        <p><a href="{% url 'my_reserve_list' %}" class="btn btn-primary btn-block"> All your Applied Reserves</a></p>
+      </div>
+    </div>
+    
+  </div>
+  <div class="col-sm-3">
+
+  </div>
+</div>
+
+{% endif %}
 </body>
 
 </html>

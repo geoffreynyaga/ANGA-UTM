@@ -6,7 +6,8 @@ from .models import Reading
 
 
 def weather(request):
-    data = Reading.objects.last() # TODO: Weather: Does this mean that you only get what the last user saved?
+    data = Reading.objects.last() 
+    # TODO: Weather: Does this mean that you only get what the last user saved?
     return render(request,'weather/weather.html',{'data':data})
 
 

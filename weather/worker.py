@@ -23,12 +23,13 @@ def fetch_data():
     icon_url = data['icon_url']
     observation_time = data['observation_time']
 
-
     #TODO: TRY EXCEPT STATEMENT FOR CITY.
     """" THE FIRST ATTEMPT IS IF the city is already queried in db, then update
         the except then adds the listed city to db
         """
         #TODO: VERBATIM IN MODELS IN SAVE( 2nd icon of locate)
+    
+    
     try:
         conn = psycopg2.connect(dbname='astral_utm', user='postgres', host='localhost', password='19Scazorla')
         print('opened db successfully')

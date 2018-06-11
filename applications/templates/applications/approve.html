@@ -2,6 +2,7 @@
 
 
 {% load static %}
+{% load group_perms %}
 
 
 {% block head %}
@@ -13,113 +14,143 @@
 
 {%block body%}
 
+<section class="content">
+
+{% if request.user|has_group:"KCAA" %}
+
+    {% comment %} TO DO: ALLOW KCAA GUYS ONLY
+    --FIXED
+    {% endcomment %}
+    
+    
+
+
+    {% load bootstrap3 %}
+
+    {% load leaflet_tags %}
+    {% leaflet_js plugins="forms" %}
+    {% leaflet_css plugins="forms" %}
+
+
+        {{ form.media }}
+
+
+ 
+
+          <form method="POST">
+              {% csrf_token %}
+
+            <h5 class="text-center">  {% bootstrap_form_errors form %} </h5>
 
 {% include 'applications/includes/detail.html'%}
-
-
-{% load bootstrap3 %}
-
-{% load leaflet_tags %}
-{% leaflet_js plugins="forms" %}
-{% leaflet_css plugins="forms" %}
-
-
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="{% static 'adminlite/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script> -->
-
-    {{ form.media }}
-
-
-<!-- <section class="content"> -->
-
-      <form method="POST">
-          {% csrf_token %}
-
-        <h2>  {% bootstrap_form_errors form %} </h2>
-
-
-<div class="row">
-  <div class="col-sm-5">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h3 class="panel-title">Flight Times</h3>
-      </div>
-      <div class="panel-body">
-If you change this for the applicant,
-          Make sure to note it down in the comments section
-<hr>
-        <span class="label label-primary"></span>
-           {% bootstrap_field form.rpas %}
-        <br>
-       <span class="label label-primary">Change Start Day :</span>
-        {% bootstrap_field form.start_day %}
-       <br>
-      <span class="label label-primary">Change Start Time :</span>
-        {{ form.start_time }}
-       <br>
-       <span class="label label-primary">Change End Time: :</span>
-       {{ form.end }}
-
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-7">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h3 class="panel-title">Change the Applicant's Requested Airspace</h3>
-      </div>
-      <div class="panel-body">
-        <div class="alert alert-info" role="alert">You can change this</div>
-        {% bootstrap_field form.geom %}
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-
-
-
-<div class="row">
-  <div class="col-sm-4">
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h3 class="panel-title">Add Comments for applicant to change</h3>
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">Flight Times</h3>
           </div>
           <div class="panel-body">
+    If you change this for the applicant,
+              Make sure to note it down in the comments section
+    <hr>
+            <span class="label label-primary"></span>
+              {% comment %} {% bootstrap_field form.rpas %} {% endcomment %}
+            <br>
+          <span class="label label-primary">Change Start Day :</span>
+            {% bootstrap_field form.start_day %}
+          <br>
+          <span class="label label-primary">Change Start Time :</span>
+            {{ form.start_time }}
+          <br>
+          <span class="label label-primary">Change End Time: :</span>
+          {{ form.end }}
 
-          {% bootstrap_field form.comments %}
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">Change the Applicant's Requested Airspace</h3>
+          </div>
+          <div class="panel-body">
+            <div class="alert alert-info" role="alert">You can change this</div>
+            {% bootstrap_field form.geom %}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Add Comments for applicant to change</h3>
+              </div>
+              <div class="panel-body">
+
+              {% bootstrap_field form.comments %}
+          </div>
+        </div>
+
+      </div>
+      <div class="col-sm-8">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">APPROVE/REJECT/IGNORE APPLICATION</h3>
+              </div>
+              <div class="panel-body">
+                <div class="alert alert-info" role="alert">Approve/reject and write comments below</div>
+                {% bootstrap_field form.status %}
+              </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+      </div>
+
+    </div>
+
+
+
+
+
+    </form>
+
+
+
+
+    {% else %}
+
+    <div class="row">
+      <div class="col-xs-3">
+
+      </div>
+      <div class="col-xs-6">
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            OOPS!
+          </div>
+          <div class="panel-body">
+            You've wandered off to a place you are not supposed to be!!!!
+
+            <p>Go Home immediately!</p>
+  
+            <hr>
+            Meanwhile, we have noted this and our guy(s) are working on it.
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-3">
+
       </div>
     </div>
 
-  </div>
-  <div class="col-sm-8">
-    <div class="panel panel-danger">
-        <div class="panel-heading">
-            <h3 class="panel-title">APPROVE/REJECT/IGNORE APPLICATION</h3>
-          </div>
-          <div class="panel-body">
-            <div class="alert alert-info" role="alert">Approve/reject and write comments below</div>
-            {% bootstrap_field form.status %}
-          </div>
-      </div>
-      <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+    {% endif %}
+    </section>
 
-  </div>
-
-</div>
-
-
-
-<!-- <input  type="submit" value="Submit" /> -->
-
-
-</form>
-
-
-
-
-
-</section>
 {%endblock%}

@@ -8,7 +8,8 @@ from .models import ReserveAirspace, LogsUpload
 # Register your models here.
 
 class ReserveAirspaceAdmin(LeafletGeoAdmin):
-    list_display = ('created_by', 'status', 'expiry', 'get_start_datetime', 'comments')
+    list_display = ('created_by', 'application_number','status',
+                    'expiry', 'get_start_datetime', 'comments')
 
     def save_model(self, request, instance, form, change):
         user = request.user

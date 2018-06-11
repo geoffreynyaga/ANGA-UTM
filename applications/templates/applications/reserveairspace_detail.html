@@ -1,295 +1,307 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block head %}
     <title>Applied Reserve Details</title>
+
+<style>
+  p{
+    color:darkblue;
+  }
+</style>
 {% endblock %}
+
 
 {% block body %}
 
-{% load static %}
-{% load leaflet_tags %}
-{%  leaflet_js %}
-{%  leaflet_css %}
+    {% load leaflet_tags %}
+    {%  leaflet_js %}
+    {%  leaflet_css %}
 
-<section class="content-header">
-  <h1>
-      My Dashboard
-    <small>Summary</small>
-  </h1>
-  <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><a href="{% url 'applied_reserves' %}">All Applications</a></li>
+    <section class="content-header">
+      <h1>
+          My Dashboard
+        <small>Summary</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active"><a href="{% url 'applied_reserves' %}">All Applications</a></li>
 
-    <li class="breadcrumb-item active">Applied By: {{reserveairspace.created_by.get_full_name}} from {{reserveairspace.created_by.userprofile.organization.organization_details}} </li>
-  </ol>
-</section>
-
-
-
-<section class="content">
-
-<div class="row">
-  <div class="col-sm-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Applied By:</h3>
-      </div>
-      <div class="panel-body">
-     {{reserveairspace.created_by.get_full_name}} from {{reserveairspace.created_by.userprofile.organization.organization_details}}
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Application Status:</h3>
-      </div>
-      <div class="panel-body">
-        {{reserveairspace.get_status_display}}
-      </div>
-    </div>
-  </div>
-</div>
-
-
-  <div class="row">
-    <div class="col-sm-3">
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            Flight Times
-          </h3>
-        </div>
-        <div class="panel-body">
-
-          created on: <b>{{reserveairspace.date_created}}</b> 
-          <br>
-       
-          <p><i class="fa fa-calendar" aria-hidden="true"></i>
-             Start Day:
-            <span class="pull-right">
-              <b>{{reserveairspace.start_day}}</b>
-            </span>
-          </p>
-          <hr>
-            <p><i class="fa fa-hourglass-start" aria-hidden="true"></i>
-            Start Time: 
-              <span class="pull-right">
-                <b>{{reserveairspace.start_time}}</b> 
-              </span>
-            </p>
-          <hr>
-            <p><i class="fa fa-hourglass-end" aria-hidden="true"></i>
-            End: 
-              <span class="pull-right">
-              <b> {{reserveairspace.end}}</b>
-              </span>
-            </p>
-          <hr>
-            <p><i class="fa fa-map-o" aria-hidden="true"></i> 
-            Area :  
-              <span class="pull-right">
-                <b>{{reserveairspace.get_area}}</b> sq. km 
-              </span>
-            </p>
-          
-          <hr>
-            <p><i class="fa fa-map-o" aria-hidden="true"></i>
-            Perimiter :  
-              <span class="pull-right">
-                <b>{{reserveairspace.get_perimeter}}</b> km
-              </span> 
-            </p>
-          <hr>
-            <p><i class="fa fa-align-left" aria-hidden="true"></i>
-            Reason For Reject/Approval:
-              <span class="pull-right">
-                <b>{{reserveairspace.reason}}</b>
-              </span>
-            </p>
-          <hr>
-            <p><i class="fa fa-comment-o" aria-hidden="true"></i>
-            Comments from KCAA: 
-              <span class="pull-right">
-                <b>{{reserveairspace.comments}}</b>
-              </span>
-            </p>
-        </div>
-      </div>
-    </div>
+        <li class="breadcrumb-item active">Applied By: {{reserveairspace.created_by.get_full_name}} from {{reserveairspace.created_by.userprofile.organization.organization_details}} </li>
+      </ol>
+    </section>
 
 
 
-    <div class="col-sm-9">
-
-      <div class="panel panel-danger">
-        <div class="panel-heading">
-          <h3 class="panel-title">Proximities to Restricted Airspace</h3>
-        </div>
-        <div class="panel-body">
-          <table class='table table-hover'>
-                  {% if reserveairspace.dist_from_airports.items %}
-            <thead>
-              <th>Place</th>
-              <th>Distance</th>
-            </thead>
-
-            <tbody>
-
-
-              {% for airport,distance in reserveairspace.dist_from_airports.items %}
-
-              <tr>
-                <td><b>{{airport}}</b></td>
-                <td>{{distance}} km</td>
-              </tr>
-              {%endfor%}
-
-                {% else %}
-                There are currently no Geofence Area within 15km radius from your Location.
-                Fly Safely!!
-
-                {% endif %}
-            </tbody>
-
-
-          </table>
-        </div>
-      </div>
-
-
-
-      <div class="panel panel-success">
-        <div class="panel-heading">
-          <h3 class="panel-title">Reserved Airspace</h3>
-        </div>
-        <div class="panel-body">
-
-          <script type="text/javascript">
-          function our_layers(map,options){
-
-              var datasets = new L.GeoJSON.AJAX("{% url 'my_airspace_datasets' pk=reserveairspace.pk %}",{
-                      });
-
-
-                      datasets.addTo(map);
-
-
-      datasets.on('layeradd', function (event) {
-        // Assuming the clicked feature is a shape, not a point marker.
-        map.fitBounds(event.layer.getBounds());
-      });
-
-    }
-
-          </script>
-
-
-          {%  leaflet_map "gis" callback="window.our_layers" %}
-        </div>
-
-
-        <div class="panel-footer">
-          <a href="{% url 'admin:applications_reserveairspace_change' reserveairspace.id %}">
-             Go to Admin</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<div class="panel panel-danger">
-  <div class="panel-heading">
-      <h3 class="panel-title">Rpas Details</h3>
-    </div>
-</div>
-
-
-<div class="panel">
-  <div class="panel-heading">
-    <h3 class="panel-title">
-      <nav aria-label="breadcrumb" role="navigation">
-        <ol class="breadcrumb">
-          <h4>
-          <li class="breadcrumb-item " ><p>{{reserveairspace.rpas.rpas_model}}</p></li>
-        </h4>
-        </ol>
-      </nav>
-    </h3>
-  </div>
-  <div class="panel-body">
+    <section class="content">
 
     <div class="row">
-
-      <div class="col-sm-4">
-        <div class="card">
-          <div class="card-body">
-            <ul>
-              <li> Serial:  {{reserveairspace.rpas.rpas_serial}} </li>
-              <li> Payload:  {{reserveairspace.rpas.payload}} </li>
-              <li> Manufacturer:  {{reserveairspace.rpas.rpas_model.manufacturer}}  </li>
-              <li> Payload Manufacturer: {{reserveairspace.rpas.payload.manufacturer}} </li>
-              <li> Payload Serial: {{reserveairspace.rpas.payload.payload_serial}}  </li>
-            </ul>
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Applied By:</h3>
+          </div>
+          <div class="panel-body">
+           <p>{{reserveairspace.created_by.get_full_name}} for {{reserveairspace.created_by.userprofile.organization.organization_details}}</p>
+            {% comment %} FIXME: Make the organization reflect the org in log create or rpas create {% endcomment %}
           </div>
         </div>
-    </div>
-
-    <div class="col-sm-3">
-      <img class="mw-10" style="width: 100%;" src="{{reserveairspace.rpas.rpas_pic.url}}" alt="No RPAS Image">
-      <div class="">
-            <br>
       </div>
-
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Application Status:</h3>
+          </div>
+          <div class="panel-body">
+            <p>{{reserveairspace.get_status_display}}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
 
-    <div class="col-sm-5">
-      <div class="card">
-        <div class="card-body">
+      <div class="row">
+        <div class="col-sm-3">
 
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Flight Times
+              </h3>
+            </div>
+            <div class="panel-body">
 
-          <div class="media">
-            <div class="media-body">
-              <h4 class="media-heading">Manufacturer:  {{reserveairspace.rpas.rpas_model.manufacturer}} </h4>
-              <p>Country: {{reserveairspace.rpas.rpas_model.manufacturer.country}}</p>
+              created on: <b>{{reserveairspace.date_created}}</b> 
               <br>
-              weight: {{reserveairspace.rpas.rpas_model.weight}} kg
+          
+              <h6><i class="fa fa-calendar" aria-hidden="true"></i>
+                Start Day:
+                <span class="pull-right">
+                  <p><b>{{reserveairspace.start_day}}</b></p> 
+                </span>
+              </h6>
+              <hr>
+                <h6><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+                Start Time: 
+                  <span class="pull-right">
+                    <p><b>{{reserveairspace.start_time}}</b></p> 
+                  </span>
+                </h6>
+              <hr>
+                <h6><i class="fa fa-hourglass-end" aria-hidden="true"></i>
+                End: 
+                  <span class="pull-right">
+                  <p><b> {{reserveairspace.end}}</b></p>
+                  </span>
+                </h6>
+              <hr>
+                <h6><i class="fa fa-map-o" aria-hidden="true"></i> 
+                Area :  
+                  <span class="pull-right">
+                    <p><b>{{reserveairspace.get_area}}</b> sq. km </p>
+                  </span>
+                </h6>
+              
+              <hr>
+                <h6><i class="fa fa-map-o" aria-hidden="true"></i>
+                Perimiter :  
+                  <span class="pull-right">
+                    <p><b>{{reserveairspace.get_perimeter}}</b> km</p>
+                  </span> 
+                </h6>
+              <hr>
+                <h6><i class="fa fa-align-left" aria-hidden="true"></i>
+                Reason For Reject/Approval:
+                  <span class="pull-right">
+                    <p><b>{{reserveairspace.reason}}</b></p>
+                  </span>
+                </h6>
+              <hr>
+                <h6><i class="fa fa-comment-o" aria-hidden="true"></i>
+                Comments from KCAA: 
+                  <span class="pull-right">
+                    <p><b>{{reserveairspace.comments}}</b></p>
+                  </span>
+                </h6>
             </div>
-            <div class="media-right">
-              {% if reserveairspace.rpas.rpas_model.manufacturer.logo%}
-              <a href="#">
-                <img class="media-object" style="width: 100px;" src="{{reserveairspace.rpas.rpas_model.manufacturer.logo.url}}" alt="...">
-              </a>
-              {%endif %}
+          </div>
+        </div>
 
+
+
+        <div class="col-sm-9">
+
+          <div class="panel panel-danger">
+            <div class="panel-heading">
+              <h3 class="panel-title">Proximities to Restricted Airspace</h3>
+              <!-- TODO: ADD NOTAM STUFF (link, details and reminder to add it to postflight/preflight) -->
+              
             </div>
+            <div class="panel-body">
+              <table class='table table-hover'>
+                      {% if reserveairspace.dist_from_airports.items %}
+                <thead>
+                  <th>Place</th>
+                  <th>Distance</th>
+                </thead>
 
+                <tbody>
+
+
+                  {% for airport,distance in reserveairspace.dist_from_airports.items %}
+
+                  <tr>
+                    <td><b>{{airport}}</b></td>
+                    <td>{{distance}} km</td>
+                  </tr>
+                  {%endfor%}
+
+                    {% else %}
+                    There are currently no Geofence Area within 15km radius from your Location.
+                    Fly Safely!!
+
+                    {% endif %}
+                </tbody>
+
+              </table>
+            </div>
           </div>
 
+
+
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Reserved Airspace</h3>
+            </div>
+            <div class="panel-body">
+
+              <script type="text/javascript">
+              function our_layers(map,options){
+
+                  var datasets = new L.GeoJSON.AJAX("{% url 'my_airspace_datasets' pk=reserveairspace.pk %}",{
+                          });
+
+
+                          datasets.addTo(map);
+
+
+          datasets.on('layeradd', function (event) {
+            // Assuming the clicked feature is a shape, not a point marker.
+            map.fitBounds(event.layer.getBounds());
+          });
+
+        }
+
+              </script>
+
+
+              {%  leaflet_map "gis" callback="window.our_layers" %}
+            </div>
+
+
+
+          </div>
         </div>
       </div>
+
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+          <h3 class="panel-title">Rpas Details</h3>
+        </div>
     </div>
 
 
-  </div>
+    <div class="panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <nav aria-label="breadcrumb" role="navigation">
+            <ol class="breadcrumb">
+              <h4>
+              <li class="breadcrumb-item " ><h6>{{reserveairspace.rpas.rpas_model}}</h6></li>
+            </h4>
+            </ol>
+          </nav>
+        </h3>
+      </div>
+      <div class="panel-body">
 
-  </div>
+        <div class="row">
 
-  <div class="panel-footer">
-        <a class="btn btn-primary" href="" role="button">
-        <i class="fa fa-external-link" aria-hidden="true"></i>
-            See Full Specs  </a>
-  </div>
-</div>
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-body">
+                <ul>
+                  <li> Serial:  {{reserveairspace.rpas.rpas_serial}} </li>
+                  <li> Payload:  {{reserveairspace.rpas.payload}} </li>
+                  <li> Manufacturer:  {{reserveairspace.rpas.rpas_model.manufacturer}}  </li>
+                  <li> Payload Manufacturer: {{reserveairspace.rpas.payload.manufacturer}} </li>
+                  <li> Payload Serial: {{reserveairspace.rpas.payload.payload_serial}}  </li>
+                </ul>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+          <img class="mw-10" style="width: 100%;" src="{{reserveairspace.rpas.rpas_pic.url}}" alt="No RPAS Image">
+          <div class="">
+                <br>
+          </div>
+
+        </div>
 
 
+        <div class="col-sm-5">
+          <div class="card">
+            <div class="card-body">
 
 
+              <div class="media">
+                <div class="media-body">
+                  <h4 class="media-heading">Manufacturer:  {{reserveairspace.rpas.rpas_model.manufacturer}} </h4>
+                  <h6>Country: {{reserveairspace.rpas.rpas_model.manufacturer.country}}</h6>
+                  <br>
+                  weight: {{reserveairspace.rpas.rpas_model.weight}} kg
+                </div>
+                <div class="media-right">
+                  {% if reserveairspace.rpas.rpas_model.manufacturer.logo%}
+                  <a href="#">
+                    <img class="media-object" style="width: 100px;" src="{{reserveairspace.rpas.rpas_model.manufacturer.logo.url}}" alt="...">
+                  </a>
+                  {%endif %}
 
-</section>
+                </div>
 
-<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      </div>
+
+      <div class="panel-footer">
+            <a class="btn btn-primary" href="{% url 'rpas_detail' pk=reserveairspace.rpas.pk %}" role="button">
+            <i class="fa fa-external-link" aria-hidden="true"></i>
+                See Full Specs  </a>
+      </div>
+    </div>
+
+    {% if not reserveairspace.get_status_display == 'APPROVED' %}
+    <div class="row">
+      <div class="col-xs-12">
+        <a class="btn btn-primary btn-block" href="{% url 'update_my_airspace' pk=reserveairspace.pk %}" role="button">UPDATE</a>
+      </div>
+    </div>
+    {% endif %}
+
+
+    </section>
+
+    <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
 
 {% endblock %}

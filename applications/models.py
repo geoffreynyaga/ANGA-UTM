@@ -1,12 +1,14 @@
-from django.db import models
+from datetime import datetime, date, timedelta
+
 
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models as gis_models
+from django.contrib.gis.db.models import GeoManager
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
+from django.db import models
 from django.utils.safestring import mark_safe
 
-from datetime import datetime, date, timedelta
 
 from maps.models import GeofenceLocations, LocationPoints
 from rpas.models import Rpas
@@ -38,9 +40,16 @@ class LogsUpload(models.Model):
 
 class ReserveAirspace(gis_models.Model):
     geom = gis_models.PolygonField(blank=True, null=True)
+    #FIX ME: Why THE FUCK DID I do blank and null?
+    """
+        --FIXED: So that If log you can either upload a log or a geom
+        TODO: NB:This is why documentation is very vital!!!! I'm not paid enought to write
+        all the docstrings :) 
+    """
+
     log = models.FileField(
         upload_to='mission-planner-logs/', blank=True, null=True)
-    objects = gis_models.GeoManager()
+    objects: GeoManager = gis_models.GeoManager()
     rpas = models.ForeignKey(Rpas)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -130,17 +139,24 @@ class ReserveAirspace(gis_models.Model):
             y = self.pk
             self.application_number = x + str(y)
 
+        # Putting saving time to be less than 6 minutes, after that model cant even add a flightlog
         saving_time = self.date_modified - self.date_created
         saving_time_seconds = saving_time.total_seconds()
 
-        # saving time to be less than 6 minutes
+        # TO DO: Questions: what if you create and save and edit in the 6 minutes?
+        """ Turns out it does save two Flight Logs
+        --FIXED by checking if the log is already created
+        TODO: perhaps put this in properties? but can i access model properties in the clean?
+        """
         if (saving_time_seconds / 60) < 6:
             from flight_plans.models import FlightLog
-            x = FlightLog.objects.create(
-                reserve_airspace_id=self.pk,
-                user_id=self.created_by.pk
-            )
-            x.save()
+            get_log = FlightLog.objects.filter(reserve_airspace=self.pk)
+            if not get_log:
+                x = FlightLog.objects.create(
+                    reserve_airspace_id=self.pk,
+                    user_id=self.created_by.pk
+                )
+                x.save()
 
         # if self.status == 1:
         #     from notifications.send_a_notification import send_a_notification
@@ -153,9 +169,16 @@ class ReserveAirspace(gis_models.Model):
         super(ReserveAirspace, self).save(*args, **kwargs)
 
     def clean(self):
+
+        
+
         super(ReserveAirspace, self).clean()
         """ Do i really need the super method above?
         """
+        if not (self.geom or self.log):
+            raise ValidationError(
+                "Your Geometry can't be blank. Draw an area or upload a log"
+            )
 
         if self.start_time and self.end:
             booking_time = datetime.combine(
@@ -232,6 +255,7 @@ class ReserveAirspace(gis_models.Model):
             if x > 9:
                 raise ValidationError(
                     'This Airspace is greater than the recommended value of 9sq km')
+            #TODO: BVLOS CERTIFICATION EXEMPT
 
     def dist_from_airports(self):
         dis = GeofenceLocations.objects.all()

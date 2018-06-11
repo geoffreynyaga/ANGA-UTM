@@ -45,7 +45,7 @@ GLoc = {
         g.startPos = position;
         var openweatherapikey = '249fa68233e35cb23e8dceb9b0c87396'
         g.searchQuery = 'https://api.openweathermap.org/data/2.5/weather?lat=' + g.startPos.coords.latitude + '&lon=' + g.startPos.coords.longitude + '&APPID=' + openweatherapikey;
-
+        // console.log(g.searchQuery)
         $.getJSON(g.searchQuery, function(data) {
             WeatherInfo.setWeatherData(data);
         });

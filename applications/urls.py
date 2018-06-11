@@ -21,8 +21,6 @@ urlpatterns = [
         name='airspace_datasets'),
 
         url(r'update/(?P<pk>\d+)/$' , views.ReserveAirspaceUpdateView.as_view(), name='update_my_airspace'),
-
-
         url(r'^myreserve/(?P<pk>\d+)/$' , views.ReserveAirspaceDetailView.as_view(), name='myreserve_detail'),
 
         url(r'^approval-letters/$', views.MyApprovalLettersListView.as_view(), name='my_approval_letters_list'),

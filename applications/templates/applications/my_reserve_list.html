@@ -115,25 +115,25 @@
 </div>
 </div>
 
+
+<div class="col-sm-12">
+  <script type="text/javascript">
+    function our_layers(map, options) {
+
+      var datasets = new L.GeoJSON.AJAX("{% url 'my_reserve_datasets'%}", {
+      });
+
+      datasets.addTo(map);
+    }
+  </script> {% leaflet_map "gis" callback="window.our_layers" %}
 </div>
 
-    <div class="col-sm-12">
-      <script type="text/javascript">
-      function our_layers(map,options){
 
-        var datasets = new L.GeoJSON.AJAX("{% url 'my_reserve_datasets'%}",{
-        });
+</div>
 
-        datasets.addTo(map);
-      }
-      </script>
+    
 
-      {%  leaflet_map "gis" callback="window.our_layers" %}
-    </div>
-
-<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" >
-
-</script>
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
 
 </section>
 
