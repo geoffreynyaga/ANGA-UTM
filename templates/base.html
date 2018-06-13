@@ -96,17 +96,6 @@
     });
   }
 
-  if (navigator.serviceWorker.controller) {
-      console.log('[Webpush] active service worker found, no need to register')
-    } else {
-      //Register the ServiceWorker
-      navigator.serviceWorker.register('{% static "webpush/webpush_serviceworker.js" %}', {
-        scope: '/static/'
-      }).then(function (reg) {
-        console.log('Service worker has been registered for scope:' + reg.scope);
-      });
-    }
-
   </script>
 
 
