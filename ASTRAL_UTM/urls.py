@@ -30,7 +30,7 @@ from applications.views import view_airspace
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include('pwa.urls')),  # You MUST use an empty string as the URL prefix
-    # url(r'^webpush/', include('webpush.urls')),
+    url(r'^webpush/', include('webpush.urls')),
 
     url(r'^home$', views.home,name='home' ),
 

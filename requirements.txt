@@ -1,9 +1,12 @@
+asn1crypto==0.24.0
 Babel==2.5.3
 boto==2.48.0
 boto3==1.5.26
 botocore==1.8.40
 certifi==2018.4.16
+cffi==1.11.5
 chardet==3.0.4
+cryptography==2.2.2
 dj-database-url==0.4.2
 Django==1.11.3
 django-bootstrap-static==3.3.7.1
@@ -17,8 +20,10 @@ django-leaflet==0.22.0
 django-phonenumber-field==2.0.0
 django-progressive-web-app==0.1.1
 django-storages==1.6.5
+django-webpush==0.2.4
 docutils==0.14
 gunicorn==19.7.1
+http-ece==1.0.5
 idna==2.6
 jmespath==0.9.3
 jsonfield==2.0.2
@@ -28,8 +33,11 @@ pandas==0.22.0
 phonenumberslite==8.8.11
 Pillow==4.3.0
 psycopg2==2.7.4
+py-vapid==1.4.0
+pycparser==2.18
 python-dateutil==2.6.1
 pytz==2017.3
+pywebpush==1.6.0
 requests==2.18.4
 s3transfer==0.1.12
 six==1.11.0

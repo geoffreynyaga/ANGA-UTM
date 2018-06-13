@@ -1,4 +1,4 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -39,3 +39,11 @@ def mark_all_notifications_as_read(request):
 class NotificationDeleteView(DeleteView):
     model = Notifications
     success_url = '/notifications/'
+
+
+
+def test_notifications(request):
+    # The group_name should be the name you would define.
+    webpush = {"group": "KCAA"}
+
+    return render(request, 'notifications/a_notification_test.html',  {"webpush": webpush})

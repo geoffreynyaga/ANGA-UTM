@@ -1,22 +1,26 @@
-{% extends "base.html" %}
-{%load static %}
 
-{% load webpush_notifications %}
+<!DOCTYPE html>
 
-{% block head %}
+<html lang="en">
 
+   {% load static %} 
+   
+   {% load webpush_notifications %}
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title> Notifications</title>
+  
+  {% webpush_header %}
 
-    <!--{% webpush %}-->
+</head>
 
-{%endblock%}
-
-{%block body%}
-
-{% webpush_button %}
-
-<p> Hello World! </p>
-
+<body>
+   {% webpush_button %}
+  <p> Hello World! </p>
+</body>
 
 
-{%endblock%}
+</html>

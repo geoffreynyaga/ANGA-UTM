@@ -1,5 +1,6 @@
-{% load static %}
+
 <!DOCTYPE html>
+{% load static %}
 <html>
 
 <head>
@@ -157,7 +158,9 @@
 
   <script type="text/javascript">
     function id_site_location_geom_map_callback(map, options) {
+
       geodjango_id_site_location_geom.store_class = L.FieldStore;
+
       (new geom(geodjango_id_site_location_geom)).addTo(map);
 
     };
@@ -173,14 +176,22 @@
         {% include 'applications/includes/search.html' %}
 
         drawControl = this._drawControl;
+        
         drawControl._toolbars.draw.options.polyline = false;
         drawControl._toolbars.draw.options.polygon = true;
         drawControl._toolbars.draw.options.rectangle = true;
         drawControl._toolbars.draw.options.marker = false;
+
+        drawControl.options.draw.polygon.allowIntersection = false;
+        drawControl.options.draw.polygon.showArea = true;
+
+        
         map.addControl(drawControl);
 
         map.addControl(new L.Control.Fullscreen());
 
+
+        
         {% include 'maps/includes/geofence_datasets.html' %} 
         {% include 'notams/includes/notam_datasets.html' %}
         {% include 'applications/includes/reserved_airspace_datasets.html' %} 
@@ -216,10 +227,38 @@
         var latlngs = L.rectangle(bounds).getLatLngs();
         // L.polyline(latlngs[0].concat(latlngs[0][0])).addTo(map);
         map.setMaxBounds(bounds); // Should not enter infinite recursion
+        
+       
 
+        map.on('draw:created', function (event) {
+          // Assuming the clicked feature is a shape, not a point marker.
+          console.log(event)
+          map.fitBounds(event.layer.getBounds());
+
+
+        });
+
+      
+
+        map.on('draw:edited', function (e) {
+          var layers = e.layers;
+          layers.eachLayer(function (layer) {
+            if (layer instanceof L.Polygon) {
+              //Do marker specific actions here
+              map.fitBounds(layer.getBounds());
+            }
+          });
+        });
+
+
+        
       }
 
     });
+
+    
+
+
   </script>
 
 

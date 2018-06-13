@@ -87,7 +87,6 @@ class ReserveAirspaceUpdateView(UpdateView):
         return kwargs
 
 
-
 ##############################################################################################
 
 

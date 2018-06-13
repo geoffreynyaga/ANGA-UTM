@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 
-{% load static %}
-
-{% load group_perms %}
-
 <html>
+
+   {% load static %}
+
+
+   {% load group_perms %} 
+   
+
 
 {% load pwa %} 
 <!-- TODO: PWA BASE.HTML is the above supposed to be above <head> ? -->
 
   <head>
 
-{% progressive_web_app_meta %}
+
+    {% progressive_web_app_meta %}
+
+
     <meta charset="utf-8">
     <link rel="shortcut icon" href="{% static 'favicons/favicon.ico' %}" type="image/x-icon" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -95,6 +101,7 @@
 
 
   <body class="hold-transition skin-blue sidebar-mini">
+    
 
   <div class="wrapper">
 
