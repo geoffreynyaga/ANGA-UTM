@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'datetimewidget',
     'leaflet',
     'phonenumber_field',
-    # 'webpush',
+    'webpush',
 
 
     'organizations',
@@ -250,8 +250,8 @@ PWA_APP_ICONS = [
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR,  'static/pwabuilder-sw.js')
 
 
-# WEBPUSH_SETTINGS = {
-#     "VAPID_PUBLIC_KEY": "BH3eHxegmVIFi5gWT1zfNjJ7Kbzm2syiiIKW05ol8oGC1KCNxQ1UE4bDfwcMpvTHx-mEkJRkkuNyC13cf6JcbH0",
-#     "VAPID_PRIVATE_KEY":"HG-5hGFDX4mdXaH3PPp8JJy6hLA2wodJvTxeZjkni14",
-#     "VAPID_ADMIN_EMAIL": "admin@example.com"
-# }
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": "BH3eHxegmVIFi5gWT1zfNjJ7Kbzm2syiiIKW05ol8oGC1KCNxQ1UE4bDfwcMpvTHx-mEkJRkkuNyC13cf6JcbH0",
+    "VAPID_PRIVATE_KEY": "HG-5hGFDX4mdXaH3PPp8JJy6hLA2wodJvTxeZjkni14",
+    "VAPID_ADMIN_EMAIL": "admin@example.com"
+}
