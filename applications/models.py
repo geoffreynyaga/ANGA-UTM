@@ -159,10 +159,10 @@ class ReserveAirspace(gis_models.Model):
                 )
                 x.save()
 
-        if self.status == 1:
-            from notifications.send_a_notification import send_a_notification
-            send_a_notification(self.created_by,"Your flight has been Rejected Flight",str(self.comments))
-            print("should have sent a notification")
+        # if self.status == 1:
+        #     from notifications.send_a_notification import send_a_notification
+        #     send_a_notification(self.created_by,"Your flight has been Rejected Flight",str(self.comments))
+        #     print("should have sent a notification")
         # elif self.status == 2:
         #     from notifications.send_a_notification import send_a_notification
         #     x = mark_safe('<a href="/applications/airspace/"> Go To Airspace</a>')
