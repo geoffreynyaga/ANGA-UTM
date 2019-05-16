@@ -33,7 +33,6 @@ jmespath==0.9.3
 jsonfield==2.0.2
 numpy==1.16.3
 olefile==0.44
-pandas==0.24.2
 phonenumberslite==8.8.11
 Pillow==6.0.0
 py-vapid==1.4.0
