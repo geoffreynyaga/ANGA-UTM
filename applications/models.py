@@ -1,6 +1,5 @@
 from datetime import datetime, date, timedelta
 
-
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.db.models import GeoManager
@@ -11,6 +10,7 @@ from django.utils.safestring import mark_safe
 
 
 from maps.models import GeofenceLocations, LocationPoints
+
 from notifications.send_a_notification import send_a_notification
 from rpas.models import Rpas
 
@@ -19,6 +19,7 @@ from .validators import validate_start_date
 
 
 class LogsUpload(models.Model):
+     
     name = models.CharField(max_length=240)
     geom = gis_models.GeometryField(blank=True, null=True)
     log = models.FileField(
@@ -40,9 +41,17 @@ class LogsUpload(models.Model):
 
 
 class ReserveAirspace(gis_models.Model):
-    geom = gis_models.PolygonField(blank=True, null=True)
-    #FIX ME: Why THE FUCK DID I do blank and null?
     """
+    This is the main model class to create reserve airspace
+    it inherits from the following models
+    from django.contrib.gis.db import models as gis_models
+    the geom extends the models' PolgonField. Thus we can only draw polygons
+    A multipolygonField would have given us ability to draw lines as well 
+    """
+    geom = gis_models.PolygonField(blank=True, null=True)
+    
+    """
+         #FIX ME: Why THE FUCK DID I do blank and null?
         --FIXED: So that If log you can either upload a log or a geom
         TODO: NB:This is why documentation is very vital!!!! I'm not paid enought to write
         all the docstrings :) 
@@ -50,7 +59,16 @@ class ReserveAirspace(gis_models.Model):
 
     log = models.FileField(
         upload_to='mission-planner-logs/', blank=True, null=True)
-    objects: GeoManager = gis_models.GeoManager()
+    """ 
+    The log field enables users to upload a Mission Planner log with extension ".waypoints"
+    blank=True and null=True makes sure that user can either draw or upload a flight log. 
+    This is ensured in the class' clean nethod
+    """
+    objects = gis_models.GeoManager()
+    """
+    The objects field is a modelclass manager that inherits from Geodjango's default manager
+    NB: This is slightly diffrent for Django 2+ users
+    """
     rpas = models.ForeignKey(Rpas)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -172,8 +190,6 @@ class ReserveAirspace(gis_models.Model):
 
     def clean(self):
 
-        
-
         super(ReserveAirspace, self).clean()
         """ Do i really need the super method above?
         """
@@ -204,13 +220,24 @@ class ReserveAirspace(gis_models.Model):
                         four_hours_from_now))
 
         if self.geom:
+            from notams.models import NotamAirspace
             reserve_qs = ReserveAirspace.objects.all().exclude(
                 pk=self.pk).filter(geom__intersects=self.geom)
             geo_qs = GeofenceLocations.objects.filter(
                 geom__intersects=self.geom)
             airports_qs = LocationPoints.objects.filter(
                 geom__intersects=self.geom)
-            if reserve_qs or geo_qs or airports_qs:
+            notams_qs = NotamAirspace.objects.filter(expiry=False).filter(
+                geom__intersects=self.geom
+            )
+            """
+                #TODO: 
+                    1. ADD TIME CHECKING TO THE NOTAMS ABOVE
+                    2. ADD TIME CHECK TO RESERVE_QS so that we can alert people already in flight to land, 
+                        and notify those just about to fly
+                        to postpone
+            """
+            if reserve_qs or geo_qs or airports_qs or notams_qs:
                 e = []
                 for qs in reserve_qs:
                     if self.start_time and self.end:
@@ -237,6 +264,11 @@ class ReserveAirspace(gis_models.Model):
                 for qs in airports_qs:
                     error = str(qs.name)
                     e.append(error)
+
+                for qs in notams_qs:
+                    error = str("Notam Number" + qs.notam_number)
+                    e.append(error)
+
 
                 if e:
                     raise ValidationError(

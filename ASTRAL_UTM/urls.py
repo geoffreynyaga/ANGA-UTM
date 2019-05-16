@@ -50,6 +50,9 @@ urlpatterns = [
     url(r'^organizations/', include('organizations.urls')),
 
     url(r'^notifications/', include('notifications.urls', namespace ='notifications')),
+
+    url(r'^api/maps/', include('maps.api.urls')),
+
 ]
 
 

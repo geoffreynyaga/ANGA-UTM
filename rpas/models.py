@@ -198,3 +198,5 @@ class Rpas(models.Model):
         final_count = int(len(fields))
         progress = (final_count/initial_count)*100
         return round(progress,1)
+
+

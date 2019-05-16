@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
-from applications.models import ReserveAirspace
+# from applications.models import ReserveAirspace
 from applications.validators import validate_start_date
 
 
@@ -61,6 +61,7 @@ class NotamAirspace(gis_models.Model):
                     self.start_time) + " and then end it at " + '{:%H:%M:%S}'.format(self.end))
 
         if self.geom:
+            from applications.models import ReserveAirspace
             notam_qs = NotamAirspace.objects.all().exclude(pk=self.pk).filter(geom__intersects=self.geom)
             reserve_qs = ReserveAirspace.objects.filter(geom__intersects=self.geom)
             if notam_qs or reserve_qs:

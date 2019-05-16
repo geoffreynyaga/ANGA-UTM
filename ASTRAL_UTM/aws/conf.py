@@ -1,13 +1,9 @@
 import datetime
 import os
-# AWS_ACCESS_KEY_ID = "AKIAITF6NYN7N4ZKKWJA"
 
 
-
-# AWS_SECRET_ACCESS_KEY = "cmzh0kC8BitIHbgNWiGf5K+8NSeYTo1tgDg5lwq7"
-
-AWS_ACCESS_KEY_ID = "AKIAICO4OA62WQIKF5HA"
-AWS_SECRET_ACCESS_KEY = "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"
+AWS_ACCESS_KEY_ID = "AKIA3FPGHFPM3DGZJNGE"
+AWS_SECRET_ACCESS_KEY = "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"
 
 
 
@@ -29,7 +25,7 @@ two_months = datetime.timedelta(days=61)
 date_two_months_later = datetime.date.today() + two_months
 expires = date_two_months_later.strftime("%A, %d %B %Y 20:00:00 GMT")
 
-AWS_HEADERS = { 
+AWS_HEADERS = {
     'Expires': expires,
     'Cache-Control': 'max-age=%d' % (int(two_months.total_seconds()), ),
 }
