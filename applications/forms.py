@@ -61,10 +61,11 @@ class ReserveAirspaceForm(forms.ModelForm):
         #TODO: Settings DASHBOARD FOR KCAA TO SET Max number of flights, max un-approved flights,max area,
                max
         """
+
     def clean(self, *args, **kwargs):
 
         cleaned_data = super(ReserveAirspaceForm, self).clean(*args, **kwargs)
-        user = self.user #this was passed in the __init__ function above
+        user = self.user  # this was passed in the __init__ function above
         # print(user,"this is user")
 
         start_day = cleaned_data.get('start_day')
@@ -74,10 +75,12 @@ class ReserveAirspaceForm(forms.ModelForm):
         # print(start_time, "this is cleaned data start_time")
 
         if start_day and start_time:
-            other_user_flights_on_the_day = ReserveAirspace.objects.filter(created_by=user).filter(start_day=start_day)
+            other_user_flights_on_the_day = ReserveAirspace.objects.filter(
+                created_by=user).filter(start_day=start_day)
             # print(other_user_flights_on_the_day,"other Flights that day")
             if other_user_flights_on_the_day.count() >= 2:
-                self.add_error(None, ValidationError('You have already booked 2 flights for this day, That is the max allowed'))
+                self.add_error(None, ValidationError(
+                    'You have already booked 2 flights for this day, That is the max allowed'))
 
             other_user_flights_on_that_time = other_user_flights_on_the_day.filter(
                 start_time__gte=start_time).filter(end__lte=end)
@@ -86,12 +89,10 @@ class ReserveAirspaceForm(forms.ModelForm):
                 for flight in other_user_flights_on_that_time:
 
                     self.add_error(None, ValidationError(
-                    f"You have already booked another flight(s) {flight} at the same time" )
-                    )
+                        f"You have already booked another flight(s) {flight} at the same time"))
             # print(other_user_flights_on_that_time, "other_user_flights_on_that_time")
 
         return cleaned_data
-
 
 
 class AppliedReserveAirspaceUpdateForm(forms.ModelForm):
@@ -121,7 +122,7 @@ class AppliedReserveAirspaceUpdateForm(forms.ModelForm):
 class CAAAppliedReserveAirspaceUpdateForm(forms.ModelForm):
     class Meta:
         model = ReserveAirspace
-        fields = ( 'start_day', 'start_time', 'end',
+        fields = ('start_day', 'start_time', 'end',
                   'geom', 'status', 'reason', 'comments')
         widgets = {'geom': LeafletWidget(),
                    'start_day': widgets.SelectDateWidget(),
