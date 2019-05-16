@@ -37,11 +37,11 @@ class ReserveAirspaceForm(forms.ModelForm):
         user = kwargs.pop('user', None)
         # print(user, "this is the init user")
 
-        self.user = user 
-        """ I have done this to ALSO pass the user above to the self (Form) so that I can access 
+        self.user = user
+        """ I have done this to ALSO pass the user above to the self (Form) so that I can access
         the user in other functions below like clean. NB: I can not 'pop' the user all the time (and it doesnt work btw)
         """
-        
+
         super(ReserveAirspaceForm, self).__init__(*args, **kwargs)
 
         org = user.userprofile.organization
@@ -55,14 +55,14 @@ class ReserveAirspaceForm(forms.ModelForm):
 
         """
         TO DO: Restrict User to not make two flight times at the same hour at different locations
-        --FIXED 
+        --FIXED
         Also fixed the amount of flights somebody can book in a day
 
         #TODO: Settings DASHBOARD FOR KCAA TO SET Max number of flights, max un-approved flights,max area,
-               max 
+               max
         """
     def clean(self, *args, **kwargs):
-        
+
         cleaned_data = super(ReserveAirspaceForm, self).clean(*args, **kwargs)
         user = self.user #this was passed in the __init__ function above
         # print(user,"this is user")
@@ -81,12 +81,12 @@ class ReserveAirspaceForm(forms.ModelForm):
 
             other_user_flights_on_that_time = other_user_flights_on_the_day.filter(
                 start_time__gte=start_time).filter(end__lte=end)
-            
+
             if other_user_flights_on_that_time.count() >= 0:
                 for flight in other_user_flights_on_that_time:
 
                     self.add_error(None, ValidationError(
-                    f'You have already booked another flight(s) {flight} at the same time ')
+                    f"You have already booked another flight(s) {flight} at the same time" )
                     )
             # print(other_user_flights_on_that_time, "other_user_flights_on_that_time")
 
