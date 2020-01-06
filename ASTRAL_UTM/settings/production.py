@@ -172,7 +172,7 @@ LEAFLET_CONFIG = {
     "MAX_ZOOM": 17,
     "MIN_ZOOM": 7,
     "SCALE": "metric",
-    "ATTRIBUTION_PREFIX": "Astral Aerial Maps",
+    "ATTRIBUTION_PREFIX": "Anga UTM Maps",
 }
 
 CORS_REPLACE_HTTPS_REFERER = True
