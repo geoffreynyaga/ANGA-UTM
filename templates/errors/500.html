@@ -1,20 +1,12 @@
-{% extends "base.html" %}
-
-{% load static %}
-
-{% block head %}
+{% extends "base.html" %} {% load static %} {% block head %}
 <title>500 Error Page</title>
 
-{% endblock %} 
-
-
-{% block body %}
+{% endblock %} {% block body %}
 
 <section class="content-header">
   <ol class="breadcrumb">
     <li>
-      <a href="{%url 'home' %}">
-        <i class="fa fa-dashboard"></i> Home</a>
+      <a href="{%url 'home' %}"> <i class="fa fa-dashboard"></i> Home</a>
     </li>
 
     <li class="active">500 error</li>
@@ -23,26 +15,36 @@
 
 <!-- Main content -->
 <section class="content">
-
   <body class="hold-transition lockscreen">
     <div class="error-page">
       <h2 class="headline text-red">500</h2>
-    
+
       <div class="error-content">
         <h3>
-          <i class="fa fa-warning text-red"></i> Oops! Something went wrong.</h3>
-    
+          <i class="fa fa-warning text-red"></i> Oops! Something went wrong.
+        </h3>
+
         <p>
           We will work on fixing that right away. Meanwhile, you may
-          <a href="{%url 'home' %}">return to dashboard</a> or try using the search form.
+          <a href="{%url 'home' %}">return to dashboard</a> or try using the
+          search form.
         </p>
-    
+
         <form class="search-form">
           <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Search">
-    
+            <input
+              type="text"
+              name="search"
+              class="form-control"
+              placeholder="Search"
+            />
+
             <div class="input-group-btn">
-              <button type="submit" name="submit" class="btn btn-danger btn-flat">
+              <button
+                type="submit"
+                name="submit"
+                class="btn btn-danger btn-flat"
+              >
                 <i class="fa fa-search"></i>
               </button>
             </div>
@@ -53,28 +55,28 @@
     </div>
     <!-- /.error-page -->
 
-
     <!-- Automatic element centering -->
     <div class="lockscreen-wrapper">
       <div class="lockscreen-logo">
-        <img src="{% static 'logo/logo.png'%}" class="img-responsive center-block" alt="" style="max-height:60px">
+        <img
+          src="{% static 'logo/logo.png'%}"
+          class="img-responsive center-block"
+          alt=""
+          style="max-height:60px"
+        />
       </div>
       <!-- TODO: 404 html load static not working -->
 
       <div class="lockscreen-footer text-center">
         Copyright
-        <b>ASTRAL UTM &copy; 2018</b>
-        <a href="" class="text-black"> | Astral Aerial Solutions</a>
-        <br> All rights reserved
+        <b>ANGA UTM &copy; 2018</b>
+        <a href="" class="text-black"> |Geoffrey Nyaga Kinyua</a>
+        <br />
+        All rights reserved
       </div>
     </div>
-
-
   </body>
-
 </section>
 <!-- /.content -->
-
-
 
 {% endblock %}
