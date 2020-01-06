@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -103,7 +104,7 @@ DATABASES = {
         "NAME": "anga_test_db",
         "USER": "postgres",
         "HOST": "localhost",
-        "PASSWORD": "19Scazorla",
+        "PASSWORD": config("DATABASE_PASSWORD"),
         "PORT": "5432",
     }
 }
