@@ -1,6 +1,5 @@
 
-ASTRAL_UTM/settings/local.py
-ASTRAL_UTM/settings/local2.py
+ANGA_UTM/settings/local.py
 
 db.sqlite3
 swhtml.html

@@ -28,7 +28,7 @@
   sudo apt-get install binutils libproj-dev gdal-bin
   ```
 
-- create a postgres database on called "anga_utm" or equivalently, give it a custom name and make sure to change the value in the local2.py settings file
+- create a postgres database on called "anga_utm" or equivalently, give it a custom name and make sure to change the value in the local.py settings file
 
 - run migrations
 
