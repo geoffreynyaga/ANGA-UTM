@@ -1,5 +1,5 @@
 """
-WSGI config for ASTRAL_UTM project.
+WSGI config for ANGA_UTM project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,7 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ASTRAL_UTM.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ANGA_UTM.settings")
 
 application = get_wsgi_application()
 
@@ -19,7 +19,7 @@ application = get_wsgi_application()
 
 # import os
 
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ASTRAL_UTM.settings")
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ANGA_UTM.settings")
 
 # from django.core.wsgi import get_wsgi_application
 # from whitenoise.django import DjangoWhiteNoise
