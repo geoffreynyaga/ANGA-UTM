@@ -1,6 +1,6 @@
 ## Install Instructions
 
-> The new version of the app works best on linux/MacOS environment. For windows installation, kindly check out the official Django documentation to install GEOS and GDAL libraries and how to configure them.
+> The new version of the app works best on linux/MacOS environment. For windows installation, kindly check out the official Django documentation to install GEOS and GDAL libraries and how to configure them. Alternatively, I can recommend you install Windows Subsystem for Linux (WSL) and use the Ubuntu environment
 
 #### Steps
 
