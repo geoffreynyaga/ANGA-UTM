@@ -2,7 +2,7 @@ from django.db import models
 
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from applications.models import ReserveAirspace
 from rpas.models import Battery, Rpas, RpasModel
@@ -10,13 +10,14 @@ from rpas.models import Battery, Rpas, RpasModel
 
 # Create your models here.
 
+
 class PreFlight(models.Model):
-    weather = models.CharField(max_length=20, default='')
+    weather = models.CharField(max_length=20, default="")
     altitude = models.CharField(max_length=20)
     est_flight_time = models.CharField(max_length=20)
-    no_of_flights = models.CharField(max_length=20, default='1')
+    no_of_flights = models.CharField(max_length=20, default="1")
     other_info = models.CharField(max_length=300, blank=True, null=True)
-    batt_reminder = models.CharField(max_length=10, default='')
+    batt_reminder = models.CharField(max_length=10, default="")
 
     def __str__(self):
         return str(self.est_flight_time)
@@ -26,7 +27,7 @@ class PreFlight(models.Model):
 
 
 class BatteryLog(models.Model):
-    batt_number = models.ForeignKey(Battery)
+    batt_number = models.ForeignKey(Battery, on_delete=models.CASCADE)
     end_amps = models.DecimalField(max_digits=5, decimal_places=1)
     end_volts = models.CharField(max_length=20)
 
@@ -40,7 +41,7 @@ class CrewBriefing(models.Model):
     alt_landing_area = models.CharField(max_length=20)
     env_factors = models.TextField(max_length=20)
     air_band_radio = models.CharField(max_length=20)
-    notam_action = models.TextField(max_length=20, default='None')
+    notam_action = models.TextField(max_length=20, default="None")
     copy_of_ops_pack = models.BooleanField()
     security = models.TextField(max_length=300)
 
@@ -78,10 +79,18 @@ class MissionWrap(models.Model):
 class FlightLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    reserve_airspace = models.ForeignKey(ReserveAirspace, on_delete=models.CASCADE, blank=True, null=True)
-    emmergency_info = models.ForeignKey(EmmergencyInfo, blank=True, null=True, on_delete=models.CASCADE)
-    pre_flight = models.ForeignKey(PreFlight, blank=True, null=True, on_delete=models.CASCADE)
-    post_flight = models.ForeignKey(MissionWrap, blank=True, null=True, on_delete=models.CASCADE)
+    reserve_airspace = models.ForeignKey(
+        ReserveAirspace, on_delete=models.CASCADE, blank=True, null=True
+    )
+    emmergency_info = models.ForeignKey(
+        EmmergencyInfo, blank=True, null=True, on_delete=models.CASCADE
+    )
+    pre_flight = models.ForeignKey(
+        PreFlight, blank=True, null=True, on_delete=models.CASCADE
+    )
+    post_flight = models.ForeignKey(
+        MissionWrap, blank=True, null=True, on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return str(self.reserve_airspace.application_number)
@@ -133,7 +142,7 @@ class FlightLog(models.Model):
         fields = [est_flight_time, weather, altitude, no_of_flights, batt_reminder]
         initial_count = int(len(fields))
         for field in fields:
-            if field == '' or field == None:
+            if field == "" or field == None:
                 fields.remove(field)
         final_count = int(len(fields))
         progress = (final_count / initial_count) * 100
@@ -148,7 +157,7 @@ class FlightLog(models.Model):
         initial_count = int(len(fields))
         fin = []
         for field in fields:
-            if field == '' or field is None:
+            if field == "" or field is None:
                 fin.append(field)
         final_count = int(len(fin))
         progress = ((initial_count - final_count) / initial_count) * 100
@@ -157,13 +166,15 @@ class FlightLog(models.Model):
 
 ###############################################################################
 class Checklist(models.Model):
-    rpas_model = models.OneToOneField(RpasModel)
+    rpas_model = models.OneToOneField(RpasModel, on_delete=models.CASCADE)
     parts_check = models.CharField(max_length=100)
     charge_status = models.CharField(max_length=20)
     camera_check = models.CharField(max_length=20)
     props_check = models.CharField(max_length=20)
     firmware_check = models.TextField(max_length=200)
-    camera_check = models.CharField(max_length=20) #FIXME: Camera check is repeated above
+    camera_check = models.CharField(
+        max_length=20
+    )  # FIXME: Camera check is repeated above
     risk_assesment = models.CharField(max_length=20)
     conditions_check = models.TextField(max_length=200)
     connection_check = models.TextField(max_length=200)

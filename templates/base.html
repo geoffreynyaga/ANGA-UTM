@@ -5,11 +5,11 @@
    {% load static %}
 
 
-   {% load group_perms %} 
-   
+   {% load group_perms %}
 
 
-{% load pwa %} 
+
+{% load pwa %}
 <!-- TODO: PWA BASE.HTML is the above supposed to be above <head> ? -->
 
   <head>
@@ -21,7 +21,7 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" href="{% static 'favicons/favicon.ico' %}" type="image/x-icon" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- <title>ANGA UTM | Dashboard</title> -->
+    <!-- <title>Anga UTM | Dashboard</title> -->
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -37,7 +37,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
          <link rel="stylesheet" href="{% static 'adminlite/dist/css/skins/_all-skins.min.css' %}">
-    
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -101,7 +101,7 @@
 
 
   <body class="hold-transition skin-blue sidebar-mini">
-    
+
 
   <div class="wrapper">
 
@@ -111,7 +111,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"> <img src="{% static 'favicons/favicon-32x32.png'%}" alt="xx"><b>UTM</b></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"> <img src="{% static 'favicons/favicon-32x32.png'%}" alt="xx"> <b>ANGA</b>UTM</span>
+        <span class="logo-lg"> <img src="{% static 'favicons/favicon-32x32.png'%}" alt="xx"> <b>Anga </b>UTM</span>
       </a>
       <!-- Header Navbar: style can be found in header.less -->
       <nav class="navbar navbar-static-top">
@@ -130,7 +130,7 @@
             <li class="dropdown messages-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-envelope-o"></i>
-                {% if unread_messages_number != 0 %} 
+                {% if unread_messages_number != 0 %}
                 <span class="label label-success">{{unread_messages_number}}{{x}}</span>
                 {% endif %}
               </a>
@@ -225,7 +225,7 @@
                 {% if all_tasks_count != 0 %}
                   <span class="label label-danger">{{all_tasks_count}}</span>
                 {% endif %}
-                
+
               </a>
               <ul class="dropdown-menu">
                 <li class="header">You have {{all_tasks_count}} tasks</li>
