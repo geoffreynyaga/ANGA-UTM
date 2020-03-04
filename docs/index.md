@@ -2,7 +2,7 @@
 
 > `Registrations, flight plans, Geofences and approvals.`
 
-![Anga UTM](docs/screenshots/main.png)
+![Anga UTM](screenshots/main.png)
 
 ## Overview
 
@@ -13,48 +13,48 @@
 > 3. Geofences.
 > 4. NOTAM and Notifications
 
-![Anga UTM Sketch Diagram](docs/screenshots/sketch.png)
+![Anga UTM Sketch Diagram](screenshots/sketch.png)
 
 ## Full Documentation
 
-- [Registration](docs/registration.md)
+- [Registration](registration.md)
 
 
-    - [RPAS/UAS Registration](docs/registration.md#rpas-registration)
+    - [RPAS/UAS Registration](registration.md#rpas-registration)
 
-    - [Payload Registration](docs/registration.md#payload-registration)
+    - [Payload Registration](registration.md#payload-registration)
 
-    - [Personnel Registration and Profiles](docs/registration.md#personnel-registration-and-profiles)
+    - [Personnel Registration and Profiles](registration.md#personnel-registration-and-profiles)
 
-    - [Organisation Registration](docs/registration.md#organization-registration)
+    - [Organisation Registration](registration.md#organization-registration)
 
-- [Flight Plans](docs/flight-plans.md)
-
-
-    - [Geofences](docs/flight-plans.md#geofences)
-
-    - [Flight Areas](docs/flight-plans.md#flight-areas)
-
-    - [NOTAMS](docs/flight-plans.md#notams)
-
-    - [RPAS/UAS Selection](docs/flight-plans.md#rpasuas-selection)
-
-- [Messages and Notifications](docs/messages.md)
-- [Civil Aviation Approvals](docs/approvals.md)
+- [Flight Plans](flight-plans.md)
 
 
-    - [Approved Flights](docs/approvals.md#requested-flight-approvals-list)
+    - [Geofences](flight-plans.md#geofences)
 
-    - [Pending Approvals](docs/approvals.md#requested-flight-details-page)
+    - [Flight Areas](flight-plans.md#flight-areas)
 
-    - [Approval Section](docs/approvals.md#rapproval-section)
+    - [NOTAMS](flight-plans.md#notams)
 
-- [Company Management](docs/company.md)
+    - [RPAS/UAS Selection](flight-plans.md#rpasuas-selection)
+
+- [Messages and Notifications](messages.md)
+- [Civil Aviation Approvals](approvals.md)
 
 
-    - [Postholds](docs/company.md#my-postholds)
+    - [Approved Flights](approvals.md#requested-flight-approvals-list)
 
-    - [Flight Logs](docs/company.md#flight-logs)
+    - [Pending Approvals](approvals.md#requested-flight-details-page)
+
+    - [Approval Section](approvals.md#approval-section)
+
+- [Company Management](company.md)
+
+
+    - [Postholds](company.md#my-postholds)
+
+    - [Flight Logs](company.md#flight-logs)
 
 ## Install Instructions
 

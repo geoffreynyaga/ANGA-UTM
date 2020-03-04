@@ -1,0 +1,9 @@
+site_name: ANGA UTM
+
+nav:
+  - Home: index.md
+  - Registration: registration.md
+  - Flight Plans: flight-plans.md
+  - Messages and Notifications: messages.md
+  - Approvals: approvals.md
+  - Companies: company.md
