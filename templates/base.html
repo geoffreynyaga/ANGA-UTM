@@ -5,11 +5,11 @@
    {% load static %}
 
 
-   {% load group_perms %} 
-   
+   {% load group_perms %}
 
 
-{% load pwa %} 
+
+{% load pwa %}
 <!-- TODO: PWA BASE.HTML is the above supposed to be above <head> ? -->
 
   <head>
@@ -37,7 +37,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
          <link rel="stylesheet" href="{% static 'adminlite/dist/css/skins/_all-skins.min.css' %}">
-    
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -75,7 +75,7 @@
     <link rel="manifest" href="/manifest.json ">
 
     {% block head %}
-      <title>Astral UTM</title>
+      <title>ANGA UTM</title>
     {% endblock %}
 
   </head>
@@ -101,7 +101,7 @@
 
 
   <body class="hold-transition skin-blue sidebar-mini">
-    
+
 
   <div class="wrapper">
 
@@ -130,7 +130,7 @@
             <li class="dropdown messages-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-envelope-o"></i>
-                {% if unread_messages_number != 0 %} 
+                {% if unread_messages_number != 0 %}
                 <span class="label label-success">{{unread_messages_number}}{{x}}</span>
                 {% endif %}
               </a>
@@ -225,7 +225,7 @@
                 {% if all_tasks_count != 0 %}
                   <span class="label label-danger">{{all_tasks_count}}</span>
                 {% endif %}
-                
+
               </a>
               <ul class="dropdown-menu">
                 <li class="header">You have {{all_tasks_count}} tasks</li>
