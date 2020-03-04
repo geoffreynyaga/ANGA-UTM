@@ -1,6 +1,6 @@
 #ANGA UTM
 
-> `Registrations, flight plans, Geofences and approvals.`
+> `This is a LAANC (Low Altitude Authorization and Notification Capability) to UTM (UAV Traffic Management) implemetation for drones / UAS / RPAS. It includes drone Registrations, drone flight plans, drone Geofences and drone approvals`
 
 ![Anga UTM](screenshots/main.png)
 
@@ -12,8 +12,6 @@
 > 2. Flight Plans submission and Authorization.
 > 3. Geofences.
 > 4. NOTAM and Notifications
-
-![Anga UTM Sketch Diagram](screenshots/sketch.png)
 
 ## [Full Documentation ↗️🔗](https://competent-wescoff-227917.netlify.com/)
 
