@@ -109,3 +109,5 @@ ENV/
 .mypy_cache/
 
 native/*
+staticfiles/*
+
