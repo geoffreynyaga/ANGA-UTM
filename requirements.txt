@@ -13,7 +13,7 @@ Click==7.0
 coverage==5.0.2
 cryptography==2.2.2
 dj-database-url==0.4.2
-Django==2.0
+Django==2.2.10
 django-bootstrap-static==3.3.7.1
 django-bootstrap3==9.1.0
 django-datetime-widget==0.9.3
