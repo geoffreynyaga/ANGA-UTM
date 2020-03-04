@@ -1,6 +1,8 @@
 #ANGA UTM
 
-> `Registrations, flight plans, Geofences and approvals.`
+[![Netlify Status](https://api.netlify.com/api/v1/badges/983d87b3-d3db-4930-bb69-df26e1c444a7/deploy-status)](https://app.netlify.com/sites/competent-wescoff-227917/deploys)
+
+> `This is a LAANC (Low Altitude Authorization and Notification Capability) to UTM (UAV Traffic Management) implemetation for drones / UAS / RPAS. It includes drone Registrations, drone flight plans, drone Geofences and drone approvals`
 
 ![Anga UTM](screenshots/main.png)
 
@@ -12,8 +14,6 @@
 > 2. Flight Plans submission and Authorization.
 > 3. Geofences.
 > 4. NOTAM and Notifications
-
-![Anga UTM Sketch Diagram](screenshots/sketch.png)
 
 ## [Full Documentation ↗️🔗](https://competent-wescoff-227917.netlify.com/)
 
