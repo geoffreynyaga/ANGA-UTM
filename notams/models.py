@@ -47,7 +47,7 @@ class NotamAirspace(gis_models.Model):
         self.centroid = self.geom.centroid
         super(NotamAirspace, self).save(*args, **kwargs)
 
-        x = "NOTAM/KCAA/2018/"
+        x = "NOTAM/CAA/2018/"
         y = self.pk
         self.notam_number = x + str(y)
 
@@ -135,7 +135,7 @@ class NotamAirspace(gis_models.Model):
                             from notifications.models import Notifications as n
 
                             n.objects.create(
-                                title="Notam Alert", receiver=qs.created_by,
+                                title="Notam Alert", receiver=qs.created_by
                             )
                             # from notifications.send_a_notification import send_a_notification
                             # send_a_notification(qs.created_by, "Notam Alert", str(self.reason))

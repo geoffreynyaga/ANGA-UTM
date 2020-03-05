@@ -48,7 +48,7 @@ class ReserveAirspace(gis_models.Model):
     it inherits from the following models
     from django.contrib.gis.db import models as gis_models
     the geom extends the models' PolgonField. Thus we can only draw polygons
-    A multipolygonField would have given us ability to draw lines as well 
+    A multipolygonField would have given us ability to draw lines as well
     """
 
     geom = gis_models.PolygonField(blank=True, null=True)
@@ -57,13 +57,13 @@ class ReserveAirspace(gis_models.Model):
          #FIX ME: Why THE FUCK DID I do blank and null?
         --FIXED: So that If log you can either upload a log or a geom
         TODO: NB:This is why documentation is very vital!!!! I'm not paid enought to write
-        all the docstrings :) 
+        all the docstrings :)
     """
 
     log = models.FileField(upload_to="mission-planner-logs/", blank=True, null=True)
-    """ 
+    """
     The log field enables users to upload a Mission Planner log with extension ".waypoints"
-    blank=True and null=True makes sure that user can either draw or upload a flight log. 
+    blank=True and null=True makes sure that user can either draw or upload a flight log.
     This is ensured in the class' clean nethod
     """
     # objects = gis_models.GeoManager()
@@ -84,11 +84,7 @@ class ReserveAirspace(gis_models.Model):
     PENDING = 0
     DENIED = 1
     APPROVED = 2
-    STATUS = (
-        (PENDING, "PENDING"),
-        (DENIED, "DENIED"),
-        (APPROVED, "APPROVED"),
-    )
+    STATUS = ((PENDING, "PENDING"), (DENIED, "DENIED"), (APPROVED, "APPROVED"))
 
     OBJECTIVE = (
         ("TRAIN", "Training"),
@@ -141,27 +137,27 @@ class ReserveAirspace(gis_models.Model):
             self.centroid = self.geom.centroid
 
         if self.created_by.userprofile.organization.organization_type == "ROC":
-            x = "FP/KCAA/ROC/"
+            x = "FP/CAA/ROC/"
             y = self.pk
             self.application_number = x + str(y)
 
         elif self.created_by.userprofile.organization.organization_type == "REC":
-            x = "FP/KCAA/REC/"
+            x = "FP/CAA/REC/"
             y = self.pk
             self.application_number = x + str(y)
 
         elif self.created_by.userprofile.organization.organization_type == "PVT":
-            x = "FP/KCAA/PVT/"
+            x = "FP/CAA/PVT/"
             y = self.pk
             self.application_number = x + str(y)
 
         elif self.created_by.userprofile.organization.organization_type == "ATO":
-            x = "FP/KCAA/ATO/"
+            x = "FP/CAA/ATO/"
             y = self.pk
             self.application_number = x + str(y)
 
         elif self.created_by.userprofile.organization.organization_type == "CLB":
-            x = "FP/KCAA/CLB/"
+            x = "FP/CAA/CLB/"
             y = self.pk
             self.application_number = x + str(y)
 
@@ -246,9 +242,9 @@ class ReserveAirspace(gis_models.Model):
                 geom__intersects=self.geom
             )
             """
-                #TODO: 
+                #TODO:
                     1. ADD TIME CHECKING TO THE NOTAMS ABOVE
-                    2. ADD TIME CHECK TO RESERVE_QS so that we can alert people already in flight to land, 
+                    2. ADD TIME CHECK TO RESERVE_QS so that we can alert people already in flight to land,
                         and notify those just about to fly
                         to postpone
             """

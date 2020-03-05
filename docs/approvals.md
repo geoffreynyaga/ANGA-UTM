@@ -1,6 +1,6 @@
 # Approvals
 
-The platform offers a special feature for KCAA staff to see all requested flights, approve/reject them, advise/comment on the flight plans and see all drone flight plans and also edit the flight plans.
+The platform offers a special feature for CAA staff to see all requested flights, approve/reject them, advise/comment on the flight plans and see all drone flight plans and also edit the flight plans.
 
 ![Anga UTM Approval](screenshots/approvals/reserve.png)
 
@@ -26,20 +26,20 @@ On the same flight summary page, there is a list containing the details of all r
 - Name of ROC/RTO/Club where he/she comes from
 - Approval status of the flight
 
-There is also a link where the KCAA staff can click to see the full details of each requested flight.
+There is also a link where the CAA staff can click to see the full details of each requested flight.
 
 ## Requested flight details page.
 
-This is where the authorized KCAA staff member will be able to see ALL information pertaining the flight. The exact details are broken down below:
+This is where the authorized CAA staff member will be able to see ALL information pertaining the flight. The exact details are broken down below:
 
 - Airspace details and Mission time
-  In the part of the mission details, the KCAA authorized staff will be able to clearly see all details about the location of the flight.
+  In the part of the mission details, the CAA authorized staff will be able to clearly see all details about the location of the flight.
 
   ![Anga UTM Mission Times](screenshots/approvals/time.png)
 
 - ## Mission RPAS
 
-  In this section of the page, the authorized KCAA staff can be able to see the specific RPAS that is being used. The following summary can be seen with the OPTION to see full details of the RPAS:
+  In this section of the page, the authorized CAA staff can be able to see the specific RPAS that is being used. The following summary can be seen with the OPTION to see full details of the RPAS:
 
   > 1. RPAS Serial
   > 2. RPAS payload
@@ -53,7 +53,7 @@ This is where the authorized KCAA staff member will be able to see ALL informati
 
 - ## Approval Section
 
-  This is where the KCAA staff will APPROVE or REJECT the flight plan.
+  This is where the CAA staff will APPROVE or REJECT the flight plan.
   However, there is an option where he/she can comment on the flight plan on recommended changes on which the applicant will be notified of the comments. The applicant then can make the requested changes and the flight can be approved
 
   ![Anga UTM APPROVAL Section](screenshots/approvals/approval-section.png)

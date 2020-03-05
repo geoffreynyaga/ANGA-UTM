@@ -16,13 +16,13 @@
 
 <section class="content">
 
-{% if request.user|has_group:"KCAA" %}
+{% if request.user|has_group:"CAA" %}
 
-    {% comment %} TO DO: ALLOW KCAA GUYS ONLY
+    {% comment %} TO DO: ALLOW CAA GUYS ONLY
     --FIXED
     {% endcomment %}
-    
-    
+
+
 
 
     {% load bootstrap3 %}
@@ -35,7 +35,7 @@
         {{ form.media }}
 
 
- 
+
 
           <form method="POST">
               {% csrf_token %}
@@ -139,7 +139,7 @@
             You've wandered off to a place you are not supposed to be!!!!
 
             <p>Go Home immediately!</p>
-  
+
             <hr>
             Meanwhile, we have noted this and our guy(s) are working on it.
           </div>
