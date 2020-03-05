@@ -75,7 +75,7 @@ def edit_user(request, pk):
 
     formset = ProfileInlineFormset(instance=user)
 
-    if request.user.is_authenticated() and request.user.id == user.id:
+    if request.user.is_authenticated and request.user.id == user.id:
         if request.method == "POST":
             user_form = UserForm(request.POST, request.FILES, instance=user)
             formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
