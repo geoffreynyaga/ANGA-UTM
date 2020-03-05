@@ -21,7 +21,7 @@ These are areas that have been temporarily been placed under a NOTAM and can be 
 
 A pdf of the NOTAM is also available for download if provided. The NOTAM notifies pilots on what it is about, when it starts end ends and a pdf on the same.
 
-NOTE: NOTAMS can ONLY be published by selected KCAA staff who has special authentication to do so.
+NOTE: NOTAMS can ONLY be published by selected CAA staff who has special authentication to do so.
 
 ![Anga UTM NOTAMS](screenshots/flights/notam.png)
 

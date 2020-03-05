@@ -39,7 +39,7 @@ The personnel profile (available to be seen by all users) provides a list of the
 - Pilot details
 - Pilot contacts
 - The company they work for
-  However, KCAA can be able to also see the following additional information:
+  However, CAA can be able to also see the following additional information:
 - Flight history
 - Rated aircrafts
 - Hours done

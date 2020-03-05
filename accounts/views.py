@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django.contrib.auth import login,logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
@@ -16,21 +16,24 @@ from django.views import generic
 from flight_plans.models import FlightLog
 from rpas.models import Rpas
 
-from . import forms #TODO: where is this needed? see line below and resolve to use just one in this doc
+from . import (
+    forms,
+)  # TODO: where is this needed? see line below and resolve to use just one in this doc
 from .forms import UserForm
 from .models import UserProfile
+
 # Create your views here.
 
 
 class LoginView(generic.FormView):
     form_class = AuthenticationForm
-    success_url = reverse_lazy('view_airspace')
+    success_url = reverse_lazy("view_airspace")
     template_name = "accounts/login.html"
 
-    def get_form (self, form_class=None):
+    def get_form(self, form_class=None):
         if form_class is None:
             form_class = self.get_form_class()
-        return form_class(self.request,**self.get_form_kwargs())
+        return form_class(self.request, **self.get_form_kwargs())
 
     def form_valid(self, form):
         login(self.request, form.get_user())
@@ -39,16 +42,16 @@ class LoginView(generic.FormView):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('/account/login')
+    return HttpResponseRedirect("/account/login")
 
 
 class SignUp(generic.CreateView):
     form_class = forms.UserCreateForm
-    success_url = reverse_lazy('login')
-    template_name = 'accounts/signup.html'
+    success_url = reverse_lazy("login")
+    template_name = "accounts/signup.html"
 
 
-@login_required() # only logged in users should access this
+@login_required()  # only logged in users should access this
 def edit_user(request, pk):
     # querying the User object with pk from url
     user = User.objects.get(pk=pk)
@@ -57,9 +60,18 @@ def edit_user(request, pk):
     user_form = UserForm(instance=user)
 
     # The sorcery begins from here, see explanation below
-    ProfileInlineFormset = inlineformset_factory(User, UserProfile,
-                            fields=('phone_number','organization','bio','profile_pic',
-                            'location', 'birth_date'))
+    ProfileInlineFormset = inlineformset_factory(
+        User,
+        UserProfile,
+        fields=(
+            "phone_number",
+            "organization",
+            "bio",
+            "profile_pic",
+            "location",
+            "birth_date",
+        ),
+    )
 
     formset = ProfileInlineFormset(instance=user)
 
@@ -70,19 +82,23 @@ def edit_user(request, pk):
 
             if user_form.is_valid():
                 created_user = user_form.save(commit=False)
-                formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
+                formset = ProfileInlineFormset(
+                    request.POST, request.FILES, instance=created_user
+                )
 
                 if formset.is_valid():
                     created_user.save()
                     formset.save()
                     # return HttpResponseRedirect('/account/profile/')
-                    return HttpResponseRedirect(reverse('accounts:view_profile', args=(user.id,)))
+                    return HttpResponseRedirect(
+                        reverse("accounts:view_profile", args=(user.id,))
+                    )
 
-        return render(request, "accounts/edit_profile.html", {
-            "noodle": pk,
-            "noodle_form": user_form,
-            "formset": formset,
-        })
+        return render(
+            request,
+            "accounts/edit_profile.html",
+            {"noodle": pk, "noodle_form": user_form, "formset": formset},
+        )
     else:
         raise PermissionDenied
 
@@ -98,25 +114,25 @@ def edit_user(request, pk):
 #         return render(request, self.template_name ,args)
 
 
-class ViewProfile(LoginRequiredMixin,generic.DetailView):
+class ViewProfile(LoginRequiredMixin, generic.DetailView):
     template_name = "accounts/profile.html"
     model = UserProfile
 
-    def get_context_data(self,*args,**kwargs):
-        context = super(ViewProfile,self).get_context_data(**kwargs)
-        pk = self.kwargs['pk']
+    def get_context_data(self, *args, **kwargs):
+        context = super(ViewProfile, self).get_context_data(**kwargs)
+        pk = self.kwargs["pk"]
         thisuser = User.objects.get(pk=pk)
         org = thisuser.userprofile.organization
-        context['myrpas'] = Rpas.objects.filter(organization = org)
-        context['myflightlogs'] = FlightLog.objects.filter(user = thisuser)
-        return (context)
+        context["myrpas"] = Rpas.objects.filter(organization=org)
+        context["myflightlogs"] = FlightLog.objects.filter(user=thisuser)
+        return context
 
 
-def error_404(request):
-        data = {}
-        return render(request, 'errors/404.html', data)
+def error_404(request, exception):
+    data = {}
+    return render(request, "errors/404.html", data)
 
 
 def error_500(request):
-        data = {}
-        return render(request, 'errors/500.html', data)
+    data = {}
+    return render(request, "errors/500.html", data)

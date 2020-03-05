@@ -58,7 +58,7 @@
 
 ## Install Instructions 📥
 
-> The new version of the app works best on linux/MacOS environment. For windows installation, kindly check out the official Django documentation to install GEOS and GDAL libraries and how to configure them. Alternatively, I can recommend you install Windows Subsystem for Linux (WSL) and use the Ubuntu environment
+> The new version of the app works best on linux/MacOS environment. For windows installation, kindly check out the official [Django documentation](https://docs.djangoproject.com/en/3.0/ref/contrib/gis/install/#windows) to install GEOS and GDAL libraries and how to configure them. Alternatively, I can recommend you install [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install-win10) and use the Ubuntu environment inorder to install the dependacies using the steps below
 
 #### Steps
 
@@ -106,4 +106,18 @@ python manage.py migrate
   python manage.py createsuperuser
 ```
 
-- `log in to the admin and under "Authentication and Authorization" create a group called KCAA and give the group the relevant permissions that Civil Aviation requires e.g. changing reserved airspaces, adding/changing NOTAMs`
+- `log in to the admin and under "Authentication and Authorization" create a group called CAA and give the group the relevant permissions that Civil Aviation requires e.g. changing reserved airspaces, adding/changing NOTAMs`
+
+- `One more thing... By default, the application is country-specific, and the default country is Kenya, but this constraint can be removed.`
+
+`If you log in the app, the map will awlays be bound to Kenyan borders. To cahnge this to another country, draw a box on Google maps/earth that covers the entire country of your choice. Then get the North East lattitude/longitude as well as South Eastern lat/long of the bounding box`
+
+`An example for Kenya can be seen in the image below`
+
+![Anga UTM country box](docs/screenshots/bounds.png)
+
+- Finally, take those values and insert them in `applications/templates/applications/airspaces.html` in this line
+
+```javascript
+bounds = new L.LatLngBounds(new L.LatLng(<northEastLatitude>,<northEastLongitude>), new L.LatLng(<southWestlattitude>,  <southWestLongitude>));
+```
