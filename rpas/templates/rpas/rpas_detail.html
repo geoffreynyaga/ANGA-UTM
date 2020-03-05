@@ -14,7 +14,7 @@
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
            {% if request.user == rpas.user %}
           <li class="breadcrumb-item"><a href="{% url 'rpas_list'%} ">My RPAS List</a></li>
-          {% comment %} This is because in approval stage, the KCAA can be given a link to this and they shouldn't be {% endcomment %}
+          {% comment %} This is because in approval stage, the CAA can be given a link to this and they shouldn't be {% endcomment %}
 
             {% endif %}
           <li class="breadcrumb-item active" aria-current="page">Rpas Details</li>
@@ -95,8 +95,8 @@
 
         {% if request.user == rpas.user %}
 
-          {% comment %} This is because in approval stage, the KCAA can be given a link to this and they shouldn't be
-          able to edit, only see, so is anyone with the link 
+          {% comment %} This is because in approval stage, the CAA can be given a link to this and they shouldn't be
+          able to edit, only see, so is anyone with the link
           {% endcomment %}
 
           <div class="panel-footer">

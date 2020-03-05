@@ -170,7 +170,7 @@
             </li>
 
             {% for group in user.groups.all %}
-                {% if group.name == 'KCAA' %}
+                {% if group.name == 'CAA' %}
 
                 {% endif %}
             {% endfor %}
@@ -374,7 +374,7 @@
       <section class="sidebar">
 
         {% if user.is_authenticated  %}
-<!-- and request.user.groups.all.last != KCAA -->
+<!-- and request.user.groups.all.last != CAA-->
 
         <!-- Sidebar user panel -->
         <div class="user-panel">
@@ -439,7 +439,7 @@
           </li>
 
 
-          {% if request.user|has_group:"KCAA" %}
+          {% if request.user|has_group:"CAA"%}
 
             <li>
               <a href="{% url 'applied_reserves' %}">
