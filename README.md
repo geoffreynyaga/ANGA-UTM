@@ -1,5 +1,7 @@
 # ANGA UTM
 
+![](https://github.com/geoffreynyaga/ANGA-UTM/workflows/Anga%20UTM%20CI/badge.svg)
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/983d87b3-d3db-4930-bb69-df26e1c444a7/deploy-status)](https://app.netlify.com/sites/competent-wescoff-227917/deploys)
 
 > `This is a LAANC (Low Altitude Authorization and Notification Capability) to UTM (UAV Traffic Management) implemetation for drones / UAS / RPAS. It includes drone Registrations, drone flight plans, drone Geofences and drone approvals`
