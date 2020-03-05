@@ -106,4 +106,18 @@ python manage.py migrate
   python manage.py createsuperuser
 ```
 
-- `log in to the admin and under "Authentication and Authorization" create a group called KCAA and give the group the relevant permissions that Civil Aviation requires e.g. changing reserved airspaces, adding/changing NOTAMs`
+- `log in to the admin and under "Authentication and Authorization" create a group called CAA and give the group the relevant permissions that Civil Aviation requires e.g. changing reserved airspaces, adding/changing NOTAMs`
+
+- `One more thing... By default, the application is country-specific, and the default country is Kenya, but this constraint can be removed.`
+
+`If you log in the app, the map will awlays be bound to Kenyan borders. To cahnge this to another country, draw a box on Google maps/earth that covers the entire country of your choice. Then get the North East lattitude/longitude as well as South Eastern lat/long of the bounding box`
+
+`An example for Kenya can be seen in the image below`
+
+![Anga UTM country box](docs/screenshots/bounds.png)
+
+- Finally, take those values and insert them in `applications/templates/applications/airspaces.html` in this line
+
+```javascript
+bounds = new L.LatLngBounds(new L.LatLng(<northEastLatitude>,<northEastLongitude>), new L.LatLng(<southWestlattitude>,  <southWestLongitude>));
+```
