@@ -29,4 +29,4 @@ jobs:
           pip install -r requirements.txt
       - name: Run Tests
         run: |
-          pytest
+          py.test --ds=ANGA_UTM.settings.local_testing --nomigrations
