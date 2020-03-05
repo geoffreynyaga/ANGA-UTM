@@ -20,6 +20,9 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Moving renaming .env.sample to .env
+        run: |
+          cp .env.sample .env
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
