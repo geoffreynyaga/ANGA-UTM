@@ -100,7 +100,7 @@ WSGI_APPLICATION = "ANGA_UTM.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": "anga_test_db",
         "USER": "postgres",
         "HOST": "localhost",
