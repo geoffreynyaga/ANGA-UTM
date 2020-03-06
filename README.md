@@ -112,7 +112,7 @@ python manage.py migrate
 
 - `One more thing... By default, the application is country-specific, and the default country is Kenya, but this constraint can be removed.`
 
-`If you log in the app, the map will awlays be bound to Kenyan borders. To cahnge this to another country, draw a box on Google maps/earth that covers the entire country of your choice. Then get the North East lattitude/longitude as well as South Eastern lat/long of the bounding box`
+`If you log in the app, the map will always be bound to Kenyan borders. To cahnge this to another country, draw a box on Google maps/earth that covers the entire country of your choice. Then get the North East lattitude/longitude as well as South Western lat/long of the bounding box`
 
 `An example for Kenya can be seen in the image below`
 
