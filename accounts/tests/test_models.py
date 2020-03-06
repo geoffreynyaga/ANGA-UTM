@@ -18,8 +18,6 @@ class TestUserProfile(TestCase):
 
         user = mixer.blend(User, username="geoffrey")
 
-        print(UserProfile.objects.all(), "should be None in saves")
-
         assert UserProfile.objects.count() == 1
 
     def test_userprofile_return_str(self):
