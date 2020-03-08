@@ -119,7 +119,11 @@ class ReserveAirspace(gis_models.Model):
         if self.geom:
             self.centroid = self.geom.centroid
 
+
         super(ReserveAirspace, self).save(*args, **kwargs)
+
+
+
 
         if self.log:
             from django.contrib.gis.geos import LineString, MultiLineString
@@ -196,6 +200,19 @@ class ReserveAirspace(gis_models.Model):
         super(ReserveAirspace, self).clean()
         """ Do i really need the super method above?
         """
+
+        # Checking to see if user is registered to any organisation before allowing creation
+        # Recreational users will have to be registered by a Club
+
+        try:
+            organization = self.created_by.userprofile.organization
+            print(organization,"organization in save()")
+        except Exception as e:
+            print(e, "user is not attached to any organisation")
+            raise ValidationError(
+                "You are not registered under any organisation, you can not apply for reserve airspace"
+            )
+
         if not (self.geom or self.log):
             raise ValidationError(
                 "Your Geometry can't be blank. Draw an area or upload a log"
