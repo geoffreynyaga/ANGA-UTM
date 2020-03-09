@@ -6,7 +6,7 @@
 # Created Date: Monday, March 9th 2020, 10:44:53 am                              #
 # Author: Geoffrey Nyaga Kinyua ( <geoffrey@geoffreynyaga.com> )                 #
 # -----                                                                          #
-# Last Modified: Monday March 9th 2020 10:44:53 am                               #
+# Last Modified: Monday March 9th 2020 10:45:24 am                               #
 # Modified By:  Geoffrey Nyaga Kinyua ( <geoffrey@geoffreynyaga.com> )           #
 # -----                                                                          #
 # Apache License                                                                 #
@@ -299,7 +299,7 @@ WSGI_APPLICATION = "ANGA_UTM.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": "anga_test_db",
+        "NAME": config("TEST_DATABASE_NAME"),
         "USER": "postgres",
         "HOST": "localhost",
         "PASSWORD": config("DATABASE_PASSWORD"),
