@@ -2,7 +2,7 @@ name: Anga UTM CI
 
 on:
   push:
-    branches: [master, develop, initial-model-tests]
+    branches: [master, develop]
   pull_request:
     branches: [master, develop]
 
