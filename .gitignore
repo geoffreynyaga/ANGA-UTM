@@ -1,6 +1,9 @@
 
 ANGA_UTM/settings/local.py
 
+#pycharm
+.idea/
+
 db.sqlite3
 swhtml.html
 
@@ -110,5 +113,4 @@ ENV/
 
 native/*
 staticfiles/*
-
 media/*

@@ -41,11 +41,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     "debug_toolbar",
-    "pwa",
+    # "pwa",
     "django.contrib.humanize",
     "djgeojson",
-    "bootstrap3",
-    "datetimewidget",
+    # "bootstrap3",
+    # "datetimewidget",
     "leaflet",
     "phonenumber_field",
     "webpush",
@@ -100,7 +100,7 @@ WSGI_APPLICATION = "ANGA_UTM.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": "anga_test_db",
         "USER": "postgres",
         "HOST": "localhost",
