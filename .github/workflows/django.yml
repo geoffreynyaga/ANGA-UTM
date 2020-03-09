@@ -14,7 +14,22 @@ jobs:
       matrix:
         python-version: [3.6]
 
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: anga_test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+
     steps:
+      - uses: nyaruka/postgis-action@v1
+        with:
+          postgresql version: "10" # See https://hub.docker.com/_/postgres for available versions
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
