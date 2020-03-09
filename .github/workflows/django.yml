@@ -2,7 +2,7 @@ name: Anga UTM CI
 
 on:
   push:
-    branches: [master, develop, pytest-integration]
+    branches: [master, develop, initial-model-tests]
   pull_request:
     branches: [master, develop]
 
