@@ -6,6 +6,8 @@
 
 > `This is a LAANC (Low Altitude Authorization and Notification Capability) to UTM (UAV Traffic Management) implemetation for drones / UAS / RPAS. It includes drone Registrations, drone flight plans, drone Geofences and drone approvals`
 
+`It is a PWA (Progressive Web App) purely done in Django/python`
+
 ![Anga UTM](docs/screenshots/main.png)
 
 ## Overview
