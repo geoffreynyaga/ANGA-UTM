@@ -244,6 +244,8 @@ INSTALLED_APPS = [
     "djgeojson",
     # "bootstrap3",
     # "datetimewidget",
+    "bootstrap_datepicker_plus",
+
     "leaflet",
     "phonenumber_field",
     "webpush",
