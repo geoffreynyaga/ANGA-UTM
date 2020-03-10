@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "djgeojson",
     "bootstrap3",
-    "datetimewidget",
+    # "datetimewidget",
+    "bootstrap_datepicker_plus",
     "leaflet",
     "phonenumber_field",
     "webpush",
@@ -227,7 +228,8 @@ PWA_APP_ICONS = [
         "sizes": "512x512",
     },
 ]
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, "static/pwabuilder-sw.js")
+# PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, "static/pwabuilder-sw.js")
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, "static/serviceworker.js")
 
 
 WEBPUSH_SETTINGS = {
