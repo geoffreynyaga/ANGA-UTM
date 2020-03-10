@@ -125,3 +125,9 @@ python manage.py migrate
 ```javascript
 bounds = new L.LatLngBounds(new L.LatLng(<northEastLatitude>,<northEastLongitude>), new L.LatLng(<southWestlattitude>,  <southWestLongitude>));
 ```
+
+> Now the app should be working well. However, you will realise that you can not create a reserve airspace yet, and that you have to have an RPAS registered, which when you attempt does not go through because you are not registered to any organisation.
+>
+> This is a deliberate design choice, you have to register an organisation on the admin page `http://localhost:8000/admin` and add the user to that organisation. This is the supposed role that Civil Aviation bodies will have to play.
+>
+> Finally, you can create a user in the admin page and make sure to assign them to the `CAA` group that we created in on of the steps above. If you now login with this user on the site, you should have additional features such as `Approve Flight Plans`, `Create Notams` etc.
