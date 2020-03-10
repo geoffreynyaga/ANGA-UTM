@@ -7,7 +7,9 @@
 {% block head %}
     <title>Create Notam</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    {{ form.media }}
+ <script src="{% static 'js/datepicker-widget.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/datepicker-widget.css' %}">
+
 
     <style>
         .leaflet-container {  /* all maps */
@@ -21,6 +23,12 @@
             }
 
     </style>
+
+      {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    {% load leaflet_tags %}
+  {{ form.media }}
 {%endblock%}
 
 
@@ -29,7 +37,6 @@
 
   <link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}">
 
-{% load bootstrap3 %}
 {% load leaflet_tags %}
 {% leaflet_js  plugins="ALL" %}
 {% leaflet_css  plugins="ALL" %}

@@ -4,7 +4,13 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import widgets
 
-from datetimewidget.widgets import TimeWidget
+from bootstrap_datepicker_plus import (
+    DateTimePickerInput,
+    DatePickerInput,
+    TimePickerInput,
+)
+
+# from datetimewidget.widgets import TimeWidget
 from leaflet.forms.widgets import LeafletWidget
 
 from rpas.models import Rpas
@@ -17,8 +23,8 @@ class ExtLeafletWidget(LeafletWidget):
 
 
 class ReserveAirspaceForm(forms.ModelForm):
-    start_time = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
-    end = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
+    # start_time = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
+    # end = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
 
     class Meta:
         model = ReserveAirspace
@@ -26,7 +32,13 @@ class ReserveAirspaceForm(forms.ModelForm):
         # rpas = forms.ModelMultipleChoiceField(queryset=Rpas.objects.filter(user=request.user).order_by('-id'))
 
         fields = ("rpas", "start_day", "start_time", "end", "geom", "log")
-        widgets = {"geom": ExtLeafletWidget(), "start_day": widgets.SelectDateWidget()}
+        widgets = {
+            "geom": ExtLeafletWidget(),
+            # "start_day": widgets.SelectDateWidget(),
+            "start_day": widgets.SelectDateWidget(),
+            "start_time": TimePickerInput(),
+            "end": TimePickerInput(),
+        }
 
     def __init__(self, *args, **kwargs):
         # apparently i'm popping the user from kwargs dictionary
@@ -45,6 +57,8 @@ class ReserveAirspaceForm(forms.ModelForm):
         # org = Organization.objects.filter(users=user)
         # print(org,"this is xxxxxxxxxxxxxxxxxxx")
         """ Come up with proper queryset for all rpas in the organization for the dropdown
+
+        NB: ALways do `filter(organization=org)` as this helps us in frontend to deny people not registered to any organisation
         """
         self.fields["rpas"] = forms.ModelChoiceField(
             queryset=Rpas.objects.filter(organization=org).order_by("-id")
@@ -56,7 +70,7 @@ class ReserveAirspaceForm(forms.ModelForm):
         Also fixed the amount of flights somebody can book in a day
 
         #TODO: Settings DASHBOARD FOR CAA TO SET Max number of flights, max un-approved flights,max area,
-               max
+
         """
 
     def clean(self, *args, **kwargs):
@@ -103,19 +117,21 @@ class ReserveAirspaceForm(forms.ModelForm):
 
 
 class AppliedReserveAirspaceUpdateForm(forms.ModelForm):
+
+    # start_time = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
+
+    # end = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
     class Meta:
         model = ReserveAirspace
         fields = ("rpas", "start_day", "start_time", "end", "geom", "log")
         widgets = {
             "geom": LeafletWidget(),
             "start_day": widgets.SelectDateWidget(),
+            "start_time": TimePickerInput(),
+            "end": TimePickerInput(),
             # 'rpas': forms.widgets.Select(attrs={'readonly': True,
             #                                       'disabled': True})
         }
-
-    start_time = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
-
-    end = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
@@ -127,6 +143,10 @@ class AppliedReserveAirspaceUpdateForm(forms.ModelForm):
 
 
 class CAAAppliedReserveAirspaceUpdateForm(forms.ModelForm):
+    # start_time = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
+
+    # end = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
+
     class Meta:
         model = ReserveAirspace
         fields = (
@@ -141,13 +161,11 @@ class CAAAppliedReserveAirspaceUpdateForm(forms.ModelForm):
         widgets = {
             "geom": LeafletWidget(),
             "start_day": widgets.SelectDateWidget(),
+            "start_time": TimePickerInput(),
+            "end": TimePickerInput(),
             # 'rpas': forms.widgets.Select(attrs={'readonly': True,
             #                                       'disabled': True})
         }
-
-    start_time = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
-
-    end = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
 
 
 # class LogsUploadForm(forms.ModelForm):

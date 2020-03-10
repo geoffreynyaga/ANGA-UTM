@@ -1,13 +1,31 @@
 {% extends "base.html" %}
 
-
+{% load static %}
 {% block head %}
     <title>Update My Airspace</title>
 
-{% load leaflet_tags %}
+    {% load leaflet_tags %}
     {% leaflet_js plugins="forms" %}
     {% leaflet_css plugins="forms" %}
-{%endblock%}
+
+
+
+
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    {% load leaflet_tags %}
+    {% leaflet_js plugins="ALL" %}
+    {% leaflet_css plugins="ALL" %}
+
+  {{ form.media }}
+
+   <script src="{% static 'js/datepicker-widget.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/datepicker-widget.css' %}">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+{% endblock %}
 
 {%block body%}
 
@@ -39,7 +57,7 @@
           <div class="card" >
              <div class="card-body">
 
-            {% load bootstrap3 %}
+            {% comment %} {% load bootstrap3 %} {% endcomment %}
 
               {% bootstrap_form form %}
 

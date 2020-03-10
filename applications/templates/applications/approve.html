@@ -8,6 +8,20 @@
 {% block head %}
     <title>Update Reserve</title>
 
+      <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css">
+
+
+ <script src="{% static 'js/datepicker-widget.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/datepicker-widget.css' %}">
+
+
+  {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    {% load leaflet_tags %}
+    {% leaflet_js plugins="ALL" %}
+    {% leaflet_css plugins="ALL" %}
+  {{ form.media }}
 
 {%endblock%}
 
@@ -23,19 +37,12 @@
     {% endcomment %}
 
 
-
-
-    {% load bootstrap3 %}
-
     {% load leaflet_tags %}
     {% leaflet_js plugins="forms" %}
     {% leaflet_css plugins="forms" %}
 
 
-        {{ form.media }}
-
-
-
+        {% comment %} {{ form.media }} {% endcomment %}
 
           <form method="POST">
               {% csrf_token %}
@@ -60,7 +67,9 @@
             {% bootstrap_field form.start_day %}
           <br>
           <span class="label label-primary">Change Start Time :</span>
-            {{ form.start_time }}
+            {% comment %} {{ form.start_time }} {% endcomment %}
+            {% bootstrap_field form.start_time %}
+
           <br>
           <span class="label label-primary">Change End Time: :</span>
           {{ form.end }}
@@ -152,5 +161,19 @@
 
     {% endif %}
     </section>
+
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+  {% comment %} <!-- Bootstrap 3.3.7 --> {% endcomment %}
+  <script src="{% static 'bootstrap/js/bootstrap.min.js' %}" />
+  {% comment %} <!-- jQuery 3 --> {% endcomment %}
+  <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}">
+
+
+  {% comment %} <!-- jQuery UI 1.11.4 --> {% endcomment %}
+  <script src="{% static 'adminlite/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
 
 {%endblock%}
