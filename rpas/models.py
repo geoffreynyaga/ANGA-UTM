@@ -46,7 +46,7 @@ class RpasModel(models.Model):
     manufacturer = models.ForeignKey(Manufacturer,on_delete=models.CASCADE,blank=True, null=True)
     rpas_model_type = models.ForeignKey(RpasModelType,on_delete=models.CASCADE,blank=True, null=True)
 
-    """" TODO: come up with unique dropdown for modelname, 
+    """" TODO: come up with unique dropdown for modelname,
     unique=true doesnt work since its users who create
     """
 
@@ -61,6 +61,11 @@ class RpasModel(models.Model):
 
 
 class Battery(models.Model):
+    class Meta:
+        """Meta definition for MODELNAME."""
+
+        verbose_name = 'Battery'
+        verbose_name_plural = 'Batteries'
 
     manufacturer = models.ForeignKey(Manufacturer,on_delete=models.CASCADE)
     batt_name = models.CharField(max_length = 20, unique=True)
@@ -124,6 +129,13 @@ class Payload(models.Model):
 
 
 class Rpas(models.Model):
+
+    class Meta:
+        """Meta definition for MODELNAME."""
+
+        verbose_name = 'Rpas'
+        verbose_name_plural = 'Rpas'
+
     user         = models.ForeignKey(User,on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization,on_delete=models.CASCADE,blank=True,null=True)
 
@@ -141,6 +153,9 @@ class Rpas(models.Model):
     def get_absolute_url(self):
         return reverse("rpas_detail", kwargs={"pk":self.pk})
 
+    # def get_absolute_url(self):
+    #     return reverse("log_detail", kwargs={"pk":self.pk})
+
     def save(self, *args, **kwargs):
 
         if not self.rpas_model:
@@ -157,8 +172,7 @@ class Rpas(models.Model):
 
         super(Rpas,self).save(*args,**kwargs)
 
-    def get_absolute_url(self):
-        return reverse("log_detail", kwargs={"pk":self.pk})
+
 
     def get_rpas_model_pk(self):
         rpas_model_pk = self.rpas_model.pk
@@ -198,5 +212,3 @@ class Rpas(models.Model):
         final_count = int(len(fields))
         progress = (final_count/initial_count)*100
         return round(progress,1)
-
-

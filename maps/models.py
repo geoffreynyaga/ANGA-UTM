@@ -6,6 +6,12 @@ from django.contrib.gis.db import models as gis_models
 
 
 class LocationPoints(gis_models.Model):
+    class Meta:
+        """Meta definition for LocationPoints."""
+
+        verbose_name = "Location Point"
+        verbose_name_plural = "Location Points"
+
     name = gis_models.CharField(max_length=120)
     IATA_shortcode = gis_models.CharField(
         max_length=3,
@@ -40,6 +46,12 @@ class LocationPoints(gis_models.Model):
 
 
 class GeofenceLocations(gis_models.Model):
+    class Meta:
+        """Meta definition for GeofenceLocations."""
+
+        verbose_name = "Geofence Location"
+        verbose_name_plural = "Geofence Locations"
+
     name = gis_models.CharField(max_length=20)
     geom = gis_models.PolygonField(srid=4326)
     objects = GeoManager()
@@ -54,6 +66,11 @@ class GeofenceLocations(gis_models.Model):
 
 
 class Obstacles(gis_models.Model):
+    class Meta:
+        """Meta definition for Obstacles."""
+
+        verbose_name = "Obstacle"
+        verbose_name_plural = "Obstacles"
 
     OBSTACLE_TYPE = (
         ("PWL", "Power Lines"),

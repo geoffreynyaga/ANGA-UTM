@@ -6,6 +6,12 @@ from django.urls import reverse
 
 
 class OrganizationDetails(models.Model):
+    class Meta:
+        """Meta definition for OrganizationDetails."""
+
+        verbose_name = 'Organization Detail'
+        verbose_name_plural = 'Organization Details'
+
     name = models.CharField(max_length=100, unique=True)
     city = models.CharField(max_length=100)
     website = models.URLField()
