@@ -16,6 +16,7 @@
     <div class="panel-body">
       <h4>Sign Up</h4>
       <form class="" action="" method="POST">
+        {% csrf_token %}
 
           {% bootstrap_form_errors form %}
 
@@ -24,14 +25,13 @@
             <span>{% bootstrap_field form.username %}</span>
           </div>
           <div class="col-sm-2">
-            
+
           </div>
           <div class="col-sm-3">
             {% bootstrap_field form.email %}
           </div>
-          
+
         </div>
-        {% csrf_token %}
         <br>
     <div class="row">
       <div class="col-sm-6">
@@ -41,10 +41,10 @@
             <!-- {{form.password1}} -->
             {% bootstrap_field form.password2 %}
           </div>
-      
+
     </div>
 
-      
+
            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign Me Up!</button>
 
       </form>

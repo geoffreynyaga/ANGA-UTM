@@ -10,10 +10,10 @@
 
 
 {% load pwa %}
-<!-- TODO: PWA BASE.HTML is the above supposed to be above <head> ? -->
+{% comment %} <!-- TO DO: PWA BASE.HTML is the above supposed to be above <head> ? --> {% endcomment %}
+{% comment %} DONE: YES - From Documentation {% endcomment %}
 
   <head>
-
 
     {% progressive_web_app_meta %}
 
@@ -72,16 +72,33 @@
 
 
     <!-- Path to manifest.json -->
-    <link rel="manifest" href="/manifest.json ">
+    {% comment %} <link rel="manifest" href="/manifest.json "> {% endcomment %}
 
     {% block head %}
       <title>ANGA UTM</title>
     {% endblock %}
 
+      {% comment %} <script>
+  if ("serviceWorker" in navigator) {
+  if (navigator.serviceWorker.controller) {
+    console.log("[PWA Builder HTML] active service worker found, no need to register");
+  } else {
+    // Register the service worker
+    navigator.serviceWorker
+      .register('{% static "serviceworker.js" %}', {
+        scope: "/static/"
+      })
+      .then(function (reg) {
+        console.log("[PWA Builder HTML] Service worker has been registered for scope: " + reg.scope);
+      });
+  }
+}
+  </script> {% endcomment %}
+
   </head>
 
 
-  <script type="text/javascript">
+  {% comment %} <script type="text/javascript">
   //This is the "Offline copy of pages" service worker
 
   //Add this below content to your HTML page, or add the js file to your page at the very top to register sercie worker
@@ -96,7 +113,9 @@
     });
   }
 
-  </script>
+  </script> {% endcomment %}
+
+
 
 
 
