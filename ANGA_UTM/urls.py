@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url,include
+from django.conf.urls import url, include
 from django.contrib import admin
 
 from django.conf import settings
@@ -28,49 +28,36 @@ from rpas import views
 from applications.views import view_airspace
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url('', include('pwa.urls')),  # You MUST use an empty string as the URL prefix
-    url(r'^webpush/', include('webpush.urls')),
-
-    url(r'^home$', views.home,name='home' ),
-
-    url(r'^$', view_airspace, name='view_airspace'),
-
-    url(r'^rpas/', include('rpas.urls')),
-
-    url(r'^account/', include("accounts.urls", namespace ='accounts') ),
-    url(r'^account/', include('django.contrib.auth.urls')),
-    url(r'^maps/', include('maps.urls')),
-    url(r'^flight_plans/', include('flight_plans.urls')),
-    url(r'^weather/', include('weather.urls')),
-    url(r'^applications/', include('applications.urls')),
-    url(r'^messages/', include('utm_messages.urls', namespace ='messages')),
-
-    url(r'^notams/', include('notams.urls')),
-    url(r'^organizations/', include('organizations.urls')),
-
-    url(r'^notifications/', include('notifications.urls', namespace ='notifications')),
-
-    url(r'^api/maps/', include('maps.api.urls')),
-
+    url(r"^admin/", admin.site.urls),
+    url("", include("pwa.urls")),  # You MUST use an empty string as the URL prefix
+    url(r"^webpush/", include("webpush.urls")),
+    url(r"^home$", views.home, name="home"),
+    url(r"^$", view_airspace, name="view_airspace"),
+    url(r"^rpas/", include("rpas.urls")),
+    url(r"^account/", include("accounts.urls", namespace="accounts")),
+    url(r"^account/", include("django.contrib.auth.urls")),
+    url(r"^maps/", include("maps.urls")),
+    url(r"^flight_plans/", include("flight_plans.urls")),
+    url(r"^weather/", include("weather.urls")),
+    url(r"^applications/", include("applications.urls")),
+    url(r"^messages/", include("utm_messages.urls", namespace="messages")),
+    url(r"^notams/", include("notams.urls")),
+    url(r"^organizations/", include("organizations.urls")),
+    url(r"^notifications/", include("notifications.urls", namespace="notifications")),
+    url(r"^api/maps/", include("maps.api.urls")),
 ]
 
 
 if settings.DEBUG:
     urlpatterns += [
-
-        url(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT,}),
-
-        url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),
-
+        url(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT,}),
+        url(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT,}),
     ]
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
 
-    ] + urlpatterns
+    urlpatterns = [url(r"^__debug__/", include(debug_toolbar.urls)),] + urlpatterns
 
 handler404 = error_404
 handler500 = error_500
