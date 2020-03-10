@@ -6,7 +6,7 @@
 # Created Date: Monday, March 9th 2020, 10:44:53 am                              #
 # Author: Geoffrey Nyaga Kinyua ( <geoffrey@geoffreynyaga.com> )                 #
 # -----                                                                          #
-# Last Modified: Monday March 9th 2020 12:10:02 pm                               #
+# Last Modified: Monday March 9th 2020 10:45:24 am                               #
 # Modified By:  Geoffrey Nyaga Kinyua ( <geoffrey@geoffreynyaga.com> )           #
 # -----                                                                          #
 # Apache License                                                                 #
@@ -245,6 +245,7 @@ INSTALLED_APPS = [
     # "bootstrap3",
     # "datetimewidget",
     "bootstrap_datepicker_plus",
+
     "leaflet",
     "phonenumber_field",
     "webpush",
