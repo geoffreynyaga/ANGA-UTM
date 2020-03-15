@@ -10,9 +10,23 @@
 
 ![Anga UTM](docs/screenshots/main.png)
 
+> ### [Click here for a DEMO](https://anga-utm.herokuapp.com)
+>
+> NB: `To login as a normal user/pilot/ drone company staff use the following credentials to sign in`
+>
+> - username: `pilot`
+> - password: `anga2020`
+>
+> `To login as a Civil Aviation staff use the following credentials to sign in`
+>
+> - username: `admin`
+> - password: `aviation2020`
+>
+> Keep in mind the map is bound to Kenya and to change it see the end of this page
+
 ## Overview
 
-> The software is a LAANC implementation. LAANC is Low Altitude Airspace Authorization and Notifications.
+> The software is a LAANC implementation.
 >
 > 1. Registration
 > 2. Flight Plans submission and Authorization.
