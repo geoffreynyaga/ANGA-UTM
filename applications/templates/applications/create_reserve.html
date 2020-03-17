@@ -1,357 +1,661 @@
 <!DOCTYPE html>
 {% load static %}
 <html>
+  <head>
+    <title>Add Reserve</title>
 
-<head>
-  <title>Add Reserve</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+      name="viewport"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"
+    />
 
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}" type="image/x-icon" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <script src="https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.js"></script>
 
+    <script src="{% static 'leafletMapbox/Leaflet.MapboxVectorTile.js' %}"></script>
+    <script src="{% static 'leaflet-ajax/leaflet.ajax.min.js' %}"></script>
 
-  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css">
-  <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}" type="text/css">
-  <link rel="stylesheet" href="{% static 'adminlite/bower_components/Ionicons/css/ionicons.min.css' %}">
-  <link rel="stylesheet" href="{% static 'adminlite/dist/css/AdminLTE.min.css' %}">
-  <link rel="stylesheet" href="{% static 'adminlite/dist/css/skins/_all-skins.min.css' %}">
+    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"
+      rel="stylesheet"
+    />
 
-    <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+      crossorigin="anonymous"
+    />
 
+    <style>
+      .leaflet-container {
+        /* all maps */
+        width: 100%;
+        height: 70vh;
+      }
 
-  <link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}">
+      body {
+        padding: 0px;
+        margin: 0px;
+        padding-top: 0px;
+        margin-top: 0px;
+      }
+    </style>
 
+    <style>
+      #map {
+        position: relative;
+        left: 0px;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 80vh;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }
 
-  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
-  <link rel="stylesheet" href="{% static 'leaflet-measure/dist/leaflet-measure.css' %}">
-  <link rel="stylesheet" href="{% static 'leaflet-measure/normalize.css/normalize.css' %}">
-  <link rel="stylesheet" href="{% static 'leaflet-measure-path/leaflet-measure-path.css' %}">
-  <link rel="stylesheet" href="{% static 'leaflet-coordinates/Leaflet.Coordinates-0.1.5.css' %}">
+      .logo {
+        position: absolute;
+        z-index: 1;
+        bottom: 0;
+        left: 0;
+      }
+    </style>
 
-  <style>
-    .leaflet-container {
-      /* all maps */
-      width: 100%;
-      height: 70vh;
-    }
-
-    body {
-      padding: 0px;
-      margin: 0px;
-      padding-top: 0px;
-      margin-top: 0px;
-
-    }
-  </style>
-
-
-    {% comment %} <script src="{% static 'js/datepicker-widget.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'css/datepicker-widget.css' %}"> {% endcomment %}
-
-
-  {% load bootstrap3 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery='full' %}
-    {% load leaflet_tags %}
-    {% leaflet_js plugins="ALL" %}
-    {% leaflet_css plugins="ALL" %}
-
-  {{ form.media }}
-
-
+    {{ form.media }}
   </head>
 
-<body>
+  <body>
+    <div class="container">
+      <div class="col-sm-4"></div>
 
-  <div class="row">
-    <div class="col-xs-12">
-      <a href="{% url 'home' %}" class="btn btn-primary btn-block">Home</a>
-    </div>
-  </div>
-
-{% if my_pending_approval_airspaces_count <= 40 %}
-
-  <form method="POST" enctype="multipart/form-data">
-    <div class="text-center">
-       {% bootstrap_form_errors form %}
-       {{ form.fieldname.errors }}
-
-    </div>
-
-
-   {% csrf_token %}
-    <div class="row">
-
-      <div class="col-sm-9">
-        <div class="col-sm-8">
-          <div class="alert alert-info alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <!-- <strong>Tip!</strong> -->
-            <p><strong>Tip!</strong> Click the fullscreen icon (
-              <i class="ion-android-expand"></i> ) on the map for a better experience.
-            </p>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-body">
-
-            {{form.geom}}
-
-          </div>
-        </div>
+      <div class="col-sm-6">
+        <a href="{% url 'home' %}" class="btn btn-success btn-block">
+          Go Back Home</a
+        >
       </div>
 
-      <!-- <div class="col-sm-1">
-        <h2>OR </h2>
-      </div>
+      <div class="col-sm-4"></div>
+    </div>
 
-      <div class="col-sm-2">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            {% bootstrap_field form.log %}
-
-          </div>
+    <div class="container">
+      <form
+        method="POST"
+        enctype="multipart/form-data"
+        id="reserveform"
+        onsubmit="submit_form()"
+      >
+        <div class="text-center">
+          {% comment %} {% bootstrap_form_errors form %} {% endcomment %}
         </div>
-      </div> -->
 
+        {% csrf_token %}
 
-      <div class="col-sm-3">
-        <div class="panel panel-default">
-          <div class="panel-body">
-              <em>Alternatively, you can upload a mission planner log instead of drawing on the map</em>
+        <div class="row" style="margin-top: 20px;">
+          <!-- MAP  -->
 
+          <div class="col-sm-8">
+            <div class="panel panel-default">
+              <div id="map">
+                <img
+                  src="{% static 'logo/logo.png' %}"
+                  class="logo"
+                  width="70"
+                  alt="Anga"
+                  style="max-height:60px; margin-left: 4px; margin-bottom: 20px;"
+                />
+              </div>
+            </div>
+          </div>
 
-             {% bootstrap_field form.log %}
-             <hr>
-            {% bootstrap_field form.rpas %}
-            {% bootstrap_field form.start_day  %}
+          <div class="col-sm-4">
+            <!-- Mission Name  -->
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label class="control-label" for="reserve_name"
+                  >Mission Name</label
+                >
+                <input
+                  type="text"
+                  name="name"
+                  maxlength="255"
+                  class="form-control"
+                  placeholder="Mission Name"
+                  title=""
+                  id="reserve_name"
+                  required="true"
+                  onkeyup="manageText()"
+                />
+              </div>
+            </div>
+            <!-- RPAS -->
+            <div class="col-xs-12">
+              <div class="">
+                <div class="form-group">
+                  <label class="control-label" for="id_rpas">Rpas</label>
+                  <select
+                    name="rpas"
+                    class="form-control"
+                    title=""
+                    required=""
+                    id="id_rpas"
+                  >
+                    <option value="" selected="">---------</option>
 
+                    {% for rpas in my_rpas %}
 
+                    <option value="{{rpas.pk}}">{{rpas}}</option>
 
-            {% comment %} {% bootstrap_field form.start_time  %} {% endcomment %}
-
-            Start Time :{{ form.start_time  }}
-            End Time: {{ form.end }}
-
-            <!-- <hr> -->
-            <!-- <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-              <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="headingOne">
-                  <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                      Waypoints Drawings Datas
-                    </a>
-                  </h4>
+                    {% endfor %}
+                  </select>
                 </div>
-                <div id="collapseOne" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingOne">
-                  <div class="panel-body">
-                    <h5><code>measurefinish</code> event data:</h5>
-                    <pre id="eventoutput">...</pre>
+              </div>
+            </div>
+
+            <!-- Start Date -->
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label class="control-label" for="datetimepicker3"
+                  >Start Day</label
+                >
+                <div class="input-group date" id="datetimepicker3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="id_startday"
+                    required="true"
+                  />
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Start Time -->
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label class="control-label" for="timepicker3"
+                  >Start Time</label
+                >
+                <div class="input-group date" id="timepicker3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="id_start_time"
+                    required="true"
+                  />
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- End Time -->
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label class="control-label" for="timepicker4">End Time</label>
+                <div class="input-group date" id="timepicker4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="id_end_time"
+                    required="true"
+                  />
+                  <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-time"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- log -->
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label class="control-label" for="id_log">Log</label>
+                <p style="font-size: smaller;"></p>
+
+                <em
+                  >Alternatively, you can upload a mission planner log instead
+                  of drawing on the map</em
+                >
+
+                <div class="row bootstrap3-multi-input">
+                  <div class="col-xs-12">
+                    <input
+                      type="file"
+                      name="log"
+                      class=""
+                      title=""
+                      id="id_log"
+                    />
                   </div>
                 </div>
               </div>
-            </div> -->
-
-            <hr>
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
-
+            </div>
           </div>
         </div>
-      </div>
 
+        <div class="col-sm-12">
+          <button
+            type="submit"
+            id="btn-submit"
+            class="btn btn-primary btn-lg btn-block"
+            disabled="true"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
 
-  </form>
-
-
-
-
-
-  <script type="text/javascript">
-    function id_site_location_geom_map_callback(map, options) {
-
-      geodjango_id_site_location_geom.store_class = L.FieldStore;
-
-      (new geom(geodjango_id_site_location_geom)).addTo(map);
-
-    };
-
-    bounds = new L.LatLngBounds(new L.LatLng(4.740950, 41.858445), new L.LatLng(-4.921208, 33.922226));
-
-    geom = L.GeometryField.extend({
-      addTo: function (map) {
-
-        L.GeometryField.prototype.addTo.call(this, map);
-        // Customize map for field
-
-        {% include 'applications/includes/search.html' %}
-
-        drawControl = this._drawControl;
-
-        drawControl._toolbars.draw.options.polyline = false;
-        drawControl._toolbars.draw.options.polygon = true;
-        drawControl._toolbars.draw.options.rectangle = true;
-        drawControl._toolbars.draw.options.marker = false;
-
-        drawControl.options.draw.polygon.allowIntersection = false;
-        drawControl.options.draw.polygon.showArea = true;
-
-
-        map.addControl(drawControl);
-
-        map.addControl(new L.Control.Fullscreen());
-
-
-
-        {% include 'maps/includes/geofence_datasets.html' %}
-        {% include 'notams/includes/notam_datasets.html' %}
-        {% include 'applications/includes/reserved_airspace_datasets.html' %}
-        {% include 'maps/includes/location_datasets.html' %}
-
-        {% include 'applications/includes/location.html' %}
-
-
-        {% include 'maps/includes/offline_layers.html' %}
-        {% include 'maps/includes/mouse_coordinates.html' %}
-
-        var measureControl = L.control.measure();
-        measureControl.addTo(map);
-
-        // var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(map);
-
-        // map.on('measurefinish', function (evt) {
-        //   writeResults(evt);
-        // });
-
-        // function writeResults (results) {
-        //   document.getElementById('eventoutput').innerHTML = JSON.stringify({
-        //     area: results.area,
-        //     areaDisplay: results.areaDisplay,
-        //     lastCoord: results.lastCoord,
-        //     length: results.length,
-        //     lengthDisplay: results.lengthDisplay,
-        //     pointCount: results.pointCount,
-        //     points: results.points
-        //   }, null, 2);
-        // }
-
-        var latlngs = L.rectangle(bounds).getLatLngs();
-        // L.polyline(latlngs[0].concat(latlngs[0][0])).addTo(map);
-        map.setMaxBounds(bounds); // Should not enter infinite recursion
-
-
-
-        map.on('draw:created', function (event) {
-          // Assuming the clicked feature is a shape, not a point marker.
-          console.log(event)
-          map.fitBounds(event.layer.getBounds());
-
-
+    <script type="text/javascript">
+      $(function() {
+        $("#datetimepicker3").datetimepicker({
+          useCurrent: true,
+          minDate: moment(),
+          format: "L"
         });
+      });
+    </script>
 
-
-
-        map.on('draw:edited', function (e) {
-          var layers = e.layers;
-          layers.eachLayer(function (layer) {
-            if (layer instanceof L.Polygon) {
-              //Do marker specific actions here
-              map.fitBounds(layer.getBounds());
-            }
-          });
+    <script type="text/javascript">
+      $(function() {
+        $("#timepicker3").datetimepicker({
+          format: "LT"
         });
+      });
+    </script>
 
+    <script type="text/javascript">
+      $(function() {
+        $("#timepicker4").datetimepicker({
+          format: "LT"
+        });
+      });
+    </script>
 
+    <script>
+      L.mapbox.accessToken = "{{MAPBOX_ACCESS_TOKEN}}"
+      var map = L.mapbox
+        .map("map", "mapbox.streets")
+        .setView([-1.03326, 37.06933], 14);
 
+      //-1.03326, 37.06933 thika
+      //-1.336661, 36.912672 jkia
+
+      L.control.fullscreen().addTo(map);
+
+      // ---------- AIRMAP AIRSPACES LOAD --------------------------//
+      var url = "https://api.airmap.com/maps/v4/tiles";
+
+      //https://developers.airmap.com/v2.0/docs/add-airspace-layers-to-the-map
+      var layers = [
+        "airports_commercial",
+        "airports_recreational_private",
+        "airports_commercial_private",
+        "class_b",
+        "class_c",
+        "class_d",
+        "class_e0",
+        "sua_prohibited",
+        "sua_restricted",
+        "national_parks",
+        "noaa",
+        "hospitals",
+        "schools",
+        "heliports",
+        "power_plants",
+        "tfrs",
+        "wildfires"
+      ];
+
+      var layerString = layers.toString().split(",");
+
+      console.log(layerString, "layerstring");
+
+      const AIRMAP_API_KEY = "{{AIRMAP_API_KEY}}"
+
+      function getStyle(layer) {
+        var style = {};
+        switch (layer) {
+          case "airports_recreational":
+          case "airports_recreational_private":
+          case "airports_commercial":
+          case "airports_commercial_private":
+          case "hospitals":
+          case "heliports":
+          case "power_plants":
+          case "schools":
+            style.color = "rgba(246, 165, 23, 0.2)";
+            style.outline = {
+              color: "rgb(246, 165, 23)",
+              size: 0
+            };
+            break;
+          case "national_parks":
+          case "noaa":
+            style.color = "rgba(224, 18, 18, 0.2)";
+            style.outline = {
+              color: "rgb(224, 18, 18)",
+              size: 0
+            };
+            break;
+          case "sua_restricted":
+          case "sua_prohibited":
+            style.color = "rgba(27, 90, 207, 0.2)";
+            style.outline = {
+              color: "rgb(27, 90, 207)",
+              size: 0
+            };
+            break;
+          case "class_b":
+            style.color = "rgba(26, 116, 179, 0.2)";
+            style.outline = {
+              color: "rgb(26, 116, 179)",
+              size: 0
+            };
+            break;
+          case "class_c":
+            style.color = "rgba(155, 108, 157, 0.3)";
+            style.outline = {
+              color: "rgb(155, 108, 157)",
+              size: 0
+            };
+            break;
+          case "class_d":
+            style.color = "rgba(26, 116, 179, 0.2)";
+            style.outline = {
+              color: "rgb(26, 116, 179)",
+              size: 0
+            };
+            break;
+          case "class_e0":
+            style.color = "rgba(155, 108, 157, 0.2)";
+            style.outline = {
+              color: "rgb(155, 108, 157)",
+              size: 0
+            };
+            break;
+        }
+
+        return style;
       }
 
-    });
+      var mvtSource = new L.TileLayer.MVTSource({
+        url:
+          url + "/" + layerString + `/{z}/{x}/{y}.pbf?apikey=${AIRMAP_API_KEY}`,
+        clickableLayers: [...layers],
+        mutexToggle: true,
+        getIDForLayerFeature: function(feature) {
+          //console.log(feature.properties.name,"feature.properties")
+          return feature.properties.name;
+        },
+        onClick: function(e) {
+          // https://github.com/SpatialServer/Leaflet.MapboxVectorTile/issues/53
+          console.log(e, "click");
+          // console.log([...layers],'layers');
 
+          var feature = e.feature;
+          console.log(feature, "feature");
+          console.log(feature !== null, " feature !== null should be true ");
 
+          coord = e.latlng;
+          console.log(coord, "coord ");
 
+          if (feature !== undefined && feature !== null) {
+            var prop = feature.properties;
+            var popup = L.popup({ closeOnClick: true })
+              .setLatLng(coord)
+              .setContent(prop.name)
+              .openOn(feature.map);
+          }
+        },
 
-  </script>
+        style: function(feature) {
+          var layer = feature.properties.type;
+          return getStyle(layer);
+        }
+      });
 
+      //console.log(mvtSource.layers[Object.keys(layers)[0]],'mvtSource');
+      //Add layer
+      map.addLayer(mvtSource);
 
-  <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}"></script>
-  <script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search.js' %}"></script>
+      console.log(mvtSource.layers, "mvtSource.layers");
+      console.log(typeof mvtSource.layers, "typeof mvtSource.layers");
 
-  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
-  <script type="text/javascript" src="{% static 'leaflet-measure/dist/leaflet-measure.js' %}"></script>
+      var x = mvtSource.layers;
+      console.log(x.sua_restricted, "x");
+      // var y = mvtSource.layers.sua_restricted.features.coordinates
 
+      // console.log(y,"y");
 
-  <!-- <script type="text/javascript" src="{% static 'leaflet-sidebar/js/leaflet-sidebar.js' %}" ></script> -->
+      // var keys = Object.keys(x)
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.js"></script>
-  <script type="text/javascript" src="{% static 'leaflet-offline/leaflet-offline.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'leaflet-coordinates/Leaflet.Coordinates-0.1.5.min.js' %}"></script>
+      // console.log(keys,"keys");
 
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
+      // ------------------------------------//
 
-  <!-- jQuery 3 -->
-  <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}">
-  <!-- Bootstrap 3.3.7 -->
-  <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+      // ---------- RESERVED AIRSPACES LOAD --------------------------//
+      var baseURL = location.protocol + "//" + location.hostname + (location.port && ":" + location.port);
+        //console.log(baseURL,"baseURL")
+      function getData() {
+        return $.ajax({
+          url: `${baseURL}/applications/airspace/geojson/`,
+          type: "GET",
+          cache: true
+        });
+      }
 
+      getData().then(function(data) {
+        // do something with data
+        // Note that calling `.eachLayer` here depends on setting GeoJSON _directly_
+        // above. If you're loading GeoJSON asynchronously, like from CSV or from a file,
+        // you will need to do this within a `featureLayer.on('ready'` event.
+        var featureLayer = L.mapbox.featureLayer(data).addTo(map);
 
-  <!-- jQuery UI 1.11.4 -->
-  <script src="{% static 'adminlite/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+        featureLayer.eachLayer(function(layer) {
+          //console.log(layer,"layer in each")
+          //map.fitBounds(featureLayer.getBounds());
+          // here you call `bindPopup` with a string of HTML you create - the feature
+          // properties declared above are available under `layer.feature.properties`
+          var content =
+            "<h2>Booked Airspace<\/h2>" +
+            "<p>From: " +
+            layer.feature.properties.name +
+            "<br \/>" +
+            "to: " +
+            layer.feature.properties.name +
+            "<\/p>";
+          layer.bindPopup(content);
+        });
+      });
 
-  <!-- Sparkline -->
-  <!-- Slimscroll -->
-  <script src="{% static 'adminlite/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
-  <!-- FastClick -->
-  <script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
+      // ---------------------------------//
 
+      // ---------- DRAW NEW AIRSPACE --------------------------//
 
+      var featureGroup = L.featureGroup().addTo(map);
 
+      var drawControl = new L.Control.Draw({
+        edit: {
+          featureGroup: featureGroup
+        },
+        draw: {
+          polygon: true,
+          marker: false,
+          polyline: false,
+          circle: false
+        }
+      }).addTo(map);
 
-{% else %}
-<p></p>
-<div class="row">
-  <div class="col-sm-3">
+      //https://github.com/Leaflet/Leaflet.draw/issues/315
+      var drawControlEditOnly = new L.Control.Draw({
+        edit: {
+          featureGroup: featureGroup
+        },
+        draw: false
+      });
 
-  </div>
-  <div class="col-sm-6">
-    <div class="panel panel-danger" >
-      <div class="panel-heading" style="text-align:center">
-        Sorry, Can't Make a New Flight
-      </div>
-      <div class="panel-body">
-        <h6 class='text-center'>
-          You have already reached the max number un-approved Flights (10).
-          You are required to have less the number to make a new Flight
-        </h6>
-        <hr>
-        <h6>Your Last {{my_pending_approval_airspaces_count}} are:</h6>
-        {% for my_pending_approval_airspace in my_pending_approval_airspaces %}
-        <p>
-          <a href="{% url 'myreserve_detail' pk=my_pending_approval_airspace.pk %}">{{my_pending_approval_airspace}}</a>
-        </p>
-        {% endfor %}
-      </div>
-      <div class="panel-footer">
-        Kindly Go to
-        <p><a href="{% url 'my_reserve_list' %}" class="btn btn-primary btn-block"> All your Applied Reserves</a></p>
-      </div>
-    </div>
+      // Add real-time drawing
+      map.on("draw:created", function(e) {
+        //console.log(e.layer,"waddduuuup");
+        // console.log(e.layer._latlngs,"latlngs");
+        featureGroup.addLayer(e.layer);
 
-  </div>
-  <div class="col-sm-3">
+        var json = featureGroup.toGeoJSON();
+        console.log(json, "json");
+        localStorage.setItem("geom", JSON.stringify(json));
 
-  </div>
-</div>
+        manageGeom();
 
-{% endif %}
-</body>
+        drawControl.removeFrom(map);
+        drawControlEditOnly.addTo(map);
+      });
 
+      map.on("draw:deleted", function(evt) {
+        layer = evt.layer;
+        // do something when polygon is deleted
+        drawControl.addTo(map);
+        drawControlEditOnly.removeFrom(map);
+
+        localStorage.clear("geom");
+        manageGeom();
+      });
+    </script>
+
+    <script>
+      //console.log(L,"L");
+      //console.log(featureGroup,"featureGroup.layers");
+
+      function manageText() {
+        console.log("manageText called");
+        var name = document.getElementById("reserve_name").value;
+        var geom = localStorage.getItem("geom");
+
+        var date = document.getElementById("id_startday").value;
+        console.log(date, "date");
+
+        console.log(name == undefined, "name==undefined");
+        console.log(name == null, "name==null");
+        console.log(name == "", "name==''");
+
+        var bt = document.getElementById("btn-submit");
+        if (name == "" || geom == null) {
+          bt.disabled = true;
+        } else {
+          bt.disabled = false;
+        }
+      }
+
+      function manageGeom() {
+        console.log("manageGeom called");
+
+        var name = document.getElementById("reserve_name").value;
+
+        var geom = localStorage.getItem("geom");
+        console.log(geom, "geom");
+        console.log(geom == undefined, "geom==undefined");
+        console.log(geom == null, "geom==null");
+        console.log(geom == "", "geom==''");
+
+        var bt = document.getElementById("btn-submit");
+        if (geom == null || name == "") {
+          bt.disabled = true;
+        } else {
+          bt.disabled = false;
+        }
+      }
+
+      //function submit_form1() {
+      //  document.getElementById("reserveform").submit();
+      //}
+
+      function submit_form() {
+        var name = document.getElementById("reserve_name").value;
+
+        var geom = localStorage.getItem("geom");
+
+        var csrftoken = "{{ csrf_token }}";
+
+        //console.log(csrftoken, "csrftoken");
+
+        //console.log(localStorage.getItem("geom"), "getitem");
+       // console.log(typeof localStorage.getItem("geom"), "typeof localstorage");
+
+        var data = {
+          name: name,
+          geom: localStorage.getItem("geom"),
+          rpas: document.getElementById("id_rpas").value,
+          start_day: document.getElementById("id_startday").value,
+          start_time: document.getElementById("id_start_time").value,
+          end: document.getElementById("id_end_time").value
+        };
+
+        var baseURL = location.protocol + "//" + location.hostname + (location.port && ":" + location.port);
+        //console.log(baseURL,"baseURL")
+
+        fetch(`${baseURL}/api/applications/create/`, {
+          method: "POST", // or 'PUT'
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken
+          },
+          body: JSON.stringify(data)
+        })
+          .then(function(res) {
+            return res.json();
+          })
+          .then(function(data) {
+            console.log(data, "final data");
+            //let result = `<h2> User Info From sampleUser.json </h2>`;
+            //document.getElementById('result').innerHTML = result;
+
+            localStorage.clear("geom");
+          })
+          .catch(function(error) {
+            console.log(error, "error");
+            localStorage.clear("geom");
+          });
+      }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="{% static 'bootstrap/js/collapse.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap-for-picker.js' %}"></script>
+    <script src="{% static 'bootstrap/js/datepicker.min.js' %}"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
+    />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+      integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
