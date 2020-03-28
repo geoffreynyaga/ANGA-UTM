@@ -7,6 +7,3 @@ def validate_start_date(value):
         raise ValidationError('You cant book a flight before TODAY!!')
     else:
         return value
-
-
-
