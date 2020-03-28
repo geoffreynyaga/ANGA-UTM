@@ -1,16 +1,16 @@
 # ANGA UTM
 
-![](https://github.com/geoffreynyaga/ANGA-UTM/workflows/Anga%20UTM%20CI/badge.svg)
+![Build Status](https://github.com/geoffreynyaga/ANGA-UTM/workflows/Anga%20UTM%20CI/badge.svg)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/983d87b3-d3db-4930-bb69-df26e1c444a7/deploy-status)](https://app.netlify.com/sites/competent-wescoff-227917/deploys)
 
-> `This is a LAANC (Low Altitude Authorization and Notification Capability) to UTM (UAV Traffic Management) implemetation for drones / UAS / RPAS. It includes drone Registrations, drone flight plans, drone Geofences and drone approvals`
+> `This is a LAANC (Low Altitude Authorization and Notification Capability) to UTM (UAV Traffic Management) implementation for drones / UAS / RPAS. It includes drone Registrations, drone flight plans, drone Geofences and drone approvals`
 
 `It is a PWA (Progressive Web App) purely done in Django/python`
 
 ![Anga UTM](docs/screenshots/main.png)
 
-> ### [Click here for a DEMO](https://anga-utm.herokuapp.com)
+> ## [Click here for a DEMO](https://anga-utm.herokuapp.com)
 >
 > NB: `To login as a normal user/pilot/ drone company staff use the following credentials to sign in`
 >
@@ -126,22 +126,18 @@ python manage.py migrate
 
 - `log in to the admin and under "Authentication and Authorization" create a group called CAA and give the group the relevant permissions that Civil Aviation requires e.g. changing reserved airspaces, adding/changing NOTAMs`
 
-- `One more thing... By default, the application is country-specific, and the default country is Kenya, but this constraint can be removed.`
+- `One more thing... By default, the application is meant to be country-specific, and the default country is Kenya (if you disable location on the browser), but this constraint can be removed.`
 
-`If you log in the app, the map will always be bound to Kenyan borders. To cahnge this to another country, draw a box on Google maps/earth that covers the entire country of your choice. Then get the North East lattitude/longitude as well as South Western lat/long of the bounding box`
+  #### MAP BOUNDS
 
-`An example for Kenya can be seen in the image below`
+  `If you log in the and not grant the location permission, the map will ALWAYS be bound to Kenyan borders. To change this to another country, accept the location on the browser and the map will be bound to your specific country`
 
-![Anga UTM country box](docs/screenshots/bounds.png)
+  `An example for the extent on coverage if you are in Kenya can be seen in the image below`
 
-- Finally, take those values and insert them in `applications/templates/applications/airspaces.html` in this line
-
-```javascript
-bounds = new L.LatLngBounds(new L.LatLng(<northEastLatitude>,<northEastLongitude>), new L.LatLng(<southWestlattitude>,  <southWestLongitude>));
-```
+  ![Anga UTM country box](docs/screenshots/bounds.png)
 
 > Now the app should be working well. However, you will realise that you can not create a reserve airspace yet, and that you have to have an RPAS registered, which when you attempt does not go through because you are not registered to any organisation.
 >
-> This is a deliberate design choice, you have to register an organisation on the admin page `http://localhost:8000/admin` and add the user to that organisation. This is the supposed role that Civil Aviation bodies will have to play.
+> This is a deliberate design choice, you have to register an organisation on the admin page `http://localhost:8000/admin/` and add the user to that organisation. This is the supposed role that Civil Aviation bodies will have to play.
 >
 > Finally, you can create a user in the admin page and make sure to assign them to the `CAA` group that we created in on of the steps above. If you now login with this user on the site, you should have additional features such as `Approve Flight Plans`, `Create Notams` etc.
