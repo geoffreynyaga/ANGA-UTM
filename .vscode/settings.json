@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "python.pythonPath": "venv/bin/python",
     "python.testing.pytestArgs": [
@@ -7,4 +8,15 @@
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.linting.enabled": true
+=======
+{
+    "python.pythonPath": "venv/bin/python",
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.linting.enabled": true
+>>>>>>> airmap---mapbox-integration
 }
