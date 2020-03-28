@@ -305,6 +305,17 @@
 
       L.control.fullscreen().addTo(map);
 
+      map.locate();
+
+      map.on('locationfound', function(e) {
+      map.fitBounds(e.bounds); //TODO: URGENT: SET to  country
+      map.setZoom(12)
+      })
+
+      map.on('locationerror', function() {
+        alert("Position could not be found")
+      });
+
       // ---------- AIRMAP AIRSPACES LOAD --------------------------//
       var url = "https://api.airmap.com/maps/v4/tiles";
 
