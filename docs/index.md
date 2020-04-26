@@ -10,7 +10,7 @@
 
 ## Overview
 
-> The software is a LAANC implementation. LAANC is Low Altitude Airspace Authorization and Notifications.
+> The software is a LAANC implementation..
 >
 > 1. Registration
 > 2. Flight Plans submission and Authorization.
