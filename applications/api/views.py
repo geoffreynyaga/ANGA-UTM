@@ -230,9 +230,9 @@ class ReserveCreateAPIView(APIView):
         print(start_time, "start_time")
         print(end, "end")
 
-        start_day = "03/18/2020"
-        start_time = "10:30 AM"
-        end = "11:30 AM"
+        # start_day = "03/18/2020"
+        # start_time = "10:30 AM"
+        # end = "11:30 AM"
 
         from datetime import datetime
 
