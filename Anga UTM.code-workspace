@@ -7,7 +7,6 @@
   "remoteAuthority": "wsl+Ubuntu-18.04",
 
   "settings": {
-    "python.pythonPath": "${workspaceFolder}\\venv\\Scripts\\python.exe",
     "psi-header.config": {
       "forceToTop": true,
       "blankLinesAfter": 1,
