@@ -26,14 +26,14 @@ function Header() {
       </div>
       <nav className="navbar navbar-default">
         <div className="container-fluid">
-          New features coming soon ....
+          {/* New features coming soon .... */}
           <div className="navbar-header">
             <div className="logo-sm">
               <a href="javascript:void(0)" id="sidebar-toggle-button">
                 <i className="fa fa-bars"></i>
               </a>
               <a className="logo-box" href="index.html">
-                <span>Space</span>
+                <span>Anga UTM (mobile)</span>
               </a>
             </div>
             <button
@@ -46,7 +46,7 @@ function Header() {
               <i className="fa fa-angle-down"></i>
             </button>
           </div>
-          Support the project
+          {/* Support the project */}
           <div
             className="collapse navbar-collapse"
             id="bs-example-navbar-collapse-1"
