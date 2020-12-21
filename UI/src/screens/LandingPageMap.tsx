@@ -10,7 +10,7 @@ function LandingPageMap() {
       <div id="main-wrapper">
         <div className="row" style={{ marginBottom: "5px" }}>
           <div className="col-lg-3 col-md-5 col-xs-5">
-            <a href="" className="btn btn-primary">
+            <a href="/applications/reserve" className="btn btn-primary">
               Create Flight Plan
             </a>
           </div>
