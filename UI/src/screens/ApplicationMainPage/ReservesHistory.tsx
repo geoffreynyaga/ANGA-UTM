@@ -44,7 +44,11 @@ function ReservesHistory() {
                     <tr>
                       <th scope="row">12th Dec 2020</th>
                       <td>
-                        <a href="" className="btn " style={{ color: "blue" }}>
+                        <a
+                          href=""
+                          className="btn btn-default btn-xs"
+                          style={{ color: "blue" }}
+                        >
                           Details {">"}
                         </a>
                       </td>
@@ -86,12 +90,20 @@ function ReservesHistory() {
                       <th>3 hours, 11minutes</th>
                       <td>Mark</td>
                       <td>
-                        <a href="" className="btn " style={{ color: "blue" }}>
+                        <a
+                          href=""
+                          className="btn btn-default btn-xs"
+                          style={{ color: "blue" }}
+                        >
                           View Details {">"}
                         </a>
                       </td>
                       <td>
-                        <a href="" style={{ color: "blue" }}>
+                        <a
+                          href=""
+                          className="btn btn-default btn-xs"
+                          style={{ color: "blue" }}
+                        >
                           Update {">"}
                         </a>
                       </td>
@@ -129,6 +141,7 @@ function ReservesHistory() {
               </div>
             </div>
           </div>
+
           <div className="col-lg-4 col-md-12 col-xs-12">
             <div className="panel panel-warning">
               <div className="panel-heading">
@@ -161,12 +174,20 @@ function ReservesHistory() {
                       <th scope="row">5 hours, 11minutes</th>
 
                       <td>
-                        <a href="" className="btn " style={{ color: "blue" }}>
+                        <a
+                          href=""
+                          className="btn btn-default btn-xs"
+                          style={{ color: "blue" }}
+                        >
                           <span> Details {">"}</span>
                         </a>
                       </td>
                       <td>
-                        <a href="" style={{ color: "blue" }}>
+                        <a
+                          href=""
+                          className="btn btn-default btn-xs"
+                          style={{ color: "blue" }}
+                        >
                           Update {">"}
                         </a>
                       </td>
