@@ -8,7 +8,7 @@ import ApplicationMainPage from "./ApplicationMainPage";
 import CreateReserve from "./ApplicationMainPage/CreateReserve/CreateReserve";
 import ReservesHistory from "./ApplicationMainPage/ReservesHistory";
 import ApprovalLetters from "./ApplicationMainPage/ApprovalLetters";
-import Airspace from "./ApplicationMainPage/Airspace";
+import Airspace from "./Airspace";
 function LandingPage() {
   return (
     <>
