@@ -18,7 +18,7 @@ function LandingPageMap() {
             {/* <h2>Landing Page </h2> */}
           </div>
           <div className="col-lg-3 col-md-5 col-xs-5">
-            <a href="" className="btn btn-primary">
+            <a href="/flight-plans/logs" className="btn btn-primary">
               Go To Flight Logs
             </a>
           </div>

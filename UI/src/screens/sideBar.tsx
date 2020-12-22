@@ -21,7 +21,7 @@ function SideBar() {
               </a>
             </li>
             <li>
-              <a href="email.html">
+              <a href="/flight-plans/logs">
                 <i className="menu-icon icon-inbox"></i>
                 <span>Flight Logs</span>
               </a>

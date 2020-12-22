@@ -9,6 +9,9 @@ import CreateReserve from "./ApplicationMainPage/CreateReserve/CreateReserve";
 import ReservesHistory from "./ApplicationMainPage/ReservesHistory";
 import ApprovalLetters from "./ApplicationMainPage/ApprovalLetters";
 import Airspace from "./Airspace";
+import FlightLogsMainPage from "./FlightLogs";
+import FlightLogDetail from "./FlightLogs/FlightLogDetail";
+
 function LandingPage() {
   return (
     <>
@@ -36,6 +39,13 @@ function LandingPage() {
           </Route>
           <Route path="/applications/airspace">
             <Airspace />
+          </Route>
+
+          <Route exact path="/flight-plans/logs">
+            <FlightLogsMainPage />
+          </Route>
+          <Route path="/flight-plans/logs/:id">
+            <FlightLogDetail />
           </Route>
         </Switch>
       </div>
