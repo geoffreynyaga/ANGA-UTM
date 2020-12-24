@@ -11,6 +11,7 @@ import ApprovalLetters from "./ApplicationMainPage/ApprovalLetters";
 import Airspace from "./Airspace";
 import FlightLogsMainPage from "./FlightLogs";
 import FlightLogDetail from "./FlightLogs/FlightLogDetail";
+import FlightLogUpdate from "./FlightLogs/FlightLogUpdate";
 
 function LandingPage() {
   return (
@@ -44,8 +45,11 @@ function LandingPage() {
           <Route exact path="/flight-plans/logs">
             <FlightLogsMainPage />
           </Route>
-          <Route path="/flight-plans/logs/:id">
+          <Route exact path="/flight-plans/logs/:id">
             <FlightLogDetail />
+          </Route>
+          <Route path="/flight-plans/logs/:id/update">
+            <FlightLogUpdate />
           </Route>
         </Switch>
       </div>

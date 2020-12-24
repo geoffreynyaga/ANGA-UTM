@@ -220,6 +220,7 @@ function FlightLogDetail() {
             </div>
           </div>
         </div>
+
         <div className="row">
           <div className="col-sm-8">
             <div
