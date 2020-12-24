@@ -27,41 +27,23 @@ function SideBar() {
               </a>
             </li>
             <li>
-              <a href="javascript:void(0)">
+              <a href="/uas">
                 <i className="menu-icon icon-flash_on"></i>
-                <span>RPAS</span>
+                <span>UAS</span>
                 <i className="accordion-icon fa fa-angle-left"></i>
               </a>
               <ul className="sub-menu">
                 <li>
-                  <a href="ui-alerts.html">Alerts</a>
+                  <a href="/uas">UAS Main Page</a>
                 </li>
                 <li>
-                  <a href="ui-buttons.html">Buttons</a>
+                  <a href="/uas/list">View All</a>
                 </li>
                 <li>
-                  <a href="ui-icons.html">Icons</a>
+                  <a href="/uas/create">Create</a>
                 </li>
                 <li>
-                  <a href="ui-typography.html">Typography</a>
-                </li>
-                <li>
-                  <a href="ui-notifications.html">Notifications</a>
-                </li>
-                <li>
-                  <a href="ui-modals.html">Modals</a>
-                </li>
-                <li>
-                  <a href="ui-progress.html">Progress Bars</a>
-                </li>
-                <li>
-                  <a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a>
-                </li>
-                <li>
-                  <a href="ui-tree-view.html">Tree View</a>
-                </li>
-                <li>
-                  <a href="ui-nestable.html">Nestable</a>
+                  <a href="/uas/register">Register</a>
                 </li>
               </ul>
             </li>

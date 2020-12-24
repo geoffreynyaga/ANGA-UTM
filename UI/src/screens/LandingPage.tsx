@@ -12,6 +12,12 @@ import Airspace from "./Airspace";
 import FlightLogsMainPage from "./FlightLogs";
 import FlightLogDetail from "./FlightLogs/FlightLogDetail";
 import FlightLogUpdate from "./FlightLogs/FlightLogUpdate";
+import UASMainPage from "../UAS";
+import UASList from "../UAS/UASList";
+import UASRegister from "../UAS/UASRegister";
+import UASCreate from "../UAS/UASCreate";
+import UASUpdate from "../UAS/UASUpdate";
+import UASDetails from "../UAS/UASDetails";
 
 function LandingPage() {
   return (
@@ -50,6 +56,26 @@ function LandingPage() {
           </Route>
           <Route path="/flight-plans/logs/:id/update">
             <FlightLogUpdate />
+          </Route>
+
+          <Route exact path="/uas">
+            <UASMainPage />
+          </Route>
+
+          <Route exact path="/uas/list">
+            <UASList />
+          </Route>
+          <Route exact path="/uas/register">
+            <UASRegister />
+          </Route>
+          <Route exact path="/uas/create">
+            <UASCreate />
+          </Route>
+          <Route exact path="/uas/:id">
+            <UASDetails />
+          </Route>
+          <Route exact path="/uas/:id/update">
+            <UASUpdate />
           </Route>
         </Switch>
       </div>
