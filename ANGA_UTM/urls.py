@@ -245,6 +245,7 @@ urlpatterns = [
     url(r"^notifications/", include("notifications.urls", namespace="notifications")),
     url(r"^api/maps/", include("maps.api.urls")),
     url(r"^api/applications/", include("applications.api.urls")),
+    url(r"^api/flight_plans/", include("flight_plans.api.urls")),
 ]
 
 
