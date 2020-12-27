@@ -18,6 +18,9 @@ import UASRegister from "../UAS/UASRegister";
 import UASCreate from "../UAS/UASCreate";
 import UASUpdate from "../UAS/UASUpdate";
 import UASDetails from "../UAS/UASDetails";
+import OrganizationsMainScreen from "./Organizations";
+import MailMainScreen from "./Mail";
+import CalendarMainScreen from "./Calendar";
 
 function LandingPage() {
   return (
@@ -76,6 +79,16 @@ function LandingPage() {
           </Route>
           <Route exact path="/uas/:id/update">
             <UASUpdate />
+          </Route>
+
+          <Route exact path="/organizations">
+            <OrganizationsMainScreen />
+          </Route>
+          <Route exact path="/mail">
+            <MailMainScreen />
+          </Route>
+          <Route exact path="/calendar">
+            <CalendarMainScreen />
           </Route>
         </Switch>
       </div>

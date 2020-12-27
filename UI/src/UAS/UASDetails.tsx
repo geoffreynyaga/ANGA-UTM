@@ -31,7 +31,7 @@ function UASDetails() {
                     <li className="breadcrumb-item ">
                       <p>None</p>
                     </li>
-                    <li className="breadcrumb-item ">"motp"</li>
+                    <li className="breadcrumb-item ">{"motp"}</li>
                   </h4>
                 </ol>
               </nav>
