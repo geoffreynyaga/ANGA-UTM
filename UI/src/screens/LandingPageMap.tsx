@@ -9,16 +9,16 @@ function LandingPageMap() {
       </div>
       <div id="main-wrapper">
         <div className="row" style={{ marginBottom: "5px" }}>
-          <div className="col-lg-3 col-md-6">
-            <a href="" className="btn btn-primary">
+          <div className="col-lg-3 col-md-5 col-xs-5">
+            <a href="/applications/reserve" className="btn btn-primary">
               Create Flight Plan
             </a>
           </div>
-          <div className="col-lg-6 col-md-6">
+          <div className="col-lg-6 col-md-2 col-xs-2">
             {/* <h2>Landing Page </h2> */}
           </div>
-          <div className="col-lg-3 col-md-6">
-            <a href="" className="btn btn-primary">
+          <div className="col-lg-3 col-md-5 col-xs-5">
+            <a href="/flight-plans/logs" className="btn btn-primary">
               Go To Flight Logs
             </a>
           </div>

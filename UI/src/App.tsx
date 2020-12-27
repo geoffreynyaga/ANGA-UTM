@@ -2,7 +2,6 @@ import React from "react";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import "./App.css";
 import AuthScreen from "./screens/AuthScreen";
 import SignUp from "./authentication/SignUp";
 
