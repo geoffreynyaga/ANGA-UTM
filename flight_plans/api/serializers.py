@@ -54,43 +54,7 @@ class FlightLogListSerializer(serializers.ModelSerializer):
     log.reserve_airspace.status
 
     log.pre_flight.no_of_flights
-
     log.get_post_flight_completion
-
-    ==============================================
-
-    full_name = serializers.SerializerMethodField()
-
-    user_profile_pic_thumbnail = serializers.SerializerMethodField()
-
-    total_contributed = serializers.SerializerMethodField()
-
-    def get_total_contributed(self, obj):
-        all_transactions = (
-            ClientToPaybill.objects.filter(
-                receiver__pk=self.context.get("group_pk"), sender=obj
-            )
-            .filter(is_verified=True)
-            .aggregate(Sum("amount"))
-        )
-
-        # print(all_transactions, "all transactions for user", obj)
-
-        return all_transactions["amount__sum"]
-
-    def get_full_name(self, obj):
-        return obj.get_full_name()
-
-    def get_user_profile_pic_thumbnail(self, instance):
-        request = self.context.get("request")
-
-        if instance.userprofile.profile_pic_thumbnail:
-            return request.build_absolute_uri(
-                instance.userprofile.get_user_profile_pic_thumbnail()
-            )
-        else:
-            return None
-
 
     """
 
