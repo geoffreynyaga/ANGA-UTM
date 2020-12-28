@@ -1,6 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+interface FlightLog {
+  user_first_name: string;
+  user_last_name: string;
+  no_of_flights: number;
+
+  reserve_airspace: {
+    rpas_name: string | null;
+    start_day: string;
+    start_time: string;
+    end: string;
+    application_number: null | string;
+    status: number;
+    start_datetime: string;
+    area: number;
+    mission_type_display: string;
+  };
+  post_flight_completion: number;
+  pre_flight_completion: number;
+}
 
 function FlightLogsMainPage() {
+  const [logs, setLogs] = useState<[FlightLog] | null>(null);
+  const fetchLogs = async () => {
+    console.log("called");
+    return fetch("http://localhost:8000/api/flight_plans/logs/list/", {
+      method: "GET", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Token b363791c3baa5ac7b7023f2f2189ea2e6794f820",
+      },
+      // body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log("Success:", data);
+        setLogs(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchLogs();
+    // return () => {
+    //   cleanup
+    // }
+  }, []);
+
   const iterationNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <div className="page-inner">
@@ -9,118 +58,146 @@ function FlightLogsMainPage() {
 
       <div id="main-wrapper">
         <div className="row" style={{ marginBottom: "5px" }}>
-          {iterationNumber.map((item, index) => (
-            <div
-              key={index}
-              className="col-lg-3 col-md-3 col-xs-3"
-              style={{ paddingBottom: "10x", marginBottom: "10px" }}
-            >
+          {logs !== null ? (
+            logs.map((log, index) => (
               <div
-                className="panel panel-info"
-                style={{ padding: 5, margin: 0 }}
+                key={index}
+                className="col-lg-3 col-md-3 col-xs-3"
+                style={{ paddingBottom: "10x", marginBottom: "10px" }}
               >
-                <div className="panel-heading">
-                  <h3
-                    className="panel-title"
-                    style={{
-                      textAlign: "center",
-                      color: "white",
-                      padding: "5px",
-                    }}
-                  >
-                    Log No: 2134/56/33
-                  </h3>
-                </div>
-                <div className="panel-body">
-                  <p>Date: May 9, 2020, 7:33 a.m.</p>
-                  <p>RPAS Used: ebee</p>
-                  <p>Purpose: Other</p>
-                  <p>Number of flights: 1</p>
-                  <p>Area Size: 0.151 sq. km </p>
-                  <br />
-                  <div className="row" style={{ padding: 0, margin: 0 }}>
-                    <div className="col-xs-8" style={{ padding: 0, margin: 0 }}>
-                      <p style={{ fontSize: "10px" }}>Pre-Flight Completion</p>
-                    </div>
-                    <div className="col-xs-4" style={{ padding: 0, margin: 0 }}>
-                      <a href="" style={{ fontSize: "10px", color: "blue" }}>
-                        Complete {">"}
-                      </a>
-                    </div>
-                  </div>
-                  <div className="progress progress-md">
-                    <div
-                      className="progress-bar progress-bar-info progress-bar-striped"
-                      role="progressbar"
-                      // aria-valuenow={20}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      style={{ width: "20%" }}
+                <div
+                  className="panel panel-info"
+                  style={{ padding: 5, margin: 0 }}
+                >
+                  <div className="panel-heading">
+                    <h3
+                      className="panel-title"
+                      style={{
+                        textAlign: "center",
+                        color: "white",
+                        padding: "5px",
+                      }}
                     >
-                      <span className="sr-only">20% Complete</span>
-                    </div>
+                      Log No: {log.reserve_airspace.application_number}
+                    </h3>
                   </div>
-                  <div className="row" style={{ padding: 0, margin: 0 }}>
-                    <div className="col-xs-8" style={{ padding: 0, margin: 0 }}>
-                      <p style={{ fontSize: "10px" }}>Post-Flight Completion</p>
-                    </div>
-                    <div className="col-xs-4" style={{ padding: 0, margin: 0 }}>
-                      <a href="" style={{ fontSize: "10px", color: "blue" }}>
-                        Complete {">"}
-                      </a>
-                    </div>
-                  </div>
-                  <div className="progress progress-md">
-                    <div
-                      className="progress-bar progress-bar-info progress-bar-striped"
-                      role="progressbar"
-                      // aria-valuenow={20}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      style={{ width: "20%" }}
-                    >
-                      <span className="sr-only">20% Complete</span>
-                    </div>
-                  </div>
+                  <div className="panel-body">
+                    <p>Date: {log.reserve_airspace.start_datetime}</p>
+                    <p>RPAS Used: {log.reserve_airspace.rpas_name}</p>
+                    <p>Purpose: {log.reserve_airspace.mission_type_display}</p>
+                    <p>Number of flights: {log.no_of_flights}</p>
+                    <p>Area Size: {log.reserve_airspace.area} sq. km </p>
+                    <p></p>
+                    <small>Pre-Flight Completion</small>
+                    <span className="pull-right">
+                      {log.pre_flight_completion < 100 ? (
+                        <a href="" style={{ color: "blue" }}>
+                          <i className="fa fa-external-link" aria-hidden="true">
+                            <small> Complete</small>
+                          </i>
+                        </a>
+                      ) : (
+                        <i className="fa fa-check" aria-hidden="true">
+                          <small> Done</small>
+                        </i>
+                      )}
+                    </span>
 
-                  <div className="row" style={{ padding: 0, margin: 0 }}>
-                    <div className="col-xs-6" style={{ padding: 0, margin: 0 }}>
-                      <p style={{ fontSize: "10px" }}>Approval Status</p>
+                    <div className="progress">
+                      <div
+                        className="progress-bar progress-bar-info progress-bar-striped "
+                        role="progressbar"
+                        style={{ width: log.pre_flight_completion + "%" }}
+                        aria-valuenow={log.pre_flight_completion}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                      ></div>
                     </div>
-                    <div className="col-xs-6" style={{ padding: 0, margin: 0 }}>
-                      <div className="col-xs-3">
-                        <a href="../icon/spinner">
-                          <i className="fa fa-spinner" aria-hidden="true"></i>
+
+                    <small> Post-Flight Completion</small>
+                    <span className="pull-right">
+                      {log.post_flight_completion < 100 ? (
+                        <a href="" style={{ color: "blue" }}>
+                          <i className="fa fa-external-link" aria-hidden="true">
+                            <small> Complete</small>
+                          </i>
+                        </a>
+                      ) : (
+                        <i className="fa fa-check" aria-hidden="true">
+                          <small> Done</small>
+                        </i>
+                      )}
+                    </span>
+
+                    <div className="progress">
+                      <div
+                        className="progress-bar progress-bar-info progress-bar-striped"
+                        role="progressbar"
+                        style={{ width: log.post_flight_completion + "%" }}
+                        aria-valuenow={log.post_flight_completion}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                      ></div>
+                    </div>
+
+                    <small>Approval Status</small>
+                    <span className="pull-right">
+                      {log.reserve_airspace.status === 0 ? (
+                        <i
+                          className="fa fa-spinner"
+                          aria-hidden="true"
+                          style={{ color: "#FF9800" }}
+                        >
+                          <small> Pending</small>
+                        </i>
+                      ) : log.reserve_airspace.status === 1 ? (
+                        <i
+                          className="fa fa-times"
+                          aria-hidden="true"
+                          style={{ color: "red" }}
+                        >
+                          <small> Rejected</small>
+                        </i>
+                      ) : (
+                        <i
+                          className="fa fa-check"
+                          aria-hidden="true"
+                          style={{ color: "green" }}
+                        >
+                          <small> Approved</small>
+                        </i>
+                      )}
+                    </span>
+                    <br />
+                    <p></p>
+
+                    <div
+                      className="row"
+                      style={{ paddingLeft: 5, marginRight: 5 }}
+                    >
+                      <div className="col-xs-6">
+                        <a className="btn btn-primary " href="" role="button">
+                          <i className="fa fa-eye" aria-hidden="true"></i>
+                          View{" "}
                         </a>
                       </div>
-                      <div className="col-xs-1"></div>
-                      <div className="col-xs-8">
-                        <p style={{ fontSize: "10px", color: "red" }}>
-                          Pending
-                        </p>
+                      <div className="col-xs-6">
+                        <a className="btn btn-primary " href="" role="button">
+                          <i
+                            className="fa fa-pencil-square-o"
+                            aria-hidden="true"
+                          ></i>
+                          Update
+                        </a>
                       </div>
-                    </div>
-                  </div>
-
-                  <div
-                    className="row"
-                    style={{ paddingLeft: 5, marginRight: 5 }}
-                  >
-                    <div className="col-xs-6">
-                      <a href="" className="btn btn-primary">
-                        View {">"}
-                      </a>
-                    </div>
-                    <div className="col-xs-6">
-                      <a href="" className="btn btn-primary">
-                        Update {">"}
-                      </a>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <h5>Loading Logs..... </h5>
+          )}
         </div>
       </div>
     </div>

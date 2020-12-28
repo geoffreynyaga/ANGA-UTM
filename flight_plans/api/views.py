@@ -13,11 +13,9 @@ class FlightLogListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         """
-        This view should return a list of all the purchases
+        This view should return a list of all the logs
         for the currently authenticated user.
         """
-        # user = self.request.user
         queryset = FlightLog.objects.filter(user=self.request.user).order_by("-id")
-        print(queryset, "queryset")
 
         return queryset

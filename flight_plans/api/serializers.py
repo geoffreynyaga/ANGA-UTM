@@ -24,7 +24,7 @@ class FlightLogReserveAirspaceSerializer(serializers.ModelSerializer):
         return obj.get_area()
 
     def get_start_datetime(self, obj):
-        return obj.get_mission_type_display()
+        return obj.get_start_datetime()
 
     class Meta:
         model = ReserveAirspace
@@ -33,8 +33,6 @@ class FlightLogReserveAirspaceSerializer(serializers.ModelSerializer):
             "start_day",
             "start_time",
             "end",
-            "created_by",
-            "mission_type",
             "application_number",
             "status",
             "start_datetime",
@@ -99,6 +97,9 @@ class FlightLogListSerializer(serializers.ModelSerializer):
     user_first_name = serializers.SerializerMethodField()
     user_last_name = serializers.SerializerMethodField()
     reserve_airspace = FlightLogReserveAirspaceSerializer(read_only=True)
+    no_of_flights = serializers.SerializerMethodField()
+    post_flight_completion = serializers.SerializerMethodField()
+    pre_flight_completion = serializers.SerializerMethodField()
 
     def get_user_first_name(self, instance):
 
@@ -116,14 +117,28 @@ class FlightLogListSerializer(serializers.ModelSerializer):
         else:
             return None
 
+    def get_no_of_flights(self, instance):
+
+        # print(instance.created_by, "should be group instance")
+        if instance.user:
+            return instance.pre_flight.no_of_flights
+        else:
+            return None
+
+    def get_post_flight_completion(self, obj):
+        return obj.get_post_flight_completion()
+
+    def get_pre_flight_completion(self, obj):
+        return obj.get_pre_flight_completion()
+
     class Meta:
         model = FlightLog
         fields = (
             "user_first_name",
             "user_last_name",
             "reserve_airspace",
-            "emmergency_info",
-            "pre_flight",
-            "post_flight",
+            "no_of_flights",
+            "post_flight_completion",
+            "pre_flight_completion",
         )
 
