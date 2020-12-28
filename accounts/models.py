@@ -25,6 +25,9 @@ class UserProfile(models.Model):
     def __str__(self):
         return str(self.user.username)
 
+    def get_userprofile_pic_url(self):
+        return self.profile_pic.url
+
 
 def create_profile(sender, **kwargs):
     user = kwargs["instance"]

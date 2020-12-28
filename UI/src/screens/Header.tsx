@@ -171,13 +171,13 @@ function Header() {
                 </a>
                 <ul className="dropdown-menu">
                   <li>
-                    <a href="#">Profile</a>
+                    <a href="/profile">Profile</a>
                   </li>
                   <li>
-                    <a href="#">Calendar</a>
+                    <a href="/calendar">Calendar</a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="/mail">
                       <span className="badge pull-right badge-danger">42</span>
                       Messages
                     </a>

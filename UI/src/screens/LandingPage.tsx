@@ -21,6 +21,7 @@ import UASDetails from "../UAS/UASDetails";
 import OrganizationsMainScreen from "./Organizations";
 import MailMainScreen from "./Mail";
 import CalendarMainScreen from "./Calendar";
+import ProfileMainPage from "./Profile";
 
 function LandingPage() {
   return (
@@ -35,6 +36,11 @@ function LandingPage() {
           <Route exact path="/">
             <LandingPageMap />
           </Route>
+
+          <Route exact path="/profile">
+            <ProfileMainPage />
+          </Route>
+
           <Route exact path="/applications">
             <ApplicationMainPage />
           </Route>

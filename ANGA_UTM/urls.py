@@ -243,6 +243,7 @@ urlpatterns = [
     url(r"^notams/", include("notams.urls")),
     url(r"^organizations/", include("organizations.urls")),
     url(r"^notifications/", include("notifications.urls", namespace="notifications")),
+    url(r"^api/accounts/", include("accounts.api.urls")),
     url(r"^api/maps/", include("maps.api.urls")),
     url(r"^api/applications/", include("applications.api.urls")),
     url(r"^api/flight_plans/", include("flight_plans.api.urls")),
