@@ -1,1 +1,0 @@
-web: gunicorn ANGA_UTM.wsgi --log-file -

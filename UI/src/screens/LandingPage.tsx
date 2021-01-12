@@ -8,7 +8,7 @@ import ApplicationMainPage from "./ApplicationMainPage";
 import CreateReserve from "./ApplicationMainPage/CreateReserve/CreateReserve";
 import ReservesHistory from "./ApplicationMainPage/ReservesHistory";
 import ApprovalLetters from "./ApplicationMainPage/ApprovalLetters";
-import Airspace from "./Airspace";
+import Airspace from "./Airspace/index";
 import FlightLogsMainPage from "./FlightLogs";
 import FlightLogDetail from "./FlightLogs/FlightLogDetail";
 import FlightLogUpdate from "./FlightLogs/FlightLogUpdate";

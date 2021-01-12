@@ -1,0 +1,386 @@
+/*
+ * File: /mnt/c/Projects/ANGA UTM/src/UI/src/screens/Airspace/index1.tsx
+ * Project: MFUKO
+ * Author: Geoffrey Nyaga Kinyua  at geoffrey@mfuko.co.ke
+ * -----
+ * Last Modified: Wednesday December 30th 2020 7:38:54 pm
+ * Modified By: Geoffrey Nyaga Kinyua at geoffrey@mfuko.co.ke
+ * -----
+ * This file should not be copied and/or distributed without the express
+ * permission of MFUKO PAYMENTS SERVICES Ltd.
+ *
+ * Copyright (c) 2020 MFUKO PAYMENTS SERVICES Ltd.
+ * -----
+ * HISTORY:
+ */
+
+import React, { useEffect, useRef, useState } from "react";
+import MapOnly from "../MapOnly";
+import ReactMapboxGl, { Layer, Feature, GeoJSONLayer } from "react-mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+// import { LngLatBounds } from "mapbox-gl";
+import * as MapboxGL from "mapbox-gl";
+import ReactMapGL from "react-map-gl";
+// import MapGL, { Source, Layer } from "react-map-gl";
+import ContextualAirspacePlugin from "../../js-contextual-airspace-plugin/src/index";
+// const ContextualAirspacePlugin = require("../../js-contextual-airspace-plugin/src/index.js")
+// .default;
+
+function Airspace() {
+  const [geojson, setGeojson] = useState<any | null>(null);
+  const [viewport, setViewport] = useState({
+    latitude: 0.007317,
+    longitude: 37.065982,
+    zoom: 8,
+  });
+
+  const [year, setYear] = useState(2015);
+  const [data, setData] = useState(null);
+  const [hoveredFeature, setHoveredFeature] = useState<any | null>(null);
+  const [x, setX] = useState("");
+  const [y, setY] = useState("");
+
+  const [xx, setXX] = useState("");
+  const [yy, setYY] = useState("");
+  const [geofencegeojson, setGeofenceGeojson] = useState<any | null>(null);
+
+  const mapRef = useRef<any | null>(null);
+
+  const Map = ReactMapboxGl({
+    accessToken:
+      "pk.eyJ1IjoiZ2VvZmZyZXlueWFnYSIsImEiOiJjamdmM3Q5NG4wdnprMnhyMGJqd3U1N25yIn0.R_3l_E-DDVpHQ0rL3zgElQ",
+    attributionControl: true,
+    customAttribution: "Made with ❤️  by Geoffrey Nyaga",
+    trackResize: false,
+    minZoom: 4,
+  });
+
+  const ltlnBounds = new MapboxGL.LngLatBounds([
+    33.65168017689214,
+    -4.685674582782965,
+    43.32158053837312,
+    5.149746145544444,
+  ]);
+
+  const symbolLayout: MapboxGL.SymbolLayout = {
+    "text-field": "{name}",
+    "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+    "text-offset": [0, 0.6],
+    "text-anchor": "top",
+  };
+  const symbolPaint: MapboxGL.SymbolPaint = {
+    "text-color": "red",
+  };
+  const circleLayout: MapboxGL.CircleLayout = { visibility: "visible" };
+  const circlePaint: MapboxGL.CirclePaint = {
+    "circle-color": "white",
+  };
+  const fillLayout: MapboxGL.FillLayout = {
+    visibility: "visible",
+  };
+  const fillPaintFunc = (name: string) => {
+    console.log(name, "name");
+    if (name == "name") {
+      return {
+        "fill-color": "yellow",
+        "fill-opacity": 0.4,
+      };
+    } else {
+      return {
+        "fill-color": "blue",
+        "fill-opacity": 0.4,
+      };
+    }
+  };
+
+  const fillPaint: MapboxGL.FillPaint = {
+    "fill-color": "yellow",
+    "fill-opacity": 0.4,
+  };
+
+  const fetchGeoJSON = async () => {
+    console.log("called");
+    return fetch(
+      "http://localhost:8000/api/applications/v1/reserve-airspaces/list/",
+      {
+        method: "GET", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Token b363791c3baa5ac7b7023f2f2189ea2e6794f820",
+        },
+        // body: JSON.stringify(data),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        setGeojson(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const fetchGeofenceGeoJSON = async () => {
+    console.log("called");
+    return fetch("http://localhost:8000/api/maps/geofence-locations/", {
+      method: "GET", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Token b363791c3baa5ac7b7023f2f2189ea2e6794f820",
+      },
+      // body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log("Success:", data);
+        setGeofenceGeojson(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const dataLayer = {
+    id: "data",
+    type: "fill",
+    paint: {
+      "fill-color": {
+        property: "id",
+        stops: [
+          [0, "#3288bd"],
+          [1, "#66c2a5"],
+          [2, "#abdda4"],
+          [3, "#e6f598"],
+          [4, "#ffffbf"],
+          [5, "#fee08b"],
+          [6, "#fdae61"],
+          [7, "#f46d43"],
+          [8, "#d53e4f"],
+        ],
+      },
+      "fill-opacity": 0.8,
+    },
+  };
+
+  function _renderTooltip() {
+    // console.log(hoveredFeature, "hoveredFeature");
+    if (hoveredFeature !== null && hoveredFeature !== undefined) {
+      return hoveredFeature.properties.pk !== undefined ? (
+        <div
+          className="label label-primary label-xs"
+          style={{
+            position: "absolute",
+            left: x,
+            top: y,
+            // height: 20,
+          }}
+        >
+          <p> {hoveredFeature?.properties.name}</p>
+        </div>
+      ) : (
+        <div
+          className="label label-primary label-xs"
+          style={{
+            position: "absolute",
+            left: x,
+            top: y,
+            // height: 20,
+          }}
+        >
+          <p> {hoveredFeature?.properties.application_number}</p>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  function _onHover(event: any) {
+    const { features, srcEvent } = event;
+    // console.log(srcEvent, "hover");
+    let hoveredFeature =
+      features &&
+      features.find((f: any) => f.properties.user_full_name !== undefined);
+
+    setHoveredFeature(hoveredFeature);
+    setX(srcEvent.offsetX);
+    setY(srcEvent.offsetY);
+  }
+
+  function _onClick(event: any) {
+    const { features, srcEvent } = event;
+    // console.log(srcEvent, "click event");
+    // console.log(srcEvent.screenX, "click event");
+
+    let hoveredFeature =
+      features && features.find((f: any) => f.properties.pk !== undefined);
+
+    setHoveredFeature(hoveredFeature);
+    setXX(srcEvent.clientX);
+    setYY(srcEvent.clientY);
+  }
+
+  const config = {
+    airmap: {
+      api_key:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVkZW50aWFsX2lkIjoiY3JlZGVudGlhbHw0Z242Z0tNaW5KODQza2h6NjRFZGJpT1pBS25hIiwiYXBwbGljYXRpb25faWQiOiJhcHBsaWNhdGlvbnxRTHk0NVIySDhKV3YzZ2lOUUdtM1poRHYwQTRxIiwib3JnYW5pemF0aW9uX2lkIjoiZGV2ZWxvcGVyfDc5NVlrQm1Db3hSQm53aTluOURiTEh3OTVLMFEiLCJpYXQiOjE1MjcxNTA4MDJ9.TkESuJIEQ9pjfU9F4TgIUNCF15OO2eeWU1GRONXf33Q",
+    },
+    auth0: {
+      client_id: "FQKRrEkjXnCVsGl3P7b0XnTiMhxSAdD5",
+      callback_url: null,
+    },
+    mapbox: {
+      access_token: null,
+    },
+  };
+
+  const options = {
+    preferredRulesets: ["usa_part_107", "deu_rules_waiver"],
+    overrideRulesets: [
+      // 'usa_part_107'
+    ],
+    enableRecommendedRulesets: true,
+    theme: "light",
+    /* refer to the docs for a comprehensive list of options */
+  };
+
+  // const plugin = new ContextualAirspacePlugin(config, options);
+  // useEffect(() => {
+  //   fetchGeoJSON();
+  //   fetchGeofenceGeoJSON();
+  //   // Map.addControl(plugin, "top-left");
+  //   // mapRef.addControl(plugin);
+  // }, []);
+
+  useEffect(() => {
+    const map = new MapboxGL.Map({
+      container: "mapContainer",
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: [37.065982, 0.007317],
+      zoom: 9,
+
+      accessToken:
+        "pk.eyJ1IjoiZ2VvZmZyZXlueWFnYSIsImEiOiJjamdmM3Q5NG4wdnprMnhyMGJqd3U1N25yIn0.R_3l_E-DDVpHQ0rL3zgElQ",
+      attributionControl: true,
+      customAttribution: "Made with ❤️  by Geoffrey Nyaga",
+      trackResize: false,
+      minZoom: 4,
+    });
+    const nav = new MapboxGL.NavigationControl();
+    map.addControl(nav, "top-right");
+    const plugin2 = new ContextualAirspacePlugin(config, options);
+    map.addControl(plugin2, "bottom-left");
+    // map.addControl(plugin, "top-left");
+    // console.log(map, "map after instance");
+
+    console.log(plugin2, "plugin2");
+    plugin2.on("jurisdictionChange", (data: any) =>
+      console.log("jurisdictionChange", data)
+    );
+    plugin2.on("airspaceLayerClick", (data: any) =>
+      console.log("airspaceLayerClick", data)
+    );
+  }, []);
+
+  const onMapLoad = (map: any) => {
+    console.log(map, "map instance");
+
+    map.addControl(new ContextualAirspacePlugin(config, options));
+    console.log(map, "map after instance");
+  };
+
+  return (
+    <div className="page-inner" style={{ padding: "5px" }}>
+      {/* <hr /> */}
+      <div id="main-wrapper"></div>
+      {/* <p>{JSON.stringify(plugin)}</p> */}
+      {/* <pre>{JSON.stringify(geojson)}</pre>
+      <pre>{JSON.stringify(geofencegeojson)}</pre> */}
+      <div
+        id="mapContainer"
+        // className="map"
+        style={{
+          width: "100%",
+          height: "100vh",
+        }}
+      ></div>
+      ;
+      {/* <MapGL
+        {...viewport}
+        width="100%"
+        height="100vh"
+        onViewportChange={(viewport) => setViewport(viewport)}
+        mapboxApiAccessToken="pk.eyJ1IjoiZ2VvZmZyZXlueWFnYSIsImEiOiJjamdmM3Q5NG4wdnprMnhyMGJqd3U1N25yIn0.R_3l_E-DDVpHQ0rL3zgElQ"
+        onHover={_onHover}
+        onClick={_onClick}
+        zoom={13}
+      >
+        <Source type="geojson" data={geofencegeojson}>
+          <Layer
+            id="geofence"
+            type="fill"
+            layout={{ visibility: "visible" }}
+            paint={{
+              "fill-color": "red",
+              "fill-opacity": 0.3,
+            }}
+          />
+        </Source>
+        <Source id="reserves" type="geojson" data={geojson}>
+          <Layer
+            id="reserves"
+            type="fill"
+            layout={{ visibility: "visible" }}
+            paint={{
+              "fill-color": {
+                property: "status",
+                stops: [
+                  [0, "#f3f169"],
+                  [1, "#be6a15"],
+                  [2, "#a7ff83"],
+                ],
+              },
+              "fill-opacity": 0.6,
+            }}
+          />
+        </Source>
+
+        {_renderTooltip()}
+      </MapGL> */}
+      {/* <Map
+        ref={mapRef}
+        onStyleLoad={onMapLoad}
+        style="mapbox://styles/mapbox/streets-v9"
+        containerStyle={{
+          height: "100vh",
+          width: "100vw",
+        }}
+        center={[37.065982, 0.007317]}
+        maxBounds={ltlnBounds}
+      >
+        <GeoJSONLayer
+          data={geojson}
+          // symbolLayout={{
+          //   "text-field": "{name}",
+          //   "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+          //   "text-offset": [0, 0.6],
+          //   "text-anchor": "top",
+          // }}
+          fillLayout={fillLayout}
+          fillPaint={fillPaintFunc(`${geojson ? geojson["features"] : ""}`)}
+          // circleLayout={circleLayout}
+          // circlePaint={circlePaint}
+          // circleOnClick={this.onClickCircle}
+          symbolLayout={symbolLayout}
+          symbolPaint={symbolPaint}
+        />
+      </Map>
+    */}
+    </div>
+  );
+}
+
+export default Airspace;

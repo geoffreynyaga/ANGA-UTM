@@ -4,9 +4,10 @@ import MapOnly from "./MapOnly";
 function LandingPageMap() {
   return (
     <div className="page-inner">
-      <div className="page-title">
+      {/* <div className="page-title">
         <h3 className="breadcrumb-header">Main Landing Page</h3>
-      </div>
+      </div> */}
+      <hr />
       <div id="main-wrapper">
         <div className="row" style={{ marginBottom: "5px" }}>
           <div className="col-lg-3 col-md-5 col-xs-5">
