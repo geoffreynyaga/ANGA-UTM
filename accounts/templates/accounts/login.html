@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block head %}
+    <title>Login</title>
+
+
+   <style type="text/css">
+
+  .lockscreen-wrapper {
+    margin-top: 10px;
+
+    }
+
+    .pull-right {
+    float: right; 
+    }
+
+    .lockscreen-credentials{
+      width: 50%;
+    }
+    </style>
+
+
+{% endblock %}
+
+
+{% block body %}
+
+
+<br>
+
+<body class="hold-transition lockscreen">
+<!-- Automatic element centering -->
+    <div class="lockscreen-wrapper">
+      <div class="lockscreen-logo"  >
+        <img src="{% static 'logo/logo.png' %}" class="img-responsive center-block" alt="." style="max-height:60px">
+          <b>Login</b>
+    </div>
+
+<p><strong>{{ form.non_field_errors }}</strong></p>
+
+
+  <!-- START LOCK SCREEN ITEM -->
+  <div class="lockscreen-item">
+ <!-- lockscreen credentials (contains the form) -->
+
+
+    <form class="lockscreen-credentials"  method="POST">
+
+
+
+      <div class="input-group">
+        {% csrf_token %}
+        {{ form.fieldname.errors }}
+
+        <span>Username: {{form.username}}</span>
+        <p></p>
+        <span>Password: {{form.password}}</span>
+        <p></p>
+          <span><button type="submit" class="btn" style="float: right">
+            <i class="fa fa-arrow-right text-muted fa-2x"></i></button></span>
+            <p></p>
+            <span></span>
+
+      </div>
+
+    </form>
+  </div>
+  <!-- /.lockscreen-item -->
+
+
+  <div class="text-center">
+    <a href="{% url 'accounts:signup' %}"> <b>Or Sign Up here</b></a>
+  </div>
+  <div class="lockscreen-footer text-center">
+    Copyright  <b>ANGA UTM &copy; 2018</b> <a href="" class="text-black"> | Geoffrey Nyaga</a><br>
+    All rights reserved
+  </div>
+
+</div>
+
+</body>
+{% endblock %}
+
+
+
+{%block includes%}
+{% endblock%}

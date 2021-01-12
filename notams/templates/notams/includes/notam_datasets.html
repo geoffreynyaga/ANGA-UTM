@@ -1,0 +1,48 @@
+var notam_datasets = new L.GeoJSON.AJAX("{% url 'notam_datasets'%}",{
+
+  style: function colour(feature){
+    if (feature.properties.status == 0) {
+      return{
+        color: 'black',
+      };
+    }
+    else if (feature.properties.status == 1){
+      return{
+        color: 'red',
+      };
+    }
+    else {
+      return{
+        color: 'grey',
+      };
+    }
+  },
+
+  onEachFeature: function(feature,layer){
+
+  if (feature.properties.get_file_url == '#'){
+    var pdf_inst = 'No Pdf'
+        }
+  else {
+    var pdf_inst = 'download pdf'
+       }
+    var file_url = feature.properties.get_file_url;
+
+                  var x = `
+                  <h6>Reason: <b> ${feature.properties.notam_number}</b> </h6>
+                  <p>Reason: <b> ${feature.properties.reason}</b> </p>
+                  <p>NOTAM Start: <b>${feature.properties.get_start_day}</b></p>
+                  <p>from <b>${feature.properties.start_time}</b>
+                  to: <b>${feature.properties.end}</b></p>
+                  <p>PDF: <a href="${file_url}">${pdf_inst}</a></p>
+                  `
+    layer.bindPopup(x)
+    {% include 'notams/includes/onEachFeatureNotamIcon.html' %}
+
+
+  },
+
+
+});
+
+notam_datasets.addTo(map);

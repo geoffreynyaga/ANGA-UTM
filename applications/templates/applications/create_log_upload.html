@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+
+{% load static %}
+
+
+{% block head %}
+    <title>Add Reserve</title>
+
+
+{%endblock%}
+
+
+{%block body%}
+<section class="content-header">
+
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">
+      <i class="fa fa-map-o" aria-hidden="true"></i>
+      Add Reserve
+    </li>
+    </ol>
+  </nav>
+
+{% load bootstrap3 %}
+
+{% load leaflet_tags %}
+{% leaflet_js  plugins="forms" %}
+{% leaflet_css  plugins="forms"%}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="{% static 'adminlite/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+    {{ form.media }}
+
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">Add Reserve</div>
+    <div class="panel-body">
+      <form method="POST" enctype="multipart/form-data">
+        
+          {{ form.as_p }}
+
+          {% csrf_token %}
+          <br>
+
+          <input  type="submit" value="Submit" />
+
+      </form>
+    </div>
+    <div class="panel-footer">
+      <!-- <input  type="submit" value="Submit" /> -->
+    </div>
+    </div>
+  </div>
+
+
+
+
+
+</section>
+{%endblock%}

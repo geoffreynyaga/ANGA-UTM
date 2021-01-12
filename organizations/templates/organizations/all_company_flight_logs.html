@@ -1,0 +1,146 @@
+<!DOCTYPE html> 
+{% extends "base.html" %} 
+{% load static%} 
+
+{% block head %}
+<title>My Logs</title>
+{%endblock%}
+
+{%block body%}
+
+
+<section class='content'>
+
+<div class="row">
+    <div class="col-xs-8">
+        <p>Welcome {{request.user.first_name}},</p>
+    </div>
+    
+</div>
+
+<div class="row">
+    
+
+    <div class="col-md-4">
+        <!-- Widget: user widget style 1 -->
+        <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-yellow">
+                <h5>My Postholds</h5>
+            </div>
+            <div class="box-footer">
+                {% if my_postholds %}
+                <ul class="nav nav-stacked">
+                     {% for my_posthold in my_postholds %}
+                    <li>
+                        <a href="#"> {{my_posthold.organization.organization_details}}
+                            <span class="pull-right badge bg-blue">{{my_posthold.get_role_display}}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>You currently have no approved positions</p>
+                <p>Kindly communicate to your company admin to do so</p>
+
+                {%endif%}
+
+                {% if my_role == 'managerial' %}
+                <hr>
+
+                    <span class='pull-right'>
+                        <a href="{% url 'postholder_create'%}">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            Create A Position
+                        </a>
+                    </span>
+                        
+
+                {% endif %}
+
+                
+            </div>
+        </div>
+        <!-- /.widget-user -->
+    </div>
+    <!-- /.col -->
+
+    <div class="col-md-4">
+        <!-- Widget: user widget style 1 -->
+        <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-green">
+                <h3 class="widget-user-username">Flight Logs</h3>
+            </div>
+            <div class="box-footer no-padding">
+                <ul class="nav nav-stacked">
+                    {% for all_company_log in all_company_logs %}
+                    <li>
+                        <a href="#">{{all_company_log}}  by {{all_company_log.reserve_airspace.created_by}}
+                            <span class="pull-right badge bg-blue">{{all_company_log.reserve_airspace.get_status_display}}</span>
+                        </a>
+                    </li> 
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <!-- /.widget-user -->
+    </div>
+    <!-- /.col -->
+
+    <div class="col-md-4">
+        <!-- Widget: user widget style 1 -->
+        <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-green">
+                <h3 class="widget-user-username">Employees</h3>
+            </div>
+            <div class="box-footer">
+                {% for org in organization_and_users %}
+                <div>
+                    <h5>{{org.organization_details}}</h5>
+                </div>
+                
+                <ul class="nav nav-stacked">
+                     {% for user in org.users.all%}
+                    <li>
+                        <a href="#">{{user}}
+                            <span class="pull-right badge bg-blue"></span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {%endfor%}
+            </div>
+        </div>
+        <!-- /.widget-user -->
+    </div>
+    <!-- /.col -->
+
+</div>
+
+<div class="row">
+    
+    <!-- {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                <a href="/organizations/logs/?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                <a href="/organizations/logs/?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %} -->
+
+</div>
+
+
+</section>
+
+
+{%endblock%}

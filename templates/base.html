@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+
+<html>
+
+   {% load static %}
+
+
+   {% load group_perms %}
+
+
+
+{% load pwa %}
+{% comment %} <!-- TO DO: PWA BASE.HTML is the above supposed to be above <head> ? --> {% endcomment %}
+{% comment %} DONE: YES - From Documentation {% endcomment %}
+
+  <head>
+
+    {% progressive_web_app_meta %}
+
+
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="{% static 'favicons/favicon.ico' %}" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <title>Anga UTM | Dashboard</title> -->
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="{% static 'adminlite/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"  type="text/css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminlite/bower_components/font-awesome/css/font-awesome.min.css' %}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="{% static 'adminlite/bower_components/Ionicons/css/ionicons.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'adminlite/dist/css/AdminLTE.min.css' %}">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+         <link rel="stylesheet" href="{% static 'adminlite/dist/css/skins/_all-skins.min.css' %}">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'favicons/apple-icon-57x57.png ' %}">
+    <link rel="apple-touch-icon" sizes="60x60"  href="{% static 'favicons/apple-icon-60x60.png ' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'favicons/apple-icon-72x72.png ' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'favicons/apple-icon-76x76.png ' %}">
+    <link rel="apple-touch-icon"  sizes="114x114"  href="{% static 'favicons/apple-icon-114x114.png' %}">
+    <link rel="apple-touch-icon"  sizes="120x120"  href="{% static 'favicons/apple-icon-120x120.png ' %}">
+    <link rel="apple-touch-icon" sizes="144x144"   href="{% static 'favicons/apple-icon-144x144.png ' %}">
+    <link rel="apple-touch-icon"  sizes="152x152"  href="{% static 'favicons/apple-icon-152x152.png ' %}">
+    <link rel="apple-touch-icon"  sizes="180x180"  href="{% static 'favicons/apple-icon-180x180.png ' %}">
+
+    <link rel="icon" type="image/png" sizes="144x144"   href="{% static 'favicons/android-icon-144x144.png ' %}">
+    <link rel="icon" type="image/png" sizes="192x192"   href="{% static 'favicons/android-icon-192x192.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32"  href="{% static 'favicons/favicon-32x32.png ' %}">
+    <link rel="icon" type="image/png" sizes="96x96"  href="{% static 'favicons/favicon-96x96.png ' %}">
+    <link rel="icon" type="image/png" sizes="16x16"  href="{% static 'favicons/favicon-16x16.png ' %}">
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{% static 'favicons/ms-icon-144x144.png' %}">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- Path to manifest.json -->
+    {% comment %} <link rel="manifest" href="/manifest.json "> {% endcomment %}
+
+    {% block head %}
+      <title>ANGA UTM</title>
+    {% endblock %}
+
+      {% comment %} <script>
+  if ("serviceWorker" in navigator) {
+  if (navigator.serviceWorker.controller) {
+    console.log("[PWA Builder HTML] active service worker found, no need to register");
+  } else {
+    // Register the service worker
+    navigator.serviceWorker
+      .register('{% static "serviceworker.js" %}', {
+        scope: "/static/"
+      })
+      .then(function (reg) {
+        console.log("[PWA Builder HTML] Service worker has been registered for scope: " + reg.scope);
+      });
+  }
+}
+  </script> {% endcomment %}
+
+  </head>
+
+
+  {% comment %} <script type="text/javascript">
+  //This is the "Offline copy of pages" service worker
+
+  //Add this below content to your HTML page, or add the js file to your page at the very top to register sercie worker
+  if (navigator.serviceWorker.controller) {
+    console.log('[PWA Builder] active service worker found, no need to register')
+  } else {
+    //Register the ServiceWorker
+    navigator.serviceWorker.register('{% static "pwabuilder-sw.js" %}', {
+      scope: '/static/'
+    }).then(function(reg) {
+      console.log('Service worker has been registered for scope:'+ reg.scope);
+    });
+  }
+
+  </script> {% endcomment %}
+
+
+
+
+
+  <body class="hold-transition skin-blue sidebar-mini">
+
+
+  <div class="wrapper">
+
+    <header class="main-header">
+      <!-- Logo -->
+      <a href=" {% url 'home' %} " class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"> <img src="{% static 'favicons/favicon-32x32.png'%}" alt="xx"><b>UTM</b></span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"> <img src="{% static 'favicons/favicon-32x32.png'%}" alt="xx"> <b>Anga </b>UTM</span>
+      </a>
+      <!-- Header Navbar: style can be found in header.less -->
+      <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+          <span class="sr-only">Toggle navigation</span>
+        </a>
+
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            {% if user.is_authenticated %}
+
+
+
+            <!-- Messages: style can be found in dropdown.less-->
+            <li class="dropdown messages-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-envelope-o"></i>
+                {% if unread_messages_number != 0 %}
+                <span class="label label-success">{{unread_messages_number}}{{x}}</span>
+                {% endif %}
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header">You have {{unread_messages_number}} new messages</li>
+                <li>
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="menu">
+
+                    {% for unread_message in unread_messages %}
+
+                    <p></p>
+
+
+                    <li><!-- start message -->
+                      <a href="{% url 'messages:message_detail' pk=unread_message.pk %}">
+                        {%if unread_message.sender.userprofile.profile_pic%}
+                        <div class="pull-left">
+
+                          <img src="{{unread_message.sender.userprofile.profile_pic.url}}" class="img-circle" alt="">
+                        </div>
+                        {% endif %}
+                        <h4>
+                          {{unread_message.sender}}
+                          <small><i class="fa fa-clock-o"></i> {{unread_message.date_created | timesince}} ago </small>
+                        </h4>
+                        <p>{{unread_message.title}}</p>
+                      </a>
+                    </li>
+                    <!-- end message -->
+
+                    {% endfor %}
+                  </ul>
+                </li>
+                <li class="footer"><a href="{% url 'messages:inbox' %} ">See All Messages</a></li>
+              </ul>
+            </li>
+
+            {% for group in user.groups.all %}
+                {% if group.name == 'CAA' %}
+
+                {% endif %}
+            {% endfor %}
+            <!-- TODO: BASE.HTML What is the above for? -->
+
+            <!-- Notifications: style can be found in dropdown.less -->
+            <li class="dropdown notifications-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i>
+                 {% if unread_notifications_count != 0 %}
+                <span class="label label-warning">
+                     {{unread_notifications_count}}
+                </span>
+                 {% endif %}
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header">You have {{unread_notifications_count}} notifications</li>
+                <li>
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="menu">
+                    {% for unread_notification in unread_notifications%}
+
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-warning text-yellow"></i>
+                        {{unread_notification.title }}
+                      </a>
+                    </li>
+                    {% endfor %}
+
+                    <!-- <li>
+                      <a href="#">
+                        <i class="fa fa-users text-red"></i> License expiry this month
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-user text-red"></i> You changed your username
+                      </a>
+                    </li> -->
+
+                  </ul>
+                </li>
+                <li class="footer"><a href="{% url 'notifications:notifications_list'%}">View all</a></li>
+              </ul>
+            </li>
+
+            <!-- Tasks: style can be found in dropdown.less -->
+            <li class="dropdown tasks-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-flag-o"></i>
+                {% if all_tasks_count != 0 %}
+                  <span class="label label-danger">{{all_tasks_count}}</span>
+                {% endif %}
+
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header">You have {{all_tasks_count}} tasks</li>
+                <li>
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="menu">
+
+                    {% for unfinished_rpas_model_task in unfinished_rpas_model_tasks %}
+                    <li><!-- Task item -->
+                      <a href="{% url 'rpas_model_update' pk=unfinished_rpas_model_task.get_rpas_model_pk %}">
+                        <h3>
+                          Finish <b>{{unfinished_rpas_model_task}}</b>  creation
+                          <small class="pull-right">{{unfinished_rpas_model_task.get_rpas_model_completion}}%</small>
+                        </h3>
+                        <div class="progress xs">
+                          <div class="progress-bar progress-bar-red"
+                               style="width: {{unfinished_rpas_model_task.get_rpas_model_completion}}%"
+                               role="progressbar"
+                               aria-valuenow="20"
+                               aria-valuemin="0" aria-valuemax="100">
+                            <span class="sr-only">{{unfinished_rpas_model_task.get_rpas_model_completion}}% Complete</span>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    {% endfor %}
+                    <!-- end task item -->
+
+                    {% for unfinished_rpas_payload_task in unfinished_rpas_payload_tasks %}
+                    <li><!-- Task item -->
+                      <a href="{% url 'payload_update' pk=unfinished_rpas_payload_task.payload.pk %}">
+                        <h3>
+                          Finish <b>{{unfinished_rpas_payload_task.payload}}</b> creation
+                          <small class="pull-right">{{unfinished_rpas_payload_task.get_payload_completion}}%</small>
+                        </h3>
+                        <div class="progress xs">
+                          <div class="progress-bar progress-bar-red"
+                               style="width: {{unfinished_rpas_payload_task.get_payload_completion}}%"
+                               role="progressbar"
+                               aria-valuenow="20"
+                               aria-valuemin="0" aria-valuemax="100">
+                            <span class="sr-only">{{unfinished_rpas_payload_task.get_payload_completion}}% Complete</span>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    {% endfor %}
+                    <!-- end task item -->
+
+
+                    {% for unfinished_pre_flight_log in unfinished_pre_flight_logs %}
+                    <li><!-- Task item -->
+                      <a href="{% url 'pre_flight_update' pk=unfinished_pre_flight_log.get_pre_flight_pk %}">
+                        <h3>
+                          complete flightlog <b>{{unfinished_pre_flight_log}}</b>
+                          <small class="pull-right">{{unfinished_pre_flight_log.get_pre_flight_completion}}%</small>
+                        </h3>
+                        <div class="progress xs">
+                          <div class="progress-bar progress-bar-red"
+                               style="width: {{unfinished_pre_flight_log.get_pre_flight_completion}}%"
+                               role="progressbar"
+                               aria-valuenow="20"
+                               aria-valuemin="0" aria-valuemax="100">
+                            <span class="sr-only">{{unfinished_pre_flight_log.get_payload_completion}}% Complete</span>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    {% endfor %}
+                    <!-- end task item -->
+
+
+                  </ul>
+                </li>
+                <li class="footer">
+                  <a href="{% url 'unfinished_logs_notifications'%}">View all tasks</a>
+                </li>
+              </ul>
+            </li>
+
+
+
+            <!-- User Account: style can be found in dropdown.less -->
+            <li class="dropdown user user-menu">
+
+              <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user-o" aria-hidden="true"></i>
+                <!-- <img src="dist/img/user2-160x160.jpg" class="user-image" alt=""> -->
+                <span class="hidden-xs"> {{ user.get_full_name }}</span>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- User image -->
+                <li class="user-header" style="height:250px">
+
+                  {% if request.user.userprofile.profile_pic %}
+                  <img src="{{request.user.userprofile.profile_pic.url}}" class="img-circle" alt="">
+                  {% endif %}
+
+                  <p>{{ user.get_full_name }}</p>
+
+                  <p>{{ user.userprofile.bio|linebreaks }} </p>
+
+                    <small>{{ user.userprofile.organization.organization_details.name }}</small>
+
+                </li>
+                <!-- Menu Body -->
+                <li class="user-body">
+                  <div class="row">
+                    <div class="col-xs-4 text-center">
+                      <a href="{% url 'accounts:view_profile' pk=request.user.pk%}">Details</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                      <a href="{% url 'accounts:view_profile' pk=request.user.pk%}">Contacts</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                      <a href="{% url 'accounts:view_profile' pk=request.user.pk%}">Full Bio</a>
+                    </div>
+                  </div>
+                  <!-- /.row -->
+                </li>
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-left">
+                    <a href="{% url 'accounts:view_profile' pk=request.user.pk%}" class="btn btn-default btn-flat">My Profile</a>
+                  </div>
+                  <div class="pull-right">
+                    <a href="{% url 'accounts:logout'%}" class="btn btn-default btn-flat">Logout</a>
+                  </div>
+                </li>
+              </ul>
+            </li>
+            <!-- Control Sidebar Toggle Button -->
+            <!-- <li>
+              <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+            </li> -->
+          </ul>
+          {% endif %}
+        <!-- </div> -->
+      </nav>
+    </header>
+
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+      <!-- sidebar: style can be found in sidebar.less -->
+      <section class="sidebar">
+
+        {% if user.is_authenticated  %}
+<!-- and request.user.groups.all.last != CAA-->
+
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+          <div class="pull-left image">
+             {% if request.user.userprofile.profile_pic %}
+            <img src="{{request.user.userprofile.profile_pic.url}}" class="img-circle" alt=".">
+            {% else %}
+            <img src="" class="img-circle" alt=".">
+            {% endif %}
+          </div>
+          <div class="pull-left info">
+            <p>{{ user.get_full_name }}</p>
+            <!-- <p><a href="#"><i class="fa fa-circle text-success"></i> Online</a></p>  -->
+          </div>
+        </div>
+
+        <!-- search form -->
+        <form action="#" method="get" class="sidebar-form">
+          <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search...">
+            <span class="input-group-btn">
+                  <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                  </button>
+                </span>
+          </div>
+        </form>
+        <!-- /.search form -->
+
+
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree">
+          <li class="header">MAIN NAVIGATION</li>
+
+
+
+          <li>
+            <a href=" {% url 'reserve_main' %} ">
+              <i class="fa fa-globe" aria-hidden="true"></i> <span>AIRSPACE</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-green">apply</small>
+              </span>
+            </a>
+          </li>
+
+          <li>
+            <a href=" {% url 'logs_list' %} ">
+              <i class="fa fa-files-o" aria-hidden="true"></i>
+              <span>Flight Logs</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-green">list</small>
+              </span>
+            </a>
+          </li>
+
+          <li>
+            <a href=" {% url 'rpas_main' %} ">
+              <i class="fa fa-paper-plane-o" aria-hidden="true"></i> <span>RPAS</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-green">new</small>
+              </span>
+            </a>
+          </li>
+
+
+          {% if request.user|has_group:"CAA"%}
+
+            <li>
+              <a href="{% url 'applied_reserves' %}">
+                <i class="fa fa-calendar"></i> <span>Approve Flight Plans</span>
+                <span class="pull-right-container">
+                  <small class="label pull-right bg-red">3</small>
+                  <small class="label pull-right bg-blue">17</small>
+                </span>
+              </a>
+            </li>
+          {% else %}
+
+          <li>
+            <a href="{% url 'all_company_flight_logs' %}">
+              <i class="fa fa-building" aria-hidden="true"></i> <span>Organization</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-green">new</small>
+              </span>
+            </a>
+          </li>
+
+          <!-- <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>Performance Charts</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Overall</a></li>
+              <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Realtime</a></li>
+              <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Jquery Knobs</a></li>
+            </ul>
+          </li> -->
+          <!-- <li class="treeview">
+            <a href="#">
+              <i class="fa fa-laptop"></i>
+              <span>Timeline </span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
+            </ul>
+          </li> -->
+          <li>
+            <a href="{% url 'messages:calendar'%}">
+              <i class="fa fa-calendar"></i> <span>Calendar</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-red">3</small>
+                <small class="label pull-right bg-blue">17</small>
+              </span>
+            </a>
+          </li>
+
+          {% endif %}
+
+          <li>
+            <a href="{% url 'messages:inbox'%} ">
+              <i class="fa fa-envelope"></i> <span>Mailbox</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-yellow">12</small>
+                <small class="label pull-right bg-green">16</small>
+                <small class="label pull-right bg-red">5</small>
+              </span>
+            </a>
+          </li>
+
+
+
+          {% else %}
+          <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">Hey Visitor,</li>
+            <li class="header"> <h3>WELCOME!</h3></li>
+            <li><a href="{% url 'accounts:login' %}"><i class="fa fa-circle-o text-red" aria-hidden="true">
+            </i> <span>Login</span></a></li>
+            <br>
+            <li><a href="{% url 'accounts:signup' %}"><i class="fa fa-sign-in text-yellow"></i>
+               <span>Sign Up</span></a></li>
+            <br>
+
+          {% endif%}
+
+
+          <li><a href="http://www.kcaa.or.ke/index.php/statutes-and-regulations/regulations">
+            <i class="fa fa-book"></i> <span>Regulations</span></a>
+          </li>
+
+        </ul>
+      </section>
+      <!-- /.sidebar -->
+    </aside>
+
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+    {%block body%}
+
+
+
+    {% endblock%}
+
+  </div>
+  <!-- /.row -->
+  <!-- Main row -->
+
+</section>
+<!-- /.control-sidebar -->
+<!-- Add the sidebar's background. This div must be placed
+   immediately after the control sidebar -->
+<div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+
+<!-- <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js'"></script>
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-messaging.js"></script> -->
+
+<!-- <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyA9ekunjhx2zwSF3_-R-4Y4ujM1XUIXKik",
+    authDomain: "utm-heroku.firebaseapp.com",
+    databaseURL: "https://utm-heroku.firebaseio.com",
+    projectId: "utm-heroku",
+    storageBucket: "utm-heroku.appspot.com",
+    messagingSenderId: "512044437745"
+  };
+  firebase.initializeApp(config);
+</script> -->
+
+
+
+  <!-- jQuery 3 -->
+  <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script>
+
+  <!-- Bootstrap 3.3.7 -->
+  <script src="{% static 'adminlite/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+  <!-- jQuery UI 1.11.4 -->
+  <script src="{% static 'adminlite/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script>
+    $.widget.bridge('uibutton', $.ui.button);
+  </script>
+
+
+{% block extra_js %}
+  <!-- Sparkline -->
+  <script src="{% static 'adminlite/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+  <!-- Slimscroll -->
+  <script src="{% static 'adminlite/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+{% endblock extra_js %}
+
+<!-- FastClick -->
+<script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
+
+<!-- AdminLTE App -->
+<script src="{% static 'adminlite/dist/js/adminlte.min.js' %}"></script>
+
+
+
+</body>
+</html>

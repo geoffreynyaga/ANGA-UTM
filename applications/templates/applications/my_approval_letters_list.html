@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{%load static%}
+{% block head %}
+
+
+  <title> Approval Letters</title>
+{% endblock %}
+
+{% block body %}
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Approval Letters
+    <small>All my approved flights</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Approval Letters</li>
+  </ol>
+</section>
+
+
+<section class="content">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">My Approval Letters</h3>
+
+          <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+              <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+            <tr>
+              <th>Approval Number</th>
+              <th>Details</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Comments</th>
+            </tr>
+                {% for letter in my_approval_letters%}
+            <tr>
+              <td>{{letter.application_number}}</td>
+              <td> <a href="{%url 'my_approval_letters_detail' pk=letter.pk%}"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Open</a> </td>
+              <td>{{letter.date_modified}}</td>
+              <td><span class="label label-success">{{letter.get_status_display}}</span></td>
+              <td>{{letter.comments}}</td>
+            </tr>
+    {%endfor%}
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+  </div>
+</section>
+<!-- /.content -->
+    <!-- /.content -->
+    <div class="clearfix"></div>
+  </div>
+  <!-- /.content-wrapper -->
+
+
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+
+{% block extra_js %}
+  <!-- FastClick -->
+  <script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
+
+{% endblock extra_js %}
+
+{% endblock %}

@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+
+{%load static %} 
+
+
+{% block head %}
+
+<title> Confirm Delete</title>
+
+
+{%endblock%}
+
+{%block body%} 
+
+<section class="content-header">
+    <h4>
+        Confirm Delete
+    </h4>
+
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="row">
+        <div class="col-xs-3">
+
+        </div>
+        <div class="col-xs-6">
+            <form method="post">
+                {% csrf_token %}
+                <p>Are you sure you want to delete <b>'{{object.title}}'</b>?</p>
+                <br>
+                <div class='text-center'>
+                    <input class="btn btn-danger r" type="submit" value='Delete'>
+                </div>
+                <hr>
+                <a class='btn btn-success btn-block' href="{% url 'notifications:notifications_list' %}"> Go Back Instead</a>
+            
+            </form>
+        </div>
+        <div class="col-xs-3">
+        
+        </div>
+    </div>
+
+</section>
+
+{%endblock%}

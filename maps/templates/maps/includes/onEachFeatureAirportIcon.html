@@ -1,0 +1,24 @@
+{% load static %}
+        if (feature.geometry.type === 'Polygon') {
+            var airportIcon = L.icon({
+                iconUrl: '{% static "leaflet-icons/airport-icon.png" %}',
+
+                iconSize:     [15, 15], // size of the icon
+                shadowSize:   [50, 64], // size of the shadow
+                shadowAnchor: [4, 62],  // the same for the shadow
+            });
+            // Don't stroke and do opaque fill
+            layer.setStyle({
+                'weight': 0.5,
+                'fillOpacity': 0.3
+
+            });
+            // Get bounds of polygon
+            var bounds = layer.getBounds();
+            // Get center of bounds
+            var center = bounds.getCenter();
+            // Use center to put marker on map
+    
+            var marker = L.marker(center, {icon: airportIcon}).addTo(map).bindPopup(x);
+
+        }

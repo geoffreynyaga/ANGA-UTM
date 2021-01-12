@@ -1,0 +1,39 @@
+var location_datasets = new L.GeoJSON.AJAX("{% url 'location_datasets'%}",{
+
+  style: function colour(feature){
+    if (feature.properties.status == 0) {
+      return{
+        color: 'blue',
+      };
+    }
+    else if (feature.properties.status == 1){
+      return{
+        color: 'red',
+      };
+    }
+    else {
+      return{
+        color: 'red',
+      };
+    }
+  },
+
+    onEachFeature: function(feature,layer){
+
+      var x = (
+      '<h5>  '+feature.properties.name + '</h5>'
+      +'<p>Geofence Radius: ' + feature.properties.radius +' km</p>'
+      +'<p>ICAO code: ' + feature.properties.ICAO_shortcode + '</p>'
+      +'<p>IATA code: ' + feature.properties.IATA_shortcode + '</p>'
+                    );
+
+    {% include 'maps/includes/onEachFeatureAirportIcon.html' %}
+
+layer.bindPopup(x)
+
+    },
+
+
+});
+
+location_datasets.addTo(map);

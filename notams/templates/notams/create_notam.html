@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+
+{% load static %}
+
+
+{% block head %}
+    <title>Create Notam</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+ {% comment %} <script src="{% static 'js/datepicker-widget.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/datepicker-widget.css' %}"> {% endcomment %}
+
+
+    <style>
+        .leaflet-container {  /* all maps */
+            width:  100%;
+            height: 450px;
+        }
+
+        body {
+                padding: 0px;
+                margin: 0px;
+            }
+
+    </style>
+
+      {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    {% load leaflet_tags %}
+  {{ form.media }}
+{%endblock%}
+
+
+{%block body%}
+<section class="content">
+
+  <link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}">
+
+{% load leaflet_tags %}
+{% leaflet_js  plugins="ALL" %}
+{% leaflet_css  plugins="ALL" %}
+
+
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">Add Reserve</div>
+    <div class="panel-body">
+      <form method="POST" enctype="multipart/form-data">
+
+
+
+        {% bootstrap_form_errors form %}
+        {{ form.fieldname.errors }}
+
+<div class="row">
+  <div class="col-sm-9">
+    {{form.geom}}
+  </div>
+  <div class="col-sm-3">
+  {% bootstrap_field form.reason %}
+  {% bootstrap_field form.start_day %}
+  {% bootstrap_field form.start_time %}
+  {% bootstrap_field form.end %}
+  {% bootstrap_field form.notam_file %}
+  </div>
+
+</div>
+
+
+          {% csrf_token %}
+<p></p>
+<button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+
+
+      </form>
+    </div>
+
+    </div>
+  </div>
+<script type="text/javascript">
+
+      function id_site_location_geom_map_callback(map, options) {
+          geodjango_id_site_location_geom.store_class = L.FieldStore;
+          (new geom(geodjango_id_site_location_geom)).addTo(map);
+
+      };
+
+          geom = L.GeometryField.extend({
+                    addTo: function (map) {
+                        L.GeometryField.prototype.addTo.call(this, map);
+                        // Customize map for field
+
+                        {% include 'applications/includes/search.html' %}
+
+
+                        drawControl = this._drawControl;
+                        drawControl._toolbars.draw.options.polyline = false;
+                        drawControl._toolbars.draw.options.marker = true;
+                        map.addControl(drawControl);
+
+
+                        {% include 'maps/includes/geofence_datasets.html' %}
+                        {% include 'applications/includes/reserved_airspace_datasets.html' %}
+                        {% include 'maps/includes/location_datasets.html'%}
+
+                        {% include 'applications/includes/location.html' %}
+
+
+
+                    }
+                });
+
+
+
+
+
+</script>
+
+<script type="text/javascript" src="{% static 'leaflet-search/src/leaflet-search.js' %}" ></script>
+
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+
+<!-- jQuery 3 -->
+<!-- <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script> -->
+<!-- Bootstrap 3.3.7 -->
+<script src="{% static 'adminlite/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'adminlite/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'adminlite/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+{% block extra_js %}
+  <!-- Sparkline -->
+  <script src="{% static 'adminlite/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+  <!-- Slimscroll -->
+  <script src="{% static 'adminlite/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+  <!-- FastClick -->
+  <script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
+
+{% endblock extra_js %}
+
+</section>
+{%endblock%}

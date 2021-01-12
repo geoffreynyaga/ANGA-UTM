@@ -1,0 +1,105 @@
+var all_applied_datasets = new L.GeoJSON.AJAX("{% url 'airspace_datasets'%}",{
+
+  style: function colour(feature){
+          if (feature.properties.status == 0) {
+            return{
+              color: 'yellow',
+              dashArray: 3
+
+            };
+          }
+          else if (feature.properties.status == 1){
+            return{
+              color: 'black',
+            };
+          }
+          else {
+            return{
+              color: 'green',
+            };
+          }
+        },
+
+
+onEachFeature: function onEachFeature(feature, layer) {
+
+
+  var props = feature.properties;
+  var userPk = props.created_by;
+  var x = `
+
+  <!-- Widget: user widget style 1 -->
+  <div class="box box-widget widget-user" >
+    <!-- Add the bg color to the header using any of the bg-* classes -->
+    <div class="widget-user-header bg-aqua-active">
+      <span class="text-center">
+      <h3 class="widget-user-username">${props.get_name}</h3>
+      </span>
+      <br>
+    </div>
+    <div class="widget-user-image">
+      <img class="img-circle" src="${props.get_user_profile_pic}" alt="User Avatar">
+    </div>
+    <div class="box-footer">
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="description-block">
+            <a href="tel:${props.get_phone_number}">
+             <h5><i class='ion-ios-telephone'></i></h5>
+            <span class="description-text">Call</span>
+            </a>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <div class="description-block">
+            <h5 class="description-header"></h5>
+            <span class="description-text"></span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4 ">
+          <div class="description-block">
+            <a href="/account/profile/${props.created_by}">
+            <h5><i class='ion-person'></i></h5>
+            <span class="description-text ">Profile </span>
+            </a>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+  </div>
+  <!-- /.widget-user -->
+  
+
+<span class='text-center'>
+  <p>
+    <b>${props.get_organization}</b>
+  </p>
+</span>
+
+  <!-- <h6>Pilot: <a href="/account/profile/${props.created_by}">${props.get_name}</a></h6> -->
+  <!-- <p>Phone No: <b> <a href="tel:${props.get_phone_number}">${props.get_phone_number}</a></b> </p>
+  <p></p> -->
+  <p>Mission Start: <b>${props.get_start_day}</b></p>
+  <p>from <b>${props.start_time}</b>
+  to: <b>${props.end}</b></p>
+  <p>RPAS: <b>${props.get_rpas}</b>  Type:  <b> ${props.get_airframe_type}</b></p>
+  <img width="80" src="${props.get_rpas_pic}"/>
+
+  `
+
+  layer.bindPopup(x);
+
+  {% include 'maps/includes/onEachFeatureDroneIcon.html' %}
+
+    },
+
+
+});
+all_applied_datasets.addTo(map);

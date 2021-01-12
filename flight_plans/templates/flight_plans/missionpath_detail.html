@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    {%  block maps%}
+        <div class="col-8">
+          <br>
+          {% load static %}
+          {% load leaflet_tags %}
+          {%  leaflet_js %}
+          {%  leaflet_css %}
+          <div class="container">
+
+
+            {{flightlog.location}}
+                <script type="text/javascript">
+
+                function our_layers(map,options){
+
+                  var datasets = new L.GeoJSON.AJAX("{% url 'path_dataset' pk=missionpath.pk %}",{
+
+                  });
+
+                  var datasets1 = new L.GeoJSON.AJAX("{% url 'geofences'%}",{
+
+                    style: function colour(feature){
+                      if (feature.properties.name) {
+                        return{
+                          color: 'red',
+                        };
+                      }
+                    },
+
+                      onEachFeature: function(feature,layer){
+                        layer.bindPopup(feature.properties.name.toString());
+                      },
+                  });
+
+
+
+                  datasets.addTo(map);
+                  datasets1.addTo(map);
+                }
+
+
+                </script>
+
+                
+                {%  leaflet_map "gis" callback="window.our_layers" %}
+
+
+
+          <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+
+          </div>
+        </div>
+    {% endblock %}
+
+  </body>
+</html>

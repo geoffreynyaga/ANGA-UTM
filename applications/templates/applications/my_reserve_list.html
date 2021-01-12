@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+      {% load static %}
+      {% load leaflet_tags %}
+
+{% block head %}
+
+      {%  leaflet_js %}
+      {%  leaflet_css %}
+
+      <title>My Reserves</title>
+
+{% endblock %}
+
+{% block body %}
+
+<section class="content">
+  
+<div class="row">
+
+<div class="col-md-3 ">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">Approved</h3>
+    </div>
+    <div class="panel-body">
+      <table class="table">
+        <caption>All Approved Flights</caption>
+        <thead>
+        <tr>
+          <th>Start Date</th>
+        </tr>
+      </thead>
+         <tbody>
+           {% for my_reserve in my_reserves %}
+           {% if my_reserve.status == 2 %}
+           <tr>
+              <td>{{my_reserve.get_start_datetime}}</td>
+              <td><a href="{% url 'myreserve_detail' pk=my_reserve.pk %}" class="card-link">
+                <i class="fa fa-external-link" aria-hidden="true"> </i>Details</a></td>
+           </tr>
+            {% endif%}
+            {% endfor%}
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-5 ">
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h3 class="panel-title">Rejected</h3>
+    </div>
+    <div class="panel-body">
+      <table class="table">
+        <caption>All Rejected Flights</caption>
+        <thead>
+        <tr>
+          <th>Time to Start</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+         <tbody>
+           {% for my_reserve in my_reserves %}
+           {% if my_reserve.status == 1 %}
+           <tr>
+              <td>{{my_reserve.get_start_datetime | timeuntil}}</td>
+              <td>{{my_reserve.reason}}</td>
+              <td><a href="{% url 'myreserve_detail' pk=my_reserve.pk %}" class="card-link">
+                <i class="fa fa-external-link" aria-hidden="true"> </i> View Details</a></td>
+              <td><a href="{% url 'update_my_airspace' pk=my_reserve.pk %}" class="card-link">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"> </i> Update</a></td>
+           </tr>
+            {% endif%}
+            {% endfor%}
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-md-4 col-sm-4">
+
+  <div class="panel panel-warning">
+  <div class="panel-heading">
+    <h3 class="panel-title">Pending</h3>
+  </div>
+  <div class="panel-body">
+    <table class="table">
+      <caption>These are the  Pending Approvals</caption>
+      <thead>
+      <tr>
+        <th>Time to Start</th>
+      </tr>
+    </thead>
+       <tbody>
+         {% for my_reserve in my_reserves %}
+         {% if my_reserve.status == 0 %}
+         <tr>
+            <td>{{my_reserve.get_start_datetime | timeuntil}}</td>
+            <td>
+              <a href="{% url 'myreserve_detail' pk=my_reserve.pk %}" class="card-link">
+              <i class="fa fa-external-link" aria-hidden="true"></i> View Details</a></td>
+            <td><a href="{% url 'update_my_airspace' pk=my_reserve.pk %}" class="card-link">
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update</a></td>
+         </tr>
+          {% endif%}
+          {% endfor%}
+        </tbody>
+      </table>
+  </div>
+</div>
+</div>
+
+
+<div class="col-sm-12">
+  <script type="text/javascript">
+    function our_layers(map, options) {
+
+      var datasets = new L.GeoJSON.AJAX("{% url 'my_reserve_datasets'%}", {
+      });
+
+      datasets.addTo(map);
+    }
+  </script> {% leaflet_map "gis" callback="window.our_layers" %}
+</div>
+
+
+</div>
+
+    
+
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+
+</section>
+
+{% endblock %}

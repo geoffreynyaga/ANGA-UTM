@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+{% extends "base.html" %}
+
+{% block head %}
+<title>View Logs</title>
+{%endblock%}
+
+{%block body%}
+
+
+<section class="content">
+
+  <div class="row">
+    <!-- <div class="col-sm-4">
+      <nav aria-label="breadcrumb" role="navigation">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">My Logs</li>
+      </ol>
+      </nav>
+    </div> -->
+    <div class="col-sm-4">
+      <nav aria-label="breadcrumb" role="navigation">
+      <ol class="breadcrumb">
+        <li>Pilot: {{user.first_name}} {{user.last_name}}</li>
+      </ol>
+      </nav>
+    </div>
+   
+  </div>
+
+<div class="row">
+  {% for log in mylogs %}
+
+  <div class="col-sm-3">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title">Log No:<b> {{log.reserve_airspace.application_number}}</b></h4>
+      </div>
+      <div class="panel-body">
+        <h6 class="card-subtitle mb-2 text-muted">Date: <b>{{log.reserve_airspace.get_start_datetime}}</b></h6>
+      <p></p>
+        RPAS Used: <b>{{log.reserve_airspace.rpas}}</b>
+        <br>
+        Purpose: <b>{{log.reserve_airspace.get_mission_type_display}}</b>
+        <br>
+        Number of flights: <b>{{log.pre_flight.no_of_flights}}</b>
+        <br>
+        Area Size:<b> {{log.reserve_airspace.get_area}} sq. km </b>
+        
+        <p></p>
+
+        <small>Pre-Flight Completion</small>
+        <span class='pull-right'>
+
+            {% if log.get_pre_flight_completion != 100 %}
+              <a href="{% url 'pre_flight_update' pk=log.get_pre_flight_pk %}">
+                <i class="fa fa-external-link" aria-hidden="true">
+                  <small> Complete</small>
+                </i>
+              </a>
+              {% else %}
+              <i class="fa fa-check" aria-hidden="true"></i>
+                <small> Done</small>
+              </i>
+            {% endif %}
+        </span>
+
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped " role="progressbar"
+          style="width: {{log.get_pre_flight_completion}}%" aria-valuenow="{{log.get_pre_flight_completion}}"
+          aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+
+        <small> Post-Flight Completion</small>
+        <span class='pull-right'>
+
+            {% if log.get_post_flight_completion != 100 %}
+              <a href="{% url 'post_flight_update' pk=log.get_post_flight_pk %}">
+                <i class="fa fa-external-link" aria-hidden="true">
+                  <small> Complete</small>
+                </i>
+              </a>
+              {% else %}
+              <i class="fa fa-check" aria-hidden="true"></i>
+                <small> Done</small>
+              </i>
+            {% endif %}
+        </span>
+
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar"
+          style="width: {{log.get_post_flight_completion}}%" aria-valuenow="{{log.get_post_flight_completion}}"
+          aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+
+        <small>Approval Status</small>
+        <span class='pull-right'>
+            {% if log.reserve_airspace.status == 0 %}
+            <i class="fa fa-spinner" aria-hidden="true"></i>
+                <small> Pending</small>
+              </i>
+              {% elif log.reserve_airspace.status == 1 %}
+              <i class="fa fa-times" aria-hidden="true"></i>
+                <small> Rejected</small>
+              </i>
+              {% else %}
+              <i class="fa fa-check" aria-hidden="true"></i>
+                <small> Approved</small>
+              </i>
+            {% endif %}
+        </span>
+
+
+
+      </div>
+
+      <div class="panel-footer">
+        <a class="btn btn-primary" href="{% url 'log_detail' pk=log.pk %}" role="button">
+          <i class="fa fa-eye" aria-hidden="true"></i>
+          View </a>
+        <a class="btn btn-primary" href="{% url 'log_update' pk=log.pk %}" role="button">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          Update
+        </a>
+      </div>
+    </div>
+  </div>
+
+    {%endfor%}
+</div>
+<!-- row -->
+
+
+
+</section>
+
+
+  {%endblock%}

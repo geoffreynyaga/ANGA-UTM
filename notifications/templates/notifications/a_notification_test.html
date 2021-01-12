@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+   {% load static %} 
+   
+   {% load webpush_notifications %}
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title> Notifications</title>
+  
+  {% webpush_header %}
+
+ <script id="service-worker-js" type="text/javascript" src="{% static 'pwabuilder-sw.js' %}"></script>
+
+</head>
+
+<body>
+   {% webpush_button %}
+  <p> Hello World! </p>
+</body>
+
+
+</html>

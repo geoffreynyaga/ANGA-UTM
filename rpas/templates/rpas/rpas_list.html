@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block head %}
+    <title>View Rpas</title>
+{%endblock%}
+
+{%block body%}
+
+
+<section class="content">
+
+
+
+<!-- <div class="container"> -->
+      <h2></h2>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <nav aria-label="breadcrumb" role="navigation">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">My Rpas List</li>
+          </ol>
+          </nav>
+        </div>
+        <div class="col-sm-4">
+          <nav aria-label="breadcrumb" role="navigation">
+          <ol class="breadcrumb">
+            <li>User: {{user.first_name}}</li>
+          </ol>
+          </nav>
+        </div>
+        <div class="col-sm-4">
+              <p class="bg-primary">
+                <a class="btn btn-primary btn-block" href="{% url 'rpas_add' %}"
+                role="button">
+                <i class="fa fa-plus-square " aria-hidden="true" ></i>  Add Rpas
+              </a>
+              </p>
+        </div>
+      </div>
+<p></p>
+
+
+
+<div class="row">
+{% for rpas in myrpas %}
+  <div class="col-sm-3">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{rpas.rpas_nickname}}</h3>
+      </div>
+      <div class="panel-body">
+        Type:  {{ rpas.rpas_model.rpas_model_type }}
+        <span class="pull-right">
+        {% if rpas.rpas_model.rpas_model_type.airframe_type == 'PLANE' %}
+          <i class="fa fa-plane" aria-hidden="true"></i>
+        {% elif rpas.rpas_model.rpas_model_type.airframe_type == 'QUAD'  %}
+        <img src="{% static 'icons/quad.png' %}" alt="" height="26" >
+        {% endif %}
+        </span>
+<br>
+        <p>Serial No: {{rpas.rpas_serial}}</p>
+
+
+         {% if rpas.get_rpas_model_completion != 100 %}
+        <small>Rpas Model Completion</small>
+        <span class='pull-right'>
+
+          <a href="{% url 'rpas_model_update' pk=rpas.get_rpas_model_pk %}">
+            <i class="fa fa-external-link" aria-hidden="true">
+              <small> Complete</small>
+            </i>
+          </a>
+        </span>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar"
+          style="width: {{rpas.get_rpas_model_completion}}%"
+          aria-valuenow="{{rpas.get_rpas_model_completion}}"
+          aria-valuemin="0" aria-valuemax="100">
+          </div>
+        </div>
+         {% endif %}
+
+         {% if rpas.get_payload_completion != 100 %}
+        <small>Payload Completion</small>
+        <span class='pull-right'>
+
+          <a href="{% url 'payload_update' pk=rpas.payload.pk %}">
+            <i class="fa fa-external-link" aria-hidden="true">
+              <small> Complete</small>
+            </i>
+          </a>
+        </span>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped" role="progressbar"
+          style="width: {{rpas.get_payload_completion}}%" aria-valuenow="{{rpas.get_payload_completion}}"
+          aria-valuemin="0" aria-valuemax="100">
+          </div>
+        </div>
+        {% endif %}
+
+      </div>
+      <div class="panel-footer">
+        <a href="{% url 'rpas_detail' pk=rpas.pk %} " class="card-link">
+          View Details
+          <i class="fa fa-external-link" aria-hidden="true"></i>
+          </a>
+      </div>
+    </div>
+
+  </div>
+
+
+{%endfor%}
+</div>
+
+<!-- </div> -->
+
+
+
+</section>
+{%endblock%}

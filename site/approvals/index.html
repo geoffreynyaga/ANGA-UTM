@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Approvals - ANGA UTM</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">ANGA UTM</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../registration/" class="nav-link">Registration</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../flight-plans/" class="nav-link">Flight Plans</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../messages/" class="nav-link">Messages and Notifications</a>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Approvals</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../company/" class="nav-link">Companies</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../messages/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../company/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#approvals" class="nav-link">Approvals</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#requested-flight-approvals-list" class="nav-link">Requested Flight Approvals List</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#requested-flight-details-page" class="nav-link">Requested flight details page.</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#mission-rpas" class="nav-link">Mission RPAS</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#approval-section" class="nav-link">Approval Section</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="approvals">Approvals</h1>
+<p>The platform offers a special feature for CAA staff to see all requested flights, approve/reject them, advise/comment on the flight plans and see all drone flight plans and also edit the flight plans.</p>
+<p><img alt="Anga UTM Approval" src="../screenshots/approvals/reserve.png" /></p>
+<p>In the above image, we can be able to see a summary of the following statistics:</p>
+<ul>
+<li>Number of pending approvals</li>
+<li>Number of approved flights</li>
+<li>Number of rejected flights</li>
+<li>ROC/Commercial flights</li>
+<li>Recreation flights number etc
+  On the left of the image, there is also a map showing all the pending flights.</li>
+</ul>
+<h2 id="requested-flight-approvals-list">Requested Flight Approvals List</h2>
+<p><img alt="Anga UTM Approval List" src="../screenshots/approvals/list.png" /></p>
+<p>On the same flight summary page, there is a list containing the details of all requested flights. The basic information shown include:</p>
+<ul>
+<li>Time to start of flight ( this can help prioritize flights that are about to happen)</li>
+<li>The exact time of mission start</li>
+<li>The exact time of mission end</li>
+<li>Name of applicant</li>
+<li>Name of ROC/RTO/Club where he/she comes from</li>
+<li>Approval status of the flight</li>
+</ul>
+<p>There is also a link where the CAA staff can click to see the full details of each requested flight.</p>
+<h2 id="requested-flight-details-page">Requested flight details page.</h2>
+<p>This is where the authorized CAA staff member will be able to see ALL information pertaining the flight. The exact details are broken down below:</p>
+<ul>
+<li>Airspace details and Mission time
+  In the part of the mission details, the CAA authorized staff will be able to clearly see all details about the location of the flight.</li>
+</ul>
+<p><img alt="Anga UTM Mission Times" src="../screenshots/approvals/time.png" /></p>
+<ul>
+<li>
+<h2 id="mission-rpas">Mission RPAS</h2>
+</li>
+</ul>
+<p>In this section of the page, the authorized CAA staff can be able to see the specific RPAS that is being used. The following summary can be seen with the OPTION to see full details of the RPAS:</p>
+<blockquote>
+<ol>
+<li>RPAS Serial</li>
+<li>RPAS payload</li>
+<li>Manufacturer of RPAS</li>
+<li>Picture of actual RPAS</li>
+<li>RPAS weight</li>
+</ol>
+</blockquote>
+<p>If you click on the SEE FULL SPECS button, then you can view the full details of the RPAS which includes information of the payload, payload models, manufacturers, payload serials.</p>
+<p><img alt="Anga UTM Mission RPAS" src="../screenshots/approvals/rpas.png" /></p>
+<ul>
+<li>
+<h2 id="approval-section">Approval Section</h2>
+</li>
+</ul>
+<p>This is where the CAA staff will APPROVE or REJECT the flight plan.
+  However, there is an option where he/she can comment on the flight plan on recommended changes on which the applicant will be notified of the comments. The applicant then can make the requested changes and the flight can be approved</p>
+<p><img alt="Anga UTM APPROVAL Section" src="../screenshots/approvals/approval-section.png" /></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

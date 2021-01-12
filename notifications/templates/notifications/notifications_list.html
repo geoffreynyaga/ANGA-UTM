@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block head %}
+
+  <title> Notifications</title>
+
+
+    <style>
+      #unread-timeline-item {
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    border-radius: 3px;
+    margin-top: 0;
+    background: #d2d6de;
+    color: #444;
+    margin-left: 60px;
+    margin-right: 15px;
+    padding: 0;
+    position: relative;
+}
+    </style>
+{%endblock%}
+
+{%block body%}
+
+
+     
+
+  <!-- TODO: READ ALL button: linked to readallview that changes is_read property of the models -->
+    <section class="content-header">
+      <h1>
+        Notifications
+        <small>All</small>
+      </h1>
+      
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- row -->
+      <div class="row">
+        <div class="col-md-12">
+          <!-- The time line -->
+          <ul class="timeline">
+            <!-- timeline time label -->
+            <li class="time-label">
+                  <span class="bg-red">
+                   2018 only
+                  </span>
+                  <span class="pull-right">
+                    <a  href="{% url 'notifications:mark_all_as_read' %}" >Mark all As Read</a>
+                  </span>
+            </li>
+           
+{% for unread_notification in notifications_list %}
+            <li>
+              <i class="fa fa-exclamation-triangle bg-red"></i>
+
+              <div class="timeline-item" {% if not unread_notification.is_read %}
+                 id=unread-timeline-item
+              {% endif %}    >
+                
+
+                <!-- <h3 class="timeline-header"><a href="#"> NOTAM ALERT! </a> <small>Urgent action required</small></h3> -->
+
+                <div class="timeline-body">
+                {{unread_notification.title}}
+                <span class="pull-right">
+                  <i class="fa fa-clock-o"></i> {{unread_notification.date_created | timesince }} ago 
+                  <a class="btn btn-danger btn-xs" href={% url 'notifications:notification_delete' pk=unread_notification.pk%}>X</a>
+                </span>
+                  
+                  
+                </span>
+                
+                </div>
+                <!-- <span class="time">
+                  <i class="fa fa-clock-o"></i> {{unread_notification.date_created | timesince }} ago 
+                </span> -->
+              </div>
+            </li>
+
+{% endfor %}
+
+            <li>
+              <i class="fa fa-video-camera bg-maroon"></i>
+
+              <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
+
+                <h3 class="timeline-header"><a href="#">Admin</a> shared a video</h3>
+
+                <div class="timeline-body">
+                  <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/5etvKO8pb24"
+                            frameborder="0" allowfullscreen></iframe>
+                  </div>
+                </div>
+                <div class="timeline-footer">
+                  <a href="#" class="btn btn-xs bg-maroon">See comments</a>
+                </div>
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <li>
+              <i class="fa fa-clock-o bg-gray"></i>
+            </li>
+          </ul>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+
+    </section>
+
+{%endblock%}

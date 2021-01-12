@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block head %}
+    <title>Update My Airspace</title>
+
+    {% load leaflet_tags %}
+    {% leaflet_js plugins="forms" %}
+    {% leaflet_css plugins="forms" %}
+
+
+
+
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    {% load leaflet_tags %}
+    {% leaflet_js plugins="ALL" %}
+    {% leaflet_css plugins="ALL" %}
+
+  {{ form.media }}
+
+   {% comment %} <script src="{% static 'js/datepicker-widget.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/datepicker-widget.css' %}"> {% endcomment %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+{% endblock %}
+
+{%block body%}
+
+
+<section class="content-header">
+  <h1>
+      My Airspace Reserve Application
+    <small>Details</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="{%url 'my_reserve_list'%}"><i class="fa fa-dashboard"></i> My Applications</a></li>
+    <li class="breadcrumb-item"><a href="{}">{{ object }}</a></li>
+  </ol>
+</section>
+
+
+
+<section class="content">
+
+
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">Edit {{ object }}</h3>
+    </div>
+    <div class="panel-body">
+      <form class=""  action=""method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+          <div class="card" >
+             <div class="card-body">
+
+            {% comment %} {% load bootstrap3 %} {% endcomment %}
+
+              {% bootstrap_form form %}
+
+            </div>
+
+            <input value="Save" class="btn btn-primary btn-block" name="_save" type="submit">
+          </div>
+
+        </form>
+    </div>
+  </div>
+
+
+
+</section>
+{%endblock%}

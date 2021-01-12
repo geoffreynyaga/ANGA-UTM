@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Update Emergency Info</title>
+{%endblock%}
+
+{%block body%}
+{% load bootstrap3 %}
+<div class="container">
+<h2>Emergency Info</h2>
+
+  <form class=""  method="POST">
+    {% csrf_token %}
+
+      {% bootstrap_form form %}
+
+      <p></p>
+    <input type="submit" class="btn btn-primary "value="Save">
+  </form>
+
+</div>
+{%endblock%}

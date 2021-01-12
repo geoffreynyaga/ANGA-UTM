@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Flight Plans - ANGA UTM</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">ANGA UTM</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../registration/" class="nav-link">Registration</a>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Flight Plans</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../messages/" class="nav-link">Messages and Notifications</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../approvals/" class="nav-link">Approvals</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../company/" class="nav-link">Companies</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../registration/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../messages/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#flight-plans" class="nav-link">Flight Plans</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#geofences" class="nav-link">Geofences</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#flight-areas" class="nav-link">Flight Areas</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#notams" class="nav-link">NOTAMS</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#rpasuas-selection" class="nav-link">RPAS/UAS SELECTION</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="flight-plans">Flight Plans</h1>
+<p><code>The platform offers basic and advanced functionality for flight planning and approvals.</code></p>
+<p><img alt="Anga UTM Flight Plan" src="../screenshots/flights/intro.png" /></p>
+<h2 id="geofences">Geofences</h2>
+<p>Here, no flight plans are accepted if the reserved airspace inside any marked geofence location.</p>
+<p><img alt="Anga UTM Geofence" src="../screenshots/flights/geofence.png" /></p>
+<h2 id="flight-areas">Flight Areas</h2>
+<p>The flight plans do not allow by default to book more than the recommended line of sight area (3km x 3km). Can be customized to allow BVLOS Rated pilots to book further flight distances.
+<img alt="Anga UTM Flight Areas" src="../screenshots/flights/flight-areas.png" /></p>
+<h2 id="notams">NOTAMS</h2>
+<p>These are areas that have been temporarily been placed under a NOTAM and can be due to a variety of reasons e.g fireworks, firefighting, airshows, stadium events, marathons, search and rescue, highway accident etc.</p>
+<p>A pdf of the NOTAM is also available for download if provided. The NOTAM notifies pilots on what it is about, when it starts end ends and a pdf on the same.</p>
+<p>NOTE: NOTAMS can ONLY be published by selected CAA staff who has special authentication to do so.</p>
+<p><img alt="Anga UTM NOTAMS" src="../screenshots/flights/notam.png" /></p>
+<p><img alt="Anga UTM NOTAMS" src="../screenshots/flights/notam-2.png" /></p>
+<h2 id="rpasuas-selection">RPAS/UAS SELECTION</h2>
+<p>Here, a pilot is only restricted to selecting an approved and registered RPAS for the mission.
+The RPAS list is both for the RPAS the pilot owns and also the RPAS that the organization that he works for owns. Specific restrictions can also be made upon request e.g:</p>
+<ul>
+<li>Multirotor rated pilots can only fly specific rated aircrafts</li>
+<li>A certain class of RPAS can only be flown by BVLOS rated pilots for example.</li>
+</ul>
+<p><img alt="Anga UTM UAS SELECTION" src="../screenshots/flights/uas.png" /></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

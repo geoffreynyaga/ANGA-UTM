@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>{{rpas.rpas_model}}</title>
+{% endblock %}
+
+{% block body %}
+
+  <section class="content">
+
+      <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+           {% if request.user == rpas.user %}
+          <li class="breadcrumb-item"><a href="{% url 'rpas_list'%} ">My RPAS List</a></li>
+          {% comment %} This is because in approval stage, the CAA can be given a link to this and they shouldn't be {% endcomment %}
+
+            {% endif %}
+          <li class="breadcrumb-item active" aria-current="page">Rpas Details</li>
+        </ol>
+      </nav>
+
+      <div class="panel ">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <nav aria-label="breadcrumb" role="navigation">
+              <ol class="breadcrumb">
+                <h4>
+                <li class="breadcrumb-item " ><p>{{rpas.rpas_model}}</p></li>
+                <li class="breadcrumb-item " >"{{rpas.rpas_nickname}}"</li>
+              </h4>
+              </ol>
+            </nav>
+          </h3>
+
+        </div>
+        <div class="panel-body">
+
+          <div class="row">
+
+            <div class="col-sm-4">
+              <div class="card">
+                <div class="card-body">
+                  <ul>
+                    <li> Serial:  {{rpas.rpas_serial}} </li>
+                    <li> Payload:  {{rpas.payload}} </li>
+                    <li> Manufacturer:  {{rpas.rpas_model.manufacturer}}  </li>
+                    <li> Payload Manufacturer: {{rpas.payload.manufacturer}} </li>
+                    <li> Payload Serial: {{rpas.payload.payload_serial}}  </li>
+                  </ul>
+                </div>
+              </div>
+          </div>
+
+          <div class="col-sm-3">
+            <img class="mw-10" style="width: 100%;" src="{{rpas.rpas_pic.url}}" alt="No RPAS Image">
+            <div class="">
+                  <br>
+            </div>
+
+          </div>
+
+
+          <div class="col-sm-5">
+            <div class="card">
+              <div class="card-body">
+
+
+                <div class="media">
+                  <div class="media-body">
+                    <h4 class="media-heading">Manufacturer:  {{rpas.rpas_model.manufacturer}} </h4>
+                    <p>Country: {{rpas.rpas_model.manufacturer.country}}</p>
+                    <br>
+                    weight: {{rpas.rpas_model.weight}} kg
+                  </div>
+                  <div class="media-right">
+                    {% if rpas.rpas_model.manufacturer.logo %}
+                    <a href="#">
+                      <img class="media-object" style="width: 100px;" src="{{rpas.rpas_model.manufacturer.logo.url}}" alt="...">
+                    </a>
+                    {% endif %}
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        </div>
+
+        {% if request.user == rpas.user %}
+
+          {% comment %} This is because in approval stage, the CAA can be given a link to this and they shouldn't be
+          able to edit, only see, so is anyone with the link
+          {% endcomment %}
+
+          <div class="panel-footer">
+                <a class="btn btn-primary" href="{% url 'rpas_update' pk=rpas.pk %}" role="button">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                Update {{rpas.rpas_nickname}}</a>
+          </div>
+
+        {% endif %}
+      </div>
+
+
+
+
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+{% extends "home/mainhome.html" %}
+{% load static %}
+{% load group_perms %}
+
+
+{% block head %}
+    <title>AIRSPACE</title>
+{% endblock %}
+
+
+
+{% block body %}
+
+            <!-- Content Header (Page header) -->
+          <section class="content-header">
+            <h1>
+                My Dashboard
+              <small>Summary</small>
+            </h1>
+            <ol class="breadcrumb">
+              <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+              <li class="active">Reserve Airspace</li>
+            </ol>
+          </section>
+
+          <!-- Main content -->
+          <!-- <section class="content"> -->
+            <!-- Small boxes (Stat box) -->
+<br>
+  {% if user.is_authenticated  %}
+
+              {% if request.user|has_group:"CAA" %}
+              <div class=" col-xs-6">
+
+                <div class="small-box bg-aqua">
+                  <div class="inner">
+                    <h3><i class="ion ion-bag"></i></h3>
+                    <p>Approve Airspace Reserves</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="{% url 'applied_reserves' %}" class="small-box-footer">Go <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+
+              <div class=" col-xs-6">
+
+                <div class="small-box bg-aqua">
+                  <div class="inner">
+                    <h3><i class="ion ion-bag"></i></h3>
+                    <p>Add Geofences</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="{% url 'create_location' %}" class="small-box-footer">Go <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+
+              <div class=" col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                  <div class="inner">
+                    <h3><i class="ion-ios-navigate-outline"></i></h3>
+
+                    <p>Create Notams</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion-ios-navigate-outline"></i>
+                  </div>
+                  <a href="{% url 'create_notam' %}" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+
+              <div class=" col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                  <div class="inner">
+                    <h3><i class="ion-ios-navigate-outline"></i></h3>
+
+                    <p>View Airspace</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion-ios-navigate-outline"></i>
+                  </div>
+                  <a href="{% url 'view_airspace' %}" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+              {% else %}
+
+                  <div class=" col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                      <div class="inner">
+                        <h3><i class="ion-ios-compose-outline"></i></h3>
+
+                        <p>Apply for Reserve</p>
+                      </div>
+                      <div class="icon">
+                        <i class="ion-ios-compose-outline"></i>
+                      </div>
+                      <a href="{% url 'create_reserve' %}" class="small-box-footer">Apply <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                  </div>
+                  <!-- ./col -->
+                  <div class=" col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                      <div class="inner">
+                        <h3><i class="ion-ios-paper-outline"></i></h3>
+
+                        <p>My Reserves History </p>
+                      </div>
+                      <div class="icon">
+                        <i class="ion-ios-paper-outline"></i>
+                      </div>
+                      <a href="{% url 'my_reserve_list' %}" class="small-box-footer">View All <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                  </div>
+                  <!-- ./col -->
+
+                  <div class=" col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                      <div class="inner">
+                        <h3><i class="ion-ios-albums-outline"></i></h3>
+                        <p>Approval Letters</p>
+                      </div>
+                      <div class="icon">
+                        <i class="ion-ios-albums-outline"></i>
+                      </div>
+                      <a href="{%url 'my_approval_letters_list'%}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                  </div>
+                  <!-- ./col -->
+
+                  <div class=" col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                      <div class="inner">
+                        <h3><i class="ion-ios-navigate-outline"></i></h3>
+
+                        <p>View Airspace</p>
+                      </div>
+                      <div class="icon">
+                        <i class="ion-ios-navigate-outline"></i>
+                      </div>
+                      <a href="{% url 'view_airspace' %}" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                  </div>
+                  <!-- ./col -->
+
+              {% endif %}
+
+
+
+
+
+
+{% endif %}
+
+
+</section>
+
+
+{% endblock %}
