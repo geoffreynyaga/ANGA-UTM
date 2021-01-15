@@ -1,5 +1,5 @@
 import React from "react";
-import MapOnly from "../MapOnly";
+import AirspaceMapComponent from "../Map";
 
 function FlightLogDetail() {
   return (
@@ -243,7 +243,7 @@ function FlightLogDetail() {
                 </h3>
               </div>
               <div className="panel-body">
-                <MapOnly />
+                <AirspaceMapComponent draw={false} />
               </div>
             </div>
           </div>

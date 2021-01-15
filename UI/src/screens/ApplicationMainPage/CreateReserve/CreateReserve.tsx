@@ -1,5 +1,5 @@
 import React from "react";
-import MapOnly from "../../MapOnly";
+import AirspaceMapComponent from "../../Map";
 
 function CreateReserve() {
   return (
@@ -14,7 +14,7 @@ function CreateReserve() {
             className="col-lg-8 col-md-12 col-xs-12"
             style={{ marginLeft: "0px" }}
           >
-            <MapOnly />
+            <AirspaceMapComponent draw={true} />
           </div>
           <div className="col-lg-4 col-md-12 col-xs-12">
             <h4

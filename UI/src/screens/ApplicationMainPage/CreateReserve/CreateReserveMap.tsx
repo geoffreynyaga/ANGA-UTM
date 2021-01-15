@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
+import AirspaceMapComponent from "../../Map";
 
-import ReactMapGL from "react-map-gl";
+// import ReactMapGL from "react-map-gl";
 
 function CreateReserveMap() {
   const [viewport, setViewport] = useState({
@@ -17,10 +18,7 @@ function CreateReserveMap() {
     <>
       {/* Page Inner  */}
 
-      <ReactMapGL
-        {...viewport}
-        onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
-      />
+      <AirspaceMapComponent draw={true} />
 
       <div className="page-footer" style={{ marginBottom: "15px" }}>
         <p>

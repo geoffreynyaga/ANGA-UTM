@@ -1,5 +1,5 @@
 import React from "react";
-import MapOnly from "./MapOnly";
+import AirspaceMapComponent from "./Map";
 
 function LandingPageMap() {
   return (
@@ -11,7 +11,7 @@ function LandingPageMap() {
       <div id="main-wrapper">
         <div className="row" style={{ marginBottom: "5px" }}>
           <div className="col-lg-3 col-md-5 col-xs-5">
-            <a href="/applications/reserve" className="btn btn-primary">
+            <a href="/applications/create" className="btn btn-primary">
               Create Flight Plan
             </a>
           </div>
@@ -27,7 +27,7 @@ function LandingPageMap() {
 
         <div className="row">
           <div className="col-lg-12 col-md-12">
-            <MapOnly />
+            <AirspaceMapComponent draw={false} />
           </div>
         </div>
       </div>
