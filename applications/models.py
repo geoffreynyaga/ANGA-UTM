@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 ##################################################################################
 # File: /mnt/c/Projects/ANGA UTM/src/applications/models.py                      #

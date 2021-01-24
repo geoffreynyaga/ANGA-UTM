@@ -1,5 +1,5 @@
 import React from "react";
-import AirspaceMapComponent from "./Map";
+import AirspaceMapComponent from "./Airspace/AirspaceMapComponent";
 
 function LandingPageMap() {
   return (

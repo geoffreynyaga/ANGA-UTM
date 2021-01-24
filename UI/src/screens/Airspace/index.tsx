@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-
-import AirspaceMapComponent from "../Map";
+import AirspaceMapComponent from "./AirspaceMapComponent";
 
 function Mapbox6() {
   return (

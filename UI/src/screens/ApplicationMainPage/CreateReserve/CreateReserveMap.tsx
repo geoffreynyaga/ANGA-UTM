@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import AirspaceMapComponent from "../../Map";
+import AirspaceMapComponent from "../../Airspace/AirspaceMapComponent";
 
 // import ReactMapGL from "react-map-gl";
 

@@ -197,12 +197,15 @@
 # Copyright (c) 2020 ANGA UTM.                                                   #
 ##################################################################################
 
-from applications.api.serializers import ReserveAirspaceListSerializer
+from applications.api.serializers import (
+    ReserveAirspaceDetailSerializer,
+    ReserveAirspaceListSerializer,
+)
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 
@@ -299,3 +302,9 @@ class ReserveCreateAPIView(APIView):
 class ReserveAirspaceListAPIView(ListAPIView):
     queryset = ReserveAirspace.objects.all()
     serializer_class = ReserveAirspaceListSerializer
+
+
+class ReserveAirspaceDetailAPIView(RetrieveAPIView):
+    queryset = ReserveAirspace.objects.all()
+    serializer_class = ReserveAirspaceDetailSerializer
+    lookup_field = "pk"

@@ -1,3 +1,6 @@
+
+
+
 export interface GeojsonType {
     type: "Polygon" | "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "MultiPolygon" | "GeometryCollection" | "Feature" | "FeatureCollection";
     features: Feature[];

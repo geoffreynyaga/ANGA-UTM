@@ -24,7 +24,7 @@ import { divIcon } from "leaflet";
 import { LatLng } from "leaflet";
 
 import Search from "react-leaflet-search";
-import LocateControl from "../screens/Airspace/locate";
+import LocateControl from "./locate";
 
 const VectorGrid = withLeaflet(VectorGridDefault);
 
@@ -1053,7 +1053,6 @@ function AirspaceMapComponent(props: Props) {
                         style={{ marginBottom: 0, paddingBottom: 0 }}
                       >
                         <div className="panel-heading">
-                          $
                           {feature.properties.application_number
                             ? feature.properties.application_number
                             : ""}
@@ -1080,21 +1079,20 @@ function AirspaceMapComponent(props: Props) {
                                 paddingTop: 5,
                               }}
                             >
-                              <b>${feature.properties.user_organization}</b>
+                              <b>{feature.properties.user_organization}</b>
                             </p>
                           </span>
 
                           <p>
-                            Mission Start:{" "}
-                            <b>${feature.properties.start_day}</b>
+                            Mission Start: <b>{feature.properties.start_day}</b>
                           </p>
                           <p>
-                            from <b>${feature.properties.start_time}</b>
-                            to: <b> ${feature.properties.end}</b>
+                            from <b>{feature.properties.start_time}</b>
+                            to: <b> {feature.properties.end}</b>
                           </p>
                           <p>
-                            RPAS: <b>${feature.properties.rpas_name}</b> Type:{" "}
-                            <b> ${feature.properties.airframe_type}</b>
+                            RPAS: <b>{feature.properties.rpas_name}</b> Type:{" "}
+                            <b> {feature.properties.airframe_type}</b>
                           </p>
                           <img
                             src={feature.properties.rpas_pic}
