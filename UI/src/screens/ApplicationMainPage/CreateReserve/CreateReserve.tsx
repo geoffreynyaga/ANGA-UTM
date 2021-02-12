@@ -6,6 +6,7 @@ import { Upload, message } from "antd";
 import { CloudUploadOutlined } from "@ant-design/icons";
 
 import AirspaceMapComponent from "../../Airspace/AirspaceMapComponent";
+import { setgid } from "process";
 
 interface MyUASInterface {
   id: number;
@@ -36,9 +37,10 @@ function CreateReserve() {
   const [rpas, setRpas] = useState<any | number | null>(null);
   const [myUASList, setMyUASList] = useState<MyUASInterface[] | null>(null);
 
-  const [dateTimeValue, setDateTimeValue] = useState<Date | null>(null);
-  const [timeString, setTimeString] = useState<string | null>(null);
+  const [startTimeString, setStartTimeString] = useState<string | null>(null);
+  const [endTimeString, setEndTimeString] = useState<string | null>(null);
   const [dateString, setDateString] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     //
@@ -65,6 +67,52 @@ function CreateReserve() {
       });
   };
 
+  const createReserveAirspace = async () => {
+    console.log("called");
+    var data = {
+      name: missionName,
+      geom: localStorage.getItem("geom"),
+      rpas: rpas,
+      start_day: dateString,
+      start_time: startTimeString,
+      end: endTimeString,
+    };
+
+    return fetch("http://localhost:8000/api/applications/create/", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Token b363791c3baa5ac7b7023f2f2189ea2e6794f820",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success: createReserveAirspace", data);
+
+        // """
+        // {'__all__': ['This Airspace is greater than the recommended value of 9sq km']}
+        // """
+
+        // x = {
+        //   __all__: [
+        //     "Cannot book airspace in this zone!!You have violed the folowing Airspace(s)<hr><p></p><b>['JKIA']<br> <hr><a href=\"/applications/airspace/\">Go To Airspace</a>",
+        //   ],
+        // };
+
+        if (data["ResultDesc"] === "Reserve Airspace Created successfully") {
+          localStorage.removeItem("geom");
+          setError(null);
+        } else if (data["ResultDesc"] === "Reserve Airspace Not Created") {
+          setError(data["__all__"][0]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+  //
   function handleMissionNameInput(e: any) {
     e.preventDefault();
     setMissionName(e.target.value);
@@ -73,22 +121,10 @@ function CreateReserve() {
     e.preventDefault();
     setRpas(e.target.value);
   }
-  function handleStartDateInput(e: any) {
-    e.preventDefault();
-    setMissionName(e.target.value);
-  }
-  function handleStartTimeInput(e: any) {
-    e.preventDefault();
-    setMissionName(e.target.value);
-  }
-  function handleLogInput(e: any) {
-    e.preventDefault();
-    setMissionName(e.target.value);
-  }
 
   function handleSubmit(e: any) {
     e.preventDefault();
-    setMissionName(e.target.value);
+    createReserveAirspace();
   }
 
   // function handleDateChange(date: any) {
@@ -98,16 +134,6 @@ function CreateReserve() {
   return (
     <div className="page-inner">
       <hr />
-
-      <pre>
-        dateTimeValue:{" "}
-        {dateTimeValue ? JSON.stringify(dateTimeValue) : "no date"}
-      </pre>
-      <pre>
-        {dateTimeValue ? JSON.stringify(new Date(dateTimeValue)) : "no date"}
-      </pre>
-
-      <pre>newDate: {JSON.stringify(new Date())}</pre>
 
       <div id="main-wrapper">
         <div className="row">
@@ -129,6 +155,9 @@ function CreateReserve() {
             >
               Mission Details
             </h4>
+
+            {error && <pre>{error}</pre>}
+            <br />
             <div className="panel-body">
               <form className="form-horizontal" onSubmit={handleSubmit}>
                 {/* Mission Name */}
@@ -179,25 +208,28 @@ function CreateReserve() {
 
                 {/* Start Day  */}
 
-                <div className="form-group">
-                  <label className="col-sm-3 control-label">Start Date</label>
-                  <div className="col-sm-9">
-                    <input
-                      type="text"
-                      className="form-control date-picker"
-                      required={true}
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label className="col-sm-3 control-label">Start Date</label>
-                  <div className="col-sm-9" style={{ zIndex: 9999 }}>
+                <div
+                  className="form-group"
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <label
+                    className="col-sm-5 control-label"
+                    style={{ textAlign: "start" }}
+                  >
+                    Start Date
+                  </label>
+                  <div className="col-sm-7">
                     <DatePicker
                       onChange={(moment, dateString) => {
                         console.log(dateString, "dateString");
                         setDateString(dateString);
                       }}
+                      format={"M/D/Y"}
+                      // size={"large"}
+                      style={{ width: "100%" }}
                     />
                   </div>
                 </div>
@@ -205,25 +237,59 @@ function CreateReserve() {
                 {/* Start Time  */}
 
                 <div className="form-group">
-                  <label className="col-sm-3 control-label">Start Time</label>
-                  <div className="col-sm-9">
+                  <label
+                    className="col-sm-5 control-label"
+                    style={{ textAlign: "start" }}
+                  >
+                    Start Time
+                  </label>
+                  <div className="col-sm-7">
                     <TimePicker
                       defaultValue={moment(new Date().getTime())}
                       // bordered={false}
                       minuteStep={10}
-                      secondStep={60}
-                      onChange={(moment, timeString) => {
-                        console.log(timeString, "timeString");
-                        setTimeString(timeString);
+                      // secondStep={60}
+                      onChange={(moment, startTimeString) => {
+                        console.log(startTimeString, "startTimeString");
+                        setStartTimeString(startTimeString);
                       }}
+                      use12Hours
+                      format={"H:mm A"}
+                      // size={"large"}
+                      style={{ width: "100%" }}
                     />
                   </div>
                 </div>
+                {/* End Time  */}
 
+                <div className="form-group">
+                  <label
+                    className="col-sm-5 control-label"
+                    style={{ textAlign: "start" }}
+                  >
+                    Start Time
+                  </label>
+                  <div className="col-sm-7">
+                    <TimePicker
+                      defaultValue={moment(new Date().getTime())}
+                      // bordered={false}
+                      minuteStep={10}
+                      // secondStep={60}
+                      onChange={(moment, endTimeString) => {
+                        console.log(endTimeString, "endTimeString");
+                        setEndTimeString(endTimeString);
+                      }}
+                      format={"H:mm A"}
+                      use12Hours
+                      // size={"large"}
+                      style={{ width: "100%" }}
+                    />
+                  </div>
+                </div>
                 {/* File upload  */}
                 <label className="col-sm-3 control-label">Log (optional)</label>
                 <div className="col-sm-9">
-                  <div className="panel panel-white">
+                  {/* <div className="panel panel-white">
                     <div className="panel-heading clearfix">
                       <h4 className="panel-title">
                         Alternatively, you can upload a mission planner log
@@ -233,7 +299,7 @@ function CreateReserve() {
                     <div className="panel-body">
                       <input type="file" id="myfile" name="myfile" />
                     </div>
-                  </div>
+                  </div> */}
 
                   <Dragger {...props}>
                     <p className="ant-upload-drag-icon">
@@ -249,6 +315,7 @@ function CreateReserve() {
 
                 {/*  */}
                 <hr />
+                <h4 />
 
                 {/* Submit */}
 
@@ -257,6 +324,16 @@ function CreateReserve() {
                     type="submit"
                     className="btn btn-primary "
                     style={{ width: "100%" }}
+                    disabled={
+                      !(
+                        missionName !== "" &&
+                        rpas !== null &&
+                        startTimeString !== null &&
+                        endTimeString !== null &&
+                        dateString !== null &&
+                        localStorage.getItem("geom") !== "undefined"
+                      )
+                    }
                   >
                     Submit
                   </button>

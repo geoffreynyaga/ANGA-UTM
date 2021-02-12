@@ -26,6 +26,10 @@ import { LatLng } from "leaflet";
 import Search from "react-leaflet-search";
 import LocateControl from "./locate";
 
+import "leaflet-fullscreen/dist/Leaflet.fullscreen.js";
+
+import "leaflet-fullscreen/dist/leaflet.fullscreen.css";
+
 const VectorGrid = withLeaflet(VectorGridDefault);
 
 interface MarkerInterface {
@@ -157,6 +161,8 @@ function AirspaceMapComponent(props: Props) {
     [-4.77369399748329, 33.909937402767],
     [5.03342194387382, 41.9067738648657],
   ]);
+
+  const [circleRadius, setCircleRadius] = useState<number>(0);
 
   const AIRMAP_API_KEY: string =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVkZW50aWFsX2lkIjoiY3JlZGVudGlhbHw0Z242Z0tNaW5KODQza2h6NjRFZGJpT1pBS25hIiwiYXBwbGljYXRpb25faWQiOiJhcHBsaWNhdGlvbnxRTHk0NVIySDhKV3YzZ2lOUUdtM1poRHYwQTRxIiwib3JnYW5pemF0aW9uX2lkIjoiZGV2ZWxvcGVyfDc5NVlrQm1Db3hSQm53aTluOURiTEh3OTVLMFEiLCJpYXQiOjE1MjcxNTA4MDJ9.TkESuJIEQ9pjfU9F4TgIUNCF15OO2eeWU1GRONXf33Q";
@@ -685,11 +691,6 @@ function AirspaceMapComponent(props: Props) {
       feature.properties !== undefined &&
       feature.properties.name !== undefined
     ) {
-      // console.log(
-      //   "these are present >>>> feature.properties && feature.properties.start_day"
-      // );
-      // console.log(feature.properties.name, "feature.properties.name");
-
       var name = feature.properties.name ? feature.properties.name : "geofence";
       var content = "<h4>Restricted Area:</h4>" + "<hr />" + name + "</p>";
       layer.bindPopup(content);
@@ -720,11 +721,113 @@ function AirspaceMapComponent(props: Props) {
         console.error("Error:", error);
       });
   };
+
   //
   function onEditPath(e: any) {
     console.log(e, "onEditPath");
+    console.log(e.layers, "e.layers");
+
+    var json = e.layers.toGeoJSON();
+    // console.log(json, "json");
+
+    e.layers.eachLayer(function (layer: any) {
+      if (layer instanceof L.Circle) {
+        //Do marker specific actions here
+        console.log(layer.getRadius(), "working? 2");
+        let radius = layer.getRadius();
+        json.features[0].properties.radius = radius;
+
+        setCircleRadius(radius);
+      }
+    });
+
+    setDrawnGeoJSON(json);
+    var y = { geometry: json["geometry"] };
+    getAdvisory(y);
+
+    localStorage.setItem("geom", JSON.stringify(json));
+
+    if (json.features[0].geometry.type === "Point") {
+      // console.log(e.layer.getRadius(), "e.layer.getRadius()");
+
+      var center = json.features[0].geometry.coordinates;
+      // var radius = json.features[0].properties.radius;
+      // var options = { steps: 10, units: "meters", properties: { foo: "bar" } };
+      let radius = 1500;
+      console.log(radius, "radius");
+      var circle = TurfCircle(center, radius, {
+        steps: 10,
+        units: "meters",
+        properties: {},
+      });
+
+      // var area2 = TurfArea(circle);
+      var area = 3.141 * radius * radius;
+
+      // console.log(area, "circle area");
+      // console.log(area2, "circle area2");
+      // console.log((area2 - area) * 0.000247105, "circle diff");
+
+      // console.log(circle, "circle area");
+
+      // console.log(center, "circle center");
+
+      if (area / 1e6 >= 9) {
+        console.log("area more than 9sq km");
+
+        setDrawnGeoJSONProperties({
+          area: `${(area / 1e6).toFixed(1)} sq.km`,
+          error: "Area greater than recommended 9sq. km",
+        });
+      } else if (area / 1e6 < 4) {
+        setDrawnGeoJSONProperties({
+          area: ` ${(area * 0.000247105).toFixed(2)} acres`,
+        });
+      } else {
+        setDrawnGeoJSONProperties({
+          area: `${(area / 1e6).toFixed(1)} sq.km`,
+        });
+      }
+    }
+
+    if (json.features[0].geometry.type === "Polygon") {
+      // console.log(json.geometry.type, "json.geometry.type");
+
+      // var polygon = TurfPolygon([
+      //   [
+      //     [125, -15],
+      //     [113, -22],
+      //     [154, -27],
+      //     [144, -15],
+      //     [125, -15],
+      //   ],
+      // ]);
+
+      var polygon = TurfPolygon(json.features[0].geometry.coordinates);
+
+      var polygonArea = TurfArea(polygon);
+      console.log(polygonArea, "area");
+
+      if (polygonArea / 1e6 >= 9) {
+        console.log("area more than 9sq km");
+
+        setDrawnGeoJSONProperties({
+          area: `${(polygonArea / 1e6).toFixed(1)} sq.km`,
+          error: "Area greater than recommended 9sq. km",
+        });
+      } else if (polygonArea / 1e6 < 4) {
+        setDrawnGeoJSONProperties({
+          area: ` ${(polygonArea * 0.000247105).toFixed(2)} acres`,
+        });
+      } else {
+        setDrawnGeoJSONProperties({
+          area: `${(polygonArea / 1e6).toFixed(1)} sq.km`,
+        });
+      }
+    }
   }
   //
+
   function onCreate(e: any) {
     console.log(e.layer, "onCreate");
 
@@ -735,6 +838,8 @@ function AirspaceMapComponent(props: Props) {
     setDrawnGeoJSON(json);
     var y = { geometry: json["geometry"] };
     getAdvisory(y);
+
+    localStorage.setItem("geom", JSON.stringify(json));
 
     if (json.geometry.type === "Point") {
       console.log(e.layer.getRadius(), "e.layer.getRadius()");
@@ -814,7 +919,16 @@ function AirspaceMapComponent(props: Props) {
       }
     }
   }
+  //
+  function onDeleted(e: any) {
+    console.log(e, "onDeleted");
 
+    setDrawnGeoJSON(null);
+    setDrawnGeoJSONProperties(null);
+
+    localStorage.removeItem("geom");
+  }
+  //
   var L = window.L;
   const customMarker1 = L.icon({
     iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon.png",
@@ -910,6 +1024,7 @@ function AirspaceMapComponent(props: Props) {
         maxBounds={bounds}
         minZoom={10}
         maxZoom={16}
+        fullscreenControl={true}
       >
         <LayersControl position="topright">
           <LayersControl.BaseLayer checked name="OpenStreetMap.Mapnik">
