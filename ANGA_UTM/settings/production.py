@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["anga-utm.herokuapp.com"]
 
@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "djgeojson",
     "bootstrap3",
-
     # "datetimewidget",
     "bootstrap_datepicker_plus",
     "leaflet",
@@ -231,7 +230,6 @@ PWA_APP_ICONS = [
 ]
 # PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, "static/pwabuilder-sw.js")
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, "static/serviceworker.js")
-
 
 
 WEBPUSH_SETTINGS = {
