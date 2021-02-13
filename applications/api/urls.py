@@ -197,14 +197,29 @@
 # Copyright (c) 2020 ANGA UTM.                                                   #
 ##################################################################################
 
+from django.conf.urls import url
 
 from django.urls import path, include
 
-from applications.api.views import ReserveCreateAPIView
+from applications.api.views import (
+    ReserveAirspaceDetailAPIView,
+    ReserveAirspaceListAPIView,
+    ReserveCreateAPIView,
+)
 
 # from djgeojson.views import GeoJSONLayerView
 from applications.models import ReserveAirspace
 
 urlpatterns = [
     path("create/", ReserveCreateAPIView.as_view(), name="create_reserve_api"),
+    url(
+        r"^v1/reserve-airspaces/list/$",
+        ReserveAirspaceListAPIView.as_view(),
+        name="reserve_airspaces_list_api",
+    ),
+    url(
+        r"^v1/reserve-airspaces/(?P<pk>\d+)/$",
+        ReserveAirspaceDetailAPIView.as_view(),
+        name="reserve_airspace_detail_api",
+    ),
 ]

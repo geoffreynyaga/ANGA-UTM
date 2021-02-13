@@ -221,13 +221,43 @@ from django.conf.urls.static import static
 
 from django.views.static import serve
 
+
+# Rest Swagger/ReDoc
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
 from accounts.views import error_404, error_500
 from rpas import views
 
 from applications.views import view_airspace
 
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Anga UTM API",
+        default_version="v1",
+        description="This is a LAANC (Low Altitude Authorization and Notification Capability) to UTM (UAV Traffic Management) implementation for drones / UAS / RPAS. It includes drone Registrations, drone flight plans, drone Geofences and drone approvals",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="geoffrey@geoffreynyaga.com"),
+        license=openapi.License(name="Apache-2.0 License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 urlpatterns = [
     url(r"^admin/", admin.site.urls),
+    url(
+        r"^api/playground(?P<format>\.json|\.yaml)$",
+        schema_view.without_ui(cache_timeout=0),
+        name="schema-json",
+    ),
+    url(
+        r"^api/playground/$",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
     url("", include("pwa.urls")),  # You MUST use an empty string as the URL prefix
     url(r"^webpush/", include("webpush.urls")),
     url(r"^home$", views.home, name="home"),
@@ -243,10 +273,13 @@ urlpatterns = [
     url(r"^notams/", include("notams.urls")),
     url(r"^organizations/", include("organizations.urls")),
     url(r"^notifications/", include("notifications.urls", namespace="notifications")),
+    url(r"^api/accounts/", include("accounts.api.urls")),
     url(r"^api/maps/", include("maps.api.urls")),
+    url(r"^api/rpas/", include("rpas.api.urls")),
     url(r"^api/applications/", include("applications.api.urls")),
+    url(r"^api/flight_plans/", include("flight_plans.api.urls")),
+    url(r"^api-auth/", include("rest_framework.urls")),
 ]
-
 
 if settings.DEBUG:
     urlpatterns += [

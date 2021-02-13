@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    // "plugin:import/errors",
+    // "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "rules": {
+    "react/jsx-uses-vars": 1,
+    "no-unused-vars": "off"
+  }
+}

@@ -142,7 +142,7 @@
                   title=""
                   id="reserve_name"
                   required="true"
-                  onkeyup="manageText()"
+                 onkeyup="manageText()"
                 />
               </div>
             </div>
@@ -559,7 +559,7 @@
       //console.log(L,"L");
       //console.log(featureGroup,"featureGroup.layers");
 
-      function manageText() {
+      function manageText(){
         console.log("manageText called");
         var name = document.getElementById("reserve_name").value;
         var geom = localStorage.getItem("geom");
@@ -578,6 +578,8 @@
           bt.disabled = false;
         }
       }
+
+
 
       function manageGeom() {
         console.log("manageGeom called");
@@ -622,6 +624,8 @@
           start_time: document.getElementById("id_start_time").value,
           end: document.getElementById("id_end_time").value
         };
+
+        console.log((document.getElementById('id_startday').value),"document.getElementById('id_startday').value")
 
         var baseURL = location.protocol + "//" + location.hostname + (location.port && ":" + location.port);
         //console.log(baseURL,"baseURL")

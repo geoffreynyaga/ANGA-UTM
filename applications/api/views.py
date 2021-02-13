@@ -197,10 +197,15 @@
 # Copyright (c) 2020 ANGA UTM.                                                   #
 ##################################################################################
 
+from applications.api.serializers import (
+    ReserveAirspaceDetailSerializer,
+    ReserveAirspaceListSerializer,
+)
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.response import Response
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 
@@ -230,9 +235,9 @@ class ReserveCreateAPIView(APIView):
         print(start_time, "start_time")
         print(end, "end")
 
-        start_day = "03/18/2020"
-        start_time = "10:30 AM"
-        end = "11:30 AM"
+        # start_day = "03/18/2020"
+        # start_time = "10:30 AM"
+        # end = "11:30 AM"
 
         from datetime import datetime
 
@@ -258,9 +263,31 @@ class ReserveCreateAPIView(APIView):
                 }}
             ]}
         """
+        try:
 
-        geom_type = geom["features"][0]["geometry"]["type"]
-        coords = geom["features"][0]["geometry"]["coordinates"][0]
+            geom_type = geom["features"][0]["geometry"]["type"]
+            coords = geom["features"][0]["geometry"]["coordinates"][0]
+        except Exception as e:
+            print(e)
+            """x = {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [37.02458, -1.093773],
+                            [37.025352, -1.094482],
+                            [37.024923, -1.095641],
+                            [37.023722, -1.095383],
+                            [37.024537, -1.094417],
+                            [37.02458, -1.093773],
+                        ]
+                    ],
+                },
+            }"""
+            geom_type = geom["geometry"]["type"]
+            coords = geom["geometry"]["coordinates"][0]
         print(coords, "coords")
 
         from django.contrib.gis.geos import (
@@ -277,7 +304,7 @@ class ReserveCreateAPIView(APIView):
         # line = LineString(coords)
         # print(line, "line")
 
-        x = ReserveAirspace.objects.create(
+        x = ReserveAirspace(
             geom=multi_line,
             rpas_id=int(rpas),
             start_day=date_object,
@@ -286,9 +313,37 @@ class ReserveCreateAPIView(APIView):
             created_by=self.request.user,
         )
         print(x, "x instance")
+        try:
+            x.full_clean()
+            x.save()
+        except Exception as e:
+            print(e)
+            # x = {'start_day': ['You cant book a flight before TODAY!!'],
+            # '__all__': ['Cannot book airspace less than four hours to take-off! Try from 23:32:15'
+            # ]}
+
+            return Response(
+                {
+                    "ResultDesc": "Reserve Airspace Not Created",
+                    "ReserveAirspaceError": e,
+                },
+                content_type="application/json",
+                status=status.HTTP_201_CREATED,
+            )
 
         return Response(
             {"ResultDesc": "Reserve Airspace Created successfully"},
             content_type="application/json",
             status=status.HTTP_201_CREATED,
         )
+
+
+class ReserveAirspaceListAPIView(ListAPIView):
+    queryset = ReserveAirspace.objects.all()
+    serializer_class = ReserveAirspaceListSerializer
+
+
+class ReserveAirspaceDetailAPIView(RetrieveAPIView):
+    queryset = ReserveAirspace.objects.all()
+    serializer_class = ReserveAirspaceDetailSerializer
+    lookup_field = "pk"
