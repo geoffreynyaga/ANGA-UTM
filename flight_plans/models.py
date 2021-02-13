@@ -184,3 +184,39 @@ class Checklist(models.Model):
 
     def get_absolute_url(self):
         return reverse("checklist_detail", kwargs={"pk": self.pk})
+
+
+class ChecklistItem(models.Model):
+    item_title = models.CharField(max_length=40)
+    description = models.TextField(blank=True, null=True)
+    picture = models.ImageField(
+        upload_to="images/checklists/profile_pic", blank=True, null=True
+    )
+
+    def __str__(self):
+        return self.item_title
+
+
+class ChecklistGroup(models.Model):
+    title = models.CharField(max_length=100)
+    checklists = models.ManyToManyField(ChecklistItem, related_name="checklists")
+
+    CHECKLIST_TYPE = (
+        ("PRE", "Pre-Flight"),
+        ("POS", "Post-Flight"),
+        ("INF", "InFlight"),
+        ("EMR", "Emergency"),
+        ("CHR", "Charging"),
+        ("ASM", "Assembly"),
+        ("MNT", "Maintenance"),
+        ("OTH", "Other"),
+    )
+
+    checklist_type = models.CharField(max_length=3, choices=CHECKLIST_TYPE, blank=True,null=True)
+
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
