@@ -1,16 +1,12 @@
-import React from "react";
-import MapOnly from "../MapOnly";
+import React, { useEffect, useRef, useState } from "react";
+import AirspaceMapComponent from "./AirspaceMapComponent";
 
-function Airspace() {
+function Mapbox6() {
   return (
-    <div className="page-inner" style={{ padding: "5px" }}>
-      {/* <hr /> */}
-      {/* <h3>Airspace</h3> */}
-      <div id="main-wrapper"></div>
-
-      <MapOnly />
+    <div>
+      <AirspaceMapComponent draw={false} />
     </div>
   );
 }
 
-export default Airspace;
+export default Mapbox6;

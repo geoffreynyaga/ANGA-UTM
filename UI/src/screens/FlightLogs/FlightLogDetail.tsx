@@ -1,7 +1,37 @@
-import React from "react";
-import MapOnly from "../MapOnly";
+import React, { useEffect, useState } from "react";
+import AirspaceSingleMapInstanceComponent from "../Airspace/AirspaceSingleMapInstanceComponent";
+import { Feature } from "../Airspace/interface";
 
 function FlightLogDetail() {
+  const [missionGeojson, setMissionGeojson] = useState<Feature | null>(null);
+
+  useEffect(() => {
+    fetchMissionGeoJSON();
+  }, []);
+
+  const fetchMissionGeoJSON = async () => {
+    console.log("called");
+    return fetch(
+      `http://localhost:8000/api/applications/v1/reserve-airspaces/${1}/`,
+      {
+        method: "GET", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Token b363791c3baa5ac7b7023f2f2189ea2e6794f820",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data: Feature) => {
+        // console.log("Success: fetchGeoJSON", data);
+        setMissionGeojson(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   return (
     <div className="page-inner">
       <hr />
@@ -18,7 +48,7 @@ function FlightLogDetail() {
                   Log Number:
                 </li>
                 <span className="pull-right">
-                  <b>{123445}</b>
+                  <b>{missionGeojson?.properties.application_number}</b>
                 </span>
               </ol>
             </nav>
@@ -30,7 +60,7 @@ function FlightLogDetail() {
                   Pilot:
                 </li>
                 <span className="pull-right">
-                  <b>{"Geoffrey"}</b>
+                  <b>{missionGeojson?.properties.user_full_name}</b>
                 </span>
               </ol>
             </nav>
@@ -72,25 +102,25 @@ function FlightLogDetail() {
                 <h6 className="card-subtitle mb-2 text-muted">
                   Organization:
                   <span className="pull-right">
-                    <b>test</b>
+                    <b>{missionGeojson?.properties.user_organization}</b>
                   </span>
                 </h6>
                 <p className="card-text">
                   Purpose:
                   <span className="pull-right">
-                    <b>Other</b>
+                    <b>{missionGeojson?.properties.mission_type_display}</b>
                   </span>
                 </p>
                 <p className="card-text">
                   Date:
                   <span className="pull-right">
-                    <b>May 9, 2020, 7:33 a.m.</b>
+                    <b>{missionGeojson?.properties.start_datetime}</b>
                   </span>
                 </p>
                 <p className="card-text">
                   Approval:
                   <span className="pull-right">
-                    <b>PENDING</b>
+                    <b>{missionGeojson?.properties.status}</b>
                   </span>
                 </p>
               </div>
@@ -121,37 +151,37 @@ function FlightLogDetail() {
                 <h6 className="card-subtitle mb-2 text-muted">
                   RPAS:
                   <span className="pull-right">
-                    <b>ebee</b>
+                    <b>{missionGeojson?.properties.rpas_name}</b>
                   </span>
                 </h6>
                 <p className="card-text">
                   Model:
                   <span className="pull-right">
-                    <b>None</b>
+                    <b>{missionGeojson?.properties.rpas_name}</b>
                   </span>
                 </p>
                 <p className="card-text">
-                  Model Type:
+                  Airframe Type:
                   <span className="pull-right">
-                    <b>None</b>
+                    <b>{missionGeojson?.properties.airframe_type}</b>
                   </span>
                 </p>
                 <p className="card-text">
                   Serial:
                   <span className="pull-right">
-                    <b>123456</b>
+                    <b>{missionGeojson?.properties.rpas_serial}</b>
                   </span>
                 </p>
                 <p className="card-text">
                   Nickname:
                   <span className="pull-right">
-                    <b>ebee</b>
+                    <b>{missionGeojson?.properties.rpas_name}</b>
                   </span>
                 </p>
                 <p className="card-text">
                   Manufacturer:
                   <span className="pull-right">
-                    <b>None</b>
+                    <b>{missionGeojson?.properties.rpas_name}</b>
                   </span>
                 </p>
               </div>
@@ -183,7 +213,7 @@ function FlightLogDetail() {
                 <h6 className="card-subtitle mb-2 text-muted">
                   Payload:
                   <span className="pull-right">
-                    <b>None</b>
+                    <b>{missionGeojson?.properties.rpas_name}</b>
                   </span>
                 </h6>
                 <p className="card-text">
@@ -243,7 +273,9 @@ function FlightLogDetail() {
                 </h3>
               </div>
               <div className="panel-body">
-                <MapOnly />
+                <AirspaceSingleMapInstanceComponent
+                  missiongeojson={missionGeojson}
+                />
               </div>
             </div>
           </div>
@@ -285,7 +317,7 @@ function FlightLogDetail() {
                 <p className="card-text">
                   Area Size:
                   <span className="pull-right">
-                    <b></b>
+                    <b>{missionGeojson?.properties.area}</b>
                   </span>
                 </p>
                 <p className="card-text">

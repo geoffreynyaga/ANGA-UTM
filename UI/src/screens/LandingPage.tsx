@@ -8,7 +8,7 @@ import ApplicationMainPage from "./ApplicationMainPage";
 import CreateReserve from "./ApplicationMainPage/CreateReserve/CreateReserve";
 import ReservesHistory from "./ApplicationMainPage/ReservesHistory";
 import ApprovalLetters from "./ApplicationMainPage/ApprovalLetters";
-import Airspace from "./Airspace";
+import Airspace from "./Airspace/index";
 import FlightLogsMainPage from "./FlightLogs";
 import FlightLogDetail from "./FlightLogs/FlightLogDetail";
 import FlightLogUpdate from "./FlightLogs/FlightLogUpdate";
@@ -21,6 +21,7 @@ import UASDetails from "../UAS/UASDetails";
 import OrganizationsMainScreen from "./Organizations";
 import MailMainScreen from "./Mail";
 import CalendarMainScreen from "./Calendar";
+import ProfileMainPage from "./Profile";
 
 function LandingPage() {
   return (
@@ -35,6 +36,11 @@ function LandingPage() {
           <Route exact path="/">
             <LandingPageMap />
           </Route>
+
+          <Route exact path="/profile">
+            <ProfileMainPage />
+          </Route>
+
           <Route exact path="/applications">
             <ApplicationMainPage />
           </Route>

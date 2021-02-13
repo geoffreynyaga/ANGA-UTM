@@ -21,7 +21,7 @@ function ApplicationMainPage() {
               backgroundColor="#00C0EF"
             />
           </Link>
-          <Link to={`${url}/history`}>
+          <Link to={`${path}/history`}>
             <MainPageCategoryItem
               lgWidth={6}
               mdWidth={6}
@@ -33,7 +33,7 @@ function ApplicationMainPage() {
         </div>
 
         <div className="row" style={{ marginBottom: "5px" }}>
-          <Link to={`${url}/approval-letters`}>
+          <Link to={`${path}/approval-letters`}>
             <MainPageCategoryItem
               lgWidth={6}
               mdWidth={6}

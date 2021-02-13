@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AirMap | Maps SDK</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <script src="https://cdn.airmap.io/js/contextual-airspace/1.0.0/airmap.contextual-airspace-plugin.min.js"></script>
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js"></script>
+    <link
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        width: 800px;
+        height: 700px;
+        border-width: 5px;
+        border-color: aqua;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Airmap</h2>
+    <div id="map"></div>
+    <script>
+      var AIRMAP_API_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVkZW50aWFsX2lkIjoiY3JlZGVudGlhbHw0Z242Z0tNaW5KODQza2h6NjRFZGJpT1pBS25hIiwiYXBwbGljYXRpb25faWQiOiJhcHBsaWNhdGlvbnxRTHk0NVIySDhKV3YzZ2lOUUdtM1poRHYwQTRxIiwib3JnYW5pemF0aW9uX2lkIjoiZGV2ZWxvcGVyfDc5NVlrQm1Db3hSQm53aTluOURiTEh3OTVLMFEiLCJpYXQiOjE1MjcxNTA4MDJ9.TkESuJIEQ9pjfU9F4TgIUNCF15OO2eeWU1GRONXf33Q";
+      var MAPBOX_ACCESS_TOKEN =
+        "pk.eyJ1IjoiZ2VvZmZyZXlueWFnYSIsImEiOiJjamdmM3Q5NG4wdnprMnhyMGJqd3U1N25yIn0.R_3l_E-DDVpHQ0rL3zgElQ";
+
+      if (AIRMAP_API_KEY && MAPBOX_ACCESS_TOKEN) {
+        mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+
+        // Create an instance of the map
+        const map = new mapboxgl.Map({
+          container: "map",
+          style: "mapbox://styles/mapbox/streets-v8",
+
+          center: [37.496475, 0.024212],
+
+          zoom: 10,
+          accessToken: MAPBOX_ACCESS_TOKEN,
+        });
+
+        function getRandomColor() {
+          var letters = "0123456789ABCDEF";
+          var color = "#";
+          for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+          }
+          return color;
+        }
+
+        function addRulesets(jurisdictions) {
+          let rulesets = [];
+          jurisdictions.forEach((jurisdiction) => {
+            jurisdiction.rulesets.forEach((ruleset) => {
+              if (ruleset.selection_type == "pick1") {
+                if (ruleset.id == "usa_part_107") rulesets.push(ruleset);
+              } else {
+                rulesets.push(ruleset);
+              }
+            });
+          });
+          return rulesets;
+        }
+
+        function parseJurisdictions() {
+          var layers = map.queryRenderedFeatures();
+
+          // Iterate through layers
+          var jurisdictions = layers
+            .filter(
+              (x) =>
+                x.layer.source == "jurisdictions" && x.properties.jurisdiction
+            )
+            .map((feature) => JSON.parse(feature.properties.jurisdiction));
+
+          // Remove duplicate or empty jurisdictions
+          jurisdictions = jurisdictions
+            .filter((x) => x.rulesets.length > 0)
+            .filter((obj, pos, arr) => {
+              return (
+                arr.map((mapObj) => mapObj["uuid"]).indexOf(obj["uuid"]) === pos
+              );
+            });
+
+          return jurisdictions;
+        }
+
+        // Add layers
+        map.on("load", () => {
+          // Add Jurisdictions
+          console.log("----------map on load------------------");
+          map.addLayer(
+            {
+              id: "jurisdictions",
+              type: "fill",
+              source: {
+                type: "vector",
+                tiles: [
+                  "https://api.airmap.com/tiledata/v1/base-jurisdiction/{z}/{x}/{y}",
+                ],
+                minzoom: 6,
+                maxzoom: 12,
+              },
+              "source-layer": "jurisdictions",
+              minZoom: 6,
+              maxZoom: 22,
+            },
+            "background"
+          );
+        });
+
+        map.on("sourcedata", (data) => {
+          // Check for jurisdiction
+          // console.log("-----------map on source data----------");
+          // console.log(data, "sourcedata");
+          if (data.sourceId == "jurisdictions" && data.isSourceLoaded) {
+            // Parse jurisdiction
+            console.log("step 2");
+            console.log(data.sourceId, "data.sourceId");
+            console.log(data.isSourceLoaded, "data.isSourceLoaded");
+
+            var jurisdictions = parseJurisdictions();
+            // Add rulesets
+            var rulesets = addRulesets(jurisdictions);
+            console.log(rulesets, "rulesets");
+
+            rulesets.forEach((ruleset) => {
+              // Add Part 107 Source
+
+              console.log(
+                "https://api.airmap.com/tiledata/v1/" +
+                  ruleset.id +
+                  "/" +
+                  ruleset.layers.join(",") +
+                  "/{z}/{x}/{y}" +
+                  `?apiKey=${AIRMAP_API_KEY}`
+              );
+              console.log(ruleset.id, "reuleset.id");
+              map.addSource(ruleset.id, {
+                type: "vector",
+                tiles: [
+                  "https://api.airmap.com/tiledata/v1/" +
+                    ruleset.id +
+                    "/" +
+                    ruleset.layers.join(",") +
+                    `/{z}/{x}/{y}?apiKey=${AIRMAP_API_KEY}`,
+                ],
+                minzoom: 6,
+                maxzoom: 12,
+              });
+
+              ruleset.layers.forEach((layer) => {
+                // All Controlled Airspace
+                console.log(layer, "layer");
+                console.log(
+                  ruleset.id + "_" + layer,
+                  "id: ruleset.id + _ + layer"
+                );
+
+                let airspaceLayer = {
+                  id: ruleset.id + "_" + layer,
+                  source: ruleset.id,
+                  "source-layer": ruleset.id + "_" + layer,
+                  type: "fill",
+                  interactive: true,
+                  paint: {
+                    "fill-opacity": 0.4,
+                    "fill-color": getRandomColor(),
+                  },
+                };
+
+                console.log(airspaceLayer + "airspaceLayer");
+
+                map.addLayer(airspaceLayer, ruleset.id);
+              });
+            });
+          }
+        });
+      } else {
+        console.error(
+          "Missing AIRMAP_API_KEY or MAPBOX_ACCESS_TOKEN. " +
+            "These are required for developing the Maps SDK locally.\n\n"
+        );
+      }
+    </script>
+  </body>
+</html>
