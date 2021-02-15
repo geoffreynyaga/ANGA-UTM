@@ -125,6 +125,10 @@ class ChecklistGroupAdmin(admin.ModelAdmin):
         MembershipInline,
     ]
     exclude = ("checklists",)
+    list_display = (
+        "title",
+        "checklist_type",
+    )
 
 
 admin.site.register(ChecklistGroup, ChecklistGroupAdmin)
