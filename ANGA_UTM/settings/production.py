@@ -48,6 +48,11 @@ INSTALLED_APPS = [
     "leaflet",
     "phonenumber_field",
     "webpush",
+    "drf_yasg",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "rest_framework_gis",
+    #
     "organizations",
     "rpas",
     "accounts",
@@ -63,6 +68,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -130,6 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+SERIALIZATION_MODULES = {"geojson": "django.contrib.gis.serializers.geojson"}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -186,7 +193,24 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_SECONDS = 1000000
 SECURE_FRAME_DENY = True
 
+
+CORS_URLS_REGEX = r"^/api.*"
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = ("*",)
+
+
 from ANGA_UTM.aws.conf import *
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+        # 'rest_framework.authentication.SessionAuthentication',
+    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",  # for  ReactNative
+        "rest_framework.authentication.SessionAuthentication",  # for  react
+    ),
+}
 
 
 PWA_APP_NAME = "Anga UTM"
