@@ -1,6 +1,7 @@
 from applications.models import ReserveAirspace
 from rest_framework import serializers
-from flight_plans.models import FlightLog
+from flight_plans.models import ChecklistGroup, ChecklistItem, FlightLog
+from django.contrib.humanize.templatetags import humanize
 
 
 class FlightLogReserveAirspaceSerializer(serializers.ModelSerializer):
@@ -104,5 +105,66 @@ class FlightLogListSerializer(serializers.ModelSerializer):
             "no_of_flights",
             "post_flight_completion",
             "pre_flight_completion",
+        )
+
+
+#################################################################
+
+
+class CheckListItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChecklistItem
+        fields = (
+            "id",
+            "item_title",
+            "description",
+            "picture",
+        )
+
+
+class CheckListDetailSerializer(serializers.ModelSerializer):
+    checklists = CheckListItemSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = ChecklistGroup
+        fields = (
+            "title",
+            "checklists",
+        )
+
+
+class CheckListAllSerializer(serializers.ModelSerializer):
+    # checklists = CheckListItemSerializer(read_only=True, many=True)
+    items_number = serializers.SerializerMethodField()
+    checklist_type = serializers.SerializerMethodField()
+    date_created = serializers.SerializerMethodField()
+    date_modified = serializers.SerializerMethodField()
+
+    def get_items_number(self, instance):
+
+        # print(instance.created_by, "should be group instance")
+        if instance.checklists:
+            return instance.checklists.all().count()
+        else:
+            return None
+
+    def get_checklist_type(self, obj):
+        return obj.get_checklist_type_display()
+
+    def get_date_created(self, obj):
+        return humanize.naturaltime(obj.date_created)
+
+    def get_date_modified(self, obj):
+        return humanize.naturaltime(obj.date_modified)
+
+    class Meta:
+        model = ChecklistGroup
+        fields = (
+            "id",
+            "title",
+            "items_number",
+            "checklist_type",
+            "date_created",
+            "date_modified",
         )
 
