@@ -57,7 +57,14 @@ class ReserveAirspaceListSerializer(GeoFeatureModelSerializer):
         return obj.get_mission_type_display()
 
     def get_area(self, obj):
-        return obj.get_area()
+        if obj.geom:
+            try:
+                x = obj.get_area()
+                return x
+            except:
+                return None
+        else:
+            return None
 
     def get_start_datetime(self, obj):
         return obj.get_start_datetime()
