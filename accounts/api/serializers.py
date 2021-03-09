@@ -1,6 +1,9 @@
 from rpas.models import Rpas
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from rest_framework import serializers
+from django.core.exceptions import ValidationError
+from rest_framework import serializers, exceptions
+
 
 from flight_plans.models import FlightLog
 from organizations.models import Organization, OrganizationDetails
@@ -136,3 +139,101 @@ class UserProfileDetailSerializer(serializers.ModelSerializer):
             "organization",
         )
 
+
+class LoginSerializer(serializers.Serializer):
+
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+
+        print(data, "this is data")
+
+        """
+        # print(data, "this is data")
+       OrderedDict([('username', 'geoff'), ('password', 'password')]) this is data
+        """
+        username = data.get("username", "")
+        password = data.get("password", "")
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+
+            if user:
+                if user.is_active:
+                    data["user"] = user
+
+                else:
+                    msg = "user is deactivated"
+                    raise exceptions.ValidationError(msg)
+
+            else:
+                msg = "Unable to login with the given username and password"
+                data["err1"] = msg
+                raise exceptions.ValidationError(msg)
+
+        else:
+            msg = "You must provide both Username and Password"
+            data["err1"] = msg
+            raise exceptions.ValidationError(msg)
+
+        return data
+
+
+class SignupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username", "password", "email"]
+        extra_kwargs = {"password": {"write_only": True}}
+
+    # def validate_phone_number(self, value):
+
+    #     phone_number = str(value)
+    #     # str because it comes in a a PhoneNumberField class
+
+    #     # URGENT : add phone number verification as well(safaricom)
+    #     # No need to check e164 standard, serializer field already does that
+    #     # FIXED:
+    #     from mpesa.phone import phone_number_conversions
+
+    #     try:
+    #         x = phone_number_conversions.check_phone_number_carrier_name(phone_number)
+    #         print(x, "should be saf")
+    #         print(type(x), "should be saf")
+    #         print(x == "Safaricom", "should be false")
+    #         print(x != "Safaricom", "should be true")
+
+    #         if x != "Safaricom":
+    #             print(f"number is not safaricom but {x}")
+    #             raise ValidationError(f"We do not accept {x} numbers, only Safaricom")
+    #         else:
+    #             print(f"number is  safaricom <> {x}")
+    #             pass
+
+    #     except:
+    #         raise ValidationError(f"We do not accept {x} numbers, only Safaricom")
+
+    #     user_qs = User.objects.filter(phone_number=phone_number)  # why not get?
+
+    #     if user_qs.exists():
+    #         # check if active. If Active return the error below else proceed to return phone_number
+    #         if user_qs.count() > 1:
+    #             raise ValidationError(
+    #                 "Internal Error, kindly contact us to resolve this"
+    #             )
+    #         elif user_qs.count() == 1:
+    #             print("sweet spot")
+    #             user = user_qs[0]
+    #             print(user, "should be the single user")
+    #             if user.is_active == False:
+    #                 print("user is registered but not confirmed")
+    #                 return phone_number
+    #             else:
+    #                 raise ValidationError(
+    #                     "This phone number has already been registered."
+    #                 )
+    #         else:
+    #             print("user count is zero")
+    #             return phone_number
+    #     else:
+    #         return phone_number
