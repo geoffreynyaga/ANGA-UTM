@@ -77,7 +77,7 @@ python-dateutil==2.6.1
 python-decouple==3.3
 pytz==2017.3
 pywebpush==1.6.0
-PyYAML==5.3
+PyYAML==5.4
 regex==2020.2.20
 requests==2.18.4
 ruamel.yaml==0.16.12
