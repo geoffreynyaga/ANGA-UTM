@@ -112,6 +112,7 @@ ENV/
 .mypy_cache/
 
 native/*
+NATIVE/*
 staticfiles/*
 media/*
 
