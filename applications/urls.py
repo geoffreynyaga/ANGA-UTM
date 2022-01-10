@@ -199,6 +199,7 @@
 
 
 from django.conf.urls import url
+
 from . import views
 
 # from djgeojson.views import GeoJSONLayerView
@@ -209,15 +210,13 @@ urlpatterns = [
     url(r"^$", views.ReserveAirspaceMainView.as_view(), name="reserve_main"),
     # url(r"^create/$", views.OldReserveAirspaceCreateView.as_view(), name="old_create_reserve"),
     url(
-        r"^create/$", views.ReserveAirspaceCreateView.as_view(), name="create_reserve",
+        r"^create/$",
+        views.ReserveAirspaceCreateView.as_view(),
+        name="create_reserve",
     ),
     url(r"^airspace/$", views.view_airspace, name="view_airspace"),
-    url(
-        r"^airspace/geojson/$", views.all_reserve_datasets, name="all_reserve_datasets"
-    ),
-    url(
-        r"^myreserve/$", views.ReserveAirspaceListView.as_view(), name="my_reserve_list"
-    ),
+    url(r"^airspace/geojson/$", views.all_reserve_datasets, name="all_reserve_datasets"),
+    url(r"^myreserve/$", views.ReserveAirspaceListView.as_view(), name="my_reserve_list"),
     url(r"^myreserve/datasets$", views.my_reserve_datasets, name="my_reserve_datasets"),
     url(
         r"^submissions/datasets$",
