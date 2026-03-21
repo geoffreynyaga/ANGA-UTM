@@ -1,84 +1,89 @@
 <!DOCTYPE html>
-
-<html>
-
-   {% load static %}
-
-
-   {% load group_perms %}
-
-
-
-{% load pwa %}
-{% comment %} <!-- TO DO: PWA BASE.HTML is the above supposed to be above <head> ? --> {% endcomment %}
-{% comment %} DONE: YES - From Documentation {% endcomment %}
-
+<html lang="en">
+  {% load static %}
+  {% load group_perms %}
+  {% load static tailwind_tags %}
+  {% comment %} {% load pwa %} {% endcomment %}
+  {% comment %} <!-- TO DO: PWA BASE.HTML is the above supposed to be above <head> ? --> {% endcomment %}
+  {% comment %} DONE: YES - From Documentation {% endcomment %}
   <head>
-
-    {% progressive_web_app_meta %}
-
-
+    {% comment %} {% progressive_web_app_meta %} {% endcomment %}
+    {% tailwind_css %}
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="{% static 'favicons/favicon.ico' %}" type="image/x-icon" />
+    <link rel="shortcut icon"
+          href="{% static 'favicons/favicon.ico' %}"
+          type="image/x-icon" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- <title>Anga UTM | Dashboard</title> -->
     <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="{% static 'adminlite/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"  type="text/css">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{% static 'adminlite/bower_components/font-awesome/css/font-awesome.min.css' %}">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="{% static 'adminlite/bower_components/Ionicons/css/ionicons.min.css' %}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{% static 'adminlite/dist/css/AdminLTE.min.css' %}">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-         <link rel="stylesheet" href="{% static 'adminlite/dist/css/skins/_all-skins.min.css' %}">
-
-
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+          name="viewport">
+        <!-- Tailwind CSS is loaded via {% tailwind_css %} above -->
+        <!-- Alpine.js for lightweight interactivity (sidebar, dropdowns, collapse) -->
+        <script defer src="https://unpkg.com/alpinejs@3.12.0/dist/cdn.min.js"></script>
+        <!-- Heroicons (use npm in production; CDN fallback here) -->
+        <script src="https://unpkg.com/heroicons@1.0.6/dist/heroicons.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
+<![endif]-->
     <!-- Google Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
-
-    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'favicons/apple-icon-57x57.png ' %}">
-    <link rel="apple-touch-icon" sizes="60x60"  href="{% static 'favicons/apple-icon-60x60.png ' %}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'favicons/apple-icon-72x72.png ' %}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'favicons/apple-icon-76x76.png ' %}">
-    <link rel="apple-touch-icon"  sizes="114x114"  href="{% static 'favicons/apple-icon-114x114.png' %}">
-    <link rel="apple-touch-icon"  sizes="120x120"  href="{% static 'favicons/apple-icon-120x120.png ' %}">
-    <link rel="apple-touch-icon" sizes="144x144"   href="{% static 'favicons/apple-icon-144x144.png ' %}">
-    <link rel="apple-touch-icon"  sizes="152x152"  href="{% static 'favicons/apple-icon-152x152.png ' %}">
-    <link rel="apple-touch-icon"  sizes="180x180"  href="{% static 'favicons/apple-icon-180x180.png ' %}">
-
-    <link rel="icon" type="image/png" sizes="144x144"   href="{% static 'favicons/android-icon-144x144.png ' %}">
-    <link rel="icon" type="image/png" sizes="192x192"   href="{% static 'favicons/android-icon-192x192.png'%}">
-    <link rel="icon" type="image/png" sizes="32x32"  href="{% static 'favicons/favicon-32x32.png ' %}">
-    <link rel="icon" type="image/png" sizes="96x96"  href="{% static 'favicons/favicon-96x96.png ' %}">
-    <link rel="icon" type="image/png" sizes="16x16"  href="{% static 'favicons/favicon-16x16.png ' %}">
-
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="apple-touch-icon"
+          sizes="57x57"
+          href="{% static 'favicons/apple-icon-57x57.png ' %}">
+    <link rel="apple-touch-icon"
+          sizes="60x60"
+          href="{% static 'favicons/apple-icon-60x60.png ' %}">
+    <link rel="apple-touch-icon"
+          sizes="72x72"
+          href="{% static 'favicons/apple-icon-72x72.png ' %}">
+    <link rel="apple-touch-icon"
+          sizes="76x76"
+          href="{% static 'favicons/apple-icon-76x76.png ' %}">
+    <link rel="apple-touch-icon"
+          sizes="114x114"
+          href="{% static 'favicons/apple-icon-114x114.png' %}">
+    <link rel="apple-touch-icon"
+          sizes="120x120"
+          href="{% static 'favicons/apple-icon-120x120.png ' %}">
+    <link rel="apple-touch-icon"
+          sizes="144x144"
+          href="{% static 'favicons/apple-icon-144x144.png ' %}">
+    <link rel="apple-touch-icon"
+          sizes="152x152"
+          href="{% static 'favicons/apple-icon-152x152.png ' %}">
+    <link rel="apple-touch-icon"
+          sizes="180x180"
+          href="{% static 'favicons/apple-icon-180x180.png ' %}">
+    <link rel="icon"
+          type="image/png"
+          sizes="144x144"
+          href="{% static 'favicons/android-icon-144x144.png ' %}">
+    <link rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="{% static 'favicons/android-icon-192x192.png' %}">
+    {% comment %} <link rel="icon" type="image/png" sizes="32x32"  href="{% static 'favicons/favicon-32x32.png ' %}">
+    <link rel="icon"
+          type="image/png"
+          sizes="96x96"
+          href="{% static 'favicons/favicon-96x96.png ' %}"> {% endcomment %}
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{% static 'favicons/favicon-16x16.png ' %}">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="{% static 'favicons/ms-icon-144x144.png' %}">
+    <meta name="msapplication-TileImage"
+          content="{% static 'favicons/ms-icon-144x144.png' %}">
     <meta name="theme-color" content="#ffffff">
-
-
     <!-- Path to manifest.json -->
     {% comment %} <link rel="manifest" href="/manifest.json "> {% endcomment %}
-
-    {% block head %}
-      <title>ANGA UTM</title>
-    {% endblock %}
-
-      {% comment %} <script>
+    {% block head %}<title>ANGA UTM</title>{% endblock %}
+    {% comment %} <script>
   if ("serviceWorker" in navigator) {
   if (navigator.serviceWorker.controller) {
     console.log("[PWA Builder HTML] active service worker found, no need to register");
@@ -93,11 +98,8 @@
       });
   }
 }
-  </script> {% endcomment %}
-
+    </script> {% endcomment %}
   </head>
-
-
   {% comment %} <script type="text/javascript">
   //This is the "Offline copy of pages" service worker
 
@@ -114,521 +116,172 @@
   }
 
   </script> {% endcomment %}
+  <body x-data="{ sidebarOpen: false }" class="flex flex-col min-h-screen bg-gray-50">
+    <!-- Mobile Sidebar Overlay -->
+    <div x-show="sidebarOpen"
+         x-transition:enter="transition-opacity ease-linear duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity ease-linear duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 lg:hidden"
+         @click="sidebarOpen = false"></div>
 
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-30 bg-white border-b border-gray-200">
+        <div class="flex items-center justify-between h-16 px-4">
+            <div class="flex items-center">
+                <!-- Mobile menu button -->
+                <button type="button"
+                        class="p-2 text-gray-500 lg:hidden hover:text-gray-600 focus:outline-none"
+                        @click="sidebarOpen = true">
+                    <span class="sr-only">Open sidebar</span>
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
 
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="flex items-center ml-4 lg:ml-0">
+                    <img class="w-auto h-10" src="{% static 'logo/logo.png' %}" alt="Anga UTM">
+                </a>
+            </div>
 
-
-
-  <body class="hold-transition skin-blue sidebar-mini">
-
-
-  <div class="wrapper">
-
-    <header class="main-header">
-      <!-- Logo -->
-      <a href=" {% url 'home' %} " class="logo">
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"> <img src="{% static 'favicons/favicon-32x32.png'%}" alt="xx"><b>UTM</b></span>
-        <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"> <img src="{% static 'favicons/favicon-32x32.png'%}" alt="xx"> <b>Anga </b>UTM</span>
-      </a>
-      <!-- Header Navbar: style can be found in header.less -->
-      <nav class="navbar navbar-static-top">
-        <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-          <span class="sr-only">Toggle navigation</span>
-        </a>
-
-        <div class="navbar-custom-menu">
-          <ul class="nav navbar-nav">
-            {% if user.is_authenticated %}
-
-
-
-            <!-- Messages: style can be found in dropdown.less-->
-            <li class="dropdown messages-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-envelope-o"></i>
-                {% if unread_messages_number != 0 %}
-                <span class="label label-success">{{unread_messages_number}}{{x}}</span>
-                {% endif %}
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">You have {{unread_messages_number}} new messages</li>
-                <li>
-                  <!-- inner menu: contains the actual data -->
-                  <ul class="menu">
-
-                    {% for unread_message in unread_messages %}
-
-                    <p></p>
-
-
-                    <li><!-- start message -->
-                      <a href="{% url 'messages:message_detail' pk=unread_message.pk %}">
-                        {%if unread_message.sender.userprofile.profile_pic%}
-                        <div class="pull-left">
-
-                          <img src="{{unread_message.sender.userprofile.profile_pic.url}}" class="img-circle" alt="">
+            <!-- Navbar Menu -->
+            <div class="flex items-center space-x-4">
+                {% if user.is_authenticated %}
+                    <!-- Messages Dropdown (Simplified Tailwind version) -->
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" class="relative p-1 text-gray-400 hover:text-gray-500 focus:outline-none">
+                            <span class="sr-only">View messages</span>
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            {% if unread_messages_number > 0 %}
+                                <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
+                            {% endif %}
+                        </button>
+                        <div x-show="open" @click.away="open = false"
+                             class="absolute right-0 z-50 mt-2 origin-top-right bg-white rounded-md shadow-lg w-80 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div class="py-1">
+                                <div class="px-4 py-2 text-sm font-medium text-gray-700 border-b">Messages ({{ unread_messages_number }})</div>
+                                <div class="overflow-y-auto max-h-60">
+                                    {% for unread_message in unread_messages %}
+                                        <a href="{% url 'messages:message_detail' pk=unread_message.pk %}" class="block px-4 py-2 text-sm hover:bg-gray-50">
+                                            <div class="font-bold">{{ unread_message.sender }}</div>
+                                            <div class="text-gray-500 truncate">{{ unread_message.title }}</div>
+                                        </a>
+                                    {% empty %}
+                                        <div class="px-4 py-2 text-sm text-gray-400">No new messages</div>
+                                    {% endfor %}
+                                </div>
+                                <a href="{% url 'messages:inbox' %}" class="block px-4 py-2 text-sm font-medium text-center text-blue-600 border-t hover:bg-gray-50">See all</a>
+                            </div>
                         </div>
-                        {% endif %}
-                        <h4>
-                          {{unread_message.sender}}
-                          <small><i class="fa fa-clock-o"></i> {{unread_message.date_created | timesince}} ago </small>
-                        </h4>
-                        <p>{{unread_message.title}}</p>
-                      </a>
-                    </li>
-                    <!-- end message -->
-
-                    {% endfor %}
-                  </ul>
-                </li>
-                <li class="footer"><a href="{% url 'messages:inbox' %} ">See All Messages</a></li>
-              </ul>
-            </li>
-
-            {% for group in user.groups.all %}
-                {% if group.name == 'CAA' %}
-
-                {% endif %}
-            {% endfor %}
-            <!-- TODO: BASE.HTML What is the above for? -->
-
-            <!-- Notifications: style can be found in dropdown.less -->
-            <li class="dropdown notifications-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-bell-o"></i>
-                 {% if unread_notifications_count != 0 %}
-                <span class="label label-warning">
-                     {{unread_notifications_count}}
-                </span>
-                 {% endif %}
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">You have {{unread_notifications_count}} notifications</li>
-                <li>
-                  <!-- inner menu: contains the actual data -->
-                  <ul class="menu">
-                    {% for unread_notification in unread_notifications%}
-
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-warning text-yellow"></i>
-                        {{unread_notification.title }}
-                      </a>
-                    </li>
-                    {% endfor %}
-
-                    <!-- <li>
-                      <a href="#">
-                        <i class="fa fa-users text-red"></i> License expiry this month
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-user text-red"></i> You changed your username
-                      </a>
-                    </li> -->
-
-                  </ul>
-                </li>
-                <li class="footer"><a href="{% url 'notifications:notifications_list'%}">View all</a></li>
-              </ul>
-            </li>
-
-            <!-- Tasks: style can be found in dropdown.less -->
-            <li class="dropdown tasks-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-flag-o"></i>
-                {% if all_tasks_count != 0 %}
-                  <span class="label label-danger">{{all_tasks_count}}</span>
-                {% endif %}
-
-              </a>
-              <ul class="dropdown-menu">
-                <li class="header">You have {{all_tasks_count}} tasks</li>
-                <li>
-                  <!-- inner menu: contains the actual data -->
-                  <ul class="menu">
-
-                    {% for unfinished_rpas_model_task in unfinished_rpas_model_tasks %}
-                    <li><!-- Task item -->
-                      <a href="{% url 'rpas_model_update' pk=unfinished_rpas_model_task.get_rpas_model_pk %}">
-                        <h3>
-                          Finish <b>{{unfinished_rpas_model_task}}</b>  creation
-                          <small class="pull-right">{{unfinished_rpas_model_task.get_rpas_model_completion}}%</small>
-                        </h3>
-                        <div class="progress xs">
-                          <div class="progress-bar progress-bar-red"
-                               style="width: {{unfinished_rpas_model_task.get_rpas_model_completion}}%"
-                               role="progressbar"
-                               aria-valuenow="20"
-                               aria-valuemin="0" aria-valuemax="100">
-                            <span class="sr-only">{{unfinished_rpas_model_task.get_rpas_model_completion}}% Complete</span>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    {% endfor %}
-                    <!-- end task item -->
-
-                    {% for unfinished_rpas_payload_task in unfinished_rpas_payload_tasks %}
-                    <li><!-- Task item -->
-                      <a href="{% url 'payload_update' pk=unfinished_rpas_payload_task.payload.pk %}">
-                        <h3>
-                          Finish <b>{{unfinished_rpas_payload_task.payload}}</b> creation
-                          <small class="pull-right">{{unfinished_rpas_payload_task.get_payload_completion}}%</small>
-                        </h3>
-                        <div class="progress xs">
-                          <div class="progress-bar progress-bar-red"
-                               style="width: {{unfinished_rpas_payload_task.get_payload_completion}}%"
-                               role="progressbar"
-                               aria-valuenow="20"
-                               aria-valuemin="0" aria-valuemax="100">
-                            <span class="sr-only">{{unfinished_rpas_payload_task.get_payload_completion}}% Complete</span>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    {% endfor %}
-                    <!-- end task item -->
-
-
-                    {% for unfinished_pre_flight_log in unfinished_pre_flight_logs %}
-                    <li><!-- Task item -->
-                      <a href="{% url 'pre_flight_update' pk=unfinished_pre_flight_log.get_pre_flight_pk %}">
-                        <h3>
-                          complete flightlog <b>{{unfinished_pre_flight_log}}</b>
-                          <small class="pull-right">{{unfinished_pre_flight_log.get_pre_flight_completion}}%</small>
-                        </h3>
-                        <div class="progress xs">
-                          <div class="progress-bar progress-bar-red"
-                               style="width: {{unfinished_pre_flight_log.get_pre_flight_completion}}%"
-                               role="progressbar"
-                               aria-valuenow="20"
-                               aria-valuemin="0" aria-valuemax="100">
-                            <span class="sr-only">{{unfinished_pre_flight_log.get_payload_completion}}% Complete</span>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    {% endfor %}
-                    <!-- end task item -->
-
-
-                  </ul>
-                </li>
-                <li class="footer">
-                  <a href="{% url 'unfinished_logs_notifications'%}">View all tasks</a>
-                </li>
-              </ul>
-            </li>
-
-
-
-            <!-- User Account: style can be found in dropdown.less -->
-            <li class="dropdown user user-menu">
-
-              <a href="" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-user-o" aria-hidden="true"></i>
-                <!-- <img src="dist/img/user2-160x160.jpg" class="user-image" alt=""> -->
-                <span class="hidden-xs"> {{ user.get_full_name }}</span>
-              </a>
-              <ul class="dropdown-menu">
-                <!-- User image -->
-                <li class="user-header" style="height:250px">
-
-                  {% if request.user.userprofile.profile_pic %}
-                  <img src="{{request.user.userprofile.profile_pic.url}}" class="img-circle" alt="">
-                  {% endif %}
-
-                  <p>{{ user.get_full_name }}</p>
-
-                  <p>{{ user.userprofile.bio|linebreaks }} </p>
-
-                    <small>{{ user.userprofile.organization.organization_details.name }}</small>
-
-                </li>
-                <!-- Menu Body -->
-                <li class="user-body">
-                  <div class="row">
-                    <div class="col-xs-4 text-center">
-                      <a href="{% url 'accounts:view_profile' pk=request.user.pk%}">Details</a>
                     </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="{% url 'accounts:view_profile' pk=request.user.pk%}">Contacts</a>
+
+                    <!-- User Profile Dropdown -->
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" class="flex items-center focus:outline-none">
+                            {% if request.user.userprofile.profile_pic %}
+                                <img class="w-8 h-8 rounded-full" src="{{ request.user.userprofile.profile_pic.url }}" alt="">
+                            {% else %}
+                                <div class="flex items-center justify-center w-8 h-8 text-xs font-bold text-white bg-blue-500 rounded-full">
+                                    {{ user.username|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
+                            <span class="hidden ml-2 text-sm font-medium text-gray-700 md:block">{{ user.get_full_name|default:user.username }}</span>
+                        </button>
+                        <div x-show="open" @click.away="open = false"
+                             class="absolute right-0 z-50 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div class="py-1">
+                                <div class="px-4 py-2 text-xs text-gray-500 border-b">{{ user.email }}</div>
+                                <a href="{% url 'accounts:view_profile' pk=request.user.pk %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="{% url 'accounts:view_profile' pk=request.user.pk%}">Full Bio</a>
-                    </div>
-                  </div>
-                  <!-- /.row -->
-                </li>
-                <!-- Menu Footer-->
-                <li class="user-footer">
-                  <div class="pull-left">
-                    <a href="{% url 'accounts:view_profile' pk=request.user.pk%}" class="btn btn-default btn-flat">My Profile</a>
-                  </div>
-                  <div class="pull-right">
-                    <a href="{% url 'accounts:logout'%}" class="btn btn-default btn-flat">Logout</a>
-                  </div>
-                </li>
-              </ul>
-            </li>
-            <!-- Control Sidebar Toggle Button -->
-            <!-- <li>
-              <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-            </li> -->
-          </ul>
-          {% endif %}
-        <!-- </div> -->
-      </nav>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}" class="text-sm font-medium text-gray-700 hover:text-blue-600">Login</a>
+                    <a href="{% url 'accounts:signup' %}" class="inline-flex items-center px-4 py-2 ml-4 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">Sign up</a>
+                {% endif %}
+            </div>
+        </div>
     </header>
 
+    <div class="flex flex-1 overflow-hidden h-[calc(100vh-4rem)]">
+        <!-- Sidebar -->
+        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+               class="fixed inset-y-0 left-0 z-50 w-64 text-white transition-transform duration-300 ease-in-out transform bg-gray-900 shadow-xl lg:translate-x-0 lg:static lg:inset-0 lg:flex lg:flex-col">
+            <div class="flex flex-col h-full overflow-y-auto">
+                <nav class="flex-1 px-4 py-6 space-y-1">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'home' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
+                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                            Dashboard
+                        </a>
 
-    <!-- Left side column. contains the logo and sidebar -->
-    <aside class="main-sidebar">
-      <!-- sidebar: style can be found in sidebar.less -->
-      <section class="sidebar">
+                        <a href="{% url 'projects_index' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
+                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                            Projects
+                        </a>
 
-        {% if user.is_authenticated  %}
-<!-- and request.user.groups.all.last != CAA-->
+                        <a href="{% url 'reserve_main' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
+                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            Airspace
+                        </a>
+                        <a href="{% url 'logs_list' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
+                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            Flight Logs
+                        </a>
 
-        <!-- Sidebar user panel -->
-        <div class="user-panel">
-          <div class="pull-left image">
-             {% if request.user.userprofile.profile_pic %}
-            <img src="{{request.user.userprofile.profile_pic.url}}" class="img-circle" alt=".">
-            {% else %}
-            <img src="" class="img-circle" alt=".">
-            {% endif %}
-          </div>
-          <div class="pull-left info">
-            <p>{{ user.get_full_name }}</p>
-            <!-- <p><a href="#"><i class="fa fa-circle text-success"></i> Online</a></p>  -->
-          </div>
-        </div>
+                        <a href="{% url 'rpas_main' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
+                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                            RPAS
+                        </a>
 
-        <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
-          <div class="input-group">
-            <input type="text" name="q" class="form-control" placeholder="Search...">
-            <span class="input-group-btn">
-                  <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                  </button>
-                </span>
-          </div>
-        </form>
-        <!-- /.search form -->
+                        {% if request.user|has_group:"CAA" %}
+                            <a href="{% url 'applied_reserves' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
+                                <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                Approve Plans
+                            </a>
+                        {% else %}
+                            <a href="{% url 'all_company_flight_logs' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
+                                <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                                Organization
+                            </a>
+                        {% endif %}
 
+                        <a href="{% url 'messages:calendar' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
+                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            Calendar
+                        </a>
+                        <a href="{% url 'messages:inbox' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
+                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                            Mailbox
+                        </a>
+                    {% else %}
+                        <a href="{% url 'accounts:login' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">Login</a>
+                        <a href="{% url 'accounts:signup' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">Sign Up</a>
+                    {% endif %}
 
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree">
-          <li class="header">MAIN NAVIGATION</li>
+                    <a href="http://www.kcaa.or.ke/index.php/statutes-and-regulations/regulations" target="_blank" class="flex items-center px-2 py-2 pt-4 mt-4 text-sm font-medium text-gray-300 border-t border-gray-700 rounded-md group hover:bg-gray-800 hover:text-white">
+                        <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13c-1.168-.776-2.754-1.253-4.5-1.253-1.746 0-3.332.477-4.5 1.253" /></svg>
+                        Regulations
+                    </a>
+                </nav>
+            </div>
+        </aside>
 
+        <!-- Main content area -->
+        <main class="flex-1 p-6 overflow-y-auto">
+            {% block body %}{% endblock %}
+        </main>
+    </div>
 
-
-          <li>
-            <a href=" {% url 'reserve_main' %} ">
-              <i class="fa fa-globe" aria-hidden="true"></i> <span>AIRSPACE</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-green">apply</small>
-              </span>
-            </a>
-          </li>
-
-          <li>
-            <a href=" {% url 'logs_list' %} ">
-              <i class="fa fa-files-o" aria-hidden="true"></i>
-              <span>Flight Logs</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-green">list</small>
-              </span>
-            </a>
-          </li>
-
-          <li>
-            <a href=" {% url 'rpas_main' %} ">
-              <i class="fa fa-paper-plane-o" aria-hidden="true"></i> <span>RPAS</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-green">new</small>
-              </span>
-            </a>
-          </li>
-
-
-          {% if request.user|has_group:"CAA"%}
-
-            <li>
-              <a href="{% url 'applied_reserves' %}">
-                <i class="fa fa-calendar"></i> <span>Approve Flight Plans</span>
-                <span class="pull-right-container">
-                  <small class="label pull-right bg-red">3</small>
-                  <small class="label pull-right bg-blue">17</small>
-                </span>
-              </a>
-            </li>
-          {% else %}
-
-          <li>
-            <a href="{% url 'all_company_flight_logs' %}">
-              <i class="fa fa-building" aria-hidden="true"></i> <span>Organization</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-green">new</small>
-              </span>
-            </a>
-          </li>
-
-          <!-- <li class="treeview">
-            <a href="#">
-              <i class="fa fa-pie-chart"></i>
-              <span>Performance Charts</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Overall</a></li>
-              <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Realtime</a></li>
-              <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Jquery Knobs</a></li>
-            </ul>
-          </li> -->
-          <!-- <li class="treeview">
-            <a href="#">
-              <i class="fa fa-laptop"></i>
-              <span>Timeline </span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
-            </ul>
-          </li> -->
-          <li>
-            <a href="{% url 'messages:calendar'%}">
-              <i class="fa fa-calendar"></i> <span>Calendar</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-red">3</small>
-                <small class="label pull-right bg-blue">17</small>
-              </span>
-            </a>
-          </li>
-
-          {% endif %}
-
-          <li>
-            <a href="{% url 'messages:inbox'%} ">
-              <i class="fa fa-envelope"></i> <span>Mailbox</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-yellow">12</small>
-                <small class="label pull-right bg-green">16</small>
-                <small class="label pull-right bg-red">5</small>
-              </span>
-            </a>
-          </li>
-
-
-
-          {% else %}
-          <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">Hey Visitor,</li>
-            <li class="header"> <h3>WELCOME!</h3></li>
-            <li><a href="{% url 'accounts:login' %}"><i class="fa fa-circle-o text-red" aria-hidden="true">
-            </i> <span>Login</span></a></li>
-            <br>
-            <li><a href="{% url 'accounts:signup' %}"><i class="fa fa-sign-in text-yellow"></i>
-               <span>Sign Up</span></a></li>
-            <br>
-
-          {% endif%}
-
-
-          <li><a href="http://www.kcaa.or.ke/index.php/statutes-and-regulations/regulations">
-            <i class="fa fa-book"></i> <span>Regulations</span></a>
-          </li>
-
-        </ul>
-      </section>
-      <!-- /.sidebar -->
-    </aside>
-
-
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-
-    {%block body%}
-
-
-
-    {% endblock%}
-
-  </div>
-  <!-- /.row -->
-  <!-- Main row -->
-
-</section>
-<!-- /.control-sidebar -->
-<!-- Add the sidebar's background. This div must be placed
-   immediately after the control sidebar -->
-<div class="control-sidebar-bg"></div>
-</div>
-<!-- ./wrapper -->
-
-
-<!-- <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js'"></script>
-
-<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-messaging.js"></script> -->
-
-<!-- <script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyA9ekunjhx2zwSF3_-R-4Y4ujM1XUIXKik",
-    authDomain: "utm-heroku.firebaseapp.com",
-    databaseURL: "https://utm-heroku.firebaseio.com",
-    projectId: "utm-heroku",
-    storageBucket: "utm-heroku.appspot.com",
-    messagingSenderId: "512044437745"
-  };
-  firebase.initializeApp(config);
-</script> -->
-
-
-
-  <!-- jQuery 3 -->
-  <script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script>
-
-  <!-- Bootstrap 3.3.7 -->
-  <script src="{% static 'adminlite/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-
-  <!-- jQuery UI 1.11.4 -->
-  <script src="{% static 'adminlite/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
-
-  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-  <script>
-    $.widget.bridge('uibutton', $.ui.button);
-  </script>
-
-
-{% block extra_js %}
-  <!-- Sparkline -->
-  <script src="{% static 'adminlite/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
-  <!-- Slimscroll -->
-  <script src="{% static 'adminlite/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
-
-{% endblock extra_js %}
-
-<!-- FastClick -->
-<script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
-
-<!-- AdminLTE App -->
-<script src="{% static 'adminlite/dist/js/adminlte.min.js' %}"></script>
-
-
-
+    <!-- AdminLTE and Bootstrap JS removed — using Alpine.js for UI interactions.
+         If you need jQuery/Bootstrap for legacy plugins, add them via CDN in block extra_js -->
+    {% block extra_js %}{% endblock extra_js %}
 </body>
 </html>

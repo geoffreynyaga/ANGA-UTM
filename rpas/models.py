@@ -1,17 +1,17 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-
-# from django.db.models.signals import post_save
-
-from django.contrib.auth.models import User
 from django.urls import reverse
-
-# from django.utils import timezone
 
 from organizations.models import Organization
 
+User = get_user_model()
+# from django.db.models.signals import post_save
+
+
+# from django.utils import timezone
+
 
 class Manufacturer(models.Model):
-
     name = models.CharField(max_length=20, unique=True)
     country = models.CharField(max_length=20)
     logo = models.ImageField(
@@ -21,12 +21,11 @@ class Manufacturer(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self, *args, **kwargs):
+    def get_absolute_re_path(self, *args, **kwargs):
         return reverse("rpas_add")
 
 
 class RpasModelType(models.Model):
-
     AIRFRAME_TYPE = (
         ("PLANE", "PLANE"),
         ("QUAD", "QUADCOPTER"),
@@ -40,12 +39,11 @@ class RpasModelType(models.Model):
     def __str__(self):
         return self.get_airframe_type_display()
 
-    def get_absolute_url(self, *args, **kwargs):
+    def get_absolute_re_path(self, *args, **kwargs):
         return reverse("rpas_add")
 
 
 class RpasModel(models.Model):
-
     manufacturer = models.ForeignKey(
         Manufacturer, on_delete=models.CASCADE, blank=True, null=True
     )
@@ -63,7 +61,7 @@ class RpasModel(models.Model):
     def __str__(self):
         return str(self.model_name)
 
-    def get_absolute_url(self, *args, **kwargs):
+    def get_absolute_re_path(self, *args, **kwargs):
         return reverse("rpas_list")
 
 
@@ -83,12 +81,11 @@ class Battery(models.Model):
     def __str__(self):
         return self.batt_name
 
-    def get_absolute_url(self, *args, **kwargs):
+    def get_absolute_re_path(self, *args, **kwargs):
         return reverse("rpas_add")
 
 
 class PayloadModelType(models.Model):
-
     PAYLOAD_TYPE = (
         ("RBG", "RGB CAMERA"),
         ("MSTL", "MULTISPECTRAL"),
@@ -103,12 +100,11 @@ class PayloadModelType(models.Model):
     def __str__(self):
         return str(self.payload_type)
 
-    def get_absolute_url(self, *args, **kwargs):
+    def get_absolute_re_path(self, *args, **kwargs):
         return reverse("rpas_add")
 
 
 class PayloadModel(models.Model):
-
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
     payload_model_type = models.ForeignKey(PayloadModelType, on_delete=models.CASCADE)
 
@@ -118,12 +114,11 @@ class PayloadModel(models.Model):
     def __str__(self):
         return str(self.payload_name)
 
-    def get_absolute_url(self, *args, **kwargs):
+    def get_absolute_re_path(self, *args, **kwargs):
         return reverse("rpas_add")
 
 
 class Payload(models.Model):
-
     payload_model = models.ForeignKey(
         PayloadModel, on_delete=models.CASCADE, blank=True, null=True
     )
@@ -135,7 +130,7 @@ class Payload(models.Model):
     def __str__(self):
         return str(self.payload_serial)
 
-    def get_absolute_url(self, *args, **kwargs):
+    def get_absolute_re_path(self, *args, **kwargs):
         return reverse("rpas_list")
 
 
@@ -162,23 +157,25 @@ class Rpas(models.Model):
     rpas_nickname = models.CharField(
         max_length=20, blank=True, null=True, help_text="If any....e.g My Phantom Bird"
     )
+    cor_number = models.CharField(
+        max_length=50, blank=True, null=True, help_text="Certificate of Registration Number"
+    )
 
     rpas_pic = models.ImageField(upload_to="images/rpas")
 
     def __str__(self):
-        return str(self.rpas_nickname)
+        return str(self.cor_number)
 
-    def get_absolute_url(self):
+    def get_absolute_re_path(self):
         return reverse("rpas_detail", kwargs={"pk": self.pk})
 
-    # def get_absolute_url(self):
+    # def get_absolute_re_path(self):
     #     return reverse("log_detail", kwargs={"pk":self.pk})
 
-    def get_rpas_pic_url(self):
+    def get_rpas_pic_re_path(self):
         return self.rpas_pic.url
 
     def save(self, *args, **kwargs):
-
         if not self.rpas_model:
             x = RpasModel.objects.create()
             x.weight = 1.0
@@ -202,7 +199,6 @@ class Rpas(models.Model):
         return payload_pk
 
     def get_rpas_model_completion(self):
-
         manufacturer = self.rpas_model.manufacturer
         rpas_model_type = self.rpas_model.rpas_model_type
         model_name = self.rpas_model.model_name
@@ -218,7 +214,6 @@ class Rpas(models.Model):
         return round(progress, 1)
 
     def get_payload_completion(self):
-
         payload_model = self.payload.payload_model
         payload_serial = self.payload.payload_serial
         payload_nickname = self.payload.payload_nickname
@@ -233,4 +228,3 @@ class Rpas(models.Model):
         final_count = int(len(fields))
         progress = (final_count / initial_count) * 100
         return round(progress, 1)
-

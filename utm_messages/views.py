@@ -1,23 +1,25 @@
 # from django.shortcuts import render
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
-from django.views.generic import (
-    ListView, DetailView, CreateView, TemplateView)
+from django.views.generic import CreateView, DetailView, ListView, TemplateView
 
 from .forms import UserToUserMessagesForm
 from .models import UserToUserMessages
 
+User = get_user_model()
+
 
 class MessagesCreateView(CreateView):
     form_class = UserToUserMessagesForm
-    template_name = 'utm_messages/compose.html'
-    success_url = '/messages/'
+    template_name = "utm_messages/compose.html"
+    success_url = "/messages/"
 
     def form_valid(self, form):
         usertousermessages = form.save(commit=False)
         usertousermessages.sender = User.objects.get(
-            username=self.request.user)  # use your own profile here
+            email=self.request.user
+        )  # use your own profile here
         usertousermessages.save()
         return HttpResponseRedirect(self.success_url)
 
@@ -29,30 +31,34 @@ class MessagesCreateView(CreateView):
 
 #     def form_valid(self, form):
 #         usertousermessages = form.save(commit=False)
-#         usertousermessages.sender = User.objects.get(username=self.request.user)  # use your own profile here
+#         usertousermessages.sender = User.objects.get(email=self.request.user)  # use your own profile here
 #         usertousermessages.save()
 #         return HttpResponseRedirect(self.success_url)
 
 
 class SentMessagesListView(ListView):
-    context_object_name = 'sent'
-    template_name = 'utm_messages/sent.html'
+    context_object_name = "sent"
+    template_name = "utm_messages/sent.html"
 
     def get_queryset(self):
-        return UserToUserMessages.objects.filter(sender=self.request.user).order_by('-id')
+        return UserToUserMessages.objects.filter(sender=self.request.user).order_by(
+            "-id"
+        )
 
 
 class InboxListView(ListView):
-    context_object_name = 'inbox'
-    template_name = 'utm_messages/inbox.html'
+    context_object_name = "inbox"
+    template_name = "utm_messages/inbox.html"
 
     def get_queryset(self):
-        return UserToUserMessages.objects.filter(receiver=self.request.user).order_by('-id')
+        return UserToUserMessages.objects.filter(receiver=self.request.user).order_by(
+            "-id"
+        )
 
 
 class MessageDetailView(DetailView):
     model = UserToUserMessages
-    template_name = 'utm_messages/message_detail.html'
+    template_name = "utm_messages/message_detail.html"
 
     def get_object(self, queryset=None):
         obj = super(MessageDetailView, self).get_object(queryset=queryset)
@@ -66,4 +72,4 @@ class MessageDetailView(DetailView):
 
 
 class CalendarView(TemplateView):
-    template_name = 'utm_messages/calendar.html'
+    template_name = "utm_messages/calendar.html"

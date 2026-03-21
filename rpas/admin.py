@@ -17,7 +17,7 @@ admin.site.register(Manufacturer, ManufacturerAdmin)
 ###############################################################################
 
 class RpasAdmin(admin.ModelAdmin):
-    list_display = ('rpas_nickname','rpas_serial','user','organization')
+    list_display = ('cor_number','rpas_nickname','rpas_serial','user','organization')
 
 admin.site.register(Rpas, RpasAdmin)
 

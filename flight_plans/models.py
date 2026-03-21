@@ -1,13 +1,12 @@
-from django.db import models
-
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
+from django.db import models
 from django.urls import reverse
 
 from applications.models import ReserveAirspace
 from rpas.models import Battery, Rpas, RpasModel
 
-
+User = get_user_model()
 # Create your models here.
 
 
@@ -96,7 +95,6 @@ class FlightLog(models.Model):
         return str(self.reserve_airspace.application_number)
 
     def save(self, *args, **kwargs):
-
         if not self.post_flight:
             x = MissionWrap.objects.create()
             x.mission_success = False
@@ -133,7 +131,6 @@ class FlightLog(models.Model):
         return post_flight_pk
 
     def get_pre_flight_completion(self):
-
         est_flight_time = self.pre_flight.est_flight_time
         weather = self.pre_flight.weather
         altitude = self.pre_flight.altitude
@@ -149,7 +146,6 @@ class FlightLog(models.Model):
         return progress
 
     def get_post_flight_completion(self):
-
         damages = self.post_flight.damages
         comments = self.post_flight.comments
 
@@ -187,19 +183,21 @@ class Checklist(models.Model):
 
 
 class ChecklistItem(models.Model):
-    item_title = models.CharField(max_length=40)
+    item_title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
+    category = models.CharField(max_length=50, blank=True, null=True)
+    is_optional = models.BooleanField(default=False)
     picture = models.ImageField(
-        upload_to="images/checklists/profile_pic", blank=True, null=True
+        upload_to="images/checklists/", blank=True, null=True
     )
 
     def __str__(self):
-        return self.item_title
+        return f"{self.category}: {self.item_title}"
 
 
 class ChecklistGroup(models.Model):
     title = models.CharField(max_length=100)
-    checklists = models.ManyToManyField(ChecklistItem, related_name="checklists")
+    checklists = models.ManyToManyField(ChecklistItem, related_name="checklist_groups")
 
     CHECKLIST_TYPE = (
         ("PRE", "Pre-Flight"),
@@ -212,7 +210,9 @@ class ChecklistGroup(models.Model):
         ("OTH", "Other"),
     )
 
-    checklist_type = models.CharField(max_length=3, choices=CHECKLIST_TYPE, blank=True,null=True)
+    checklist_type = models.CharField(
+        max_length=3, choices=CHECKLIST_TYPE, blank=True, null=True
+    )
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -220,3 +220,13 @@ class ChecklistGroup(models.Model):
     def __str__(self):
         return self.title
 
+
+class ChecklistSubmission(models.Model):
+    flight_log = models.ForeignKey("FlightLog", on_delete=models.CASCADE, related_name="checklist_submissions")
+    checklist_group = models.ForeignKey(ChecklistGroup, on_delete=models.SET_NULL, null=True)
+    results = models.JSONField(default=list)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    submitted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"Submission for {self.flight_log} - {self.checklist_group}"

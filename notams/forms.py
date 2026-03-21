@@ -1,13 +1,12 @@
 from django import forms
 from django.forms import widgets
 
+from bootstrap_datepicker_plus.widgets import TimePickerInput
 from leaflet.forms.widgets import LeafletWidget
 
-# from datetimewidget.widgets import TimeWidget
-
-from bootstrap_datepicker_plus import TimePickerInput
-
 from .models import NotamAirspace
+
+# from datetimewidget.widgets import TimeWidget
 
 
 class ExtLeafletWidget(LeafletWidget):

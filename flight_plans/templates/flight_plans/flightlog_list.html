@@ -6,135 +6,121 @@
 <title>View Logs</title>
 {%endblock%}
 
-{%block body%}
-
-
-<section class="content">
-
-  <div class="row">
-    <!-- <div class="col-sm-4">
-      <nav aria-label="breadcrumb" role="navigation">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">My Logs</li>
-      </ol>
-      </nav>
-    </div> -->
-    <div class="col-sm-4">
-      <nav aria-label="breadcrumb" role="navigation">
-      <ol class="breadcrumb">
-        <li>Pilot: {{user.first_name}} {{user.last_name}}</li>
-      </ol>
-      </nav>
-    </div>
-   
-  </div>
-
-<div class="row">
-  {% for log in mylogs %}
-
-  <div class="col-sm-3">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h4 class="panel-title">Log No:<b> {{log.reserve_airspace.application_number}}</b></h4>
-      </div>
-      <div class="panel-body">
-        <h6 class="card-subtitle mb-2 text-muted">Date: <b>{{log.reserve_airspace.get_start_datetime}}</b></h6>
-      <p></p>
-        RPAS Used: <b>{{log.reserve_airspace.rpas}}</b>
-        <br>
-        Purpose: <b>{{log.reserve_airspace.get_mission_type_display}}</b>
-        <br>
-        Number of flights: <b>{{log.pre_flight.no_of_flights}}</b>
-        <br>
-        Area Size:<b> {{log.reserve_airspace.get_area}} sq. km </b>
-        
-        <p></p>
-
-        <small>Pre-Flight Completion</small>
-        <span class='pull-right'>
-
-            {% if log.get_pre_flight_completion != 100 %}
-              <a href="{% url 'pre_flight_update' pk=log.get_pre_flight_pk %}">
-                <i class="fa fa-external-link" aria-hidden="true">
-                  <small> Complete</small>
-                </i>
-              </a>
-              {% else %}
-              <i class="fa fa-check" aria-hidden="true"></i>
-                <small> Done</small>
-              </i>
-            {% endif %}
-        </span>
-
-        <div class="progress">
-          <div class="progress-bar progress-bar-striped " role="progressbar"
-          style="width: {{log.get_pre_flight_completion}}%" aria-valuenow="{{log.get_pre_flight_completion}}"
-          aria-valuemin="0" aria-valuemax="100"></div>
+{% block body %}
+    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800">Flight Logs</h1>
+            <nav class="flex text-sm text-gray-500 mt-1" aria-label="Breadcrumb">
+              <ol class="flex items-center space-x-2">
+                <li><a href="{% url 'home' %}" class="hover:text-blue-600">Home</a></li>
+                <li><span class="mx-2 text-gray-400">/</span></li>
+                <li class="font-medium text-gray-700">My Flight Logs</li>
+              </ol>
+            </nav>
         </div>
-
-        <small> Post-Flight Completion</small>
-        <span class='pull-right'>
-
-            {% if log.get_post_flight_completion != 100 %}
-              <a href="{% url 'post_flight_update' pk=log.get_post_flight_pk %}">
-                <i class="fa fa-external-link" aria-hidden="true">
-                  <small> Complete</small>
-                </i>
-              </a>
-              {% else %}
-              <i class="fa fa-check" aria-hidden="true"></i>
-                <small> Done</small>
-              </i>
-            {% endif %}
-        </span>
-
-        <div class="progress">
-          <div class="progress-bar progress-bar-striped" role="progressbar"
-          style="width: {{log.get_post_flight_completion}}%" aria-valuenow="{{log.get_post_flight_completion}}"
-          aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="flex items-center gap-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                <svg class="mr-1.5 h-3 w-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
+                Pilot: {{user.get_full_name|default:user.username}}
+            </span>
         </div>
-
-        <small>Approval Status</small>
-        <span class='pull-right'>
-            {% if log.reserve_airspace.status == 0 %}
-            <i class="fa fa-spinner" aria-hidden="true"></i>
-                <small> Pending</small>
-              </i>
-              {% elif log.reserve_airspace.status == 1 %}
-              <i class="fa fa-times" aria-hidden="true"></i>
-                <small> Rejected</small>
-              </i>
-              {% else %}
-              <i class="fa fa-check" aria-hidden="true"></i>
-                <small> Approved</small>
-              </i>
-            {% endif %}
-        </span>
-
-
-
-      </div>
-
-      <div class="panel-footer">
-        <a class="btn btn-primary" href="{% url 'log_detail' pk=log.pk %}" role="button">
-          <i class="fa fa-eye" aria-hidden="true"></i>
-          View </a>
-        <a class="btn btn-primary" href="{% url 'log_update' pk=log.pk %}" role="button">
-          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-          Update
-        </a>
-      </div>
     </div>
-  </div>
 
-    {%endfor%}
-</div>
-<!-- row -->
+    <!-- Flight Logs Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {% for log in mylogs %}
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col hover:shadow-md transition-all overflow-hidden border-t-4 {% if log.reserve_airspace.status == 2 %}border-t-green-500{% elif log.reserve_airspace.status == 1 %}border-t-red-500{% else %}border-t-blue-500{% endif %}">
+            <div class="px-5 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+                <div>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Log Number</p>
+                    <h3 class="text-sm font-bold text-gray-800">{{log.reserve_airspace.application_number}}</h3>
+                </div>
+                <div class="shrink-0">
+                    {% if log.reserve_airspace.status == 2 %}
+                        <span class="text-green-500"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg></span>
+                    {% elif log.reserve_airspace.status == 1 %}
+                        <span class="text-red-500"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg></span>
+                    {% else %}
+                        <span class="text-blue-500 animate-pulse"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" /></svg></span>
+                    {% endif %}
+                </div>
+            </div>
 
+            <div class="p-5 flex-grow space-y-4">
+                <!-- Flight Meta -->
+                <div class="grid grid-cols-2 gap-4 text-xs">
+                    <div>
+                        <p class="text-gray-400 font-bold uppercase">Date</p>
+                        <p class="font-semibold text-gray-900">{{log.reserve_airspace.get_start_datetime|date:"M d, Y"}}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400 font-bold uppercase">Flights</p>
+                        <p class="font-semibold text-gray-900">{{log.pre_flight.no_of_flights|default:"0"}} recorded</p>
+                    </div>
+                </div>
 
+                <div class="pt-3 border-t border-gray-100 space-y-2">
+                    <div class="flex items-center text-sm">
+                        <svg class="h-4 w-4 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                        <span class="text-gray-600 truncate">RPAS: <span class="font-bold text-gray-900">{{log.reserve_airspace.rpas}}</span></span>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <svg class="h-4 w-4 text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                        <span class="text-gray-600 truncate">Mission: <span class="font-medium text-gray-900">{{log.reserve_airspace.get_mission_type_display}}</span></span>
+                    </div>
+                </div>
 
-</section>
+                <!-- Completion Task Lists -->
+                <div class="space-y-4">
+                    <!-- Pre-Flight -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-end">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase">Pre-Flight Check</span>
+                            {% if log.get_pre_flight_completion != 100 %}
+                                <a href="{% url 'pre_flight_update' pk=log.get_pre_flight_pk %}" class="text-[10px] text-blue-600 hover:underline font-bold">COMPLETE</a>
+                            {% else %}
+                                <span class="text-[10px] text-green-600 font-bold flex items-center"><svg class="h-3 w-3 mr-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg> DONE</span>
+                            {% endif %}
+                        </div>
+                        <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div style="width:{{log.get_pre_flight_completion}}%" class="h-full bg-blue-500 rounded-full"></div>
+                        </div>
+                    </div>
 
+                    <!-- Post-Flight -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between items-end">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase">Post-Flight Log</span>
+                            {% if log.get_post_flight_completion != 100 %}
+                                <a href="{% url 'post_flight_update' pk=log.get_post_flight_pk %}" class="text-[10px] text-blue-600 hover:underline font-bold">COMPLETE</a>
+                            {% else %}
+                                <span class="text-[10px] text-green-600 font-bold flex items-center"><svg class="h-3 w-3 mr-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg> DONE</span>
+                            {% endif %}
+                        </div>
+                        <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div style="width:{{log.get_post_flight_completion}}%" class="h-full bg-emerald-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  {%endblock%}
+            <div class="px-3 py-3 border-t border-gray-100 bg-gray-50 flex gap-2">
+                <a href="{% url 'log_detail' pk=log.pk %}" class="flex-1 inline-flex justify-center items-center py-2 bg-white border border-gray-300 rounded-lg text-xs font-bold text-gray-700 hover:bg-gray-50 shadow-sm transition-all">
+                    <svg class="mr-1.5 h-3.5 w-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                    View
+                </a>
+                <a href="{% url 'log_update' pk=log.pk %}" class="flex-1 inline-flex justify-center items-center py-2 bg-blue-600 rounded-lg text-xs font-bold text-white hover:bg-blue-700 shadow-sm transition-all">
+                    <svg class="mr-1.5 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                    Update
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full py-16 text-center bg-white rounded-xl border-2 border-dashed border-gray-200">
+             <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No flight logs found</h3>
+            <p class="mt-1 text-sm text-gray-500">Records of your flights will appear here once you start operation.</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

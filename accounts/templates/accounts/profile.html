@@ -1,189 +1,141 @@
 {% extends "base.html" %}
 
-{% block head %}
-
-{% if request.user == userprofile.user%}
-    <title>My Profile</title>
-    {% else %}
-    <title>Profile</title>
-    {% endif %}
+{% block header %}
+    <title>{% if request.user == userprofile.user %}My Profile{% else %}Profile | {{ userprofile.user.get_full_name }}{% endif %}</title>
 {% endblock %}
-
-
 
 {% block body %}
-
-
-<section class="content-header">
-
-  {% if request.user == userprofile.user%}
-      <h5> Hey  <b>{{ userprofile.user.get_full_name }}</b>,
-    <small> Welcome To Your Profile!</small> </h5>
-  <ol class="breadcrumb">
-    <li><a href="{% url 'home' %}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><a href="">My Profile</a></li>
-  </ol>
-  {% else %}
-
-      <h5>  <b>{{ userprofile.user.get_full_name }}</b> |
-    <small> Profile Page</small> </h5>
-  <ol class="breadcrumb">
-    <li><a href="{% url 'home' %}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><a href="">{{userprofile.user.username}}</a></li>
-  </ol>
-  {% endif %}
-</section>
-
-
-
-
-<section class="content">
-
-    <div class="row">
-
-      <div class="col-sm-4">
-
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <div class="media-center">
-              {% if userprofile.profile_pic %}
-              <img class="img-responsive" src="{{userprofile.profile_pic.url}}" alt="Profile Pic Missing!">
-              {%else%}
-              <img class="img-responsive" src="" alt="Profile Pic Missing!">
-              {% endif %}
+    <div class="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div class="flex items-center gap-6">
+            <!-- Profile Avatar -->
+            <div class="relative group">
+                <div class="w-24 h-24 rounded-3xl overflow-hidden ring-4 ring-white shadow-xl bg-gray-100 flex items-center justify-center border border-gray-100 transition-transform duration-300 group-hover:scale-105">
+                    {% if userprofile.profile_pic %}
+                        <img class="w-full h-full object-cover" src="{{userprofile.profile_pic.url}}" alt="{{ userprofile.user.get_full_name }}">
+                    {% else %}
+                        <svg class="w-12 h-12 text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    {% endif %}
+                </div>
+                {% if request.user == userprofile.user %}
+                <a href="{% url 'accounts:edit_profile' pk=user.pk %}" class="absolute -bottom-2 -right-2 p-2 bg-blue-600 rounded-xl text-white shadow-lg hover:bg-blue-700 transition-colors border-2 border-white">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                </a>
+                {% endif %}
             </div>
-            <hr>
-            <h4 class="card-title">{{ userprofile.user.get_full_name }}</h4>
-            <h6 class="card-title">Phone No: {{ userprofile.phone_number }}</h6>
-            <p class="card-text">Bio: {{ userprofile.bio|linebreaks }}</p>
-          </div>
 
-          {% if request.user == userprofile.user%}
-          <div class="panel-footer">
-            <a class="btn btn-primary" href="{% url 'accounts:edit_profile' pk=user.pk %}"
-            role="button"> <i class="fa fa-user-o" aria-hidden="true"></i>
-            Edit Profile</a>
+            <div>
+                <div class="flex items-center gap-3">
+                    <h1 class="text-3xl font-black text-gray-900 leading-none">{{ userprofile.user.get_full_name }}</h1>
+                    {% if userprofile.user.is_staff %}
+                    <span class="px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-widest rounded-full border border-blue-100">Staff</span>
+                    {% endif %}
+                </div>
+                <p class="text-gray-500 mt-2 font-medium">{{ userprofile.user.email }}</p>
+                <div class="flex items-center gap-4 mt-3 text-xs text-gray-400 font-bold uppercase tracking-wider">
+                    <span class="flex items-center"><svg class="w-3.5 h-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>{{ userprofile.phone_number|default:"No phone" }}</span>
+                </div>
+            </div>
+        </div>
+
+        {% if request.user == userprofile.user %}
+        <div class="bg-blue-50 rounded-2xl px-6 py-4 border border-blue-100 flex items-center gap-4">
+            <div class="text-center px-4 border-r border-blue-200">
+                <p class="text-[10px] text-blue-500 font-black uppercase">Flights</p>
+                <p class="text-lg font-bold text-blue-800">{{ myflightlogs|length }}</p>
+            </div>
+            <div class="text-center px-4">
+                <p class="text-[10px] text-blue-500 font-black uppercase">Experience</p>
+                <p class="text-lg font-bold text-blue-800">Verified</p>
+            </div>
         </div>
         {% endif %}
-      </div>
+    </div>
 
-      </div>
-      <p></p>
-      <!-- To give spacing to next card in mobile -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        <!-- Bio & Details (1/3) -->
+        <div class="space-y-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+                <h3 class="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">About Pilot</h3>
+                <div class="prose prose-sm text-gray-600 leading-relaxed font-medium">
+                    {{ userprofile.bio|linebreaks|default:"This pilot hasn't added a bio yet." }}
+                </div>
+            </div>
 
-
-
-
-
-      <div class="col-sm-4">
-        <div class="panel panel-primary">
-          <!-- Default panel contents -->
-          <div class="panel-heading">My Flight Logs</div>
-          <div class="panel-body">
-          <small> Includes Flights even as co-pilot</small>
-          </div>
-          <ul class="list-group">
-              <!-- List group -->
-          {% for logs in myflightlogs %}
-
-            <li class="list-group-item">
-              <span class="badge">Done</span>
-              <a href="{% url 'log_detail' pk=logs.pk %}">{{logs}}</a>
-            </li>
-              {% endfor %}
-          </ul>
+            <!-- Profile Actions -->
+            {% if request.user == userprofile.user %}
+            <div class="grid grid-cols-1 gap-3">
+                <a href="{% url 'accounts:edit_profile' pk=user.pk %}" class="flex justify-center items-center py-3 bg-white border border-gray-300 rounded-xl text-sm font-bold text-gray-700 hover:bg-gray-50 shadow-sm transition-all focus:ring-2 focus:ring-blue-500">
+                    <svg class="mr-2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    Account Settings
+                </a>
+            </div>
+            {% endif %}
         </div>
 
-        <div class="panel panel-primary">
-          <!-- Default panel contents -->
-          <div class="panel-heading">My RPAS</div>
-          <div class="panel-body">
-            <small> Includes All Rpas by your Organization</small>
-          </div>
-          <ul class="list-group">
-              <!-- List group -->
-          {% for rpas in myrpas %}
+        <!-- Activity & Assets (2/3) -->
+        <div class="lg:col-span-2 space-y-8">
+            <!-- Flight Logs -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-emerald-100 rounded-lg text-emerald-600">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800">Flight Activity</h3>
+                    </div>
+                </div>
+                <div class="divide-y divide-gray-100">
+                    {% for logs in myflightlogs %}
+                    <a href="{% url 'log_detail' pk=logs.pk %}" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center font-bold text-gray-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors">
+                                {{ forloop.counter }}
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-gray-900">{{ logs }}</p>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Mission Record</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-widest rounded-full border border-emerald-100">Success</span>
+                            <svg class="w-4 h-4 text-gray-300 group-hover:text-emerald-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <div class="p-12 text-center">
+                        <p class="text-sm text-gray-400 font-medium italic italic">No flight logs recorded yet.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
 
-            <li class="list-group-item">
-              <span class="badge">{{rpas.rpas_serial}}</span>
-              <a href="{% url 'rpas_detail' pk=rpas.pk %}"> {{rpas}}</a>
-            </li>
-              {% endfor %}
-          </ul>
+            <!-- RPAS Assets -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-100 rounded-lg text-blue-600">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800">Registered Aircraft</h3>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+                    {% for rpas in myrpas %}
+                    <div class="p-4 rounded-xl border border-gray-100 bg-gray-50/50 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-bold text-gray-900">{{ rpas.rpas_nickname|default:rpas.rpas_model }}</p>
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{{ rpas.rpas_serial }}</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-lg bg-white border border-gray-100 flex items-center justify-center text-blue-500 shadow-sm">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="col-span-full py-8 text-center text-sm text-gray-400 font-medium">No aircraft registered.</p>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-
-      <div class="list-group">
-        <a href="" class="list-group-item active">
-          Flights
-        </a>
-        <a href="#" class="list-group-item">
-          <i class="fa fa-clock-o" aria-hidden="true"></i>
-          Total Hours: xx
-        </a>
-        <a href="#" class="list-group-item">
-          <i class="fa fa-plane" aria-hidden="true"></i>
-          Rated Aircrafts: xx
-        </a>
-        <a href="#" class="list-group-item">
-          <i class="fa fa-certificate" aria-hidden="true"></i>
-          Certificates: xx
-        </a>
-      </div>
-
-</div>
-
-
-  <div class="col-sm-4">
-
-    <div class="panel panel-primary">
-      <!-- Default panel contents -->
-      <div class="panel-heading">Info</div>
-
-      <ul class="list-group">
-        <li class="list-group-item">
-          Username: {{ userprofile.user.username }}
-        </li>
-        <li class="list-group-item">
-          <i class="fa fa-map-marker" aria-hidden="true"></i>
-          Location: {{ userprofile.location }}
-        </li>
-        <li class="list-group-item">
-          <i class="fa fa-calendar" aria-hidden="true"></i>
-          Birth Date: {{ userprofile.birth_date }}
-        </li>
-
-      </ul>
     </div>
-
-
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">Organization</h3>
-      </div>
-      <div class="panel-body">
-
-        <i class="fa fa-building" aria-hidden="true"></i>
-        Company: {{ userprofile.organization.organization_details.name }}
-<p></p>
-        <i class="fa fa-certificate" aria-hidden="true"></i>
-        ROC No: {{ userprofile.organization }}</p>
-<p></p>
-        <i class="fa fa-map-marker" aria-hidden="true"></i>
-        Location: {{ userprofile.organization.organization_details.city }}
-<p></p>
-<a href="{{ userprofile.organization.organization_details.website}}" target="_blank">
-        <i class="fa fa-external-link" aria-hidden="true"></i>
-        {{ userprofile.organization.organization_details.website}}</a>
-
-      </div>
-    </div>
-
-  </div>
-
-
-    </div>
-
-
-</section>
-
 {% endblock %}
+

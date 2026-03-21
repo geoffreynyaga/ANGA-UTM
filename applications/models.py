@@ -196,30 +196,32 @@
 # Copyright (c) 2020 ANGA UTM.                                                   #
 ##################################################################################
 
-from datetime import datetime, date, timedelta
+from datetime import date, datetime, timedelta
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models as gis_models
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.db import models
 
+User = get_user_model()
 # from django.contrib.gis.db.models import GeoManager
 from django.db.models import Manager as GeoManager
-from django.core.exceptions import ValidationError
 from django.urls import reverse
-from django.db import models
 from django.utils.safestring import mark_safe
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 from maps.models import GeofenceLocations, LocationPoints
-
 from notifications.send_a_notification import send_a_notification
 from rpas.models import Rpas
+
+from organizations.models import Organization
 
 from .logs import mission_planner_logs
 from .validators import validate_start_date
 
 
 class LogsUpload(models.Model):
-
     name = models.CharField(max_length=240)
     geom = gis_models.GeometryField(blank=True, null=True)
     log = models.FileField(upload_to="mission-planner-logs/", blank=True, null=True)
@@ -238,6 +240,50 @@ class LogsUpload(models.Model):
             self.geom = multi_line
 
         super(LogsUpload, self).save(*args, **kwargs)
+
+
+class Client(models.Model):
+    name = models.CharField(max_length=240)
+    phone_number = PhoneNumberField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    pin_location = gis_models.PointField(blank=True, null=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=240, help_text="e.g. Kisumu March operations")
+    description = models.TextField(blank=True, null=True)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, blank=True, null=True)
+
+
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    is_complete = models.BooleanField(default=False)
+
+    start_date = models.DateField(default=date.today)
+    end_date = models.DateField(default=date.today)
+
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+    def save(self, *args, **kwargs):
+        if not self.organization:
+            try:
+                self.organization = self.created_by.userprofile.organization
+            except (AttributeError, ObjectDoesNotExist):
+                pass
+        super(Project, self).save(*args, **kwargs)
+
 
 
 class ReserveAirspace(gis_models.Model):
@@ -271,7 +317,8 @@ class ReserveAirspace(gis_models.Model):
     The objects field is a modelclass manager that inherits from Geodjango's default manager
     NB: This is slightly diffrent for Django 2+ users
     """
-    rpas = models.ForeignKey(Rpas, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True)
+    rpas = models.ManyToManyField(Rpas)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     start_day = models.DateField(default=date.today, validators=[validate_start_date])
@@ -285,9 +332,11 @@ class ReserveAirspace(gis_models.Model):
     STATUS = ((PENDING, "PENDING"), (DENIED, "DENIED"), (APPROVED, "APPROVED"))
 
     OBJECTIVE = (
+        ("SPRAY", "Spraying"),
+        ("SPREAD", "Spreading"),
+        ("PHOTO", "Photography"),
         ("TRAIN", "Training"),
         ("MAPP", "Mapping"),
-        ("3DM", "3D Mapping"),
         ("DELV", "Delivery"),
         ("INSP", "Inspection"),
         ("SURV", "Surveillance"),
@@ -295,7 +344,7 @@ class ReserveAirspace(gis_models.Model):
         ("OTH", "Other"),
     )
     mission_type = models.CharField(
-        max_length=5, choices=OBJECTIVE, null=False, default="OTH"
+        max_length=10, choices=OBJECTIVE, null=False, default="OTH"
     )
 
     application_number = models.CharField(max_length=255, blank=True, null=True)
@@ -313,7 +362,6 @@ class ReserveAirspace(gis_models.Model):
     expiry = gis_models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-
         if self.geom:
             self.centroid = self.geom.centroid
 
@@ -391,7 +439,6 @@ class ReserveAirspace(gis_models.Model):
         super(ReserveAirspace, self)
 
     def clean(self):
-
         super(ReserveAirspace, self).clean()
         """ Do i really need the super method above?
         """
@@ -426,8 +473,9 @@ class ReserveAirspace(gis_models.Model):
                 raise ValidationError("Cannot book airspace for more three hours!")
             elif (c / 3600) < 0:
                 raise ValidationError(
-                    "Cmon man!! You can not start a flight at "
-                    "{:%H:%M:%S}".format(self.start_time)
+                    "Cmon man!! You can not start a flight at " "{:%H:%M:%S}".format(
+                        self.start_time
+                    )
                     + " and then GO BACK IN TIME to "
                     + "{:%H:%M:%S}".format(self.end)
                     + " to end your flight"
@@ -511,18 +559,16 @@ class ReserveAirspace(gis_models.Model):
                 if e:
                     raise ValidationError(
                         (
-                            (
-                                mark_safe(
-                                    "Cannot book airspace in this zone!!"
-                                    + "You have violed the folowing Airspace(s)"
-                                    + "<hr>"
-                                    + "<p></p>"
-                                    + "<b>"
-                                    + str(e)
-                                    + "<br> "
-                                    + "<hr>"
-                                    + '<a href="/applications/airspace/">Go To Airspace</a>'
-                                )
+                            mark_safe(
+                                "Cannot book airspace in this zone!!"
+                                + "You have violed the folowing Airspace(s)"
+                                + "<hr>"
+                                + "<p></p>"
+                                + "<b>"
+                                + str(e)
+                                + "<br> "
+                                + "<hr>"
+                                + '<a href="/applications/airspace/">Go To Airspace</a>'
                             )
                         )
                     )
@@ -563,7 +609,7 @@ class ReserveAirspace(gis_models.Model):
 
     @property
     def get_rpas(self):
-        return str(self.rpas.rpas_model.model_name)
+        return ", ".join([str(r.rpas_model.model_name) for r in self.rpas.all()])
 
     @property
     def get_name(self):
@@ -579,7 +625,8 @@ class ReserveAirspace(gis_models.Model):
 
     @property
     def get_rpas_pic(self):
-        return str(self.rpas.rpas_pic.url)
+        first_rpas = self.rpas.first()
+        return str(first_rpas.rpas_pic.url) if first_rpas else ""
 
     @property
     def get_start_day(self):
@@ -590,7 +637,7 @@ class ReserveAirspace(gis_models.Model):
 
     @property
     def get_airframe_type(self):
-        return str(self.rpas.rpas_model.rpas_model_type)
+        return ", ".join(list(set([str(r.rpas_model.rpas_model_type) for r in self.rpas.all()])))
 
     @property
     def get_log_completion_deadline(self):

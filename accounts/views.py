@@ -1,24 +1,23 @@
-from django.shortcuts import render
-
-from django.contrib.auth import login, logout
+from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.core.exceptions import PermissionDenied
-from django.urls import reverse_lazy
 from django.forms.models import inlineformset_factory
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 from flight_plans.models import FlightLog
 from rpas.models import Rpas
 
+User = get_user_model()
 from . import (
     forms,
-)  # TODO: where is this needed? see line below and resolve to use just one in this doc
+)
+
+# TODO: where is this needed? see line below and resolve to use just one in this doc
 from .forms import UserForm
 from .models import UserProfile
 
@@ -136,3 +135,11 @@ def error_404(request, exception):
 def error_500(request):
     data = {}
     return render(request, "errors/500.html", data)
+
+
+class OpenAPI(generic.TemplateView):
+    template_name = "test_openAPI.html"
+
+
+class OpenAPIMapbox(generic.TemplateView):
+    template_name = "test_openAPI_mapbox.html"

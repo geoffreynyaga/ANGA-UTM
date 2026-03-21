@@ -1,17 +1,16 @@
-from django.conf.urls import url
+from django.urls import include, path, re_path
 
 from . import views
 
 app_name = "notifications"
 
 urlpatterns = [
-    url(r"^$", views.NotificationsListView.as_view(), name="notifications_list"),
-    url(r"^mark-all$", views.mark_all_notifications_as_read, name="mark_all_as_read"),
-    url(
+    re_path(r"^$", views.NotificationsListView.as_view(), name="notifications_list"),
+    re_path(r"^mark-all$", views.mark_all_notifications_as_read, name="mark_all_as_read"),
+    re_path(
         r"^(?P<pk>\d+)/delete/$",
         views.NotificationDeleteView.as_view(),
         name="notification_delete",
     ),
-    url(r"^test$", views.test_notifications, name="test_notification"),
+    re_path(r"^test$", views.test_notifications, name="test_notification"),
 ]
-

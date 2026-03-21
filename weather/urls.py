@@ -1,11 +1,8 @@
-from django.conf.urls import url
+from django.urls import include, path, re_path
 
 from . import views
 
 urlpatterns = [
-    url(r'^old/$', views.weather, name='old-weather'),
-
-    url(r'^$', views.WeatherView.as_view(), name='weather'),
-
-
-    ]
+    re_path(r"^old/$", views.weather, name="old-weather"),
+    re_path(r"^$", views.WeatherView.as_view(), name="weather"),
+]

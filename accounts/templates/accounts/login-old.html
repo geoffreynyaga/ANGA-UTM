@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+    <title>Login</title>
+    <style type="text/css">
+        .lockscreen-wrapper {
+            margin-top: 10px;
+        }
+        
+        .pull-right {
+            float: right;
+        }
+        
+        .lockscreen-credentials {
+            width: 50%;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <body class="hold-transition lockscreen " style="background-color: #f7f7f7">
+        <!-- Right Pane -->
+        <!-- Automatic element centering -->
+        <div class="lockscreen-wrapper" style="background-color: #f7f7f7">
+            <div class="lockscreen-logo">
+                <img src="{% static 'logo/logo.png' %}"
+                     class="img-responsive center-block"
+                     alt="."
+                     style="max-height:120px" />
+                <b>Login</b>
+            </div>
+            <p>
+                <strong>{{ form.non_field_errors }}</strong>
+            </p>
+            {% comment %} <!-- START LOCK SCREEN ITEM --> {% endcomment %}
+            <div class="lockscreen-item">
+                {% comment %} <!-- lockscreen credentials (contains the form) --> {% endcomment %}
+                <form class="lockscreen-credentials" method="post">
+                    <div class="w-full py-8 input-group">
+                        {% csrf_token %}
+                        {{ form.fieldname.errors }}
+                        <br>
+                        {% comment %} <!-- <span>Email: {{ form.email }}</span>
+                        <p></p>
+<span>Password: {{ form.password }}
+
+                        </span> --> {% endcomment %}
+                        {{ form|crispy }}
+                        <span>
+                            <button type="submit" class="btn" style="float: right">
+                                <i class="fa fa-arrow-right text-muted fa-2x"></i>
+                            </button>
+                        </span>
+                        <p></p>
+                        <span></span>
+                    </div>
+                </form>
+            </div>
+            {% comment %} <!-- /.lockscreen-item --> {% endcomment %}
+            <div class="text-center">
+                <a href="{% url 'accounts:signup' %}"><b>Or Sign Up here</b></a>
+            </div>
+            <div class="text-center lockscreen-footer">
+                Copyright <b>ANGA UTM &copy; 2018</b> <a href="" class="text-black">| Geoffrey Nyaga</a>
+                <br />
+                All rights reserved
+            </div>
+        </div>
+    </body>
+{% endblock %}

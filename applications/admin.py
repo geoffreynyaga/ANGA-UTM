@@ -2,13 +2,15 @@ from django.contrib import admin
 
 from leaflet.admin import LeafletGeoAdmin
 
-from .models import ReserveAirspace, LogsUpload
+from .models import ReserveAirspace, LogsUpload, Client, Project
 
 
 # Register your models here.
+admin.site.register(Client)
+admin.site.register(Project)
 
 class ReserveAirspaceAdmin(LeafletGeoAdmin):
-    list_display = ('created_by', 'application_number','status',
+    list_display = ('project','created_by', 'application_number','status',
                     'expiry', 'get_start_datetime', 'comments')
 
     def save_model(self, request, instance, form, change):

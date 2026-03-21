@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Organization, OrganizationDetails, PostHolder
+from .models import Organization, OrganizationDetails
 
 
 class OrganizationDetailsAdmin(admin.ModelAdmin):
@@ -17,10 +17,3 @@ class OrganizationAdmin(admin.ModelAdmin):
 admin.site.register(Organization, OrganizationAdmin)
 
 ###############################################################################
-
-
-class PostHolderAdmin(admin.ModelAdmin):
-    list_display = ("user", "organization", "role")
-
-
-admin.site.register(PostHolder, PostHolderAdmin)

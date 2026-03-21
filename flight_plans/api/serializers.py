@@ -1,6 +1,6 @@
 from applications.models import ReserveAirspace
 from rest_framework import serializers
-from flight_plans.models import ChecklistGroup, ChecklistItem, FlightLog
+from flight_plans.models import ChecklistGroup, ChecklistItem, FlightLog, ChecklistSubmission
 from django.contrib.humanize.templatetags import humanize
 
 
@@ -118,19 +118,28 @@ class CheckListItemSerializer(serializers.ModelSerializer):
             "id",
             "item_title",
             "description",
+            "category",
+            "is_optional",
             "picture",
         )
 
 
 class CheckListDetailSerializer(serializers.ModelSerializer):
-    checklists = CheckListItemSerializer(read_only=True, many=True)
+    items = CheckListItemSerializer(source="checklists", read_only=True, many=True)
 
     class Meta:
         model = ChecklistGroup
         fields = (
+            "id",
             "title",
-            "checklists",
+            "items",
         )
+
+
+class ChecklistSubmissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChecklistSubmission
+        fields = "__all__"
 
 
 class CheckListAllSerializer(serializers.ModelSerializer):

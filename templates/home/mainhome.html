@@ -6,119 +6,61 @@
 
 
 {%block body%}
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">My Dashboard</h1>
+        <nav class="flex mt-1 text-sm text-gray-500" aria-label="Breadcrumb">
+          <ol class="flex items-center space-x-2">
+            <li><a href="{%url 'home'%}" class="hover:text-blue-600">Home</a></li>
+            <li><span class="mx-2 text-gray-400">/</span></li>
+            <li class="font-medium text-gray-700">My Dashboard</li>
+          </ol>
+        </nav>
+    </div>
 
-
-    <section class="content-header">
-        <!--<h1>
-            My Dashboard
-          <small>Summary</small>
-        </h1>-->
-        <ol class="breadcrumb">
-          <li><a href="{%url 'home'%}"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li class="active">My Dashboard</li>
-        </ol>
-    </section>
-
-      <!-- Main content -->
-      <section class="content">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-          <div class="col-lg-6 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-aqua">
-              <div class="inner">
-                <h3><i class=ion-ios-navigate-outline></i></h3>
-
-                <p>Airspace Reservations </p>
-              </div>
-              <div class="icon">
-                <i class=ion-ios-navigate-outline></i>
-              </div>
-              <a href="{% url 'reserve_main' %}" class="small-box-footer">Go <i class="fa fa-arrow-circle-right"></i></a>
+    <!-- Main content -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="flex items-center justify-between p-5 text-white rounded-lg bg-gradient-to-br from-blue-500 to-blue-600">
+            <div>
+              <h4 class="text-xl font-bold">Airspace Reservations</h4>
             </div>
+            <a href="{% url 'reserve_main' %}" class="inline-block px-3 py-2 bg-white rounded bg-opacity-20">Go</a>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-6 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-green">
-              <div class="inner">
-                <h3><i class=ion-paper-airplane></i></h3>
 
-                <p>My Rpas</p>
-              </div>
-              <div class="icon">
-                <i class=ion-paper-airplane></i>
-              </div>
-              <a href="{% url 'rpas_list' %}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          <div class="flex items-center justify-between p-5 text-white rounded-lg bg-gradient-to-br from-green-500 to-green-600">
+            <div>
+              <h4 class="text-xl font-bold">My Rpas</h4>
             </div>
+            <a href="{% url 'rpas_list' %}" class="inline-block px-3 py-2 bg-white rounded bg-opacity-20">More</a>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-6 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-yellow">
-              <div class="inner">
-                <h3><i class=ion-compass></i></h3>
 
-                <p>Flight Logs</p>
-              </div>
-              <div class="icon">
-                <i class=ion-compass></i>
-              </div>
-              <a href="{% url 'logs_list' %}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          <div class="flex items-center justify-between p-5 text-white rounded-lg bg-gradient-to-br from-yellow-400 to-yellow-500">
+            <div>
+              <h4 class="text-xl font-bold">Flight Logs</h4>
             </div>
+            <a href="{% url 'logs_list' %}" class="inline-block px-3 py-2 bg-white rounded bg-opacity-20">More</a>
           </div>
-          <!-- ./col -->
 
-          <div class="col-lg-6 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-red">
-              <div class="inner">
-                <h3><i class="ion-earth"></i></h3>
-
-                <p>Geofences</p>
-              </div>
-              <div class="icon">
-                <i class="ion-earth"></i>
-              </div>
-              <a href="{% url 'view_geofences' %}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          <div class="flex items-center justify-between p-5 text-white rounded-lg bg-gradient-to-br from-red-500 to-red-600">
+            <div>
+              <h4 class="text-xl font-bold">Geofences</h4>
             </div>
+            <a href="{% url 'view_geofences' %}" class="inline-block px-3 py-2 bg-white rounded bg-opacity-20">More</a>
           </div>
-          <!-- ./col -->
 
-          <div class="col-lg-6 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-blue">
-              <div class="inner">
-                <h3><i class="ion-ios-partlysunny"></i></h3>
-
-                <p>Weather</p>
-              </div>
-              <div class="icon">
-                <i class="ion-ios-partlysunny"></i>
-              </div>
-              <a href="{% url 'weather' %}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          <div class="flex items-center justify-between p-5 text-white rounded-lg bg-gradient-to-br from-blue-400 to-blue-500">
+            <div>
+              <h4 class="text-xl font-bold">Weather</h4>
             </div>
+            <a href="{% url 'weather' %}" class="inline-block px-3 py-2 bg-white rounded bg-opacity-20">More</a>
           </div>
-          <!-- ./col -->
 
-
-          <div class="col-lg-6 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-white">
-              <div class="inner">
-                <h3><i class="ion-ios-list-outline"></i></h3>
-
-                <p>Checklists</p>
-              </div>
-              <div class="icon">
-                <i class="ion-ios-list-outline"></i>
-              </div>
-              <a href="{% url 'checklist_list' %}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          <div class="flex items-center justify-between p-5 bg-white border rounded-lg">
+            <div>
+              <h4 class="text-xl font-bold">Checklists</h4>
             </div>
+            <a href="{% url 'checklist_list' %}" class="inline-block px-3 py-2 text-blue-600 rounded">More</a>
           </div>
-          <!-- ./col -->
 
-
-  </section>
+    </div>
 
     {% endblock%}

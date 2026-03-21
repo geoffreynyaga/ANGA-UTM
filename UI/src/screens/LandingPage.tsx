@@ -1,105 +1,87 @@
-import React from "react";
+import {Route, Routes} from "react-router-dom";
 
-import SideBar from "./sideBar";
-import LandingPageMap from "./LandingPageMap";
-import Header from "./Header";
-import { Route, Switch } from "react-router-dom";
 import ApplicationMainPage from "./ApplicationMainPage";
-import CreateReserve from "./ApplicationMainPage/CreateReserve/CreateReserve";
-import ReservesHistory from "./ApplicationMainPage/ReservesHistory";
 import ApprovalLetters from "./ApplicationMainPage/ApprovalLetters";
-import Airspace from "./Airspace/index";
-import FlightLogsMainPage from "./FlightLogs";
+import CreateReserve from "./ApplicationMainPage/CreateReserve/CreateReserve";
 import FlightLogDetail from "./FlightLogs/FlightLogDetail";
 import FlightLogUpdate from "./FlightLogs/FlightLogUpdate";
-import UASMainPage from "../UAS";
-import UASList from "../UAS/UASList";
-import UASRegister from "../UAS/UASRegister";
-import UASCreate from "../UAS/UASCreate";
-import UASUpdate from "../UAS/UASUpdate";
-import UASDetails from "../UAS/UASDetails";
-import OrganizationsMainScreen from "./Organizations";
+import FlightLogsMainPage from "./FlightLogs";
+import Header from "./Header";
+import LandingPageMap from "./LandingPageMap";
 import MailMainScreen from "./Mail";
-import CalendarMainScreen from "./Calendar";
+import OrganizationsMainScreen from "./Organizations";
 import ProfileMainPage from "./Profile";
+import ReservesHistory from "./ApplicationMainPage/ReservesHistory";
+import SideBar from "./sideBar";
+import Signup from "../authentication/SignUp";
+import UASDetails from "../routes/UAS/UASDetails";
+import UASList from "../routes/UAS/UASList";
+import UASMainPage from "../routes/uas/index.tsx";
+import UASRegister from "../routes/UAS/UASRegister";
+import UASUpdate from "../routes/UAS/UASUpdate";
 
-function LandingPage() {
-  return (
-    <>
-      <SideBar />
+// import CalendarMainScreen from "./Calendar";
 
-      <div className="page-content">
-        {/* Page Header */}
-        <Header />
+export default function LandingPage() {
+    return (
+        <div>
+            <SideBar />
 
-        <Switch>
-          <Route exact path="/">
-            <LandingPageMap />
-          </Route>
+            <div className="page-content">
+                {/* Page Header */}
+                <Header />
 
-          <Route exact path="/profile">
-            <ProfileMainPage />
-          </Route>
+                <Routes>
+                    <Route path="/ui/" element={<LandingPageMap />} />
 
-          <Route exact path="/applications">
-            <ApplicationMainPage />
-          </Route>
-          <Route path="/applications/create">
-            <CreateReserve />
-          </Route>
-          <Route path="/applications/history">
-            <ReservesHistory />
-          </Route>
-          <Route path="/applications/approval-letters">
-            <ApprovalLetters />
-          </Route>
-          <Route path="/applications/airspace">
-            <Airspace />
-          </Route>
+                    <Route path="/ui/signup/" element={<Signup />} />
 
-          <Route exact path="/flight-plans/logs">
-            <FlightLogsMainPage />
-          </Route>
-          <Route exact path="/flight-plans/logs/:id">
-            <FlightLogDetail />
-          </Route>
-          <Route path="/flight-plans/logs/:id/update">
-            <FlightLogUpdate />
-          </Route>
+                    <Route path="/profile/" element={<ProfileMainPage />} />
+                    <Route path="/ui/applications/" element={<ApplicationMainPage />} />
+                    <Route path="/applications/create/" element={<CreateReserve />} />
+                    <Route
+                        path="/applications/history/"
+                        element={<ReservesHistory />}
+                    />
+                    <Route
+                        path="/applications/approval-letters/"
+                        element={<ApprovalLetters />}
+                    />
+                    <Route
+                        path="/flight-plans/logs/"
+                        element={<FlightLogsMainPage />}
+                    />
+                    <Route
+                        path="/flight-plans/logs/:id/"
+                        element={<FlightLogDetail />}
+                    />
+                    <Route
+                        path="/flight-plans/logs/:id/update/"
+                        element={<FlightLogUpdate />}
+                    />
+                    <Route
+                        path="/flight-plans/logs/"
+                        element={<FlightLogsMainPage />}
+                    />
 
-          <Route exact path="/uas">
-            <UASMainPage />
-          </Route>
+                    <Route path="/uas/" element={<UASMainPage />} />
+                    <Route path="/uas/list/" element={<UASList />} />
+                    <Route path="/uas/register/" element={<UASRegister />} />
+                    <Route path="/uas/register/" element={<UASRegister />} />
+                    <Route path="/uas/:id/" element={<UASDetails />} />
+                    <Route path="/uas/:id/update/" element={<UASUpdate />} />
 
-          <Route exact path="/uas/list">
-            <UASList />
-          </Route>
-          <Route exact path="/uas/register">
-            <UASRegister />
-          </Route>
-          <Route exact path="/uas/create">
-            <UASCreate />
-          </Route>
-          <Route exact path="/uas/:id">
-            <UASDetails />
-          </Route>
-          <Route exact path="/uas/:id/update">
-            <UASUpdate />
-          </Route>
+                    <Route
+                        path="/organizations/"
+                        element={<OrganizationsMainScreen />}
+                    />
+                    <Route path="/mail/" element={<MailMainScreen />} />
 
-          <Route exact path="/organizations">
-            <OrganizationsMainScreen />
-          </Route>
-          <Route exact path="/mail">
-            <MailMainScreen />
-          </Route>
-          <Route exact path="/calendar">
+                    {/* <Route exact path="/calendar">
             <CalendarMainScreen />
-          </Route>
-        </Switch>
-      </div>
-    </>
-  );
+          </Route> */}
+                </Routes>
+            </div>
+        </div>
+    );
 }
-
-export default LandingPage;

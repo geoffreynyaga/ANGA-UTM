@@ -1,6 +1,10 @@
-from rpas.models import Rpas
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import generics
+
+from rpas.models import Rpas
+
+User = get_user_model()
+from django.contrib.auth import get_user_model
 
 from accounts.api.serializers import (
     UserProfileDetailSerializer,
@@ -8,10 +12,7 @@ from accounts.api.serializers import (
     UserProfileUASListSerializer,
 )
 from accounts.models import UserProfile
-
 from applications.models import ReserveAirspace
-
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -35,7 +36,6 @@ class UserProfileFlightLogsListAPIView(generics.ListAPIView):
             url_pk = self.kwargs.get("pk")
             user_from_url = User.objects.get(pk=url_pk)
             if user_from_url == self.request.user:
-
                 queryset = ReserveAirspace.objects.filter(
                     created_by=self.request.user
                 ).order_by("-id")
@@ -61,7 +61,6 @@ class UserProfileUASListAPIView(generics.ListAPIView):
             user_from_url = User.objects.get(pk=url_pk)
 
             if user_from_url == self.request.user:
-
                 queryset = Rpas.objects.filter(
                     organization=user_from_url.userprofile.organization
                 ).order_by("-id")

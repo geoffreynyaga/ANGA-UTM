@@ -1,0 +1,24 @@
+
+
+[tool.djlint]
+profile="django"
+
+
+[tool.ruff]
+line-length = 88
+exclude = [
+    "migrations",
+    ]
+
+ignore = ["E203",]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.format]
+exclude = ["*.pyi"]

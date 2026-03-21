@@ -1,10 +1,11 @@
 from flight_plans.api.serializers import (
     CheckListAllSerializer,
     CheckListDetailSerializer,
+    ChecklistSubmissionSerializer,
     FlightLogListSerializer,
     FlightLogReserveAirspaceSerializer,
 )
-from flight_plans.models import ChecklistGroup, FlightLog
+from flight_plans.models import ChecklistGroup, ChecklistSubmission, FlightLog
 from applications.models import ReserveAirspace
 
 from rest_framework import generics
@@ -32,4 +33,12 @@ class CheckListDetailAPIView(generics.RetrieveAPIView):
 class CheckListAllAPIView(generics.ListAPIView):
     serializer_class = CheckListAllSerializer
     queryset = ChecklistGroup.objects.all()
+
+
+class ChecklistSubmissionCreateAPIView(generics.CreateAPIView):
+    serializer_class = ChecklistSubmissionSerializer
+    queryset = ChecklistSubmission.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(submitted_by=self.request.user)
 

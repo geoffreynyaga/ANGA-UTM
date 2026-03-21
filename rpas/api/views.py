@@ -11,6 +11,7 @@ from rest_framework.generics import ListAPIView
 class UserRPASListAPIView(ListAPIView):
     queryset = Rpas.objects.all()
     serializer_class = UserRPASListSerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
 
     def get_queryset(self, *args, **kwargs):
         org = self.request.user.userprofile.organization

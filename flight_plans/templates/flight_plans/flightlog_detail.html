@@ -4,321 +4,244 @@
 
 
 
-{% block head %}
-    <title>Log Detail</title>
+{% block header %}
+    <title>Log Detail | {{flightlog.reserve_airspace.application_number}}</title>
 {% endblock %}
 
 {% block body %}
-<section class="content">
-
-
-  <nav aria-label="breadcrumb" role="navigation">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">Home</a></li>
-      <li class="breadcrumb-item"><a href="{%url 'logs_list'%} ">My Logs</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Log Details</li>
-    </ol>
-  </nav>
-
-
-  <div class="row">
-    <div class="col-sm-5">
-      <nav aria-label="breadcrumb" role="navigation">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item active" aria-current="page">
-            Log Number: </li>
-            <span class="pull-right">
-              <b>{{flightlog.reserve_airspace.application_number}}</b>
-            </span>
-        </ol>
-      </nav>
-    </div>
-    <div class="col-sm-3">
-      <nav aria-label="breadcrumb" role="navigation">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item " aria-current="page">Pilot: </li>
-          <span class="pull-right">
-            <b>{{flightlog.user.first_name}}</b>
-          </span>
-        </ol>
-      </nav>
-    </div>
-    <div class="col-sm-4">
-                <a class="btn btn-primary  btn-block"
-                 href="{% url 'log_update' pk=flightlog.pk %}"
-                  role="button">
-                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                  Update log
-                </a>
-    </div>
-  </div>
-
-
-<p></p>
-
-
-<div class="row">
-
-<div class="col-sm-4">
-      <div class="panel panel-warning">
-        <div class="panel-heading">
-          <h3 class="panel-title">Overall Details</h3>
+    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800 tracking-tight">Log Details</h1>
+            <nav class="flex text-sm text-gray-500 mt-1" aria-label="Breadcrumb">
+              <ol class="flex items-center space-x-2">
+                <li><a href="{% url 'home' %}" class="hover:text-blue-600">Home</a></li>
+                <li><span class="mx-2 text-gray-400">/</span></li>
+                <li><a href="{% url 'logs_list' %}" class="hover:text-blue-600">My Logs</a></li>
+                <li><span class="mx-2 text-gray-400">/</span></li>
+                <li class="font-medium text-gray-700">{{flightlog.reserve_airspace.application_number}}</li>
+              </ol>
+            </nav>
         </div>
-        <div class="panel-body">
-          <h6 class="card-subtitle mb-2 text-muted">
-            Organization:  
-            <span class="pull-right">
-              <b>{{flightlog.reserve_airspace.get_organization}}</b>
-            </span>
-          </h6>
-          <p class="card-text">Purpose:
-            <span class="pull-right">
-              <b>{{flightlog.reserve_airspace.get_mission_type_display}}</b>
-            </span> 
-          </p>
-          <p class="card-text">Date: 
-            <span class="pull-right">
-              <b>{{flightlog.reserve_airspace.get_start_datetime}}</b>
-            </span> 
-          </p>
-          <p class="card-text">Approval:  
-            <span class="pull-right">
-              <b>{{flightlog.reserve_airspace.get_status_display}}</b>
-            </span>
-          </p>
-
+        <div class="flex items-center gap-3">
+            <a href="{% url 'log_update' pk=flightlog.pk %}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-sm transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                Update Log
+            </a>
         </div>
-      </div>
-</div>
-
-
-<div class="col-sm-4">
-  <div class="panel panel-warning">
-    <div class="panel-heading">
-      <h3 class="panel-title">Mission RPAS</h3>
     </div>
-    <div class="panel-body">
-      <h6 class="card-subtitle mb-2 text-muted">RPAS:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas}}</b>
-        </span> 
-      </h6>
-      <p class="card-text">Model:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.rpas_model}}</b>
-        </span>
-      </p>
-      <p class="card-text">Model Type:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.rpas_model.rpas_model_type}}</b>
-        </span> 
-      </p>
-      <p class="card-text">Serial:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.rpas_serial}}</b>
-        </span> 
-      </p>
-      <p class="card-text">Nickname:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.rpas_nickname}}</b>
-        </span> 
-      </p>
-      <p class="card-text">Manufacturer:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.rpas_model.manufacturer}}</b>
-        </span>
-      </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Content Area (2/3) -->
+        <div class="lg:col-span-2 space-y-8">
+            <!-- Map Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-blue-100 rounded-lg text-blue-600">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        </div>
+                        <h2 class="text-lg font-bold text-gray-800">Mission Area</h2>
+                    </div>
+                    <span class="text-xs font-medium text-gray-500 bg-white px-2.5 py-1 rounded-full border border-gray-200 shadow-sm uppercase tracking-wider">
+                        {{flightlog.reserve_airspace.application_number}}
+                    </span>
+                </div>
+                <div class="p-0 h-[450px]">
+                    {% load static %}
+                    {% load leaflet_tags %}
+                    {% leaflet_js %}
+                    {% leaflet_css %}
+                    <script type="text/javascript">
+                    function our_layers(map,options){
+                      var datasets = new L.GeoJSON.AJAX("{% url 'my_airspace_datasets' pk=flightlog.reserve_airspace.pk %}",{});
+                      datasets.addTo(map);
+                      datasets.on('layeradd', function (event) {
+                        map.fitBounds(event.layer.getBounds());
+                      });
+                    }
+                    </script>
+                    <style>.leaflet-container { height: 100% !important; width: 100% !important; z-index: 1; }</style>
+                    {% leaflet_map "gis" callback="window.our_layers" %}
+                    <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+                </div>
+            </div>
+
+            <!-- Technical Logistics Tabs-like Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Pre-Flight Logistics -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center gap-3">
+                        <div class="p-2 bg-amber-100 rounded-lg text-amber-600">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800">Pre-Flight Logistics</h3>
+                    </div>
+                    <div class="p-6">
+                        <dl class="space-y-4">
+                            <div class="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
+                                <dt class="text-gray-500">Altitude</dt>
+                                <dd class="font-bold text-gray-900">{{flightlog.pre_flight.altitude}} ft</dd>
+                            </div>
+                            <div class="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
+                                <dt class="text-gray-500">Est. Flight Time</dt>
+                                <dd class="font-bold text-gray-900">{{flightlog.pre_flight.est_flight_time}} mins</dd>
+                            </div>
+                            <div class="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
+                                <dt class="text-gray-500">Area Size</dt>
+                                <dd class="font-bold text-gray-900 text-right">{{flightlog.pre_flight.area_size}}</dd>
+                            </div>
+                            <div class="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
+                                <dt class="text-gray-500">No. of Flights</dt>
+                                <dd class="font-bold text-gray-900 text-right">{{flightlog.pre_flight.no_of_flights}}</dd>
+                            </div>
+                            <div class="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
+                                <dt class="text-gray-500">Batt Reminder</dt>
+                                <dd class="font-bold text-gray-900 text-right">{{flightlog.pre_flight.batt_reminder}} %</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+
+                <!-- Emergency Info -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center gap-3">
+                        <div class="p-2 bg-red-100 rounded-lg text-red-600">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.876c1.27 0 2.09-1.383 1.43-2.505L13.43 5.67c-.63-1.07-2.12-1.07-2.75 0L3.025 15.495c-.66 1.122.16 2.505 1.43 2.505z" /></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800">Emergency Contacts</h3>
+                    </div>
+                    <div class="p-6">
+                        <dl class="space-y-4">
+                            <div class="flex flex-col text-sm border-b border-gray-50 pb-2">
+                                <dt class="text-gray-500 mb-1">Closest Hospital</dt>
+                                <dd class="font-bold text-gray-900">{{flightlog.emmergency_info.closest_hosp|default:"N/A"}}</dd>
+                            </div>
+                            <div class="flex flex-col text-sm border-b border-gray-50 pb-2">
+                                <dt class="text-gray-500 mb-1">Fire Dept</dt>
+                                <dd class="font-bold text-gray-900">{{flightlog.emmergency_info.fire_dept|default:"N/A"}}</dd>
+                            </div>
+                            <div class="flex flex-col text-sm border-b border-gray-50 pb-2">
+                                <dt class="text-gray-500 mb-1">Police Station</dt>
+                                <dd class="font-bold text-gray-900">{{flightlog.emmergency_info.nearest_police_stn|default:"N/A"}}</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+
+                <!-- Post Flight Info -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden md:col-span-2">
+                    <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center gap-3">
+                        <div class="p-2 bg-emerald-100 rounded-lg text-emerald-600">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                        </div>
+                        <h3 class="font-bold text-gray-800">Post-Flight Report</h3>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Damages Recorded</dt>
+                            <p class="text-gray-900 font-medium bg-gray-50 p-3 rounded-lg border border-gray-100 italic">
+                                "{{flightlog.post_flight.damages|default:"None recorded"}}"
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Pilot Comments</dt>
+                            <p class="text-gray-900 font-medium bg-gray-50 p-3 rounded-lg border border-gray-100">
+                                "{{flightlog.post_flight.comments|default:"No comments."}}"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Specs (1/3) -->
+        <div class="space-y-6">
+            <!-- Summary Info Card -->
+            <div class="bg-gradient-to-br from-blue-700 to-indigo-900 rounded-2xl shadow-lg p-6 text-white overflow-hidden relative">
+                <div class="relative z-10">
+                    <p class="text-blue-200 text-xs font-bold uppercase tracking-widest mb-1">Organization</p>
+                    <h3 class="text-xl font-bold mb-4">{{flightlog.reserve_airspace.get_organization}}</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-blue-200 uppercase font-bold">Planned Date</p>
+                                <p class="text-sm font-semibold">{{flightlog.reserve_airspace.get_start_datetime|date:"F d, Y"}}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-blue-200 uppercase font-bold">Approval Status</p>
+                                <p class="text-sm font-semibold">{{flightlog.reserve_airspace.get_status_display}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Decoration -->
+                <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/5 rounded-full blur-3xl"></div>
+            </div>
+
+            <!-- RPAS Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center gap-3">
+                    <div class="p-2 bg-blue-100 rounded-lg text-blue-600">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800">RPAS Specifications</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-500">Aircraft</span>
+                        <span class="text-sm font-bold text-gray-900">{{flightlog.reserve_airspace.rpas}}</span>
+                    </div>
+                    <div class="flex items-center justify-between border-t border-gray-50 pt-3">
+                        <span class="text-sm text-gray-500">Model</span>
+                        <span class="text-sm font-medium text-gray-900">{{flightlog.reserve_airspace.rpas.rpas_model}}</span>
+                    </div>
+                    <div class="flex items-center justify-between border-t border-gray-50 pt-3">
+                        <span class="text-sm text-gray-500">Serial</span>
+                        <span class="text-xs font-mono text-gray-600 bg-gray-50 px-2 py-0.5 rounded border border-gray-100">{{flightlog.reserve_airspace.rpas.rpas_serial}}</span>
+                    </div>
+                    <div class="flex items-center justify-between border-t border-gray-50 pt-3">
+                        <span class="text-sm text-gray-500">Category</span>
+                        <span class="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-1 rounded-full border border-blue-100">{{flightlog.reserve_airspace.rpas.rpas_model.rpas_model_type}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payload Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center gap-3">
+                    <div class="p-2 bg-purple-100 rounded-lg text-purple-600">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Mission Payload</h3>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-sm font-bold text-gray-900">{{flightlog.reserve_airspace.rpas.payload|default:"Standard Configuration"}}</span>
+                    </div>
+                    <dl class="space-y-2 text-xs">
+                        <div class="flex justify-between">
+                            <dt class="text-gray-500">Model</dt>
+                            <dd class="text-gray-900 font-medium">{{flightlog.reserve_airspace.rpas.payload.payload_model}}</dd>
+                        </div>
+                        <div class="flex justify-between">
+                            <dt class="text-gray-500">Type</dt>
+                            <dd class="text-gray-900 font-medium">{{flightlog.reserve_airspace.rpas.payload.payload_model.payload_model_type}}</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-
-<div class="col-sm-4">
-  <div class="panel panel-warning">
-    <div class="panel-heading">
-      <h3 class="panel-title">Mission Payload</h3>
-    </div>
-    <!-- TODO: LOG PAYLOAD: if else statement, if unfinished, show link as in list view to complete -->
-    <div class="panel-body">
-      <h6 class="card-subtitle mb-2 text-muted">Payload:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.payload}}</b>
-        </span> 
-      </h6>
-      <p class="card-text">Model:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.payload.payload_model}}</b>
-        </span> 
-      </p>
-      <p class="card-text">Model Type: 
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.payload.payload_model.payload_model_type}}</b>
-        </span>
-      </p>
-      <p class="card-text">Serial:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.payload.payload_serial}}</b>
-        </span> 
-      </p>
-      <p class="card-text">Nickname:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.payload.payload_nickname}}</b>
-        </span> 
-      </p>
-      <p class="card-text">Manufacturer:
-        <span class="pull-right">
-          <b>{{flightlog.reserve_airspace.rpas.payload.manufacturer}}</b>
-        </span> 
-      </p>
-    </div>
-  </div>
-</div>
-
-<div class="col-sm-8">
-    <div class="panel panel-warning">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{flightlog.reserve_airspace}}</h3>
-      </div>
-      <div class="panel-body">
-        {% load static %}
-        {% load leaflet_tags %}
-        {%  leaflet_js %}
-        {%  leaflet_css  %}
-        <script type="text/javascript">
-        function our_layers(map,options){
-          var datasets = new L.GeoJSON.AJAX("{% url 'my_airspace_datasets' pk=flightlog.reserve_airspace.pk %}",{
-
-          });
-          datasets.addTo(map);
-
-          datasets.on('layeradd', function (event) {
-            // Assuming the clicked feature is a shape, not a point marker.
-            map.fitBounds(event.layer.getBounds());
-          });
-        }
-        </script>
-
-
-
-        {%  leaflet_map "gis" callback="window.our_layers" %}
-      </div>
-    </div>
-</div>
-
-<div class="col-sm-4">
-  <div class="panel panel-warning">
-    <div class="panel-heading">
-      <h3 class="panel-title">Pre-flight</h3>
-    </div>
-   <!-- TODO: Pre Flight: if else statement, if unfinished, show link as in list view to complete -->
-
-    <div class="panel-body">
-      <p class="card-text">Altitude:
-        <span class="pull-right">
-          <b>{{flightlog.pre_flight.altitude}} ft</b>
-        </span> 
-      </p>
-      <p class="card-text">Estimated Flight Time:
-        <span class="pull-right">
-          <b>{{flightlog.pre_flight.est_flight_time}} mins</b>
-        </span> 
-      </p>
-      <p class="card-text">Area Size: 
-        <span class="pull-right">
-          <b>{{flightlog.pre_flight.area_size}}</b>
-        </span>
-      </p>
-      <p class="card-text">No. of Flights:
-        <span class="pull-right">
-          <b>{{flightlog.pre_flight.no_of_flights }}</b>
-        </span> 
-      </p>
-      <p class="card-text">Other Info:
-        <span class="pull-right">
-          <b>{{flightlog.pre_flight.other_info}}</b>
-        </span> 
-      </p>
-      <p class="card-text">Batt Reminder:
-        <span class="pull-right">
-          <b>{{flightlog.pre_flight.batt_reminder }} %</b>
-        </span> 
-      </p>
-    </div>
-  </div>
-</div>
-
-
-</div>
-
-<div class="row">
-  <div class="col-sm-4">
-    <div class="panel panel-warning">
-      <div class="panel-heading">
-        <h3 class="panel-title">Emergency Info</h3>
-      </div>
-      <!-- TODO: Emmergency Info: if else statement, if unfinished, show link as in list view to complete -->
-      <div class="panel-body">
-
-        <p class="card-text">closest Hospital:
-          <span class="pull-right">
-            <b>{{flightlog.emmergency_info.closest_hosp}}</b>
-          </span> 
-        </p>
-        <p class="card-text">closest Fire Dept:
-          <span class="pull-right">
-            <b>{{flightlog.emmergency_info.fire_dept}}</b>
-          </span> 
-        </p>
-        <p class="card-text">closest Police Station:
-          <span class="pull-right">
-            <b>{{flightlog.emmergency_info.nearest_police_stn}}</b>
-          </span> 
-        </p>
-        <p class="card-text">Security Service: 
-          <span class="pull-right">
-            <b>{{flightlog.emmergency_info.security_service}}</b>
-          </span>
-        </p>
-        <p class="card-text">Other:
-          <span class="pull-right">
-            <b>{{flightlog.emmergency_info.other}}</b>
-          </span> 
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-4">
-    <div class="panel panel-warning">
-      <div class="panel-heading">
-        <h3 class="panel-title">Post-flight</h3>
-      </div>
-      <div class="panel-body">
-
-        <p class="card-text">damages:
-          <span class="pull-right">
-            <b>{{flightlog.post_flight.damages}}</b>
-          </span> 
-        </p>
-        <p class="card-text">Comments:
-          <span class="pull-right">
-            <b>{{flightlog.post_flight.comments}}</b>
-          </span> 
-        </p>
-        <p class="card-text">Success? :
-          <span class="pull-right">
-            <b>{{flightlog.post_flight.mission_success}}</b>
-          </span> 
-        </p>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-
-
-<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
-<!-- TODO: LEAFLET JS take it to leaflet/js and leaflet/css instead of dist/ as above -->
+{% endblock %}<!-- TODO: LEAFLET JS take it to leaflet/js and leaflet/css instead of dist/ as above -->
 
 </section>
 {% endblock %}
