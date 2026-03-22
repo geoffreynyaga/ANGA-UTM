@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+<!--  -->
+{% block head %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <style>
+        #loading-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #f8fafc;
+            z-index: 9999;
+        }
+
+        #root {
+            display: none;
+            width: 100%;
+        }
+
+        .anga-loader-shell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            text-align: center;
+            padding: 24px;
+        }
+
+        .anga-loader-ring {
+            width: 64px;
+            height: 64px;
+            color: #16a34a;
+            animation: anga-spin 1s linear infinite;
+        }
+
+        .anga-loader-title {
+            margin: 0;
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .anga-loader-subtitle {
+            margin: 10px 0 0;
+            font-size: 1.125rem;
+            color: #6b7280;
+        }
+
+        .anga-loader-caption {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        @keyframes anga-spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div id="loading-screen">
+        <div class="anga-loader-shell">
+            <div>
+                <svg class="anga-loader-ring" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75"
+                          fill="currentColor"
+                          d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+            </div>
+            <div>
+                <h2 class="anga-loader-title">Launching Anga UTM</h2>
+                <p class="anga-loader-subtitle">Setting things up...</p>
+            </div>
+            <p class="anga-loader-caption">
+                This may take a moment the first time as we set things up.<br />
+                Future visits will be much faster.
+            </p>
+        </div>
+    </div>
+
+
+    <div id="root" class="w-full"></div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        function hideLoadingShowRoot() {
+            const loading = document.getElementById("loading-screen");
+            const root = document.getElementById("root");
+            if (loading !== null) {
+                loading.style.display = "none";
+            }
+            if (root !== null) {
+                root.style.display = "flex";
+            }
+        }
+    </script>
+    <script src="{% static 'ui' %}{{ js_bundle }}" onload="hideLoadingShowRoot()"></script>
+{% endblock %}

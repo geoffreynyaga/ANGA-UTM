@@ -1,11 +1,5 @@
 import React from "react";
-import { createFileRoute } from "@tanstack/react-router";
-
-export const Route = createFileRoute("/(uas)/UASUpdate")({
-  component: UASUpdate,
-});
-
-function UASUpdate() {
+export default function UASUpdate() {
   return (
     <div className="page-inner">
       <hr />
@@ -167,4 +161,3 @@ function UASUpdate() {
   );
 }
 
-export default UASUpdate;

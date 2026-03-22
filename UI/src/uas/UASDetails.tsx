@@ -1,11 +1,5 @@
 import React from "react";
-import { createFileRoute } from "@tanstack/react-router";
-
-export const Route = createFileRoute("/(uas)/UASDetails")({
-  component: UASDetails,
-});
-
-function UASDetails() {
+export default function UASDetails() {
   return (
     <div className="page-inner">
       <hr />
@@ -100,4 +94,3 @@ function UASDetails() {
   );
 }
 
-export default UASDetails;

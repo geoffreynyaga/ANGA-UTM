@@ -1,11 +1,5 @@
 import React from "react";
-import { createFileRoute } from "@tanstack/react-router";
-
-export const Route = createFileRoute("/(uas)/UASList")({
-  component: UASList,
-});
-
-function UASList() {
+export default function UASList() {
   return (
     <div className="page-inner">
       <hr />
@@ -138,4 +132,4 @@ function UASList() {
   );
 }
 
-export default UASList;
+

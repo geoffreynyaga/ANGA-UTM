@@ -35,7 +35,7 @@
         {% for rpas in myrpas %}
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col hover:shadow-md transition-shadow overflow-hidden">
             <div class="px-5 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
-                <h3 class="text-lg font-bold text-gray-800 truncate">{{rpas.rpas_nickname}}</h3>
+                <h3 class="text-lg font-bold text-gray-800 truncate">{{rpas.cor_number}}</h3>
                 <div class="shrink-0 text-blue-500">
                     {% if rpas.rpas_model.rpas_model_type.airframe_type == 'PLANE' %}
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
@@ -50,6 +50,10 @@
             <div class="p-5 flex-grow space-y-4">
                 <div class="space-y-1">
                     <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Specifications</p>
+                    <p class="text-sm text-gray-700 flex justify-between">
+                        <span>Model:</span>
+                        <span class="font-medium text-gray-900">{{ rpas.rpas_model }}</span>
+                    </p>
                     <p class="text-sm text-gray-700 flex justify-between">
                         <span>Type:</span>
                         <span class="font-medium text-gray-900">{{ rpas.rpas_model.rpas_model_type }}</span>

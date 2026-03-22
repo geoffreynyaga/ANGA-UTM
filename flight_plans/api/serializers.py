@@ -1,7 +1,6 @@
 from applications.models import ReserveAirspace
 from rest_framework import serializers
-from flight_plans.models import ChecklistGroup, ChecklistItem, FlightLog, ChecklistSubmission
-from django.contrib.humanize.templatetags import humanize
+from flight_plans.models import ChecklistTemplate, DailyWorkLog
 
 
 class FlightLogReserveAirspaceSerializer(serializers.ModelSerializer):
@@ -11,12 +10,9 @@ class FlightLogReserveAirspaceSerializer(serializers.ModelSerializer):
     start_datetime = serializers.SerializerMethodField()
 
     def get_rpas_name(self, instance):
-
-        # print(instance.created_by, "should be group instance")
         if instance.rpas:
             return str(instance.rpas.rpas_nickname)
-        else:
-            return None
+        return None
 
     def get_mission_type_display(self, obj):
         return obj.get_mission_type_display()
@@ -43,52 +39,11 @@ class FlightLogReserveAirspaceSerializer(serializers.ModelSerializer):
 
 
 class FlightLogListSerializer(serializers.ModelSerializer):
-    """
-    user.last_name
-    user.first_name
-
-    log.reserve_airspace.get_start_datetime
-    log.reserve_airspace.application_number
-    log.reserve_airspace.rpas
-    log.reserve_airspace.get_mission_type_display
-    log.reserve_airspace.get_area
-    log.reserve_airspace.status
-
-    log.pre_flight.no_of_flights
-    log.get_post_flight_completion
-
-    """
-
-    user_first_name = serializers.SerializerMethodField()
-    user_last_name = serializers.SerializerMethodField()
+    user_first_name = serializers.CharField(source="user.first_name", read_only=True)
+    user_last_name = serializers.CharField(source="user.last_name", read_only=True)
     reserve_airspace = FlightLogReserveAirspaceSerializer(read_only=True)
-    no_of_flights = serializers.SerializerMethodField()
     post_flight_completion = serializers.SerializerMethodField()
     pre_flight_completion = serializers.SerializerMethodField()
-
-    def get_user_first_name(self, instance):
-
-        # print(instance.created_by, "should be group instance")
-        if instance.user:
-            return str(instance.user.first_name)
-        else:
-            return None
-
-    def get_user_last_name(self, instance):
-
-        # print(instance.created_by, "should be group instance")
-        if instance.user:
-            return str(instance.user.last_name)
-        else:
-            return None
-
-    def get_no_of_flights(self, instance):
-
-        # print(instance.created_by, "should be group instance")
-        if instance.user:
-            return instance.pre_flight.no_of_flights
-        else:
-            return None
 
     def get_post_flight_completion(self, obj):
         return obj.get_post_flight_completion()
@@ -97,83 +52,98 @@ class FlightLogListSerializer(serializers.ModelSerializer):
         return obj.get_pre_flight_completion()
 
     class Meta:
-        model = FlightLog
+        model = DailyWorkLog
         fields = (
+            "id",
             "user_first_name",
             "user_last_name",
             "reserve_airspace",
-            "no_of_flights",
             "post_flight_completion",
             "pre_flight_completion",
         )
 
 
-#################################################################
-
-
-class CheckListItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ChecklistItem
-        fields = (
-            "id",
-            "item_title",
-            "description",
-            "category",
-            "is_optional",
-            "picture",
-        )
-
-
 class CheckListDetailSerializer(serializers.ModelSerializer):
-    items = CheckListItemSerializer(source="checklists", read_only=True, many=True)
-
+    # This now directly returns the React-friendly JSON blob
     class Meta:
-        model = ChecklistGroup
+        model = ChecklistTemplate
         fields = (
             "id",
             "title",
-            "items",
+            "checklist_type",
+            "checklist_data",
+            "rpas_model",
+            "date_created",
         )
 
 
-class ChecklistSubmissionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ChecklistSubmission
-        fields = "__all__"
-
-
-class CheckListAllSerializer(serializers.ModelSerializer):
-    # checklists = CheckListItemSerializer(read_only=True, many=True)
-    items_number = serializers.SerializerMethodField()
-    checklist_type = serializers.SerializerMethodField()
-    date_created = serializers.SerializerMethodField()
-    date_modified = serializers.SerializerMethodField()
-
-    def get_items_number(self, instance):
-
-        # print(instance.created_by, "should be group instance")
-        if instance.checklists:
-            return instance.checklists.all().count()
-        else:
-            return None
-
-    def get_checklist_type(self, obj):
-        return obj.get_checklist_type_display()
-
-    def get_date_created(self, obj):
-        return humanize.naturaltime(obj.date_created)
-
-    def get_date_modified(self, obj):
-        return humanize.naturaltime(obj.date_modified)
+class CheckListTemplateListSerializer(serializers.ModelSerializer):
+    created_by = serializers.CharField(
+        source="created_by.get_full_name", read_only=True
+    )
+    organization = serializers.CharField(source="organization.name", read_only=True)
+    rpas_model = serializers.CharField(source="rpas_model.model_name", read_only=True)
 
     class Meta:
-        model = ChecklistGroup
+        model = ChecklistTemplate
         fields = (
             "id",
             "title",
-            "items_number",
             "checklist_type",
             "date_created",
-            "date_modified",
+            "rpas_model",
+            "organization",
+            # "checklist_data",
+            "created_by",
         )
 
+
+class WorkLogDetailSerializer(serializers.ModelSerializer):
+
+    preflight_template = CheckListDetailSerializer(read_only=True)
+    postflight_template = CheckListDetailSerializer(read_only=True)
+    project_name = serializers.CharField(source="project.name", read_only=True)
+    rpas_name = serializers.CharField(source="rpas.cor_number", read_only=True)
+
+    class Meta:
+        model = DailyWorkLog
+        fields = (
+            "id",
+            "user",
+            "rpas",
+            "project",
+            "project_name",
+            "rpas_name",
+            "reserve_airspace",
+            "acres_sprayed",
+            "bags_spread",
+            "application_rate_spraying",
+            "operation_date",
+            "organization",
+            "preflight_template",
+            "postflight_template",
+            "is_complete",
+        )
+
+
+class WorkLogListSerializer(serializers.ModelSerializer):
+    rpas_cor_number = serializers.CharField(source="rpas.cor_number", read_only=True)
+    project_name = serializers.CharField(source="project.name", read_only=True)
+
+    class Meta:
+        model = DailyWorkLog
+        fields = (
+            "id",
+            "user",
+            "rpas",
+            "acres_sprayed",
+            "bags_spread",
+            "application_rate_spraying",
+            "operation_date",
+            "organization",
+            "preflight_template",
+            "postflight_template",
+            "is_complete",
+            "rpas_cor_number",
+            "project_name",
+        )

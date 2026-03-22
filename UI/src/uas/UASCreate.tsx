@@ -1,11 +1,5 @@
 import React from "react";
-import { createFileRoute } from "@tanstack/react-router";
-
-export const Route = createFileRoute("/(uas)/UASCreate")({
-  component: UASCreate,
-});
-
-function UASCreate() {
+export default function UASCreate() {
   return (
     <div className="page-inner">
       <div className="page-title">
@@ -163,4 +157,3 @@ function UASCreate() {
   );
 }
 
-export default UASCreate;

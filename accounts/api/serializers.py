@@ -6,7 +6,7 @@ from rpas.models import Rpas
 User = get_user_model()
 from accounts.models import UserProfile
 from applications.models import ReserveAirspace
-from flight_plans.models import FlightLog
+from flight_plans.models import DailyWorkLog
 from organizations.models import Organization, OrganizationDetails
 
 
@@ -15,15 +15,15 @@ class SignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ( 'email', 'first_name', 'last_name', 'password')
+        fields = ("email", "first_name", "last_name", "password")
 
     def create(self, validated_data):
         user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            first_name=validated_data.get('first_name', ''),
-            last_name=validated_data.get('last_name', ''),
-            password=validated_data['password']
+            username=validated_data["username"],
+            email=validated_data["email"],
+            first_name=validated_data.get("first_name", ""),
+            last_name=validated_data.get("last_name", ""),
+            password=validated_data["password"],
         )
         return user
 
@@ -116,7 +116,7 @@ class UserProfileDetailSerializer(serializers.ModelSerializer):
     thisuser = User.objects.get(pk=pk)
     org = thisuser.userprofile.organization
     context["myrpas"] = Rpas.objects.filter(organization=org)
-    context["myflightlogs"] = FlightLog.objects.filter(user=thisuser)
+    context["myflightlogs"] = DailyWorkLog.objects.filter(user=thisuser)
 
     myflightlog.pk
     myflightlog.reserve_airspace.application_number

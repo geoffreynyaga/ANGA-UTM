@@ -1,232 +1,189 @@
 from django.contrib.auth import get_user_model
-from django.contrib.gis.db import models
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from applications.models import ReserveAirspace
-from rpas.models import Battery, Rpas, RpasModel
+from rpas.models import RpasModel
+from organizations.models import Organization
 
 User = get_user_model()
-# Create your models here.
+
+# Checklist Redesign: Storing templates and submissions as JSON objects
+# for simplified integration with the React-based checklist builder.
 
 
-class PreFlight(models.Model):
-    weather = models.CharField(max_length=20, default="")
-    altitude = models.CharField(max_length=20)
-    est_flight_time = models.CharField(max_length=20)
-    no_of_flights = models.CharField(max_length=20, default="1")
-    other_info = models.CharField(max_length=300, blank=True, null=True)
-    batt_reminder = models.CharField(max_length=10, default="")
-
-    def __str__(self):
-        return str(self.est_flight_time)
-
-    def get_absolute_url(self):
-        return reverse("logs_list")
-
-
-class BatteryLog(models.Model):
-    batt_number = models.ForeignKey(Battery, on_delete=models.CASCADE)
-    end_amps = models.DecimalField(max_digits=5, decimal_places=1)
-    end_volts = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.end_volts
-
-
-class CrewBriefing(models.Model):
-    no_of_flights = models.IntegerField()
-    duties = models.CharField(max_length=20)
-    alt_landing_area = models.CharField(max_length=20)
-    env_factors = models.TextField(max_length=20)
-    air_band_radio = models.CharField(max_length=20)
-    notam_action = models.TextField(max_length=20, default="None")
-    copy_of_ops_pack = models.BooleanField()
-    security = models.TextField(max_length=300)
-
-    def __str__(self):
-        return self.duties
-
-
-class EmmergencyInfo(models.Model):
-    closest_hosp = models.CharField(max_length=100)
-    fire_dept = models.CharField(max_length=20)
-    nearest_police_stn = models.CharField(max_length=20)
-    security_service = models.CharField(max_length=20)
-    other = models.TextField(max_length=200)
-
-    def __str__(self):
-        return str(self.security_service)
-
-    def get_absolute_url(self):
-        return reverse("logs_list")
-
-
-class MissionWrap(models.Model):
-    damages = models.CharField(max_length=20, blank=True, null=True)
-    comments = models.CharField(max_length=500, blank=True, null=True)
-    mission_success = models.BooleanField(default=False)
-
-    def __str__(self):
-        return str(self.comments)
-
-    def get_absolute_url(self):
-        return reverse("logs_list")
-
-
-###############################################################################
-class FlightLog(models.Model):
+class DailyWorkLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
     reserve_airspace = models.ForeignKey(
         ReserveAirspace, on_delete=models.CASCADE, blank=True, null=True
     )
-    emmergency_info = models.ForeignKey(
-        EmmergencyInfo, blank=True, null=True, on_delete=models.CASCADE
+
+    project = models.ForeignKey(
+        "applications.Project", on_delete=models.CASCADE, blank=True, null=True
     )
-    pre_flight = models.ForeignKey(
-        PreFlight, blank=True, null=True, on_delete=models.CASCADE
+    rpas = models.ForeignKey(
+        "rpas.Rpas", on_delete=models.CASCADE, blank=True, null=True
     )
-    post_flight = models.ForeignKey(
-        MissionWrap, blank=True, null=True, on_delete=models.CASCADE
+
+    # Performance Metrics
+    acres_sprayed = models.FloatField(default=0.0)
+    bags_spread = models.FloatField(default=0.0)
+    application_rate_spraying = models.FloatField(default=0.0, help_text="in l/ha")
+    operation_date = models.DateTimeField(null=True, blank=True)
+
+    organization = models.ForeignKey(
+        "organizations.Organization", on_delete=models.CASCADE, blank=True, null=True
     )
+
+    # New JSON-based Checklist Templates
+    preflight_template = models.ForeignKey(
+        "ChecklistTemplate",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        limit_choices_to={"checklist_type": "PRE"},
+        related_name="preflight_work_logs",
+    )
+    preflight_saved_at = models.DateTimeField(blank=True, null=True)
+    postflight_template = models.ForeignKey(
+        "ChecklistTemplate",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        limit_choices_to={"checklist_type": "POS"},
+        related_name="postflight_work_logs",
+    )
+    postflight_saved_at = models.DateTimeField(blank=True, null=True)
+
+    preflight_results = models.JSONField(
+        help_text="Responses for each item with status and comments",
+        blank=True,
+        null=True,
+    )
+    postflight_results = models.JSONField(
+        help_text="Responses for each item with status and comments",
+        blank=True,
+        null=True,
+    )
+
+    is_complete = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.reserve_airspace.application_number)
+        if self.reserve_airspace_id is None:
+            return f"DailyWorkLog #{self.pk or 'unsaved'}"
+        application_number = self.reserve_airspace.application_number
+        if application_number:
+            return str(application_number)
+        return f"ReserveAirspace #{self.reserve_airspace_id}"
+
+    def get_pre_flight_completion(self):
+        """Calculates progress based on items submitted for this flight log."""
+        if not self.preflight_template:
+            return 0
+
+        # New JSON-based completion logic
+        submission = self.checklist_submissions.filter(
+            template=self.preflight_template, checklist_type="PRE"
+        ).last()
+        if not submission:
+            return 0
+
+        results = submission.results
+        if not results:
+            return 0
+
+        total_items = 0
+        done_items = 0
+
+        # results is expected to look like: {"checklist": {"Pre-Flight": [{"items": [...]}, ...]}}
+        # We flattened the logic for completion tracking
+        for category in results.get("checklist", {}).values():
+            for group in category:
+                for item in group.get("items", []):
+                    total_items += 1
+                    if item.get("status") in ["YES", "N/A"]:
+                        done_items += 1
+
+        return (done_items / total_items * 100) if total_items > 0 else 0
+
+    def get_post_flight_completion(self):
+        if not self.postflight_template:
+            return 0
+
+        submission = self.checklist_submissions.filter(
+            template=self.postflight_template, checklist_type="POS"
+        ).last()
+        if not submission:
+            return 0
+
+        results = submission.results
+        if not results:
+            return 0
+
+        total_items = 0
+        done_items = 0
+
+        for category in results.get("checklist", {}).values():
+            for group in category:
+                for item in group.get("items", []):
+                    total_items += 1
+                    if item.get("status") in ["YES", "N/A"]:
+                        done_items += 1
+
+        return (done_items / total_items * 100) if total_items > 0 else 0
 
     def save(self, *args, **kwargs):
-        if not self.post_flight:
-            x = MissionWrap.objects.create()
-            x.mission_success = False
-            x.save()
-            self.post_flight = x
-
-        if not self.pre_flight:
-            x = PreFlight.objects.create()
-            x.no_of_flights = 1
-            x.save()
-            self.pre_flight = x
-
-        if not self.emmergency_info:
-            x = EmmergencyInfo.objects.create()
-            x.other = ""
-            x.save()
-            self.emmergency_info = x
-
-        super(FlightLog, self).save(*args, **kwargs)
+        if not self.organization and self.user:
+            try:
+                self.organization = self.user.userprofile.organization
+            except:
+                pass
+        super(DailyWorkLog, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("log_detail", kwargs={"pk": self.pk})
 
-    def get_emergency_info_pk(self):
-        emmergency_info_pk = self.emmergency_info.pk
-        return emmergency_info_pk
 
-    def get_pre_flight_pk(self):
-        preflight_pk = self.pre_flight.pk
-        return preflight_pk
-
-    def get_post_flight_pk(self):
-        post_flight_pk = self.post_flight.pk
-        return post_flight_pk
-
-    def get_pre_flight_completion(self):
-        est_flight_time = self.pre_flight.est_flight_time
-        weather = self.pre_flight.weather
-        altitude = self.pre_flight.altitude
-        no_of_flights = self.pre_flight.no_of_flights
-        batt_reminder = self.pre_flight.batt_reminder
-        fields = [est_flight_time, weather, altitude, no_of_flights, batt_reminder]
-        initial_count = int(len(fields))
-        for field in fields:
-            if field == "" or field == None:
-                fields.remove(field)
-        final_count = int(len(fields))
-        progress = (final_count / initial_count) * 100
-        return progress
-
-    def get_post_flight_completion(self):
-        damages = self.post_flight.damages
-        comments = self.post_flight.comments
-
-        fields = [damages, comments]
-        initial_count = int(len(fields))
-        fin = []
-        for field in fields:
-            if field == "" or field is None:
-                fin.append(field)
-        final_count = int(len(fin))
-        progress = ((initial_count - final_count) / initial_count) * 100
-        return progress
-
-
-###############################################################################
-class Checklist(models.Model):
-    rpas_model = models.OneToOneField(RpasModel, on_delete=models.CASCADE)
-    parts_check = models.CharField(max_length=100)
-    charge_status = models.CharField(max_length=20)
-    camera_check = models.CharField(max_length=20)
-    props_check = models.CharField(max_length=20)
-    firmware_check = models.TextField(max_length=200)
-    camera_check = models.CharField(
-        max_length=20
-    )  # FIXME: Camera check is repeated above
-    risk_assesment = models.CharField(max_length=20)
-    conditions_check = models.TextField(max_length=200)
-    connection_check = models.TextField(max_length=200)
-
-    def __str__(self):
-        return self.rpas_model.model_name
-
-    def get_absolute_url(self):
-        return reverse("checklist_detail", kwargs={"pk": self.pk})
-
-
-class ChecklistItem(models.Model):
-    item_title = models.CharField(max_length=100)
-    description = models.TextField(blank=True, null=True)
-    category = models.CharField(max_length=50, blank=True, null=True)
-    is_optional = models.BooleanField(default=False)
-    picture = models.ImageField(
-        upload_to="images/checklists/", blank=True, null=True
-    )
-
-    def __str__(self):
-        return f"{self.category}: {self.item_title}"
-
-
-class ChecklistGroup(models.Model):
-    title = models.CharField(max_length=100)
-    checklists = models.ManyToManyField(ChecklistItem, related_name="checklist_groups")
-
-    CHECKLIST_TYPE = (
+class ChecklistTemplate(models.Model):
+    CHECKLIST_TYPE_CHOICES = [
         ("PRE", "Pre-Flight"),
         ("POS", "Post-Flight"),
-        ("INF", "InFlight"),
+        ("INF", "In-Flight"),
         ("EMR", "Emergency"),
-        ("CHR", "Charging"),
-        ("ASM", "Assembly"),
-        ("MNT", "Maintenance"),
-        ("OTH", "Other"),
-    )
+    ]
 
+    title = models.CharField(max_length=100)
     checklist_type = models.CharField(
-        max_length=3, choices=CHECKLIST_TYPE, blank=True, null=True
+        max_length=20, choices=CHECKLIST_TYPE_CHOICES, default="PRE"
+    )
+    rpas_model = models.ForeignKey(
+        "rpas.RpasModel",
+        on_delete=models.CASCADE,
+        related_name="checklist_templates",
+        blank=True,
+        null=True,
+    )
+    organization = models.ForeignKey(
+        "organizations.Organization", on_delete=models.CASCADE, blank=True, null=True
+    )
+    # This field holds the pure structure from the React builder
+    checklist_data = models.JSONField(
+        help_text="Full template structure in JSON format"
     )
 
     date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.title
+        model_name = self.rpas_model.model_name if self.rpas_model else "Generic"
+        return f"{self.title} ({self.get_checklist_type_display()}) - {self.created_by.first_name}"
 
-
-class ChecklistSubmission(models.Model):
-    flight_log = models.ForeignKey("FlightLog", on_delete=models.CASCADE, related_name="checklist_submissions")
-    checklist_group = models.ForeignKey(ChecklistGroup, on_delete=models.SET_NULL, null=True)
-    results = models.JSONField(default=list)
-    submitted_at = models.DateTimeField(auto_now_add=True)
-    submitted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-
-    def __str__(self):
-        return f"Submission for {self.flight_log} - {self.checklist_group}"
+    def save(self, *args, **kwargs):
+        if not self.organization and self.created_by:
+            try:
+                # userprofile exists from the post_save signal in accounts app
+                self.organization = self.created_by.userprofile.organization
+            except:
+                pass
+        super().save(*args, **kwargs)

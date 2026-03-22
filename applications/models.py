@@ -417,11 +417,11 @@ class ReserveAirspace(gis_models.Model):
         TODO: perhaps put this in properties? but can i access model properties in the clean?
         """
         if (saving_time_seconds / 60) < 6:
-            from flight_plans.models import FlightLog
+            from flight_plans.models import DailyWorkLog
 
-            get_log = FlightLog.objects.filter(reserve_airspace=self.pk)
+            get_log = DailyWorkLog.objects.filter(reserve_airspace=self.pk)
             if not get_log:
-                x = FlightLog.objects.create(
+                x = DailyWorkLog.objects.create(
                     reserve_airspace_id=self.pk, user_id=self.created_by.pk
                 )
                 x.save()

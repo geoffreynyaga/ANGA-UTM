@@ -14,11 +14,11 @@ import ProfileMainPage from "./Profile";
 import ReservesHistory from "./ApplicationMainPage/ReservesHistory";
 import SideBar from "./sideBar";
 import Signup from "../authentication/SignUp";
-import UASDetails from "../routes/UAS/UASDetails";
-import UASList from "../routes/UAS/UASList";
-import UASMainPage from "../routes/uas/index.tsx";
-import UASRegister from "../routes/UAS/UASRegister";
-import UASUpdate from "../routes/UAS/UASUpdate";
+import UASDetails from "../uas/UASDetails";
+import UASList from "../uas/UASList";
+import UASMainPage from "../uas/uas_index";
+import UASRegister from "../uas/UASRegister";
+import UASUpdate from "../uas/UASUpdate";
 
 // import CalendarMainScreen from "./Calendar";
 

@@ -1,12 +1,6 @@
 import {Link, useLocation, useResolvedPath} from "react-router-dom";
 
-import MainPageCategoryItem from "../../screens/ApplicationMainPage/MainPageCategoryItem";
-import {createFileRoute} from "@tanstack/react-router";
-
-export const Route = createFileRoute("/(uas)/uas_index")({
-    component: UASMainPage,
-});
-
+import MainPageCategoryItem from "../screens/ApplicationMainPage/MainPageCategoryItem";
 export default function UASMainPage() {
     const {pathname: path} = useLocation();
 

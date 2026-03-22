@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from flight_plans.models import FlightLog
+from flight_plans.models import DailyWorkLog
 from rpas.models import Rpas
 
 User = get_user_model()
@@ -108,7 +108,7 @@ def edit_user(request, pk):
 #
 #     def get(self, request):
 #         myrpas = Rpas.objects.filter(organization = request.user.userprofile.organization)
-#         myflightlogs = FlightLog.objects.filter(user = request.user)
+#         myflightlogs = DailyWorkLog.objects.filter(user = request.user)
 #         args = {'myrpas': myrpas, 'myflightlogs':myflightlogs}
 #         return render(request, self.template_name ,args)
 
@@ -123,7 +123,7 @@ class ViewProfile(LoginRequiredMixin, generic.DetailView):
         thisuser = User.objects.get(pk=pk)
         org = thisuser.userprofile.organization
         context["myrpas"] = Rpas.objects.filter(organization=org)
-        context["myflightlogs"] = FlightLog.objects.filter(user=thisuser)
+        context["myflightlogs"] = DailyWorkLog.objects.filter(user=thisuser)
         return context
 
 

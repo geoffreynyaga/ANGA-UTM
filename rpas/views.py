@@ -15,7 +15,7 @@ from django.views.generic import (
 )
 
 User = get_user_model()
-from flight_plans.models import FlightLog
+from flight_plans.models import DailyWorkLog
 from notifications.models import Notifications
 from utm_messages.models import UserToUserMessages
 
@@ -62,7 +62,7 @@ def home(request):
     )
 
     ###############################################################################
-    user_flight_logs = FlightLog.objects.filter(user=request.user)
+    user_flight_logs = DailyWorkLog.objects.filter(user=request.user)
     unfinished_pre_flight_logs = []
     unfinished_post_flight_logs = []
     for flight_log in user_flight_logs:

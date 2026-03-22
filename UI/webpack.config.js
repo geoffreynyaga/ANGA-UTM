@@ -1,12 +1,15 @@
 const path = require("path");
 const webpack = require("webpack");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const {WebpackManifestPlugin} = require("webpack-manifest-plugin");
 
 module.exports = {
     entry: "./src/index.tsx",
     output: {
         path: path.resolve(__dirname, "./static/ui"),
         filename: "[name].js",
+        clean: true, // This replaces CleanWebpackPlugin
+
     },
     resolve: {
         extensions: [".js", ".jsx", ".json", ".ts", ".tsx"],
@@ -39,6 +42,10 @@ module.exports = {
                 NODE_ENV: JSON.stringify("development"),
                 // NODE_ENV: JSON.stringify('production'),
             },
+        }),
+        new WebpackManifestPlugin({
+            fileName: "manifest.json",
+            publicPath: "/",
         }),
         // new BundleAnalyzerPlugin()
     ],

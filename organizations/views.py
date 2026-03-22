@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 
-from flight_plans.models import FlightLog
+from flight_plans.models import DailyWorkLog
 
 User = get_user_model()
 from .models import Organization
@@ -17,7 +17,7 @@ class AllCompanyFlightLogs(ListView):
     paginate_by = 4
 
     def get_queryset(self):
-        return FlightLog.objects.filter(user=self.request.user).order_by("-id")
+        return DailyWorkLog.objects.filter(user=self.request.user).order_by("-id")
 
     def get_context_data(self, *args, **kwargs):
         context = super(AllCompanyFlightLogs, self).get_context_data(*args, **kwargs)
@@ -39,7 +39,7 @@ class AllCompanyFlightLogs(ListView):
 
         all_company_logs = []
         for org_user in refined_user_list:
-            x = FlightLog.objects.filter(user=org_user)
+            x = DailyWorkLog.objects.filter(user=org_user)
             if x:
                 for log in x:
                     all_company_logs.append(log)
