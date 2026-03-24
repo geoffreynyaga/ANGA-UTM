@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer, GeoModelSerializer
 from applications.models import Project, ReserveAirspace
 from rpas.models import Rpas
+from flight_plans.models import DailyWorkLog
 
 
 class RpasMinimalSerializer(serializers.ModelSerializer):
@@ -10,18 +11,35 @@ class RpasMinimalSerializer(serializers.ModelSerializer):
         fields = ("id", "cor_number", "rpas_serial")
 
 
+class DailyWorkLogForStatsSerializer(serializers.ModelSerializer):
+    user_first_name = serializers.SerializerMethodField()
+
+    def get_user_first_name(self, instance):
+        if instance.user:
+            return str(instance.user.first_name)
+        return None
+
+    class Meta:
+        model = DailyWorkLog
+        fields = (
+            "id",
+            "user_first_name",
+            "operation_date",
+            "bags_spread",
+            "acres_sprayed",
+        )
+
+
 class ProjectsListSerializer(serializers.ModelSerializer):
-
-
     client_name = serializers.SerializerMethodField()
+    bags_spread = serializers.FloatField(read_only=True)
+    acres_sprayed = serializers.FloatField(read_only=True)
+    unique_rpas_count = serializers.IntegerField(read_only=True)
 
     def get_client_name(self, instance):
-
-        # print(instance.created_by, "should be group instance")
         if instance.client:
             return str(instance.client.name)
-        else:
-            return None
+        return None
 
     class Meta:
         model = Project
@@ -32,10 +50,16 @@ class ProjectsListSerializer(serializers.ModelSerializer):
             "is_complete",
             "start_date",
             "end_date",
-
+            "target_bags",
+            "target_spray_acres",
+            "bags_spread",
+            "acres_sprayed",
+            "unique_rpas_count",
         )
+
+
 class ReserveAirspaceListSerializer(GeoFeatureModelSerializer):
-    """ A class to serialize locations as GeoJSON compatible data """
+    """A class to serialize locations as GeoJSON compatible data"""
 
     rpas = RpasMinimalSerializer(many=True, read_only=True)
     mission_type_display = serializers.SerializerMethodField()
@@ -115,7 +139,7 @@ class ReserveAirspaceListSerializer(GeoFeatureModelSerializer):
 
 
 class ReserveAirspaceDetailSerializer(GeoFeatureModelSerializer):
-    """ A class to serialize locations as GeoJSON compatible data """
+    """A class to serialize locations as GeoJSON compatible data"""
 
     rpas = RpasMinimalSerializer(many=True, read_only=True)
     mission_type_display = serializers.SerializerMethodField()
