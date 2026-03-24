@@ -28,7 +28,8 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
+
 
 INTERNAL_IPS = [
     # ...
@@ -51,7 +52,7 @@ DEFAULT_APPS = [
 
 THIRD_PARTY_APPS = [
     # "pwa",
-    "debug_toolbar",
+    # "debug_toolbar",
     "djgeojson",
     "bootstrap3",
     # "datetimewidget",
@@ -68,6 +69,7 @@ THIRD_PARTY_APPS = [
     "crispy_forms",
     "crispy_tailwind",
     "drf_yasg",
+    'storages',
 ]
 
 MY_APPS = [
@@ -102,7 +104,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",  # for django debug toolbar
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",  # for django debug toolbar
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -110,6 +112,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",  # for tailwind
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
 
 ROOT_URLCONF = "ANGA_UTM.urls"
 
@@ -220,13 +226,6 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 21474836480
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 
 
-# AWS_ACCESS_KEY_ID = config('RASTER_S3_ACCESS_KEY')
-# AWS_SECRET_ACCESS_KEY = config('RASTER_S3_SECRET_KEY')
-# AWS_STORAGE_BUCKET_NAME = config('RASTER_S3_BUCKET')
-# AWS_DEFAULT_ACL = 'public-read'
-# AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-# AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-
 # Swagger
 SWAGGER_SETTINGS = {"SECURITY_DEFINITIONS": {"basic": {"type": "basic"}}}
 
@@ -283,7 +282,7 @@ LEAFLET_CONFIG = {
     #         },
     #     ),
     # ],
-    "ATTRIBUTION_PREFIX": "Swift Lab Ag &copy; <a href='https://swiftlab.tech/'>SwiftLab Limited</a>",
+    "ATTRIBUTION_PREFIX": "Precision Drones &copy; <a href='https://data.precisiondrones.africa/'>Precision Drones Limited</a>",
 }
 
 

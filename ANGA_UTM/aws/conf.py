@@ -14,10 +14,13 @@ AWS_QUERYSTRING_AUTH = False
 DEFAULT_FILE_STORAGE = "ANGA_UTM.aws.utils.MediaRootS3BotoStorage"
 STATICFILES_STORAGE = "ANGA_UTM.aws.utils.StaticRootS3BotoStorage"
 AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_CUSTOM_DOMAIN = config(
+    "AWS_S3_CUSTOM_DOMAIN", default=f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+)
 
 S3DIRECT_REGION = "eu-west-1"
-S3_URL = "//%s.s3.amazonaws.com/" % AWS_STORAGE_BUCKET_NAME
-MEDIA_URL = "//%s.s3.amazonaws.com/media/" % AWS_STORAGE_BUCKET_NAME
+S3_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+MEDIA_URL = "https://%s/media/" % AWS_S3_CUSTOM_DOMAIN
 MEDIA_ROOT = MEDIA_URL
 STATIC_URL = S3_URL + "static/"
 ADMIN_MEDIA_PREFIX = STATIC_URL + "admin/"

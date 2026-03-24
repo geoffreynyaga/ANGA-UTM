@@ -302,5 +302,5 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
-handler404 = error_404
-handler500 = error_500
+# handler404 = error_404
+# handler500 = error_500

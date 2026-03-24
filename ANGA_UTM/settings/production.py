@@ -11,125 +11,31 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from decouple import Csv, config
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ["anga-utm.herokuapp.com"]
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 
-# Application definition
-
-INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "django.contrib.gis",
-    "pwa",
-    "storages",
-    "django.contrib.humanize",
-    "djgeojson",
-    "bootstrap3",
-    # "datetimewidget",
-    "bootstrap_datepicker_plus",
-    "leaflet",
-    "phonenumber_field",
-    "webpush",
-    "organizations",
-    "rpas",
-    "accounts",
-    "maps",
-    "flight_plans",
-    "applications",
-    "weather",
-    "utm_messages",
-    "notams",
-    "notifications",
-    "ui",
-]
-
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
-]
-
-ROOT_URLCONF = "ANGA_UTM.urls"
-
-TEMPLATES = [
-    {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
-            ]
-        },
-    }
-]
-
-WSGI_APPLICATION = "ANGA_UTM.wsgi.application"
-
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": config("DATABASE_NAME"),
+        "USER": config("DATABASE_USER"),
+        "PASSWORD": config("DATABASE_PASSWORD"),
+        "HOST": "localhost",
+        "PORT": "5432",
     }
 }
 
-# add this
-# import dj_database_url
-# db_from_env = dj_database_url.config()
-# DATABASES['default'].update(db_from_env)
-# DATABASES['default']['CONN_MAX_AGE'] = 500
-
-
-import dj_database_url
-
-DATABASES["default"] = dj_database_url.config()
-DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
-
 GDAL_LIBRARY_PATH = os.getenv("GDAL_LIBRARY_PATH")
 GEOS_LIBRARY_PATH = os.getenv("GEOS_LIBRARY_PATH")
-
-
-# Password validation
-# https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
-    },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-]
 
 
 # Internationalization
@@ -150,16 +56,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 STATICFILES_STORAGE = "storages.backends.s3boto.S3BotoStorage"
@@ -167,15 +66,6 @@ STATICFILES_STORAGE = "storages.backends.s3boto.S3BotoStorage"
 
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "rpas_list"
-
-LEAFLET_CONFIG = {
-    "DEFAULT_CENTER": (-1.5405, 36.6612),
-    "DEFAULT_ZOOM": 9,
-    "MAX_ZOOM": 17,
-    "MIN_ZOOM": 7,
-    "SCALE": "metric",
-    "ATTRIBUTION_PREFIX": "Anga UTM Maps",
-}
 
 CORS_REPLACE_HTTPS_REFERER = True
 HOST_SCHEME = "https://"
@@ -187,7 +77,20 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_SECONDS = 1000000
 SECURE_FRAME_DENY = True
 
-from ANGA_UTM.aws.conf import *
+
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+AWS_DEFAULT_ACL = 'public-read'
+AWS_S3_CUSTOM_DOMAIN = config(
+    "AWS_S3_CUSTOM_DOMAIN", default=f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+)
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+
+
+# Enforce S3 URLs in production even if any earlier setting assigned '/static/'.
+STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 
 PWA_APP_NAME = "Anga UTM"
 PWA_APP_DESCRIPTION = "Keep It Simple, Stupid"
@@ -196,7 +99,7 @@ PWA_APP_DISPLAY = "standalone"
 PWA_APP_START_URL = "/"
 PWA_APP_ICONS = [
     {
-        "src": "https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/android-icon-36x36.png",
+        "src": f"https://{AWS_S3_CUSTOM_DOMAIN}/static/favicons/android-icon-36x36.png",
         "sizes": "36x36",
     },
     {
@@ -204,11 +107,11 @@ PWA_APP_ICONS = [
         "sizes": "48x48",
     },
     {
-        "src": "https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/android-icon-72x72.png",
+        "src": f"https://{AWS_S3_CUSTOM_DOMAIN}/static/favicons/android-icon-72x72.png",
         "sizes": "72x72",
     },
     {
-        "src": "https://s3.eu-west-2.amazonaws.com/astral-utm-bucket/static/favicons/android-icon-96x96.png",
+        "src": f"https://{AWS_S3_CUSTOM_DOMAIN}/static/favicons/android-icon-96x96.png",
         "sizes": "96x96",
     },
     {
@@ -233,7 +136,39 @@ PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, "static/serviceworker.js")
 
 
 WEBPUSH_SETTINGS = {
-    "VAPID_PUBLIC_KEY": os.environ.get("VAPID_PUBLIC_KEY"),
-    "VAPID_PRIVATE_KEY": os.environ.get("VAPID_PRIVATE_KEY"),
-    "VAPID_ADMIN_EMAIL": os.environ.get("VAPID_ADMIN_EMAIL"),
+    "VAPID_PUBLIC_KEY": config("VAPID_PUBLIC_KEY"),
+    "VAPID_PRIVATE_KEY": config("VAPID_PRIVATE_KEY"),
+    "VAPID_ADMIN_EMAIL": config("VAPID_ADMIN_EMAIL"),
 }
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "console": {"format": "%(name)-12s %(levelname)-8s %(message)s"},
+        "file": {"format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"},
+    },
+    "handlers": {
+        "console": {"level": "DEBUG", "class": "logging.StreamHandler"},
+        "logfile": {
+            "level": "DEBUG",
+            # "class": "logging.FileHandler",
+            'class': 'logging.handlers.RotatingFileHandler',
+            "formatter": "file",
+            "filename": os.path.join(BASE_DIR, "logs/logfile.log"),
+            'backupCount': 10,  # keep at most 10 log files
+            'maxBytes': 5242880,  # 5*1024*1024 bytes (5MB)
+        },
+    },
+    "root": {"level": "INFO", "handlers": ["console", "logfile"]},
+    "loggers": {"": {"level": "DEBUG", "handlers": ["console", "logfile"]}},
+}
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://anga.precisiondrones.africa',
+    'https://www.anga.precisiondrones.africa',
+]
+
+from ANGA_UTM.aws.conf import *
+
