@@ -6,112 +6,103 @@
 {% endblock %}
 
 {% block body %}
-
-  <section class="content">
-
-      <nav aria-label="breadcrumb" role="navigation">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-           {% if request.user == rpas.user %}
-          <li class="breadcrumb-item"><a href="{% url 'rpas_list'%} ">My RPAS List</a></li>
-          {% comment %} This is because in approval stage, the CAA can be given a link to this and they shouldn't be {% endcomment %}
-
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">RPAS Details</h1>
+        <nav class="flex text-sm text-gray-500 mt-1" aria-label="Breadcrumb">
+          <ol class="flex items-center space-x-2">
+            <li><a href="{% url 'home' %}" class="hover:text-blue-600">Home</a></li>
+            <li><span class="mx-2 text-gray-400">/</span></li>
+            {% if request.user == rpas.user %}
+                <li><a href="{% url 'rpas_list' %}" class="hover:text-blue-600">My RPAS List</a></li>
+                <li><span class="mx-2 text-gray-400">/</span></li>
             {% endif %}
-          <li class="breadcrumb-item active" aria-current="page">Rpas Details</li>
-        </ol>
-      </nav>
+            <li class="font-medium text-gray-700">"{{rpas.rpas_nickname}}" ({{rpas.rpas_model}})</li>
+          </ol>
+        </nav>
+    </div>
 
-      <div class="panel ">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            <nav aria-label="breadcrumb" role="navigation">
-              <ol class="breadcrumb">
-                <h4>
-                <li class="breadcrumb-item " ><p>{{rpas.rpas_model}}</p></li>
-                <li class="breadcrumb-item " >"{{rpas.rpas_nickname}}"</li>
-              </h4>
-              </ol>
-            </nav>
-          </h3>
-
-        </div>
-        <div class="panel-body">
-
-          <div class="row">
-
-            <div class="col-sm-4">
-              <div class="card">
-                <div class="card-body">
-                  <ul>
-                    <li> Serial:  {{rpas.rpas_serial}} </li>
-                    <li> Payload:  {{rpas.payload}} </li>
-                    <li> Manufacturer:  {{rpas.rpas_model.manufacturer}}  </li>
-                    <li> Payload Manufacturer: {{rpas.payload.manufacturer}} </li>
-                    <li> Payload Serial: {{rpas.payload.payload_serial}}  </li>
-                  </ul>
+    <!-- Main Detail Card -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+        <div class="px-6 py-5 border-b border-gray-200 bg-gray-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="flex items-center">
+                <div class="shrink-0 p-3 bg-blue-100 rounded-lg text-blue-600 mr-4">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
                 </div>
-              </div>
-          </div>
-
-          <div class="col-sm-3">
-            <img class="mw-10" style="width: 100%;" src="{{rpas.rpas_pic.url}}" alt="No RPAS Image">
-            <div class="">
-                  <br>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900">{{rpas.rpas_model}}</h3>
+                    <p class="text-sm text-gray-500 italic">"{{rpas.rpas_nickname}}"</p>
+                </div>
             </div>
+            {% if request.user == rpas.user %}
+                <a href="{% url 'rpas_update' pk=rpas.pk %}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition-colors">
+                    <svg class="-ml-1 mr-2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                    Update Aircraft
+                </a>
+            {% endif %}
+        </div>
 
-          </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Technical Specs -->
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Identification</h4>
+                        <div class="bg-gray-50 rounded-lg p-4 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="text-sm text-gray-500">Serial No</span>
+                                <span class="text-sm font-mono font-bold text-gray-900">{{rpas.rpas_serial}}</span>
+                            </div>
+                            <div class="flex justify-between items-start pt-3 border-t border-gray-200">
+                                <span class="text-sm text-gray-500">Payload</span>
+                                <span class="text-sm font-semibold text-gray-900">{{rpas.payload}}</span>
+                            </div>
+                        </div>
+                    </div>
 
-
-          <div class="col-sm-5">
-            <div class="card">
-              <div class="card-body">
-
-
-                <div class="media">
-                  <div class="media-body">
-                    <h4 class="media-heading">Manufacturer:  {{rpas.rpas_model.manufacturer}} </h4>
-                    <p>Country: {{rpas.rpas_model.manufacturer.country}}</p>
-                    <br>
-                    weight: {{rpas.rpas_model.weight}} kg
-                  </div>
-                  <div class="media-right">
-                    {% if rpas.rpas_model.manufacturer.logo %}
-                    <a href="#">
-                      <img class="media-object" style="width: 100px;" src="{{rpas.rpas_model.manufacturer.logo.url}}" alt="...">
-                    </a>
-                    {% endif %}
-                  </div>
-
+                    <div>
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Payload Details</h4>
+                        <div class="bg-gray-50 rounded-lg p-4 space-y-3 text-sm">
+                            <p class="text-gray-600">Manufacturer: <span class="font-bold text-gray-900">{{rpas.payload.manufacturer}}</span></p>
+                            <p class="text-gray-600 pt-2 border-t border-gray-100">Serial: <span class="font-mono text-gray-900">{{rpas.payload.payload_serial}}</span></p>
+                        </div>
+                    </div>
                 </div>
 
-              </div>
+                <!-- Aircraft Image -->
+                <div class="flex flex-col items-center justify-center">
+                    <div class="relative group">
+                        <img class="max-h-64 object-contain rounded-lg shadow-sm" src="{{rpas.rpas_pic.url}}" alt="RPAS Image">
+                        <div class="absolute inset-0 ring-1 ring-inset ring-gray-900/10 rounded-lg"></div>
+                    </div>
+                </div>
+
+                <!-- Manufacturer Info -->
+                <div class="space-y-6">
+                    <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-blue-200 transition-colors">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-lg font-bold text-gray-800">{{rpas.rpas_model.manufacturer}}</h4>
+                            {% if rpas.rpas_model.manufacturer.logo %}
+                                <img class="h-10 w-auto object-contain" src="{{rpas.rpas_model.manufacturer.logo.url}}" alt="Logo">
+                            {% endif %}
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center text-gray-600">
+                                <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2.945M8 3.935A9 9 0 0116.5 19.065m-7.5-7.5c0 .326.064.636.18.919m0 0a5 5 0 106.85-6.85" /></svg>
+                                Country: <span class="ml-1 font-semibold text-gray-900">{{rpas.rpas_model.manufacturer.country}}</span>
+                            </div>
+                            <div class="flex items-center text-gray-600 pt-1">
+                                <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" /></svg>
+                                MTOW: <span class="ml-1 font-bold text-blue-600">{{rpas.rpas_model.weight}} kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 rounded-lg bg-blue-50 border border-blue-100">
+                        <p class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Status</p>
+                        <p class="text-sm text-blue-900 font-medium">Ready for flight planning</p>
+                    </div>
+                </div>
             </div>
-          </div>
-
-
         </div>
-
-        </div>
-
-        {% if request.user == rpas.user %}
-
-          {% comment %} This is because in approval stage, the CAA can be given a link to this and they shouldn't be
-          able to edit, only see, so is anyone with the link
-          {% endcomment %}
-
-          <div class="panel-footer">
-                <a class="btn btn-primary" href="{% url 'rpas_update' pk=rpas.pk %}" role="button">
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                Update {{rpas.rpas_nickname}}</a>
-          </div>
-
-        {% endif %}
-      </div>
-
-
-
-
-</section>
-
-
+    </div>
 {% endblock %}

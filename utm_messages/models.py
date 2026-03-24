@@ -1,14 +1,15 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.contrib.auth.models import User
+
+User = get_user_model()
 
 
 class UserToUserMessages(models.Model):
     class Meta:
         """Meta definition for UserToUserMessages."""
 
-        verbose_name = 'User To User Message'
-        verbose_name_plural = 'User To User Messages'
-
+        verbose_name = "User To User Message"
+        verbose_name_plural = "User To User Messages"
 
     title = models.CharField(max_length=120, blank=True, null=True)
     text = models.TextField()

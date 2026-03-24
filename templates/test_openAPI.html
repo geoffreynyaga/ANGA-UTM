@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>OpenAIP Map</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+        <style>
+            #map {
+                height: 100vh;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>OpenAPI</h1>
+
+        <div id="map"></div>
+
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+        <script>
+            // Create a map centered at a specific location
+            var map = L.map('map').setView([-1, 36], 9)
+            
+            var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            }).addTo(map)
+            
+            // Add a base tile layer
+            let aip_layer = L.tileLayer(
+                'https://api.tiles.openaip.net/api/data/openaip/{z}/{x}/{y}.png?apiKey=58803704f98f6c1261d5d57e34bb27f6',
+                {
+                    attribution: '© OpenAIP',
+                    maxZoom: 18,
+                },
+            ).addTo(map)
+            
+            // Add a control to switch between different layers
+            var baseLayers = {
+                OpenAIP: L.tileLayer(
+                    'https://api.tiles.openaip.net/api/data/openaip/{z}/{x}/{y}.png?apiKey=58803704f98f6c1261d5d57e34bb27f6',
+                    {
+                        attribution: '© OpenAIP',
+                        maxZoom: 18,
+                    },
+                ),
+                Hotspots: L.tileLayer(
+                    'https://api.tiles.openaip.net/api/data/hotspots/{z}/{x}/{y}.png?apiKey=58803704f98f6c1261d5d57e34bb27f6',
+                    {
+                        attribution: '© OpenAIP',
+                        maxZoom: 18,
+                    },
+                ),
+            }
+            
+            function onTileClick(e) {
+                console.log(e, 'e')
+                console.log(e.latlng, 'e coords')
+                console.log(e.target, 'e target')
+            
+                console.log(e.target.zoom, 'e zoom')
+            
+                var tileUrl = aip_layer.getTileUrl((x = e.latlng.lng), (y = e.latlng.lat))
+            
+                // Assume aip_layer is your tile layer instance
+                var tileUrl = aip_layer.getTileUrl({
+                    z: 9,
+                    x: e.latlng.lng,
+                    y: e.latlng.lat,
+                })
+            
+                console.log(tileUrl, 'tileUrl')
+            
+                // Fetch layer properties or perform any desired action
+                fetch(tileUrl)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // Display layer properties or perform any desired action
+                        console.log(data)
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching layer properties:', error)
+                    })
+            }
+            
+            // Add click event listener to the map
+            
+            L.control.layers(baseLayers).addTo(map)
+            
+            map.on('click', onTileClick)
+        </script>
+    </body>
+</html>

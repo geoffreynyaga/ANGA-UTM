@@ -1,57 +1,51 @@
 from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer, GeoModelSerializer
-from applications.models import ReserveAirspace
+from applications.models import Project, ReserveAirspace
+from rpas.models import Rpas
 
 
+class RpasMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rpas
+        fields = ("id", "cor_number", "rpas_serial")
+
+
+class ProjectsListSerializer(serializers.ModelSerializer):
+
+
+    client_name = serializers.SerializerMethodField()
+
+    def get_client_name(self, instance):
+
+        # print(instance.created_by, "should be group instance")
+        if instance.client:
+            return str(instance.client.name)
+        else:
+            return None
+
+    class Meta:
+        model = Project
+        fields = (
+            "id",
+            "name",
+            "client_name",
+            "is_complete",
+            "start_date",
+            "end_date",
+
+        )
 class ReserveAirspaceListSerializer(GeoFeatureModelSerializer):
     """ A class to serialize locations as GeoJSON compatible data """
 
-    rpas_name = serializers.SerializerMethodField()
+    rpas = RpasMinimalSerializer(many=True, read_only=True)
     mission_type_display = serializers.SerializerMethodField()
     area = serializers.SerializerMethodField()
     start_datetime = serializers.SerializerMethodField()
     user_full_name = serializers.SerializerMethodField()
     user_phone_number = serializers.SerializerMethodField()
 
-    rpas_serial = serializers.SerializerMethodField()
-    rpas_pic = serializers.SerializerMethodField()
-    airframe_type = serializers.SerializerMethodField()
     user_profile_pic = serializers.SerializerMethodField()
     user_organization = serializers.SerializerMethodField()
-
-    def get_rpas_name(self, instance):
-
-        # print(instance.created_by, "should be group instance")
-        if instance.rpas:
-            return str(instance.rpas.rpas_nickname)
-        else:
-            return None
-
-    def get_rpas_serial(self, instance):
-
-        # print(instance.created_by, "should be group instance")
-        if instance.rpas:
-            return str(instance.rpas.rpas_serial)
-        else:
-            return None
-
-    def get_rpas_pic(self, instance):
-
-        request = self.context.get("request")
-        # print(instance, "should be userprofile instance")
-        if instance.rpas.rpas_pic:
-            return request.build_absolute_uri(instance.get_rpas_pic)
-            # return None
-        else:
-            return None
-
-    def get_airframe_type(self, instance):
-
-        # print(instance.created_by, "should be group instance")
-        if instance.rpas:
-            return str(instance.get_airframe_type)
-        else:
-            return None
 
     def get_mission_type_display(self, obj):
         return obj.get_mission_type_display()
@@ -105,10 +99,7 @@ class ReserveAirspaceListSerializer(GeoFeatureModelSerializer):
             "user_profile_pic",
             "user_organization",
             "created_by",
-            "rpas_name",
-            "rpas_serial",
-            "rpas_pic",
-            "airframe_type",
+            "rpas",
             "start_day",
             "start_time",
             "start_datetime",
@@ -126,52 +117,15 @@ class ReserveAirspaceListSerializer(GeoFeatureModelSerializer):
 class ReserveAirspaceDetailSerializer(GeoFeatureModelSerializer):
     """ A class to serialize locations as GeoJSON compatible data """
 
-    rpas_name = serializers.SerializerMethodField()
+    rpas = RpasMinimalSerializer(many=True, read_only=True)
     mission_type_display = serializers.SerializerMethodField()
     area = serializers.SerializerMethodField()
     start_datetime = serializers.SerializerMethodField()
     user_full_name = serializers.SerializerMethodField()
     user_phone_number = serializers.SerializerMethodField()
 
-    rpas_serial = serializers.SerializerMethodField()
-    rpas_pic = serializers.SerializerMethodField()
-    airframe_type = serializers.SerializerMethodField()
     user_profile_pic = serializers.SerializerMethodField()
     user_organization = serializers.SerializerMethodField()
-
-    def get_rpas_name(self, instance):
-
-        # print(instance.created_by, "should be group instance")
-        if instance.rpas:
-            return str(instance.rpas.rpas_nickname)
-        else:
-            return None
-
-    def get_rpas_serial(self, instance):
-
-        # print(instance.created_by, "should be group instance")
-        if instance.rpas:
-            return str(instance.rpas.rpas_serial)
-        else:
-            return None
-
-    def get_rpas_pic(self, instance):
-
-        request = self.context.get("request")
-        # print(instance, "should be userprofile instance")
-        if instance.rpas.rpas_pic:
-            return request.build_absolute_uri(instance.get_rpas_pic)
-            # return None
-        else:
-            return None
-
-    def get_airframe_type(self, instance):
-
-        # print(instance.created_by, "should be group instance")
-        if instance.rpas:
-            return str(instance.get_airframe_type)
-        else:
-            return None
 
     def get_mission_type_display(self, obj):
         return obj.get_mission_type_display()
@@ -226,10 +180,7 @@ class ReserveAirspaceDetailSerializer(GeoFeatureModelSerializer):
             "user_profile_pic",
             "user_organization",
             "created_by",
-            "rpas_name",
-            "rpas_serial",
-            "rpas_pic",
-            "airframe_type",
+            "rpas",
             "start_day",
             "start_time",
             "start_datetime",

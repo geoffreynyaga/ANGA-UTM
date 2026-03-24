@@ -204,34 +204,31 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 Examples:
 Function views
     1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
+    2. Add a URL to urlpatterns:  re_path(r'^$', views.home, name='home')
 Class-based views
     1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
+    2. Add a URL to urlpatterns:  re_path(r'^$', Home.as_view(), name='home')
 Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
+    1. Import the include() function: from django.urls import include, path, re_path, include
+    2. Add a URL to urlpatterns:  re_path(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
 
 from django.conf import settings
 from django.conf.urls import handler404, handler500
 from django.conf.urls.static import static
-
+from django.contrib import admin
+from django.urls import include, path, re_path
 from django.views.static import serve
-
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 
 # Rest Swagger/ReDoc
 from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
 
-
-from accounts.views import error_404, error_500
-from rpas import views
-
+from accounts.views import OpenAPI, OpenAPIMapbox, error_404, error_500
 from applications.views import view_airspace
+from rpas import views
+from ui.views import ReactMainView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -247,50 +244,62 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    url(r"^admin/", admin.site.urls),
-    url(
+    path("admin/", admin.site.urls),
+    re_path(
         r"^api/playground(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
         name="schema-json",
     ),
-    url(
+    re_path(
         r"^api/playground/$",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    url("", include("pwa.urls")),  # You MUST use an empty string as the URL prefix
-    url(r"^webpush/", include("webpush.urls")),
-    url(r"^home$", views.home, name="home"),
-    url(r"^$", view_airspace, name="view_airspace"),
-    url(r"^rpas/", include("rpas.urls")),
-    url(r"^account/", include("accounts.urls", namespace="accounts")),
-    url(r"^account/", include("django.contrib.auth.urls")),
-    url(r"^maps/", include("maps.urls")),
-    url(r"^flight_plans/", include("flight_plans.urls")),
-    url(r"^weather/", include("weather.urls")),
-    url(r"^applications/", include("applications.urls")),
-    url(r"^messages/", include("utm_messages.urls", namespace="messages")),
-    url(r"^notams/", include("notams.urls")),
-    url(r"^organizations/", include("organizations.urls")),
-    url(r"^notifications/", include("notifications.urls", namespace="notifications")),
-    url(r"^api/accounts/", include("accounts.api.urls")),
-    url(r"^api/maps/", include("maps.api.urls")),
-    url(r"^api/rpas/", include("rpas.api.urls")),
-    url(r"^api/applications/", include("applications.api.urls")),
-    url(r"^api/flight_plans/", include("flight_plans.api.urls")),
-    url(r"^api-auth/", include("rest_framework.urls")),
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    # re_path("", include("pwa.urls")),  # You MUST use an empty string as the URL prefix
+    re_path(r"^webpush/", include("webpush.urls")),
+    re_path(r"^home$", views.home, name="home"),
+    path("openapi/", OpenAPI.as_view(), name="open_api"),
+    path("openapi-mapbox/", OpenAPIMapbox.as_view(), name="open_api_mapbox"),
+    re_path(r"^$", view_airspace, name="view_airspace"),
+    re_path(r"^rpas/", include("rpas.urls")),
+    re_path(r"^account/", include("accounts.urls", namespace="accounts")),
+    re_path(r"^account/", include("django.contrib.auth.urls")),
+    re_path(r"^maps/", include("maps.urls")),
+    re_path(r"^flight_plans/", include("flight_plans.urls")),
+    re_path(r"^weather/", include("weather.urls")),
+    re_path(r"^applications/", include("applications.urls")),
+    re_path(r"^messages/", include("utm_messages.urls", namespace="messages")),
+    re_path(r"^notams/", include("notams.urls")),
+    re_path(r"^organizations/", include("organizations.urls")),
+    re_path(
+        r"^notifications/", include("notifications.urls", namespace="notifications")
+    ),
+    re_path(r"^api/accounts/", include("accounts.api.urls")),
+    re_path(r"^api/maps/", include("maps.api.urls")),
+    re_path(r"^api/rpas/", include("rpas.api.urls")),
+    re_path(r"^api/applications/", include("applications.api.urls")),
+    re_path(r"^api/flight_plans/", include("flight_plans.api.urls")),
+    re_path(r"^api-auth/", include("rest_framework.urls")),
+    re_path(r"ui/.*", ReactMainView.as_view(), name="react-main-view"),
 ]
 
 if settings.DEBUG:
-    urlpatterns += [
-        url(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT,}),
-        url(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT,}),
-    ]
-
-if settings.DEBUG:
+    # add django debug toolbar
     import debug_toolbar
 
-    urlpatterns = [url(r"^__debug__/", include(debug_toolbar.urls)),] + urlpatterns
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+        path("__reload__/", include("django_browser_reload.urls")),
+    ]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 
 handler404 = error_404
 handler500 = error_500

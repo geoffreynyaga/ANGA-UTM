@@ -1,11 +1,36 @@
-from rpas.models import Rpas
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from flight_plans.models import FlightLog
-from organizations.models import Organization, OrganizationDetails
+from rpas.models import Rpas
+
+User = get_user_model()
 from accounts.models import UserProfile
 from applications.models import ReserveAirspace
+from flight_plans.models import DailyWorkLog
+from organizations.models import Organization, OrganizationDetails
+
+
+class SignupSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ("email", "first_name", "last_name", "password")
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data["username"],
+            email=validated_data["email"],
+            first_name=validated_data.get("first_name", ""),
+            last_name=validated_data.get("last_name", ""),
+            password=validated_data["password"],
+        )
+        return user
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.CharField()
+    password = serializers.CharField()
 
 
 class UserProfileUASListSerializer(serializers.ModelSerializer):
@@ -22,7 +47,6 @@ class UserProfileFlightLogSerializer(serializers.ModelSerializer):
     date_created = serializers.SerializerMethodField()
 
     def get_date_created(self, instance):
-
         if instance.date_created:
             from django.contrib.humanize.templatetags.humanize import naturalday
 
@@ -82,9 +106,9 @@ class UserProfileDetailSerializer(serializers.ModelSerializer):
     userprofile.birth_date
 
     userprofile.user.get_full_name
-    userprofile.user.username
+    userprofile.user.email
 
-    userprofile.organization.organization_details.name 
+    userprofile.organization.organization_details.name
     userprofile.organization (roc number)
     userprofile.organization.organization_details.city
     userprofile.organization.organization_details.website
@@ -92,7 +116,7 @@ class UserProfileDetailSerializer(serializers.ModelSerializer):
     thisuser = User.objects.get(pk=pk)
     org = thisuser.userprofile.organization
     context["myrpas"] = Rpas.objects.filter(organization=org)
-    context["myflightlogs"] = FlightLog.objects.filter(user=thisuser)
+    context["myflightlogs"] = DailyWorkLog.objects.filter(user=thisuser)
 
     myflightlog.pk
     myflightlog.reserve_airspace.application_number
@@ -103,7 +127,7 @@ class UserProfileDetailSerializer(serializers.ModelSerializer):
     """
 
     full_name = serializers.SerializerMethodField()
-    username = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
 
     profile_pic = serializers.SerializerMethodField()
     organization = UserProfileOrganizationSerializer(read_only=True)
@@ -120,14 +144,14 @@ class UserProfileDetailSerializer(serializers.ModelSerializer):
     def get_full_name(self, obj):
         return obj.user.get_full_name()
 
-    def get_username(self, obj):
-        return obj.user.username
+    def email(self, obj):
+        return obj.user.email
 
     class Meta:
         model = UserProfile
         fields = (
             "full_name",
-            "username",
+            "email",
             "phone_number",
             "bio",
             "location",
@@ -135,4 +159,3 @@ class UserProfileDetailSerializer(serializers.ModelSerializer):
             "profile_pic",
             "organization",
         )
-

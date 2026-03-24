@@ -20,134 +20,138 @@
     {%  leaflet_js %}
     {%  leaflet_css %}
 
-    <section class="content-header">
-      <h1>
-          My Dashboard
-        <small>Summary</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="{% url 'applied_reserves' %}">All Applications</a></li>
-
-        <li class="breadcrumb-item active">Applied By: {{reserveairspace.created_by.get_full_name}} from {{reserveairspace.created_by.userprofile.organization.organization_details}} </li>
-      </ol>
-    </section>
-
-
-
-    <section class="content">
-
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Applied By:</h3>
-          </div>
-          <div class="panel-body">
-           <p>{{reserveairspace.created_by.get_full_name}} for {{reserveairspace.created_by.userprofile.organization.organization_details}}</p>
-            {% comment %} FIXME: Make the organization reflect the org in log create or rpas create {% endcomment %}
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Application Status:</h3>
-          </div>
-          <div class="panel-body">
-            <p>{{reserveairspace.get_status_display}}</p>
-          </div>
-        </div>
-      </div>
+    <!-- Content Header -->
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Application Details</h1>
+        <p class="text-sm text-gray-500 mt-1">Reviewing flight reservation request</p>
+        <nav class="flex text-sm text-gray-500 mt-2" aria-label="Breadcrumb">
+          <ol class="flex items-center space-x-2">
+            <li><a href="{% url 'home' %}" class="hover:text-blue-600">Home</a></li>
+            <li><span class="mx-2 text-gray-400">/</span></li>
+            <li><a href="{% url 'applied_reserves' %}" class="hover:text-blue-600">All Applications</a></li>
+            <li><span class="mx-2 text-gray-400">/</span></li>
+            <li class="font-medium text-gray-700 truncate max-w-xs">
+                {{reserveairspace.created_by.get_full_name}} ({{reserveairspace.created_by.userprofile.organization.organization_details}})
+            </li>
+          </ol>
+        </nav>
     </div>
 
-
-      <div class="row">
-        <div class="col-sm-3">
-
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                Flight Times
-              </h3>
+    <!-- Main Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Applied By</h4>
+            <p class="text-lg font-bold text-gray-900">{{reserveairspace.created_by.get_full_name}}</p>
+            <p class="text-sm text-gray-600 font-medium">{{reserveairspace.created_by.userprofile.organization.organization_details}}</p>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between">
+            <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Application Status</h4>
+            <div class="flex items-center">
+                {% if reserveairspace.status == 'approved' %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-green-100 text-green-800">
+                        <svg class="mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        {{reserveairspace.get_status_display}}
+                    </span>
+                {% elif reserveairspace.status == 'rejected' %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-red-100 text-red-800">
+                        <svg class="mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        {{reserveairspace.get_status_display}}
+                    </span>
+                {% else %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-yellow-100 text-yellow-800">
+                        <svg class="mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        {{reserveairspace.get_status_display}}
+                    </span>
+                {% endif %}
             </div>
-            <div class="panel-body">
+        </div>
+    </div>
 
-              created on: <b>{{reserveairspace.date_created}}</b>
-              <br>
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Sidebar: Flight Times & Specs -->
+        <div class="lg:w-1/3">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-6">
+                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                    <h3 class="font-bold text-gray-800 flex items-center">
+                        <svg class="mr-2 h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        Flight Specifications
+                    </h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between text-xs text-gray-500 border-b border-gray-50 pb-2">
+                        <span>Created On</span>
+                        <span class="font-mono">{{reserveairspace.date_created}}</span>
+                    </div>
 
-              <h6><i class="fa fa-calendar" aria-hidden="true"></i>
-                Start Day:
-                <span class="pull-right">
-                  <p><b>{{reserveairspace.start_day}}</b></p>
-                </span>
-              </h6>
-              <hr>
-                <h6><i class="fa fa-hourglass-start" aria-hidden="true"></i>
-                Start Time:
-                  <span class="pull-right">
-                    <p><b>{{reserveairspace.start_time}}</b></p>
-                  </span>
-                </h6>
-              <hr>
-                <h6><i class="fa fa-hourglass-end" aria-hidden="true"></i>
-                End:
-                  <span class="pull-right">
-                  <p><b> {{reserveairspace.end}}</b></p>
-                  </span>
-                </h6>
-              <hr>
-                <h6><i class="fa fa-map-o" aria-hidden="true"></i>
-                Area :
-                  <span class="pull-right">
-                    <p><b>{{reserveairspace.get_area}}</b> sq. km </p>
-                  </span>
-                </h6>
+                    <div class="flex flex-col space-y-3 pt-2">
+                        <div class="flex justify-between items-center group">
+                            <span class="text-sm text-gray-600 flex items-center">
+                                <svg class="mr-2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                Start Day
+                            </span>
+                            <span class="font-bold text-gray-900">{{reserveairspace.start_day}}</span>
+                        </div>
+                        <div class="flex justify-between items-center group">
+                            <span class="text-sm text-gray-600 flex items-center">
+                                <svg class="mr-2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                Start Time
+                            </span>
+                            <span class="font-bold text-gray-900">{{reserveairspace.start_time}}</span>
+                        </div>
+                        <div class="flex justify-between items-center group text-red-600">
+                            <span class="text-sm flex items-center">
+                                <svg class="mr-2 h-4 w-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                End Time
+                            </span>
+                            <span class="font-bold">{{reserveairspace.end}}</span>
+                        </div>
+                    </div>
 
-              <hr>
-                <h6><i class="fa fa-map-o" aria-hidden="true"></i>
-                Perimiter :
-                  <span class="pull-right">
-                    <p><b>{{reserveairspace.get_perimeter}}</b> km</p>
-                  </span>
-                </h6>
-              <hr>
-                <h6><i class="fa fa-align-left" aria-hidden="true"></i>
-                Reason For Reject/Approval:
-                  <span class="pull-right">
-                    <p><b>{{reserveairspace.reason}}</b></p>
-                  </span>
-                </h6>
-              <hr>
-                <h6><i class="fa fa-comment-o" aria-hidden="true"></i>
-                Comments from CAA:
-                  <span class="pull-right">
-                    <p><b>{{reserveairspace.comments}}</b></p>
-                  </span>
-                </h6>
+                    <div class="pt-4 border-t border-gray-100 flex flex-col space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600 flex items-center">
+                                <svg class="mr-2 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.447-.894L15 4m0 13V4m0 0L9 7" /></svg>
+                                Area
+                            </span>
+                            <span class="font-bold text-gray-900">{{reserveairspace.get_area}} <small class="text-gray-400 font-normal">km²</small></span>
+                        </div>
+                        <div class="flex justify-between items-center shadow-inner-white bg-gray-50 rounded p-2">
+                             <span class="text-sm text-gray-600">Perimeter</span>
+                             <span class="font-bold text-gray-900">{{reserveairspace.get_perimeter}} <small class="text-gray-400 font-normal">km</small></span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 space-y-4">
+                        <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                            <h5 class="text-xs font-bold text-gray-500 uppercase mb-2">Internal Reason</h5>
+                            <p class="text-sm text-gray-700 italic">"{{reserveairspace.reason|default:"No reason provided"}}"</p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                            <h5 class="text-xs font-bold text-blue-500 uppercase mb-2">CAA Comments</h5>
+                            <p class="text-sm text-blue-900 font-medium">{{reserveairspace.comments|default:"Pending CAA review"}}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
 
-
-
-        <div class="col-sm-9">
-
-          <div class="panel panel-danger">
-            <div class="panel-heading">
-              <h3 class="panel-title">Proximities to Restricted Airspace</h3>
-              <!-- TODO: ADD NOTAM STUFF (link, details and reminder to add it to postflight/preflight) -->
-
-            </div>
-            <div class="panel-body">
-              <table class='table table-hover'>
+        <!-- Main Content Area: Proximities/Map -->
+        <div class="lg:w-2/3 space-y-8">
+            <div class="bg-white rounded-xl shadow-sm border border-red-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-red-100 bg-red-50 flex items-center">
+                    <svg class="mr-2 h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <h3 class="font-bold text-red-900">Proximities to Restricted Airspace</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
                       {% if reserveairspace.dist_from_airports.items %}
-                <thead>
-                  <th>Place</th>
-                  <th>Distance</th>
-                </thead>
-
-                <tbody>
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Restricted Point/Place</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Distance (km)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
 
 
                   {% for airport,distance in reserveairspace.dist_from_airports.items %}

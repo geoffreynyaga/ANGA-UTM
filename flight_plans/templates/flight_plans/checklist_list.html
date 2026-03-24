@@ -2,36 +2,32 @@
 {% extends 'base.html' %}
 
 {% block head %}
-    <title>Checklist </title>
+    <title>Checklists</title>
 {% endblock %}
 
 {% block body %}
-<p></p>
-<div class="container">
-<nav aria-label="breadcrumb" role="navigation">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item active" aria-current="page">My Checklists </li>
-    <li class="breadcrumb-item active" aria-current="page"><i class="fa fa-check-square" aria-hidden="true"></i></li>
-  </ol>
-</nav>
-
-<div class="row">
-  {% for checklist in checklists %}
-  <div class="col-sm">
-    <div class="card" style="width: 20rem;">
-      <div class="card-body">
-        <h6 class="card-title">{{checklist.rpas_model.model_name}} Checklist </h6>
-        <!-- <br>
-        <img class="card-img-top" src="{{checklist.rpas.rpas_pic.url}}" alt="RPAS Pic Missing!">
-
-        <br>
-        <br> -->
-        <a class="btn btn-primary" href="{% url 'checklist_detail' pk=checklist.pk %}" role="button">View checklist</a>
-      </div>
+<section class="space-y-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-900">Checklist Groups</h1>
+      <p class="mt-1 text-sm text-slate-600">Reusable checklist templates for pre-flight and post-flight operations.</p>
     </div>
   </div>
 
-    {%endfor%}
-</div>
-</div>
+  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    {% for checklist in checklists %}
+    <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div class="space-y-3">
+        <h2 class="text-lg font-semibold text-slate-900">{{ checklist.title }}</h2>
+        <p class="text-sm text-slate-500">{{ checklist.checklists.count }} checklist item{{ checklist.checklists.count|pluralize }}</p>
+        <a class="inline-flex items-center rounded-lg bg-sky-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-sky-700" href="{% url 'checklist_detail' pk=checklist.pk %}">View checklist</a>
+      </div>
+    </article>
+    {% empty %}
+    <div class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-sm text-slate-500">
+      No checklist groups are available yet.
+    </div>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}

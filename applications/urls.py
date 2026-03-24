@@ -198,28 +198,33 @@
 ##################################################################################
 
 
-from django.conf.urls import url
+from django.urls import include, path, re_path
+
 from . import views
 
 # from djgeojson.views import GeoJSONLayerView
 from .models import ReserveAirspace
 
 urlpatterns = [
-    # url(r'^$', views.ReserveAirspaceCreateView.as_view(), name='create_reserve'),
-    url(r"^$", views.ReserveAirspaceMainView.as_view(), name="reserve_main"),
-    # url(r"^create/$", views.OldReserveAirspaceCreateView.as_view(), name="old_create_reserve"),
-    url(
-        r"^create/$", views.ReserveAirspaceCreateView.as_view(), name="create_reserve",
+    # re_path(r'^$', views.ReserveAirspaceCreateView.as_view(), name='create_reserve'),
+    re_path(r"^$", views.ReserveAirspaceMainView.as_view(), name="reserve_main"),
+    # re_path(r"^create/$", views.OldReserveAirspaceCreateView.as_view(), name="old_create_reserve"),
+    path(
+        "create/",
+        views.ReserveAirspaceCreateView.as_view(),
+        name="create_reserve",
     ),
-    url(r"^airspace/$", views.view_airspace, name="view_airspace"),
-    url(
+    re_path(r"^airspace/$", views.view_airspace, name="view_airspace"),
+    re_path(
         r"^airspace/geojson/$", views.all_reserve_datasets, name="all_reserve_datasets"
     ),
-    url(
+    re_path(
         r"^myreserve/$", views.ReserveAirspaceListView.as_view(), name="my_reserve_list"
     ),
-    url(r"^myreserve/datasets$", views.my_reserve_datasets, name="my_reserve_datasets"),
-    url(
+    re_path(
+        r"^myreserve/datasets$", views.my_reserve_datasets, name="my_reserve_datasets"
+    ),
+    re_path(
         r"^submissions/datasets$",
         views.MyModelLayer.as_view(
             model=ReserveAirspace,
@@ -241,59 +246,65 @@ urlpatterns = [
         ),
         name="airspace_datasets",
     ),
-    url(
+    re_path(
         r"update/(?P<pk>\d+)/$",
         views.ReserveAirspaceUpdateView.as_view(),
         name="update_my_airspace",
     ),
-    url(
+    re_path(
         r"^myreserve/(?P<pk>\d+)/$",
         views.ReserveAirspaceDetailView.as_view(),
         name="myreserve_detail",
     ),
-    url(
+    re_path(
         r"^approval-letters/$",
         views.MyApprovalLettersListView.as_view(),
         name="my_approval_letters_list",
     ),
-    url(
+    re_path(
         r"^approval-letters/(?P<pk>\d+)/$",
         views.MyApprovalLettersDetailView.as_view(),
         name="my_approval_letters_detail",
     ),
-    url(
+    re_path(
         r"^applied-reserves/$",
         views.AppliedReserveAirspaceListView.as_view(),
         name="applied_reserves",
     ),
-    url(
+    re_path(
         r"^applied-reserves/(?P<pk>\d+)/$",
         views.AppliedReserveAirspaceDetailView.as_view(),
         name="applied_reserves_detail",
     ),
-    url(
+    re_path(
         r"^applied-reserves/(?P<pk>\d+)/update/$",
         views.AppliedReserveAirspaceUpdateView.as_view(),
         name="applied_reserves_update",
     ),
-    # url(r'update/(?P<pk>\d+)/$' , views.FlightLogUpdateView.as_view(), name='log_update'),
+    # re_path(r'update/(?P<pk>\d+)/$' , views.FlightLogUpdateView.as_view(), name='log_update'),
     #
-    # url(r'^locations/$', views.locations_datasets, name='locations'),
-    # url(r'^time/$', views.view_time.as_view(), name='view_time'),
-    # url(r'^time/add$', views.TimeCreateView.as_view(), name='add_time'),
+    # re_path(r'^locations/$', views.locations_datasets, name='locations'),
+    # re_path(r'^time/$', views.view_time.as_view(), name='view_time'),
+    # re_path(r'^time/add$', views.TimeCreateView.as_view(), name='add_time'),
     #
-    # url(r'^missionpath/add$', views.MissionPathCreateView.as_view(), name='path_add'),
-    url(
+    # re_path(r'^missionpath/add$', views.MissionPathCreateView.as_view(), name='path_add'),
+    re_path(
         r"^applications/mydata/(?P<pk>\d+)/$",
         views.my_airspace_datasets,
         name="my_airspace_datasets",
     ),
-    # url(r'^missionlist/view/$', views.MissionPathListView.as_view(), name='path'),
-    # url(r'^missionlist/(?P<pk>\d+)/$', views.MissionPathDetailView.as_view(), name='path_detail'),
-    # url(r'^missionobjective/add$', views.MissionObjectiveCreateView.as_view(), name='objective_add'),
-    # url(r'^missionlocation/add$', views.MissionLocationCreateView.as_view(), name='location_add'),
-    # url(r'^emergency-info/add$', views.EmmergencyInfoCreateView.as_view(), name='emergency_add'),
-    # url(r'^pre-flight/add$', views.PreFlightCreateView.as_view(), name='pre_flight_add'),
-    # url(r'^logs/create/$', views.LogsUploadCreateView.as_view(), name='create_log_upload'),
-    # url(r'^logs/$', views.LogsUploadListView.as_view(), name='log_list_geom'),
+    # Project paths
+    path("projects/", views.ProjectsIndexView.as_view(), name="projects_index"),
+    path("clients/add/", views.ClientCreateView.as_view(), name="client_create"),
+    path("clients/list/", views.ClientListView.as_view(), name="client_list"),
+    path("projects/add/", views.ProjectCreateView.as_view(), name="project_create"),
+    path("projects/list/", views.ProjectListView.as_view(), name="project_list"),
+    # re_path(r'^missionlist/view/$', views.MissionPathListView.as_view(), name='path'),
+    # re_path(r'^missionlist/(?P<pk>\d+)/$', views.MissionPathDetailView.as_view(), name='path_detail'),
+    # re_path(r'^missionobjective/add$', views.MissionObjectiveCreateView.as_view(), name='objective_add'),
+    # re_path(r'^missionlocation/add$', views.MissionLocationCreateView.as_view(), name='location_add'),
+    # re_path(r'^emergency-info/add$', views.EmmergencyInfoCreateView.as_view(), name='emergency_add'),
+    # re_path(r'^pre-flight/add$', views.PreFlightCreateView.as_view(), name='pre_flight_add'),
+    # re_path(r'^logs/create/$', views.LogsUploadCreateView.as_view(), name='create_log_upload'),
+    # re_path(r'^logs/$', views.LogsUploadListView.as_view(), name='log_list_geom'),
 ]

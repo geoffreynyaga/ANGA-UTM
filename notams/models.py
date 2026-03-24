@@ -1,12 +1,13 @@
-from datetime import datetime, date
+from datetime import date, datetime
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models as gis_models
 from django.core.exceptions import ValidationError
 from django.db.models import Manager as GeoManager
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
+User = get_user_model()
 # from applications.models import ReserveAirspace
 from applications.validators import validate_start_date
 
@@ -43,7 +44,6 @@ class NotamAirspace(gis_models.Model):
     expiry = gis_models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-
         self.centroid = self.geom.centroid
         super(NotamAirspace, self).save(*args, **kwargs)
 
@@ -67,8 +67,9 @@ class NotamAirspace(gis_models.Model):
                 )
             elif (c / 3600) < 0:
                 raise ValidationError(
-                    "You can not start a Notam at "
-                    "{:%H:%M:%S}".format(self.start_time)
+                    "You can not start a Notam at " "{:%H:%M:%S}".format(
+                        self.start_time
+                    )
                     + " and then end it at "
                     + "{:%H:%M:%S}".format(self.end)
                 )
@@ -113,13 +114,10 @@ class NotamAirspace(gis_models.Model):
 
                 # TODO: NOTAM SEND NOTIFICATION/EMAIL/MESSAGE: this is in clean, does it mean if its OK but the above is wrong its sends all the time?
                 # Can this be send into save()? as there is no validationError raised anyway?
-                for (
-                    qs
-                ) in (
+                for qs in (
                     reserve_qs
                 ):  # TODO: qs in reserve_qs: is qs a single object or qs? if not rename
                     if self.start_time and self.end:
-
                         booking_time_qs_start = datetime.combine(
                             qs.start_day, qs.start_time
                         )
@@ -143,18 +141,16 @@ class NotamAirspace(gis_models.Model):
                 if e:
                     raise ValidationError(
                         (
-                            (
-                                mark_safe(
-                                    "Cannot book airspace in this zone!!"
-                                    + "You have intersected the following notam(s)  occuring at the same day and time"
-                                    + "<hr>"
-                                    + "<p></p>"
-                                    + "<b>"
-                                    + str(e)
-                                    + "<br> "
-                                    + "<hr>"
-                                    + '<a href="/applications/airspace/">Go To Airspace</a>'
-                                )
+                            mark_safe(
+                                "Cannot book airspace in this zone!!"
+                                + "You have intersected the following notam(s)  occuring at the same day and time"
+                                + "<hr>"
+                                + "<p></p>"
+                                + "<b>"
+                                + str(e)
+                                + "<br> "
+                                + "<hr>"
+                                + '<a href="/applications/airspace/">Go To Airspace</a>'
                             )
                         )
                     )

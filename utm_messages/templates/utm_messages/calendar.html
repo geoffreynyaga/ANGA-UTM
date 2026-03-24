@@ -5,8 +5,9 @@
 {% block head %}
 
   <title> Calendar</title>
-  <link rel="stylesheet" href="{% static 'adminlite/bower_components/fullcalendar/dist/fullcalendar.min.css' %}"  type="text/css">
-  <link rel="stylesheet" href="{% static 'adminlite/bower_components/fullcalendar/dist/fullcalendar.print.min.css' %}" media="print">
+  <!-- FullCalendar CSS (CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.css" type="text/css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.print.min.css" media="print">
 
 {%endblock%}
 
@@ -319,17 +320,14 @@
 <script src="{% static 'adminlite/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'adminlite/bower_components/jquery-ui/jquery-ui.min.js' %}"></script> -->
 
-{%block extra_js%}
-<script src="{% static 'adminlite/bower_components/jquery/dist/jquery.min.js' %}"></script>
-<script src="{% static 'adminlite/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'adminlite/bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+{% block extra_js %}
+<!-- jQuery and dependencies for FullCalendar (CDN) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/min/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.js"></script>
 
-<script src="{% static 'adminlite/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
-<script src="{% static 'adminlite/bower_components/fastclick/lib/fastclick.js' %}"></script>
-<script src="{% static 'adminlite/dist/js/adminlte.min.js' %}"></script>
-<!-- <script src="{% static 'adminlite/dist/js/demo.js' %}"></script> -->
-<script src="{% static 'adminlite/bower_components/moment/moment.js' %}"></script>
-<script src="{% static 'adminlite/bower_components/fullcalendar/dist/fullcalendar.min.js' %}"></script>
+<!-- Note: AdminLTE scripts removed; UI interactions handled here with jQuery/FullCalendar where required -->
 
 <!-- Page specific script -->
 <script>

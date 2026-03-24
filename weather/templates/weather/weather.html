@@ -1,36 +1,93 @@
 {% extends "base.html" %}
 
 {% load static %}
-{% block head %}
-    <title>Weather</title>
-
+{% block header %}
+    <title>Weather Briefing | Aeronautical Weather</title>
 {% endblock %}
 
-
 {% block body %}
-<section class="content">
+    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800 tracking-tight">Weather Briefing</h1>
+            <nav class="flex text-sm text-gray-500 mt-1" aria-label="Breadcrumb">
+              <ol class="flex items-center space-x-2">
+                <li><a href="{% url 'home' %}" class="hover:text-blue-600">Home</a></li>
+                <li><span class="mx-2 text-gray-400">/</span></li>
+                <li class="font-medium text-gray-700">Real-time Observations</li>
+              </ol>
+            </nav>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
+                <svg class="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" /></svg>
+                Current Conditions
+            </span>
+        </div>
+    </div>
 
-  
+    <div class="max-w-md mx-auto">
+        <!-- Weather Card -->
+        <div class="bg-white rounded-[2rem] shadow-xl border border-gray-100 overflow-hidden relative">
+            <!-- Header Background / Gradient -->
+            <div class="h-48 bg-gradient-to-br from-blue-500 to-indigo-600 relative overflow-hidden p-8 flex flex-col justify-between text-white">
+                <div class="flex justify-between items-start z-10">
+                    <div>
+                        <h2 class="text-2xl font-bold">{{ data.location }}</h2>
+                        <p class="text-blue-100 text-xs font-medium uppercase tracking-widest mt-1">{{ data.observation_time }}</p>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-md rounded-2xl p-2 border border-white/30">
+                        <img src="{{ data.icon_url }}" class="w-16 h-16" alt="Weather icon">
+                    </div>
+                </div>
+                
+                <div class="flex items-end justify-between z-10">
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-6xl font-black">{{ data.temp }}</span>
+                        <span class="text-2xl font-bold text-blue-100">°C</span>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-bold">{{ data.weather }}</p>
+                    </div>
+                </div>
 
-          <div class="card" style="width: 20rem;">
-            <div class="container">
-                <img src="{{ data.icon_url }}">
-              {{ data.weather }}
+                <!-- Decorative Background Elements -->
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+                <div class="absolute -left-10 -top-10 w-48 h-48 bg-indigo-400/20 rounded-full blur-3xl"></div>
             </div>
-            <div class="card-body">
-              <p class="card-title">{{ data.location }}</p>
-              <p class="card-text">{{ data.observation_time }}</p>
+
+            <!-- Weather Details -->
+            <div class="p-8 space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Wind -->
+                    <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 flex flex-col">
+                        <div class="flex items-center gap-2 text-blue-600 mb-2">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Wind</span>
+                        </div>
+                        <p class="text-sm font-bold text-gray-800">{{ data.wind_str|default:"Calm" }}</p>
+                    </div>
+
+                    <!-- Precipitation -->
+                    <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 flex flex-col">
+                        <div class="flex items-center gap-2 text-indigo-600 mb-2">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Precip</span>
+                        </div>
+                        <p class="text-sm font-bold text-gray-800">{{ data.precip }}</p>
+                    </div>
+                </div>
+
+                <!-- Warning Message for Drone Pilots -->
+                <div class="bg-amber-50 rounded-2xl p-4 border border-amber-100">
+                    <div class="flex gap-3">
+                        <svg class="h-5 w-5 text-amber-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.876c1.27 0 2.09-1.383 1.43-2.505L13.43 5.67c-.63-1.07-2.12-1.07-2.75 0L3.025 15.495c-.66 1.122.16 2.505 1.43 2.505z" /></svg>
+                        <div>
+                            <p class="text-xs font-bold text-amber-800 mb-1 leading-none uppercase">Pilot Advisory</p>
+                            <p class="text-xs text-amber-700 leading-tight">Always verify local conditions before takeoff. Weather can change rapidly outside of METAR reporting zones.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Wind: {{ data.wind_str }}</li>
-              <li class="list-group-item">Temp: {{ data.temp }} deg. Celsius</li>
-              <li class="list-group-item">Precipitation: {{ data.precip }}</li>
-            </ul>
-         </div>
-
-
-
-</section>
-
-
+        </div>
+    </div>
 {% endblock %}

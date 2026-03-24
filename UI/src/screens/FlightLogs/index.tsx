@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-interface FlightLog {
+interface DailyWorkLog {
   user_first_name: string;
   user_last_name: string;
   no_of_flights: number;
@@ -21,7 +21,7 @@ interface FlightLog {
 }
 
 function FlightLogsMainPage() {
-  const [logs, setLogs] = useState<[FlightLog] | null>(null);
+  const [logs, setLogs] = useState<[DailyWorkLog] | null>(null);
   const fetchLogs = async () => {
     console.log("called");
     return fetch("http://localhost:8000/api/flight_plans/logs/list/", {

@@ -14,127 +14,100 @@
 {% endblock %}
 
 {% block body %}
-
-<section class="content">
-  
-<div class="row">
-
-<div class="col-md-3 ">
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <h3 class="panel-title">Approved</h3>
+<div class="px-4 py-8 sm:px-0">
+    <div class="mb-8 md:flex md:items-center md:justify-between">
+        <div class="flex-1 min-w-0">
+            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl">My Reservations</h2>
+            <p class="mt-1 text-sm text-gray-500">Track the status of your airspace reservation requests</p>
+        </div>
+        <div class="flex mt-4 md:mt-0 md:ml-4">
+            <a href="{% url 'create_reserve' %}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">
+                <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                New Reservation
+            </a>
+        </div>
     </div>
-    <div class="panel-body">
-      <table class="table">
-        <caption>All Approved Flights</caption>
-        <thead>
-        <tr>
-          <th>Start Date</th>
-        </tr>
-      </thead>
-         <tbody>
-           {% for my_reserve in my_reserves %}
-           {% if my_reserve.status == 2 %}
-           <tr>
-              <td>{{my_reserve.get_start_datetime}}</td>
-              <td><a href="{% url 'myreserve_detail' pk=my_reserve.pk %}" class="card-link">
-                <i class="fa fa-external-link" aria-hidden="true"> </i>Details</a></td>
-           </tr>
-            {% endif%}
-            {% endfor%}
-          </tbody>
-        </table>
+
+    <div class="mb-8 overflow-hidden bg-white rounded-lg shadow ring-1 ring-black ring-opacity-5">
+        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+            <h3 class="text-lg font-medium leading-6 text-gray-900">All Reservations</h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">App #</th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Project</th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Start Date</th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Status</th>
+                        <th class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for my_reserve in my_reserves %}
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{{ my_reserve.application_number|default:"---" }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">{{ my_reserve.project.name|default:"---" }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{ my_reserve.get_start_datetime }}</div>
+                            <div class="text-xs text-gray-500">{{ my_reserve.get_start_datetime|timeuntil }} left</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {% if my_reserve.status == 2 %}
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Approved</span>
+                            {% elif my_reserve.status == 0 %}
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Pending</span>
+                            {% elif my_reserve.status == 1 %}
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Rejected</span>
+                                {% if my_reserve.reason %}<p class="mt-1 text-xs text-red-500 truncate max-w-[150px]" title="{{ my_reserve.reason }}">{{ my_reserve.reason }}</p>{% endif %}
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 space-x-3 text-sm font-medium text-right whitespace-nowrap">
+                            <a href="{% url 'myreserve_detail' pk=my_reserve.pk %}" class="text-blue-600 hover:text-blue-900" title="View Details">
+                                <i class="fa fa-external-link"></i>
+                            </a>
+                            <a href="{% url 'update_my_airspace' pk=my_reserve.pk %}" class="text-green-600 hover:text-green-900" title="Edit">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-10 text-sm italic text-center text-gray-500">No reservations found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
+
+    <!-- Map Section -->
+    <div class="overflow-hidden bg-white rounded-lg shadow ring-1 ring-black ring-opacity-5">
+        <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+            <h3 class="text-sm font-medium text-gray-700">Visual Overview of Reservations</h3>
+        </div>
+        <div class="p-0 h-96">
+            {% leaflet_map "gis" callback="window.our_layers" %}
+        </div>
+    </div>
 </div>
 
-<div class="col-md-5 ">
-  <div class="panel panel-danger">
-    <div class="panel-heading">
-      <h3 class="panel-title">Rejected</h3>
-    </div>
-    <div class="panel-body">
-      <table class="table">
-        <caption>All Rejected Flights</caption>
-        <thead>
-        <tr>
-          <th>Time to Start</th>
-          <th>Reason</th>
-        </tr>
-      </thead>
-         <tbody>
-           {% for my_reserve in my_reserves %}
-           {% if my_reserve.status == 1 %}
-           <tr>
-              <td>{{my_reserve.get_start_datetime | timeuntil}}</td>
-              <td>{{my_reserve.reason}}</td>
-              <td><a href="{% url 'myreserve_detail' pk=my_reserve.pk %}" class="card-link">
-                <i class="fa fa-external-link" aria-hidden="true"> </i> View Details</a></td>
-              <td><a href="{% url 'update_my_airspace' pk=my_reserve.pk %}" class="card-link">
-                <i class="fa fa-pencil-square-o" aria-hidden="true"> </i> Update</a></td>
-           </tr>
-            {% endif%}
-            {% endfor%}
-          </tbody>
-        </table>
-    </div>
-  </div>
-</div>
-
-
-<div class="col-md-4 col-sm-4">
-
-  <div class="panel panel-warning">
-  <div class="panel-heading">
-    <h3 class="panel-title">Pending</h3>
-  </div>
-  <div class="panel-body">
-    <table class="table">
-      <caption>These are the  Pending Approvals</caption>
-      <thead>
-      <tr>
-        <th>Time to Start</th>
-      </tr>
-    </thead>
-       <tbody>
-         {% for my_reserve in my_reserves %}
-         {% if my_reserve.status == 0 %}
-         <tr>
-            <td>{{my_reserve.get_start_datetime | timeuntil}}</td>
-            <td>
-              <a href="{% url 'myreserve_detail' pk=my_reserve.pk %}" class="card-link">
-              <i class="fa fa-external-link" aria-hidden="true"></i> View Details</a></td>
-            <td><a href="{% url 'update_my_airspace' pk=my_reserve.pk %}" class="card-link">
-              <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update</a></td>
-         </tr>
-          {% endif%}
-          {% endfor%}
-        </tbody>
-      </table>
-  </div>
-</div>
-</div>
-
-
-<div class="col-sm-12">
-  <script type="text/javascript">
+<script type="text/javascript">
     function our_layers(map, options) {
-
-      var datasets = new L.GeoJSON.AJAX("{% url 'my_reserve_datasets'%}", {
-      });
-
-      datasets.addTo(map);
+        var datasets = new L.GeoJSON.AJAX("{% url 'my_reserve_datasets'%}", {
+            onEachFeature: function(feature, layer) {
+                if (feature.properties) {
+                    layer.bindPopup(feature.properties.get_name || "Reservation");
+                }
+            }
+        });
+        datasets.on('data:loaded', function() {
+            if (datasets.getBounds().isValid()) {
+                map.fitBounds(datasets.getBounds());
+            }
+        });
+        datasets.addTo(map);
     }
-  </script> {% leaflet_map "gis" callback="window.our_layers" %}
-</div>
-
-
-</div>
-
-    
-
+</script>
 <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
-
-</section>
-
 {% endblock %}

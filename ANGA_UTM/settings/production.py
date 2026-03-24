@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "utm_messages",
     "notams",
     "notifications",
+    "ui",
 ]
 
 MIDDLEWARE = [
@@ -187,7 +188,6 @@ SECURE_HSTS_SECONDS = 1000000
 SECURE_FRAME_DENY = True
 
 from ANGA_UTM.aws.conf import *
-
 
 PWA_APP_NAME = "Anga UTM"
 PWA_APP_DESCRIPTION = "Keep It Simple, Stupid"

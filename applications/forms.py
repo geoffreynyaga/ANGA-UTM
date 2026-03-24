@@ -4,9 +4,9 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import widgets
 
-from bootstrap_datepicker_plus import (
-    DateTimePickerInput,
+from bootstrap_datepicker_plus.widgets import (
     DatePickerInput,
+    DateTimePickerInput,
     TimePickerInput,
 )
 
@@ -15,7 +15,7 @@ from leaflet.forms.widgets import LeafletWidget
 
 from rpas.models import Rpas
 
-from .models import ReserveAirspace
+from .models import ReserveAirspace, Client, Project
 
 
 class ExtLeafletWidget(LeafletWidget):
@@ -60,7 +60,7 @@ class ReserveAirspaceForm(forms.ModelForm):
 
         NB: ALways do `filter(organization=org)` as this helps us in frontend to deny people not registered to any organisation
         """
-        self.fields["rpas"] = forms.ModelChoiceField(
+        self.fields["rpas"] = forms.ModelMultipleChoiceField(
             queryset=Rpas.objects.filter(organization=org).order_by("-id")
         )
 
@@ -74,7 +74,6 @@ class ReserveAirspaceForm(forms.ModelForm):
         """
 
     def clean(self, *args, **kwargs):
-
         cleaned_data = super(ReserveAirspaceForm, self).clean(*args, **kwargs)
         user = self.user  # this was passed in the __init__ function above
         # print(user,"this is user")
@@ -86,9 +85,9 @@ class ReserveAirspaceForm(forms.ModelForm):
         # print(start_time, "this is cleaned data start_time")
 
         if start_day and start_time:
-            other_user_flights_on_the_day = ReserveAirspace.objects.filter(
-                created_by=user
-            ).filter(start_day=start_day)
+            other_user_flights_on_the_day = ReserveAirspace.objects.filter(created_by=user).filter(
+                start_day=start_day
+            )
             # print(other_user_flights_on_the_day,"other Flights that day")
             if other_user_flights_on_the_day.count() >= 2:
                 self.add_error(
@@ -104,7 +103,6 @@ class ReserveAirspaceForm(forms.ModelForm):
 
             if other_user_flights_on_that_time.count() >= 0:
                 for flight in other_user_flights_on_that_time:
-
                     self.add_error(
                         None,
                         ValidationError(
@@ -117,7 +115,6 @@ class ReserveAirspaceForm(forms.ModelForm):
 
 
 class AppliedReserveAirspaceUpdateForm(forms.ModelForm):
-
     # start_time = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
 
     # end = forms.TimeField(widget=TimeWidget(usel10n=True, bootstrap_version=3))
@@ -137,7 +134,7 @@ class AppliedReserveAirspaceUpdateForm(forms.ModelForm):
         user = kwargs.pop("user", None)
         super(AppliedReserveAirspaceUpdateForm, self).__init__(*args, **kwargs)
         org = user.userprofile.organization
-        self.fields["rpas"] = forms.ModelChoiceField(
+        self.fields["rpas"] = forms.ModelMultipleChoiceField(
             queryset=Rpas.objects.filter(organization=org).order_by("-id")
         )
 
@@ -174,3 +171,21 @@ class CAAAppliedReserveAirspaceUpdateForm(forms.ModelForm):
 
 #         fields = ('name', 'log')
 #         widgets = {'geom': LeafletWidget(), }
+
+class ClientForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ("name", "phone_number", "email", "pin_location")
+        widgets = {
+            "pin_location": ExtLeafletWidget(),
+        }
+
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ("name", "description", "client", "start_date", "end_date")
+        widgets = {
+            "start_date": widgets.SelectDateWidget(),
+            "end_date": widgets.SelectDateWidget(),
+        }

@@ -1,0 +1,201 @@
+{% extends 'base.html' %} {% load static %} {% block head %}
+    {% load leaflet_tags %}
+
+    <link rel="stylesheet" href="{% static 'leaflet-search/src/leaflet-search.css' %}" />
+
+    <title>Airspace</title>
+
+    <style>
+        #map {
+            position: relative;
+            left: 0px;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 80vh;
+        }
+        
+        .leaflet-container {
+            /* all maps */
+            width: 100%;
+            height: 85vh;
+        }
+    </style>
+
+    <script src="https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js"></script>
+    <link href="https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css" rel="stylesheet" />
+    <script src="{% static 'leafletMapbox/Leaflet.MapboxVectorTile.js' %}"></script>
+    <script src="{% static 'leaflet-ajax/leaflet.ajax.min.js' %}"></script>
+
+    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+    <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous" />
+{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div id="map"></div>
+        </div>
+
+        <script>
+            const mapboxAccessToken =
+                'pk.eyJ1IjoiZ2VvZmZyZXlueWFnYSIsImEiOiJjamdmM3Q5NG4wdnprMnhyMGJqd3U1N25yIn0.R_3l_E-DDVpHQ0rL3zgElQ'
+            
+            L.mapbox.accessToken =
+                'pk.eyJ1IjoiZ2VvZmZyZXlueWFnYSIsImEiOiJjamdmM3Q5NG4wdnprMnhyMGJqd3U1N25yIn0.R_3l_E-DDVpHQ0rL3zgElQ'
+            
+            var map = L.mapbox
+                .map('map', 'mapbox.streets', {
+                    //maxBounds: [[ -4.77369399748329, 33.909937402767],
+                    //    [5.03342194387382, 41.9067738648657 ]],
+                    //maxZoom: 19,
+                    minZoom: 8,
+                })
+                .setView([-1.03326, 37.06933], 14)
+            
+            L.control.fullscreen().addTo(map)
+            
+            //TO DO: URGENT SET TO COUNTRY
+            //DONE:
+            map.on('zoomstart', function (e) {
+                // because localstorage returns null if not found
+                console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+            
+                if (
+                    localStorage.getItem('bounds') !== null &&
+                    localStorage.getItem('setCountryBounds') == 'false'
+                ) {
+                    //console.log(localStorage.getItem("bounds"),"its here")
+                    //console.log(typeof JSON.parse(localStorage.getItem("bounds")),"its here")
+                    console.log('setting the bounds')
+                    map.setMaxBounds(JSON.parse(localStorage.getItem('bounds')))
+                    localStorage.setItem('setCountryBounds', true)
+                }
+            })
+            
+            let xurl =
+                'https://api.tiles.openaip.net/api/data/openaip/{z}/{x}/{y}.pbf?apiKey=58803704f98f6c1261d5d57e34bb27f6'
+            console.log(xurl, 'xurl')
+            var mvtSource = new L.TileLayer.MVTSource({
+                url: 'https://api.tiles.openaip.net/api/data/openaip/{z}/{x}/{y}.pbf?apikey=58803704f98f6c1261d5d57e34bb27f6',
+                // clickableLayers: [...layers],
+                mutexToggle: true,
+                getIDForLayerFeature: function (feature) {
+                    console.log(feature.properties.name, 'feature.properties')
+                    return feature.properties.name
+                },
+                onClick: function (e) {
+                    // https://github.com/SpatialServer/Leaflet.MapboxVectorTile/issues/53
+                    console.log(e, 'click')
+                    // console.log([...layers],'layers');
+            
+                    var feature = e.feature
+                    console.log(feature, 'feature')
+                    console.log(feature !== null, ' feature !== null should be true ')
+            
+                    coord = e.latlng
+                    console.log(coord, 'coord ')
+            
+                    if (feature !== undefined && feature !== null) {
+                        var prop = feature.properties
+                        var popup = L.popup({closeOnClick: true})
+                            .setLatLng(coord)
+                            .setContent(prop.name)
+                            .openOn(feature.map)
+                    }
+                },
+            
+                //style: function (feature) {
+                //  var layer = feature.properties.type;
+                //  return getStyle(layer);
+                //},
+            })
+            
+            map.addLayer(mvtSource)
+            
+            console.log(mvtSource.layers, 'mvtSource.layers')
+            console.log(typeof mvtSource.layers, 'typeof mvtSource.layers')
+            
+            var x = mvtSource.layers
+            
+            // ---------------------------------//
+        </script>
+    </section>
+{% endblock %}
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>OpenAIP Map - MVT Layer</title>
+
+        <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
+        <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            #map {
+                position: relative;
+                width: 100vw;
+                height: 90vh;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>OpenAIP Map - MVT Layer</h1>
+
+        <div id="map"></div>
+
+        <script>
+            mapboxgl.accessToken =
+                'pk.eyJ1IjoiZ2VvZmZyZXlueWFnYSIsImEiOiJjamdmM3Q5NG4wdnprMnhyMGJqd3U1N25yIn0.R_3l_E-DDVpHQ0rL3zgElQ'
+            
+            const map = new mapboxgl.Map({
+                container: 'map', // container ID
+                center: [36, 0], // starting position [lng, lat]
+                zoom: 9, // starting zoom
+                style: 'https://api.tiles.openaip.net/api/styles/openaip-default-style.json',
+            })
+            
+            map.on('load', function () {
+                map.addSource('openaip', {
+                    type: 'vector',
+                    tiles: [`https://api.tiles.openaip.net/api/data/hotspots/{z}/{x}/{y}.png`],
+                    maxzoom: 18,
+                    minzoom: 8,
+                })
+            
+                map.addLayer({
+                    id: 'openaip-layer',
+                    type: 'fill',
+                    source: 'openaip',
+                    'source-layer': 'openaip',
+                    paint: {
+                        'fill-color': '#088',
+                        'fill-opacity': 0.6,
+                    },
+                })
+            
+                map.addSource('wms-test-source', {
+                    type: 'raster',
+                    // use the tiles option to specify a WMS tile source URL
+                    // https://docs.mapbox.comhttps://docs.mapbox.com/style-spec/reference/sources/
+                    tiles: [
+                        'https://api.tiles.openaip.net/api/data/hotspots/{z}/{x}/{y}.png?apiKey=58803704f98f6c1261d5d57e34bb27f6',
+                    ],
+                    tileSize: 256,
+                })
+            })
+        </script>
+    </body>
+</html> {% endcomment %}
+
+{% comment %}map.addLayer( { id: 'wms-test-layer', type: 'raster', source: 'wms-test-source', paint: {}, }, 'openaip-layer', // Place layer under labels, roads and buildings. ){% endcomment %}

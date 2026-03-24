@@ -11,87 +11,93 @@
 
 
 {% block body %}
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">My Dashboard</h1>
+        <nav class="flex text-sm text-gray-500 mt-1" aria-label="Breadcrumb">
+          <ol class="flex items-center space-x-2">
+            <li><a href="{% url 'home' %}" class="hover:text-blue-600">Home</a></li>
+            <li><span class="mx-2 text-gray-400">/</span></li>
+            <li class="font-medium text-gray-700">RPAS</li>
+          </ol>
+        </nav>
+    </div>
 
-          <!-- Content Header (Page header) -->
-          <section class="content-header">
-            <h1>
-                My Dashboard
-              <small>Summary</small>
-            </h1>
-            <ol class="breadcrumb">
-              <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-              <li class="active">RPAS</li>
-            </ol>
-          </section>
-
-          <!-- Main content -->
-          <section class="content">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-              <div class="col-lg-6 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
-                  <div class="inner">
-                    <h3><i class="ion-paper-airplane"></i></h3>
-
-                    <p>My RPAS</p>
-                  </div>
-                  <div class="icon">
-                    <i class="ion-paper-airplane"></i>
-                  </div>
-                  <a href="{% url 'rpas_list' %}" class="small-box-footer">View <i class="fa fa-arrow-circle-right"></i></a>
+    <!-- Main content -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+        <!-- My RPAS -->
+        <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Inventory</p>
+                    <h3 class="text-2xl font-bold mt-1">My RPAS</h3>
                 </div>
-              </div>
-              <!-- ./col -->
-              <div class="col-lg-6 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-green">
-                  <div class="inner">
-                    <!-- <h3>2<sup style="font-size: 20px"></sup></h3> -->
-                    <h3><i class="ion-ios-compose-outline"></i></h3>
-
-                    <p>CREATE</p>
-                  </div>
-                  <div class="icon">
-                    <i class="ion-ios-compose-outline"></i>
-                  </div>
-                  <a href="{% url 'rpas_add' %}" class="small-box-footer">Create <i class="fa fa-arrow-circle-right"></i></a>
+                <div class="bg-white bg-opacity-20 p-3 rounded-lg">
+                    <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
                 </div>
-              </div>
-              <!-- ./col -->
-              <div class="col-lg-6 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-yellow">
-                  <div class="inner">
-                    <h3><i class="ion-ios-list-outline"></i></h3>
+            </div>
+            <a href="{% url 'rpas_list' %}" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
+                View Inventory
+                <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            </a>
+        </div>
 
-                    <p>REGISTER</p>
-                  </div>
-                  <div class="icon">
-                    <i class="ion-ios-list-outline"></i>
-                  </div>
-                  <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <!-- CREATE -->
+        <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Action</p>
+                    <h3 class="text-2xl font-bold mt-1">CREATE</h3>
                 </div>
-              </div>
-              <!-- ./col -->
-              <div class="col-lg-6 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-red">
-                  <div class="inner">
-                    <h3><i class="ion-wrench"></i></h3>
-
-                    <p>UPDATE</p>
-                  </div>
-                  <div class="icon">
-                    <i class="ion-wrench"></i>
-                  </div>
-                  <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <div class="bg-white bg-opacity-20 p-3 rounded-lg">
+                    <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
                 </div>
-              </div>
-              <!-- ./col -->
-            </section>
+            </div>
+            <a href="{% url 'rpas_add' %}" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
+                Add New RPAS
+                <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+            </a>
+        </div>
 
+        <!-- REGISTER -->
+        <div class="bg-gradient-to-br from-yellow-400 to-yellow-500 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Compliance</p>
+                    <h3 class="text-2xl font-bold mt-1">REGISTER</h3>
+                </div>
+                <div class="bg-white bg-opacity-20 p-3 rounded-lg">
+                    <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+            </div>
+            <a href="#" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
+                Register RPAS
+                <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            </a>
+        </div>
 
-
-
+        <!-- UPDATE -->
+        <div class="bg-gradient-to-br from-red-500 to-red-600 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Maintenance</p>
+                    <h3 class="text-2xl font-bold mt-1">UPDATE</h3>
+                </div>
+                <div class="bg-white bg-opacity-20 p-3 rounded-lg">
+                    <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+            </div>
+            <a href="#" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
+                Update Details
+                <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            </a>
+        </div>
+    </div>
 {% endblock %}
