@@ -83,6 +83,14 @@ class ProjectDetailsAPIView(APIView):
             status=status.HTTP_200_OK,
         )
 
+class ProjectsListAPIView(ListAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectsListSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        org = self.request.user.userprofile.organization
+        queryset = Project.objects.filter(organization=org)
+        return queryset
 
 class ReserveCreateAPIView(APIView):
     permission_classes = (AllowAny,)

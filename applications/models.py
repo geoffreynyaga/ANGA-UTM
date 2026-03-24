@@ -281,8 +281,9 @@ class ReserveAirspace(gis_models.Model):
                 raise ValidationError("Cannot book airspace for more three hours!")
             elif (c / 3600) < 0:
                 raise ValidationError(
-                    "Cmon man!! You can not start a flight at "
-                    "{:%H:%M:%S}".format(self.start_time)
+                    "Cmon man!! You can not start a flight at " "{:%H:%M:%S}".format(
+                        self.start_time
+                    )
                     + " and then GO BACK IN TIME to "
                     + "{:%H:%M:%S}".format(self.end)
                     + " to end your flight"
