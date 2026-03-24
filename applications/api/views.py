@@ -1,9 +1,9 @@
+from flight_plans.models import DailyWorkLog
 from applications.api.serializers import (
     ProjectsListSerializer,
     ReserveAirspaceDetailSerializer,
     ReserveAirspaceListSerializer,
-
-
+    DailyWorkLogForStatsSerializer,
 )
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -12,20 +12,77 @@ from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework import status
-
+from django.db.models import Sum, Count
+from rpas.models import Rpas
 
 from applications.models import Project, ReserveAirspace
+from administration.models import FieldExpense
 
 
+class ProjectListExtraDetailsAPIView(APIView):
+    authentication_classes = (TokenAuthentication, SessionAuthentication)
+    permission_classes = (IsAuthenticated,)
 
-class ProjectsListAPIView(ListAPIView):
     queryset = Project.objects.all()
-    serializer_class = ProjectsListSerializer
 
-    def get_queryset(self, *args, **kwargs):
+    def get(self, *args, **kwargs):
         org = self.request.user.userprofile.organization
-        queryset = Project.objects.filter(organization=org)
-        return queryset
+
+        # Annotate each project with its aggregated metrics
+        # We use the relationship name 'dailyworklog' (lowercase model name if not specified)
+        projects = Project.objects.filter(organization=org).annotate(
+            bags_spread_sum=Sum("dailyworklog__bags_spread"),
+            acres_sprayed_sum=Sum("dailyworklog__acres_sprayed"),
+            unique_rpas_count_per_project=Count("dailyworklog__rpas", distinct=True),
+        )
+
+        # Map annotated fields to serializer-friendly names if they differ
+        for project in projects:
+            project.bags_spread = project.bags_spread_sum or 0
+            project.acres_sprayed = project.acres_sprayed_sum or 0
+            project.unique_rpas_count = project.unique_rpas_count_per_project or 0
+
+        projects_serialized = ProjectsListSerializer(projects, many=True).data
+
+        return Response(
+            {
+                "projects": projects_serialized,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class ProjectDetailsAPIView(APIView):
+    authentication_classes = (TokenAuthentication, SessionAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, *args, **kwargs):
+        project_id = self.kwargs["pk"]
+        try:
+
+            project = Project.objects.get(id=project_id)
+
+        except Project.DoesNotExist:
+            return Response(
+                {"ResultDesc": "Project Not Found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        worklogs = DailyWorkLog.objects.filter(project=project)
+
+        worklogs_serialized = DailyWorkLogForStatsSerializer(worklogs, many=True).data
+
+        expenses = FieldExpense.objects.filter(project=project)
+        total_expenses = expenses.aggregate(Sum("amount"))
+
+        return Response(
+            {
+                "worklogs": worklogs_serialized,
+                "total_expenses": total_expenses,
+                "estimated_ops_budget": project.estimated_ops_budget,
+            },
+            status=status.HTTP_200_OK,
+        )
+
 
 class ReserveCreateAPIView(APIView):
     permission_classes = (AllowAny,)
@@ -88,9 +145,9 @@ class ReserveCreateAPIView(APIView):
         print(x, "x instance")
         try:
             x.full_clean()
-            # The application_number is generated in save(), so we must save again 
+            # The application_number is generated in save(), so we must save again
             # to ensure the finalized instance (with App #) is in the DB
-            x.save() 
+            x.save()
         except Exception as e:
             print(e)
             # Since objects.create() already saved it, we must delete it if validation fails

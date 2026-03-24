@@ -17,7 +17,10 @@ class SignupAPIView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
+        print(request.data, "Request Data in sigup")
         serializer = SignupSerializer(data=request.data)
+        print(serializer.is_valid(), "Serializer is valid")
+        print(serializer.errors, "Serializer errors")
         if serializer.is_valid():
             user = serializer.save()
             token, created = Token.objects.get_or_create(user=user)
@@ -31,20 +34,24 @@ class LoginAPIView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            identifier = serializer.validated_data.get('email')
-            password = serializer.validated_data.get('password')
+            identifier = serializer.validated_data.get("email")
+            password = serializer.validated_data.get("password")
 
             # Check if identifier matches username or email
             try:
                 user_obj = User.objects.get(email=identifier)
                 email = user_obj.email
             except User.DoesNotExist:
-                return Response({"error": "Invalid email"}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response(
+                    {"error": "Invalid email"}, status=status.HTTP_401_UNAUTHORIZED
+                )
 
             user = authenticate(email=email, password=password)
             if user:
                 Token.objects.get_or_create(user=user)
                 token = Token.objects.get(user=user)
                 return Response({"token": token.key}, status=status.HTTP_200_OK)
-            return Response({"error": "Invalid Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"error": "Invalid Credentials"}, status=status.HTTP_401_UNAUTHORIZED
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -285,6 +285,7 @@ urlpatterns = [
     re_path(r"^api/rpas/", include("rpas.api.urls")),
     re_path(r"^api/applications/", include("applications.api.urls")),
     re_path(r"^api/flight_plans/", include("flight_plans.api.urls")),
+    re_path(r"^api/administration/", include("administration.api.urls")),
     re_path(r"^api-auth/", include("rest_framework.urls")),
     re_path(r"ui/.*", ReactMainView.as_view(), name="react-main-view"),
 ]
