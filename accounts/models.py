@@ -64,6 +64,7 @@ class User(AbstractUser):
 
     ROLES = (
         ("pilot", "pilot"),
+        ("client", "client"),
         ("ops_manager", "Operations Manager"),
         ("safety_manager", "Safety Manager"),
         ("quality_manager", "Quality Manager"),
@@ -78,7 +79,7 @@ class User(AbstractUser):
     )  # Set the default value
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["phone_number"]
+    REQUIRED_FIELDS = ["phone_number"] #TODO: iS THIS REQUIRED IF THE FIELD IS BLANK AND NULLABLE?
 
     objects = UserManager()
 

@@ -7,16 +7,19 @@ from applications.api.serializers import (
 )
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 from django.db.models import Sum, Count
-from rpas.models import Rpas
 
 from applications.models import Project, ReserveAirspace
-from administration.models import FieldExpense
+
+
+def _get_request_user_organization(request):
+    user_profile = getattr(request.user, "userprofile", None)
+    return getattr(user_profile, "organization", None)
 
 
 class ProjectListExtraDetailsAPIView(APIView):
@@ -26,15 +29,30 @@ class ProjectListExtraDetailsAPIView(APIView):
     queryset = Project.objects.all()
 
     def get(self, *args, **kwargs):
-        org = self.request.user.userprofile.organization
+        org = _get_request_user_organization(self.request)
+        if org is None:
+            return Response(
+                {
+                    "ResultDesc": "User is not connected to an organization. Please reach out to the admin for addition to company projects.",
+                    "projects": [],
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        # Annotate each project with its aggregated metrics
-        # We use the relationship name 'dailyworklog' (lowercase model name if not specified)
         projects = Project.objects.filter(organization=org).annotate(
             bags_spread_sum=Sum("dailyworklog__bags_spread"),
             acres_sprayed_sum=Sum("dailyworklog__acres_sprayed"),
             unique_rpas_count_per_project=Count("dailyworklog__rpas", distinct=True),
         )
+
+        if not projects.exists():
+            return Response(
+                {
+                    "ResultDesc": "This organization has no projects started.",
+                    "projects": [],
+                },
+                status=status.HTTP_200_OK,
+            )
 
         # Map annotated fields to serializer-friendly names if they differ
         for project in projects:
@@ -46,6 +64,7 @@ class ProjectListExtraDetailsAPIView(APIView):
 
         return Response(
             {
+                "ResultDesc": "Projects retrieved successfully.",
                 "projects": projects_serialized,
             },
             status=status.HTTP_200_OK,
@@ -57,6 +76,8 @@ class ProjectDetailsAPIView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, *args, **kwargs):
+        from administration.models import FieldExpense
+
         project_id = self.kwargs["pk"]
         try:
 
@@ -88,7 +109,7 @@ class ProjectsListAPIView(ListAPIView):
     serializer_class = ProjectsListSerializer
 
     def get_queryset(self, *args, **kwargs):
-        org = self.request.user.userprofile.organization
+        org = _get_request_user_organization(self.request)
         queryset = Project.objects.filter(organization=org)
         return queryset
 
