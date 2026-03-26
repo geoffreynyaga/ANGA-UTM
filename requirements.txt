@@ -87,3 +87,4 @@ typing_extensions==4.7.0
 tzdata==2023.3
 uritemplate==4.1.1
 urllib3==1.26.16
+exponent_server_sdk==2.1.0

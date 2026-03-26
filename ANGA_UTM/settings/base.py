@@ -209,6 +209,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", cast=Csv())
 
+# Expo push notifications (optional — required only if push security is enabled on EAS)
+EXPO_TOKEN = config("EXPO_TOKEN", default="")
+
 
 FILE_UPLOAD_HANDLERS = [
     "django.core.files.uploadhandler.MemoryFileUploadHandler",

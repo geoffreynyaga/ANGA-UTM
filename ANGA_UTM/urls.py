@@ -218,6 +218,7 @@ from django.conf.urls import handler404, handler500
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
+from django.views.generic import TemplateView
 from django.views.static import serve
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -266,6 +267,7 @@ urlpatterns = [
     re_path(r"^home$", views.home, name="home"),
     path("openapi/", OpenAPI.as_view(), name="open_api"),
     path("openapi-mapbox/", OpenAPIMapbox.as_view(), name="open_api_mapbox"),
+    path("privacy/", TemplateView.as_view(template_name="privacy.html"), name="privacy"),
     re_path(r"^$", view_airspace, name="view_airspace"),
     re_path(r"^rpas/", include("rpas.urls")),
     re_path(r"^account/", include("accounts.urls", namespace="accounts")),

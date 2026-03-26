@@ -2,12 +2,13 @@ from django.urls import include, path, re_path
 
 from . import views
 from .auth_views import LoginAPIView, SignupAPIView
-
+from .views import UpdateExpoPushTokenAPIView
 
 urlpatterns = [
     #Auth endpoints
     path('signup/', SignupAPIView.as_view(), name='signup'),
     path('login/', LoginAPIView.as_view(), name='login'),
+    path('push-token/', UpdateExpoPushTokenAPIView.as_view(), name='update_expo_push_token'),
 
     re_path(
         r"^profile/(?P<pk>\d+)/$",
