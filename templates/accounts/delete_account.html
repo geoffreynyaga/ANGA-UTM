@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="max-w-lg mx-auto px-4 py-12">
+
+  <!-- Warning header -->
+  <div class="flex items-center gap-3 mb-6">
+    <div class="flex-shrink-0 bg-red-100 rounded-full p-2">
+      <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+      </svg>
+    </div>
+    <h1 class="text-2xl font-bold text-gray-900">Delete Account</h1>
+  </div>
+
+  <!-- Disclaimer box -->
+  <div class="bg-red-50 border border-red-300 rounded-lg p-4 mb-6 text-sm text-red-800 space-y-2">
+    <p class="font-semibold">Please read before continuing:</p>
+    <ul class="list-disc list-inside space-y-1">
+      <li>This action is <span class="font-bold">permanent and cannot be undone</span>.</li>
+      <li>All your personal data, profile information, and preferences will be erased.</li>
+      <li>Your registered RPAS / drone records will be removed.</li>
+      <li>All flight plans and applications submitted under your account will be deleted.</li>
+      <li>Active airspace authorisations associated with your account may be revoked.</li>
+      <li>You will be immediately logged out and will no longer be able to sign in.</li>
+    </ul>
+    <p class="mt-2">
+      If you have active regulatory obligations or pending flight approvals, please contact
+      the Civil Aviation Authority before deleting your account.
+    </p>
+  </div>
+
+  <!-- Form -->
+  <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+    <p class="text-gray-600 text-sm mb-4">
+      To confirm deletion, enter the email address associated with your account:
+      <span class="font-medium text-gray-900">{{ request.user.email }}</span>
+    </p>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      <div class="mb-4">
+        <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+          Email address
+        </label>
+        <input
+          type="email"
+          name="{{ form.email.html_name }}"
+          id="{{ form.email.id_for_label }}"
+          placeholder="Enter your email to confirm"
+          autocomplete="off"
+          class="w-full border {% if form.email.errors %}border-red-400 bg-red-50{% else %}border-gray-300{% endif %} rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent"
+        />
+        {% if form.email.errors %}
+          <p class="mt-1 text-xs text-red-600">{{ form.email.errors|join:", " }}</p>
+        {% endif %}
+        {% if form.non_field_errors %}
+          <p class="mt-1 text-xs text-red-600">{{ form.non_field_errors|join:", " }}</p>
+        {% endif %}
+      </div>
+
+      <div class="flex items-center gap-3 mt-6">
+        <button
+          type="submit"
+          class="flex-1 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-semibold text-sm py-2 px-4 rounded-md transition-colors duration-150"
+        >
+          Permanently Delete My Account
+        </button>
+        <a
+          href="{% url 'home' %}"
+          class="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm py-2 px-4 rounded-md transition-colors duration-150"
+        >
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <p class="text-xs text-gray-400 mt-4 text-center">
+    Need help? Contact us before deleting your account.
+  </p>
+
+</div>
+{% endblock %}

@@ -25,3 +25,22 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email")
+
+
+class DeleteAccountForm(forms.Form):
+    email = forms.EmailField(
+        label="Confirm your email address",
+        widget=forms.EmailInput(attrs={"placeholder": "Enter your email to confirm"}),
+    )
+
+    def __init__(self, *args, user=None, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email", "").strip().lower()
+        if self.user and email != self.user.email.lower():
+            raise forms.ValidationError(
+                "The email address does not match your account."
+            )
+        return email

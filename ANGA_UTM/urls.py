@@ -227,6 +227,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from accounts.views import OpenAPI, OpenAPIMapbox, error_404, error_500
+from accounts import views as accounts_views
 from applications.views import view_airspace
 from rpas import views
 from ui.views import ReactMainView
@@ -268,6 +269,7 @@ urlpatterns = [
     path("openapi/", OpenAPI.as_view(), name="open_api"),
     path("openapi-mapbox/", OpenAPIMapbox.as_view(), name="open_api_mapbox"),
     path("privacy/", TemplateView.as_view(template_name="privacy.html"), name="privacy"),
+    path("delete-account/", accounts_views.DeleteAccountView.as_view(), name="delete_account"),
     re_path(r"^$", view_airspace, name="view_airspace"),
     re_path(r"^rpas/", include("rpas.urls")),
     re_path(r"^account/", include("accounts.urls", namespace="accounts")),

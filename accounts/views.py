@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.forms.models import inlineformset_factory
 from django.http import HttpResponseRedirect
@@ -135,6 +136,31 @@ def error_404(request, exception):
 def error_500(request):
     data = {}
     return render(request, "errors/500.html", data)
+
+
+class DeleteAccountView(LoginRequiredMixin, generic.FormView):
+    template_name = "accounts/delete_account.html"
+    success_url = reverse_lazy("home")
+
+    def get_form(self, form_class=None):
+        from .forms import DeleteAccountForm
+
+        kwargs = self.get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return DeleteAccountForm(**kwargs)
+
+    def form_valid(self, form):
+        user = self.request.user
+        logout(self.request)
+        user.delete()
+        messages.success(
+            self.request,
+            "Your account has been permanently deleted.",
+        )
+        return HttpResponseRedirect(reverse_lazy("accounts:login"))
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class OpenAPI(generic.TemplateView):
