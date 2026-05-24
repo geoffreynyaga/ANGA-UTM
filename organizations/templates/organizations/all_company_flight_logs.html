@@ -102,9 +102,9 @@
                 </div>
                 
                 <ul class="nav nav-stacked">
-                     {% for user in org.users.all%}
+                     {% for profile in org.userprofile_set.all %}
                     <li>
-                        <a href="#">{{user}}
+                        <a href="#">{{profile.user}}
                             <span class="pull-right badge bg-blue"></span>
                         </a>
                     </li>
