@@ -63,6 +63,15 @@ class ComponentListAPITests(InventoryAPITestCase):
         self.assertEqual(component_type.proposed_by, self.pilot)
         self.assertEqual(sorted(response.data["tags"]), ["filter", "gen"])
 
+    def test_blank_part_numbers_do_not_clash(self):
+        url = reverse("inventory_components_api")
+        first = self.client.post(url, {"name": "A", "part_number": ""}, format="json")
+        second = self.client.post(url, {"name": "B", "part_number": ""}, format="json")
+
+        self.assertEqual(first.status_code, 201)
+        self.assertEqual(second.status_code, 201)
+        self.assertIsNone(second.data["part_number"])
+
     def test_organization_users_can_only_change_tags(self):
         response = self.client.patch(
             reverse("inventory_component_detail_api", args=[self.propeller.pk]),

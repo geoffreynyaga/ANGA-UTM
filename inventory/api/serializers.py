@@ -62,6 +62,10 @@ class ComponentTypeSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ("status", "diagram_name", "diagram_number")
 
+    def validate_part_number(self, value):
+        # Blank part numbers are stored as null so they do not clash on uniqueness
+        return value or None
+
     def _set_tags(self, component_type, names):
         tags = [Tag.objects.get_or_create(name=name.strip().lower())[0] for name in names]
         component_type.tags.set(tags)
