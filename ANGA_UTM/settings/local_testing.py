@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "notifications",
     "administration",
     "inventory",
+    "maintenance",
 ]
 
 MIDDLEWARE = [
