@@ -5,6 +5,9 @@
  * https://unpkg.com/browse/tailwindcss@latest/stubs/defaultConfig.stub.js
  */
 
+/* Colours are defined as CSS variables in src/styles.css. */
+const token = (name) => `rgb(var(--color-${name}) / <alpha-value>)`;
+
 module.exports = {
     content: [
         /**
@@ -45,7 +48,63 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                brand: {
+                    DEFAULT: token('brand'),
+                    hover: token('brand-hover'),
+                    strong: token('brand-strong'),
+                    soft: token('brand-soft'),
+                    ring: token('brand-ring'),
+                },
+                accent: {
+                    DEFAULT: token('accent'),
+                    soft: token('accent-soft'),
+                    strong: token('accent-strong'),
+                },
+                success: {
+                    DEFAULT: token('success'),
+                    soft: token('success-soft'),
+                    strong: token('success-strong'),
+                },
+                danger: {
+                    DEFAULT: token('danger'),
+                    soft: token('danger-soft'),
+                },
+                ink: {
+                    DEFAULT: token('ink'),
+                    label: token('ink-label'),
+                    body: token('ink-body'),
+                    muted: token('ink-muted'),
+                    subtle: token('ink-subtle'),
+                    faint: token('ink-faint'),
+                },
+                line: {
+                    DEFAULT: token('line'),
+                    input: token('line-input'),
+                    soft: token('line-soft'),
+                    dashed: token('line-dashed'),
+                },
+                surface: {
+                    page: token('surface-page'),
+                    subtle: token('surface-subtle'),
+                    hover: token('surface-hover'),
+                    track: token('surface-track'),
+                    chip: token('surface-chip'),
+                },
+                sidebar: {
+                    DEFAULT: token('sidebar'),
+                    text: token('sidebar-text'),
+                    active: token('sidebar-active'),
+                    hover: token('sidebar-hover'),
+                },
+            },
+            fontFamily: {
+                sans: ['Manrope', 'system-ui', 'sans-serif'],
+                display: ['Michroma', 'sans-serif'],
+                mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+            },
+        },
     },
     plugins: [
         /**

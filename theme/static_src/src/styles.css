@@ -2,6 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Design tokens. Values are space-separated RGB channels so Tailwind
+ * opacity modifiers work (e.g. bg-brand/20). Colour names are mapped in
+ * tailwind.config.js.
+ */
+@layer base {
+    :root {
+        /* Brand teal */
+        --color-brand: 11 127 131;
+        --color-brand-hover: 9 106 109;
+        --color-brand-strong: 11 107 110;
+        --color-brand-soft: 228 244 244;
+        --color-brand-ring: 159 211 213;
+
+        /* Orange accent */
+        --color-accent: 243 112 33;
+        --color-accent-soft: 254 240 230;
+        --color-accent-strong: 163 71 12;
+
+        /* Status */
+        --color-success: 111 168 42;
+        --color-success-soft: 238 246 227;
+        --color-success-strong: 63 107 18;
+        --color-danger: 180 35 24;
+        --color-danger-soft: 253 236 236;
+
+        /* Text */
+        --color-ink: 15 30 38;
+        --color-ink-label: 30 48 57;
+        --color-ink-body: 61 79 87;
+        --color-ink-muted: 91 107 115;
+        --color-ink-subtle: 110 130 139;
+        --color-ink-faint: 138 156 164;
+
+        /* Borders */
+        --color-line: 226 232 234;
+        --color-line-input: 211 220 223;
+        --color-line-soft: 238 242 243;
+        --color-line-dashed: 185 199 204;
+
+        /* Surfaces */
+        --color-surface-page: 244 246 247;
+        --color-surface-subtle: 248 250 250;
+        --color-surface-hover: 242 245 246;
+        --color-surface-track: 232 238 240;
+        --color-surface-chip: 237 241 243;
+
+        /* Sidebar */
+        --color-sidebar: 13 26 34;
+        --color-sidebar-text: 196 209 214;
+        --color-sidebar-active: 127 227 229;
+        --color-sidebar-hover: 27 181 184;
+    }
+
+    body {
+        @apply bg-surface-page font-sans text-ink antialiased;
+    }
+}
+
 @layer components {
     .custom-scrollbar::-webkit-scrollbar {
         width: 4px;
@@ -15,5 +74,101 @@
     }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background: #cbd5e1;
+    }
+
+    /* Icons from the Material Symbols Rounded font (loaded in base.html) */
+    .icon {
+        @apply select-none leading-none;
+        font-family: "Material Symbols Rounded";
+        font-size: 20px;
+        font-weight: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-transform: none;
+        white-space: nowrap;
+        direction: ltr;
+        -webkit-font-feature-settings: "liga";
+        font-feature-settings: "liga";
+    }
+
+    /* Page header */
+    .page-title {
+        @apply m-0 text-[26px] font-bold tracking-tight text-ink;
+    }
+    .page-subtitle {
+        @apply mt-1.5 text-sm text-ink-muted;
+    }
+
+    /* Buttons */
+    .btn {
+        @apply inline-flex h-10 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-lg px-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-50;
+    }
+    .btn-primary {
+        @apply btn border-0 bg-brand text-white hover:bg-brand-hover hover:text-white hover:no-underline;
+    }
+    .btn-secondary {
+        @apply btn border border-line-input bg-white text-ink hover:bg-surface-hover hover:text-ink hover:no-underline;
+    }
+
+    /* Cards */
+    .card {
+        @apply rounded-xl border border-line bg-white;
+    }
+    .card-header {
+        @apply flex items-center justify-between gap-4 border-b border-line px-5 py-4;
+    }
+    .card-title {
+        @apply m-0 text-base font-bold text-ink;
+    }
+    .card-footer {
+        @apply flex justify-end gap-2.5 border-t border-line px-5 py-4;
+    }
+    .icon-tile {
+        @apply flex h-10 w-10 flex-none items-center justify-center rounded-[10px] bg-brand-soft text-brand;
+    }
+
+    /* Form fields */
+    .field {
+        @apply flex flex-col gap-1.5;
+    }
+    .field-label {
+        @apply text-[13px] font-semibold text-ink-label;
+    }
+    .field-help {
+        @apply text-xs text-ink-muted;
+    }
+    .field-error {
+        @apply text-xs font-semibold text-danger;
+    }
+    .input {
+        @apply h-[42px] w-full rounded-lg border border-line-input bg-white px-3 text-sm text-ink shadow-none outline-none placeholder:text-ink-faint focus:border-brand focus:ring-[3px] focus:ring-brand/15;
+    }
+    .dropzone {
+        @apply flex flex-col items-center gap-1.5 rounded-lg border border-dashed border-line-dashed bg-surface-subtle px-4 py-7 text-center;
+    }
+
+    /* Status chips */
+    .chip {
+        @apply inline-flex h-6 items-center whitespace-nowrap rounded-full px-2.5 text-xs font-bold;
+    }
+    .chip-neutral {
+        @apply chip bg-surface-chip text-ink-body;
+    }
+    .chip-brand {
+        @apply chip bg-brand-soft text-brand-strong;
+    }
+    .chip-warning {
+        @apply chip bg-accent-soft text-accent-strong;
+    }
+    .chip-danger {
+        @apply chip bg-danger-soft text-danger;
+    }
+    .chip-success {
+        @apply chip bg-success-soft text-success-strong;
+    }
+
+    /* Links */
+    .link {
+        @apply font-semibold text-brand no-underline hover:text-brand-hover hover:underline;
     }
 }
