@@ -49,7 +49,9 @@ jobs:
           pip-audit -r requirements.txt
       - name: Check for missing migrations
         run: |
-          python manage.py makemigrations --check --dry-run --settings=ANGA_UTM.settings.local_testing
+          python manage.py makemigrations --check --dry-run --settings=ANGA_UTM.settings.local_testing \
+            organizations accounts maps rpas flight_plans applications weather \
+            utm_messages notams notifications ui administration inventory maintenance
       - name: Run Tests
         run: |
           pytest --ds=ANGA_UTM.settings.local_testing --nomigrations
