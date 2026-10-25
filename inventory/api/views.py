@@ -25,6 +25,7 @@ from inventory.models import (
     ComponentUnit,
     StockLot,
     Tag,
+    can_approve,
     is_read_only,
 )
 from rpas.models import Rpas
@@ -64,6 +65,17 @@ def run_model_action(action, *args, **kwargs):
         return action(*args, **kwargs)
     except DjangoValidationError as error:
         raise ValidationError(error.messages)
+
+
+class CurrentUserAPIView(InventoryAPIView, APIView):
+    def get(self, request, *args, **kwargs):
+        return Response(
+            {
+                "id": request.user.pk,
+                "can_approve": can_approve(request.user),
+                "read_only": is_read_only(request.user),
+            }
+        )
 
 
 class AircraftModelListAPIView(InventoryAPIView, generics.ListAPIView):

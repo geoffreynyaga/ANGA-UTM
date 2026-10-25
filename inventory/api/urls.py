@@ -3,6 +3,7 @@ from django.urls import path
 from inventory.api import views
 
 urlpatterns = [
+    path("v1/me/", views.CurrentUserAPIView.as_view(), name="inventory_me_api"),
     path(
         "v1/aircraft-models/",
         views.AircraftModelListAPIView.as_view(),

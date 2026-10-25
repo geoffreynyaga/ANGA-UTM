@@ -17,6 +17,16 @@ class InventoryAPITestCase(InventoryTestData):
         self.client.force_authenticate(self.pilot)
 
 
+class CurrentUserAPITests(InventoryAPITestCase):
+    def test_reports_approval_rights(self):
+        pilot = self.client.get(reverse("inventory_me_api")).data
+        self.client.force_authenticate(self.manager)
+        manager = self.client.get(reverse("inventory_me_api")).data
+
+        self.assertFalse(pilot["can_approve"])
+        self.assertTrue(manager["can_approve"])
+
+
 class ComponentListAPITests(InventoryAPITestCase):
     def test_list_returns_stock_for_own_organization(self):
         StockLot.add(
