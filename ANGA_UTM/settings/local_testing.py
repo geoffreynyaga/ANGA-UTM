@@ -66,7 +66,21 @@ INSTALLED_APPS = [
     "administration",
     "inventory",
     "maintenance",
+    # Apps the shared templates and URLs need, kept in step with base.py
+    "bootstrap3",
+    "rest_framework.authtoken",
+    "django_browser_reload",
+    "tailwind",
+    "theme",
+    "crispy_forms",
+    "crispy_tailwind",
+    "drf_yasg",
+    "ui",
 ]
+
+TAILWIND_APP_NAME = "theme"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",

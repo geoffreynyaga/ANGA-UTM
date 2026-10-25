@@ -9,45 +9,47 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.6]
 
-    # services:
-    #   postgres:
-    #     image: postgres
-    #     ports:
-    #       - 5432:5432
-    #     env:
-    #       POSTGRES_DB: anga_test_db
-    #       POSTGRES_USER: postgres
-    #       POSTGRES_PASSWORD: postgres
-
-    #     options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+    services:
+      postgres:
+        image: postgis/postgis:17-3.5
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: anga_test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-      - uses: huaxk/postgis-action@v1
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          postgresql version: "11" # See https://https://hub.docker.com/r/mdillon/postgis for available versions, if it is not specified, use the default value 'latest'
-          postgresql password: "postgres" # This environment variable sets the superuser password for PostgreSQL, maybe string or secrets, the default superuser is defined by the input environment variable: postgresql user.
-          postgresql user: "postgres" # This optional environment variable is used in conjunction with postgresql password to set a user and its password. This variable will create the specified user with superuser power and a database with the same name. If it is not specified, then the default user of 'postgres' will be used.
-          postgresql db: "anga_test_db" # This optional environment variable can be used to define a different name for the default database that is created when the image is first started. If it is not specified, then the value of postgresql user will be used.
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.14"
+          cache: pip
       - name: Renaming .env.sample to .env
         run: |
           cp .env.sample .env
-      - name: Installing Geodjango
+      - name: Installing GeoDjango libraries
         run: |
-          sudo apt-get install binutils libproj-dev gdal-bin
+          sudo apt-get update
+          sudo apt-get install -y binutils libproj-dev gdal-bin libgdal-dev libgeos-dev
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      - name: Audit dependencies
+        run: |
+          pip install pip-audit
+          pip-audit -r requirements.txt
+      - name: Check for missing migrations
+        run: |
+          python manage.py makemigrations --check --dry-run --settings=ANGA_UTM.settings.local_testing
       - name: Run Tests
         run: |
-          py.test --ds=ANGA_UTM.settings.local_testing --nomigrations
+          pytest --ds=ANGA_UTM.settings.local_testing --nomigrations

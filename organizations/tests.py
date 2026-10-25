@@ -21,12 +21,10 @@ class AllCompanyFlightLogsTests(TestCase):
 		)
 		organization.save()
 		user = user_model.objects.create_user(
-			username="pilot-user",
 			email="pilot@example.com",
 			password="safe-password-123",
 		)
 		colleague = user_model.objects.create_user(
-			username="observer-user",
 			email="observer@example.com",
 			password="safe-password-123",
 		)
