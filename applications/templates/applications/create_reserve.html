@@ -1,539 +1,231 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-  <head>
-    <title>Add Reserve</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-          name="viewport" />
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
-    <script src="https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js"></script>
-    <link href="https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css"
-          rel="stylesheet" />
-    <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.css"
-          rel="stylesheet" />
-    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.js"></script>
-    <script src="{% static 'leafletMapbox/Leaflet.MapboxVectorTile.js' %}"></script>
-    <script src="{% static 'leaflet-ajax/leaflet.ajax.min.js' %}"></script>
-    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
-    <link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"
-          rel="stylesheet" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
-          crossorigin="anonymous" />
-    <style>
-      .leaflet-container {
-        /* all maps */
-        width: 100%;
-        height: 70vh;
-      }
+{% extends 'base.html' %}
+{% load static leaflet_tags %}
+{% block head %}
+    <title>New flight plan | ANGA UTM</title>
+    {% leaflet_css %}
+    {% leaflet_js %}
+{% endblock %}
+{% block breadcrumb %}{% include "includes/breadcrumb.html" with parent="Operations / Airspace" current="New flight plan" %}{% endblock %}
+{% block body %}
+    <div class="flex flex-1 flex-col gap-5">
+        <div>
+            <h1 class="page-title">New flight plan</h1>
+            <p class="page-subtitle">Click the map to outline your flight area, then fill in the mission details.</p>
+        </div>
 
-      body {
-        padding: 0px;
-        margin: 0px;
-        padding-top: 0px;
-        margin-top: 0px;
-      }
-    </style>
-    <style>
-      #map {
-        position: relative;
-        left: 0px;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        height: 80vh;
-      }
-      body {
-        margin: 0;
-        padding: 0;
-      }
-
-      .logo {
-        position: absolute;
-        z-index: 1;
-        bottom: 0;
-        left: 0;
-      }
-    </style>
-    {{ form.media }}
-  </head>
-  <body>
-    <div class="container">
-      {% if not user.userprofile.organization %}
-        <div class="alert alert-danger" style="margin-top: 20px;">
-          <strong>Error!</strong> You are not registered to an organization. Please contact your administrator.
-        </div>
-        <div class="col-sm-6 col-sm-offset-3">
-          <a href="{% url 'home' %}" class="btn btn-success btn-block">Go Back Home</a>
-        </div>
-      {% elif not my_projects %}
-        <div class="alert alert-warning" style="margin-top: 20px;">
-          <strong>Notice:</strong> You don't have any active projects. Please create a project before reserving airspace.
-        </div>
-        <div class="col-sm-6 col-sm-offset-3">
-          <a href="{% url 'home' %}" class="btn btn-success btn-block">Go Back Home</a>
-        </div>
-      {% else %}
-        <div class="col-sm-4"></div>
-        <div class="col-sm-6">
-          <a href="{% url 'home' %}" class="btn btn-success btn-block">Go Back Home</a>
-        </div>
-        <div class="col-sm-4"></div>
-      </div>
-      <div class="container">
-        <form method="POST"
-              enctype="multipart/form-data"
-              id="reserveform"
-              onsubmit="submit_form()">
-          <div class="text-center">{% comment %} {% bootstrap_form_errors form %} {% endcomment %}</div>
-          {% csrf_token %}
-          <div class="row" style="margin-top: 20px;">
-        </form>
-            <!-- MAP  -->
-            <div class="col-sm-8">
-              <div class="panel panel-default">
-                <div id="map">
-                  <img src="{% static 'logo/logo.png' %}"
-                       class="logo"
-                       width="160"
-                       alt="Anga"
-                       style="max-height:60px;
-                              margin-left: 4px;
-                              margin-bottom: 20px" />
-                </div>
-              </div>
+        {% if not user.userprofile.organization or not my_projects %}
+            <div class="card flex flex-col items-center gap-3 px-6 py-14 text-center">
+                <span class="flex h-14 w-14 items-center justify-center rounded-[14px] bg-accent-soft text-accent-strong">
+                    <span class="icon text-[28px]" aria-hidden="true">info</span>
+                </span>
+                {% if not user.userprofile.organization %}
+                    <h2 class="mt-1 text-lg font-bold">You're not part of an organization</h2>
+                    <p class="m-0 max-w-[360px] text-sm text-ink-muted">Flight plans are filed for an organization. Ask your administrator to add you to one.</p>
+                    <a href="{% url 'home' %}" class="btn-secondary mt-2">Back to dashboard</a>
+                {% else %}
+                    <h2 class="mt-1 text-lg font-bold">No active projects</h2>
+                    <p class="m-0 max-w-[360px] text-sm text-ink-muted">Every flight plan belongs to a project. Create a project first, then come back to plan the flight.</p>
+                    <a href="{% url 'project_create' %}" class="btn-primary mt-2"><span class="icon" aria-hidden="true">add</span>Add project</a>
+                {% endif %}
             </div>
-            <div class="col-sm-4">
-              <!-- Project Name (Dropdown) -->
-              <div class="col-xs-12">
-                <div class="form-group">
-                  <label class="control-label" for="id_project">Project</label>
-                  <select name="project"
-                          class="form-control"
-                          required="true"
-                          id="id_project"
-                          onchange="manageText()">
-                    <option value="" selected="">---------</option>
-                    {% for project in my_projects %}<option value="{{ project.pk }}">{{ project.name }}</option>{% endfor %}
-                  </select>
-                </div>
-              </div>
-              <!-- Mission Type -->
-              <div class="col-xs-12">
-                <div class="form-group">
-                  <label class="control-label" for="id_mission_type">Mission Type</label>
-                  <select name="mission_type" class="form-control" id="id_mission_type">
-                    <option value="SPRAY">Spraying</option>
-                    <option value="SPREAD">Spreading</option>
-                    <option value="PHOTO">Photography</option>
-                    <option value="TRAIN">Training</option>
-                    <option value="MAPP">Mapping</option>
-                    <option value="DELV">Delivery</option>
-                    <option value="INSP">Inspection</option>
-                    <option value="SURV">Surveillance</option>
-                    <option value="REC">Recreational</option>
-                    <option value="OTH" selected>Other</option>
-                  </select>
-                </div>
-              </div>
-              <!-- RPAS -->
-              <div class="col-xs-12">
-                <div class="">
-                  <div class="form-group">
-                    <label class="control-label" for="id_rpas">Rpas (Multiple allowed)</label>
-                    <select name="rpas" class="form-control" title="" required="" id="id_rpas" multiple="true" style="height: 100px;">
-                      {% for rpas in my_rpas %}<option value="{{ rpas.pk }}">{{ rpas.cor_number }}</option>{% endfor %}
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <!-- Start Date -->
-              <div class="col-xs-12">
-                <div class="form-group">
-                  <label class="control-label" for="datetimepicker3">Start Day</label>
-                  <div class="input-group date" id="datetimepicker3">
-                    <input type="text" class="form-control" id="id_startday" required="true" />
-                    <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <!-- Start Time -->
-              <div class="col-xs-12">
-                <div class="form-group">
-                  <label class="control-label" for="timepicker3">Start Time</label>
-                  <div class="input-group date" id="timepicker3">
-                    <input type="text" class="form-control" id="id_start_time" required="true" />
-                    <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-time"></span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <!-- End Time -->
-              <div class="col-xs-12">
-                <div class="form-group">
-                  <label class="control-label" for="timepicker4">End Time</label>
-                  <div class="input-group date" id="timepicker4">
-                    <input type="text" class="form-control" id="id_end_time" required="true" />
-                    <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-time"></span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <!-- log -->
-              <div class="col-xs-12">
-                <div class="form-group">
-                  <label class="control-label" for="id_log">Log</label>
-                  <p style="font-size: smaller;"></p>
-                  <em>Alternatively, you can upload a mission planner log instead
-                  of drawing on the map</em>
-                  <div class="row bootstrap3-multi-input">
-                    <div class="col-xs-12">
-                      <input type="file" name="log" class="" title="" id="id_log" />
+        {% else %}
+            <div class="flex flex-1 flex-wrap items-stretch gap-5">
+                <div class="card relative min-h-[520px] flex-[1_1_440px] overflow-hidden">
+                    <div id="plan-map" class="absolute inset-0 cursor-crosshair bg-[#E9EEF0] font-sans"></div>
+                    <div class="absolute left-4 top-4 z-[500] flex items-center gap-2.5 rounded-[10px] border border-line bg-white py-2 pl-3.5 pr-2 shadow-[0_6px_20px_rgba(13,26,34,0.08)]">
+                        <span class="icon text-brand" aria-hidden="true">polyline</span>
+                        <span id="points-label" class="text-[13px] font-semibold">Click the map to add points</span>
+                        <button type="button" id="clear-points" class="h-[30px] rounded-md border border-line-input bg-white px-2.5 text-xs font-bold text-ink-body hover:bg-surface-hover">Clear</button>
                     </div>
-                  </div>
                 </div>
-              </div>
+
+                <form id="plan-form" class="card flex max-w-[440px] flex-[1_1_340px] flex-col" novalidate>
+                    <div class="border-b border-line px-5 py-[18px]">
+                        <h2 class="card-title">Mission details</h2>
+                    </div>
+                    <div class="flex flex-1 flex-col gap-[18px] p-5">
+                        <div id="form-error" class="hidden items-start gap-2.5 rounded-lg bg-danger-soft px-3 py-2.5 text-sm text-danger" role="alert">
+                            <span class="icon text-[18px]" aria-hidden="true">error</span>
+                            <span id="form-error-text"></span>
+                        </div>
+                        <label class="field">
+                            <span class="field-label">Project <span class="text-accent">*</span></span>
+                            <select id="id_project" class="input pr-9" required>
+                                <option value="">Select a project</option>
+                                {% for project in my_projects %}<option value="{{ project.pk }}">{{ project.name }}</option>{% endfor %}
+                            </select>
+                        </label>
+                        <label class="field">
+                            <span class="field-label">Mission type <span class="text-accent">*</span></span>
+                            <select id="id_mission_type" class="input pr-9">
+                                {% for value, label in mission_types %}<option value="{{ value }}"{% if value == "OTH" %} selected{% endif %}>{{ label }}</option>{% endfor %}
+                            </select>
+                        </label>
+                        <fieldset class="field m-0 border-0 p-0">
+                            <legend class="field-label mb-2 p-0">Aircraft <span class="text-accent">*</span></legend>
+                            {% if my_rpas %}
+                                <div class="flex flex-wrap gap-2">
+                                    {% for rpas in my_rpas %}
+                                        <label class="cursor-pointer">
+                                            <input type="checkbox" name="rpas" value="{{ rpas.pk }}" class="peer sr-only">
+                                            <span class="inline-flex h-[34px] items-center gap-1.5 rounded-full border border-line-input bg-white px-3 text-[13px] font-semibold text-ink-body peer-checked:border-brand peer-checked:bg-brand-soft peer-checked:text-brand-strong peer-focus-visible:ring-[3px] peer-focus-visible:ring-brand/20">
+                                                <span class="icon text-[18px]" aria-hidden="true">flight</span>{{ rpas.rpas_nickname|default:rpas.cor_number }}
+                                            </span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                                <span class="field-help">Select one or more aircraft.</span>
+                            {% else %}
+                                <span class="field-help">No aircraft registered to your organization. <a href="{% url 'rpas_add' %}" class="link">Add aircraft</a></span>
+                            {% endif %}
+                        </fieldset>
+                        <label class="field">
+                            <span class="field-label">Date <span class="text-accent">*</span></span>
+                            <input type="date" id="id_start_day" class="input" min="{% now 'Y-m-d' %}" required>
+                        </label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="field">
+                                <span class="field-label">Start time <span class="text-accent">*</span></span>
+                                <input type="time" id="id_start_time" class="input" required>
+                            </label>
+                            <label class="field">
+                                <span class="field-label">End time <span class="text-accent">*</span></span>
+                                <input type="time" id="id_end_time" class="input" required>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'reserve_main' %}" class="btn-secondary">Cancel</a>
+                        <button type="submit" id="btn-submit" class="btn-primary" disabled>Submit for approval</button>
+                    </div>
+                </form>
             </div>
-          </div>
-          <div class="col-sm-12">
-            <button type="button"
-                    onclick="submit_form()"
-                    id="btn-submit"
-                    class="btn btn-primary btn-lg btn-block"
-                    disabled="true">Submit</button>
-          </div>
-        </form>
-      {% endif %}
+        {% endif %}
     </div>
-    <script type="text/javascript">
-      $(function() {
-        $("#datetimepicker3").datetimepicker({
-          useCurrent: true,
-          minDate: moment(),
-          format: "L"
-        });
-      });
-    </script>
-    <script type="text/javascript">
-      $(function() {
-        $("#timepicker3").datetimepicker({
-          format: "LT"
-        });
-      });
-    </script>
-    <script type="text/javascript">
-      $(function() {
-        $("#timepicker4").datetimepicker({
-          format: "LT"
-        });
-      });
-    </script>
-    <script>
-      L.mapbox.accessToken = "{{MAPBOX_ACCESS_TOKEN}}"
 
+    {% if user.userprofile.organization and my_projects %}
+        {% include "includes/airspace_layers.js.html" %}
+        <script>
+            (function () {
+                const map = L.map('plan-map', { zoomControl: false }).setView([-1.2, 36.95], 10);
+                L.control.zoom({ position: 'topright' }).addTo(map);
+                addAirspaceLayers(map);
+                setTimeout(() => map.invalidateSize(), 120);
 
+                const points = [];
+                const area = L.polygon([], { color: '#F37021', weight: 2.5, fillColor: '#F37021', fillOpacity: 0.18 }).addTo(map);
+                const dots = L.layerGroup().addTo(map);
+                const label = document.getElementById('points-label');
+                const form = document.getElementById('plan-form');
+                const submit = document.getElementById('btn-submit');
+                const errorBox = document.getElementById('form-error');
 
-        const openAIPKey = '{{OPEN_AIP_KEY}}'
-            const mapboxAccessToken = '{{MAPBOX_ACCESS_TOKEN}}'
+                function updateLabel() {
+                    const n = points.length;
+                    label.textContent = n === 0
+                        ? 'Click the map to add points'
+                        : n < 3
+                            ? `${n} point${n > 1 ? 's' : ''} — add ${3 - n} more`
+                            : `Flight area · ${n} points`;
+                }
 
-            var map = L.map('map').setView([-1.03326, 37.06933], 8)
+                function selectedRpas() {
+                    return Array.from(form.querySelectorAll('input[name="rpas"]:checked')).map((input) => input.value);
+                }
 
-            var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-                maxZoom: 20,
-                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            }).addTo(map)
+                function isComplete() {
+                    return points.length >= 3
+                        && form.querySelector('#id_project').value !== ''
+                        && selectedRpas().length > 0
+                        && form.querySelector('#id_start_day').value !== ''
+                        && form.querySelector('#id_start_time').value !== ''
+                        && form.querySelector('#id_end_time').value !== '';
+                }
 
-            // Add a base tile layer
-           let aip_layer = L.tileLayer(
-               'https://api.tiles.openaip.net/api/data/openaip/{z}/{x}/{y}.png?apiKey=58803704f98f6c1261d5d57e34bb27f6',
-               {
-                   attribution: '© OpenAIP',
-                   maxZoom: 18,
-               },
-           ).addTo(map)
+                function refresh() {
+                    updateLabel();
+                    submit.disabled = !isComplete();
+                }
 
-           var baseLayers = {
-               OpenAIP:aip_layer,
-               Hotspots: L.tileLayer(
-                   'https://api.tiles.openaip.net/api/data/hotspots/{z}/{x}/{y}.png?apiKey=58803704f98f6c1261d5d57e34bb27f6',
-                   {
-                       attribution: '© OpenAIP',
-                       maxZoom: 18,
-                   },
-               ),
-           }
+                map.on('click', (event) => {
+                    points.push(event.latlng);
+                    area.setLatLngs(points);
+                    L.circleMarker(event.latlng, { radius: 5, color: '#FFFFFF', weight: 2, fillColor: '#F37021', fillOpacity: 1 }).addTo(dots);
+                    refresh();
+                });
 
-           L.control.layers(baseLayers).addTo(map)
+                document.getElementById('clear-points').addEventListener('click', () => {
+                    points.length = 0;
+                    area.setLatLngs([]);
+                    dots.clearLayers();
+                    refresh();
+                });
 
+                form.addEventListener('input', refresh);
+                form.addEventListener('change', refresh);
 
-      //-1.03326, 37.06933 thika
-      //-1.336661, 36.912672 jkia
+                // The create API expects US-style dates (MM/DD/YYYY) and 12-hour times (h:mm AM).
+                function toApiDate(value) {
+                    const [year, month, day] = value.split('-');
+                    return `${month}/${day}/${year}`;
+                }
 
-      L.control.fullscreen().addTo(map);
+                function toApiTime(value) {
+                    const [hours, minutes] = value.split(':').map(Number);
+                    const suffix = hours < 12 ? 'AM' : 'PM';
+                    const hour12 = hours % 12 === 0 ? 12 : hours % 12;
+                    return `${String(hour12).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${suffix}`;
+                }
 
-      map.locate();
+                // Validation errors arrive as a Python dict string, e.g. "{'__all__': ['message']}".
+                function readableError(message) {
+                    const found = Array.from(String(message).matchAll(/\[['"](.+?)['"]\]/g), (match) => match[1]);
+                    return found.length ? found.join(' ') : String(message);
+                }
 
-      map.on('locationfound', function(e) {
-      map.fitBounds(e.bounds); //TODO: URGENT: SET to  country
-      map.setZoom(12)
-      })
+                function showError(message) {
+                    document.getElementById('form-error-text').textContent = readableError(message);
+                    errorBox.classList.remove('hidden');
+                    errorBox.classList.add('flex');
+                }
 
-      map.on('locationerror', function() {
-        alert("Position could not be found")
-      });
+                form.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    if (!isComplete()) return;
+                    errorBox.classList.add('hidden');
+                    errorBox.classList.remove('flex');
+                    submit.disabled = true;
 
-      // ---------- AIRMAP AIRSPACES LOAD --------------------------//
-      var url = "https://api.airmap.com/maps/v4/tiles";
+                    const data = {
+                        project: form.querySelector('#id_project').value,
+                        mission_type: form.querySelector('#id_mission_type').value,
+                        geom: JSON.stringify({ type: 'FeatureCollection', features: [area.toGeoJSON()] }),
+                        rpas: selectedRpas(),
+                        start_day: toApiDate(form.querySelector('#id_start_day').value),
+                        start_time: toApiTime(form.querySelector('#id_start_time').value),
+                        end: toApiTime(form.querySelector('#id_end_time').value),
+                    };
 
-
-
-
-      // ---------- RESERVED AIRSPACES LOAD --------------------------//
-      var baseURL = location.protocol + "//" + location.hostname + (location.port && ":" + location.port);
-        //console.log(baseURL,"baseURL")
-      function getData() {
-        return $.ajax({
-          url: `${baseURL}/applications/airspace/geojson/`,
-          type: "GET",
-          cache: true
-        });
-      }
-
-      function getAirportsData() {
-        return $.ajax({
-          url: `${baseURL}/api/maps/airports/list/?format=geojson`,
-          type: "GET",
-          cache: true
-        });
-      }
-
-      getData().then(function(data) {
-        // do something with data
-        // Note that calling `.eachLayer` here depends on setting GeoJSON _directly_
-        // above. If you're loading GeoJSON asynchronously, like from CSV or from a file,
-        // you will need to do this within a `featureLayer.on('ready'` event.
-        var featureLayer = L.mapbox.featureLayer(data).addTo(map)
-        featureLayer.eachLayer(function(layer) {
-          console.log(layer,"layer in each")
-          //map.fitBounds(featureLayer.getBounds());
-          // here you call `bindPopup` with a string of HTML you create - the feature
-          // properties declared above are available under `layer.feature.properties`
-          var content =
-            "<h2>Booked Airspace</h2>" +
-            "<p>From: " +
-            layer.feature.properties.name +
-            "<br \ />" +
-            "to: " +
-            layer.feature.properties.name +
-            "</p>";
-          layer.bindPopup(content);
-        });
-      });
-
-
-      getAirportsData().then(function(data) {
-        var featureLayer = L.mapbox.featureLayer(data)
-        .setStyle({
-            color: '#fc5c9c', // Border color
-            weight: 1, // Border width
-            fillOpacity: 0 // No fill
-        })
-        .addTo(map);
-
-
-        featureLayer.eachLayer(function(layer) {
-          var content =
-              "<h2>Airport</h2>" +
-              "<p>Name: " +
-              layer.feature.properties.name +
-              "<br />" +
-              "ICAO CODE: " +
-              layer.feature.properties.icao_code +
-              "</p>";
-          layer.bindPopup(content);
-          });
-
-
-
-          // Show/hide featureLayer based on zoom level
-        map.on('zoomend', function() {
-          if (map.getZoom() > 16) {
-            map.removeLayer(featureLayer);
-          } else {
-            map.addLayer(featureLayer);
-          }
-           });
-
-        // Initial check to set visibility
-        if (map.getZoom() > 16) {
-            map.removeLayer(featureLayer);
-        }
-
-    });
-
-      // ---------------------------------//
-
-      // ---------- DRAW NEW AIRSPACE --------------------------//
-
-      var featureGroup = L.featureGroup().addTo(map);
-
-      var drawControl = new L.Control.Draw({
-        edit: {
-          featureGroup: featureGroup
-        },
-        draw: {
-          polygon: true,
-          marker: false,
-          polyline: false,
-          circle: false
-        }
-      }).addTo(map);
-
-      //https://github.com/Leaflet/Leaflet.draw/issues/315
-      var drawControlEditOnly = new L.Control.Draw({
-        edit: {
-          featureGroup: featureGroup
-        },
-        draw: false
-      });
-
-      // Add real-time drawing
-      map.on("draw:created", function(e) {
-        console.log(e.layer,"waddduuuup");
-        console.log(e.layer._latlngs,"latlngs");
-        featureGroup.addLayer(e.layer);
-
-        var json = featureGroup.toGeoJSON();
-        console.log(json, "json");
-        localStorage.setItem("geom", JSON.stringify(json));
-
-        manageGeom();
-
-        drawControl.removeFrom(map);
-        drawControlEditOnly.addTo(map);
-      });
-
-      map.on("draw:deleted", function(evt) {
-        layer = evt.layer;
-        // do something when polygon is deleted
-        drawControl.addTo(map);
-        drawControlEditOnly.removeFrom(map);
-
-        localStorage.clear("geom");
-        manageGeom();
-      });
-    </script>
-    <script>
-      //console.log(L,"L");
-      //console.log(featureGroup,"featureGroup.layers");
-
-      function manageText(){
-        console.log("manageText called");
-        var project = document.getElementById("id_project").value;
-        var geom = localStorage.getItem("geom");
-
-        var date = document.getElementById("id_startday").value;
-        console.log(date, "date");
-
-        var bt = document.getElementById("btn-submit");
-        if (project === "" || geom == null) {
-          bt.disabled = true;
-        } else {
-          bt.disabled = false;
-        }
-      }
-
-
-
-      function manageGeom() {
-        console.log("manageGeom called");
-
-        var project = document.getElementById("id_project").value;
-
-        var geom = localStorage.getItem("geom");
-        console.log(geom, "geom");
-
-        var bt = document.getElementById("btn-submit");
-        if (geom == null || project === "") {
-          bt.disabled = true;
-        } else {
-          bt.disabled = false;
-        }
-      }
-
-      //function submit_form1() {
-      //  document.getElementById("reserveform").submit();
-      //}
-
-      function submit_form() {
-        var project = document.getElementById("id_project").value;
-        var mission_type = document.getElementById("id_mission_type").value;
-        var geom = localStorage.getItem("geom");
-
-        var csrftoken = "{{ csrf_token }}";
-
-        // Get multiple values for RPAS
-        var rpasSelect = document.getElementById("id_rpas");
-        var rpasValues = Array.from(rpasSelect.selectedOptions).map(option => option.value);
-
-        var data = {
-          project: project,
-          mission_type: mission_type,
-          geom: localStorage.getItem("geom"),
-          rpas: rpasValues,
-          start_day: document.getElementById("id_startday").value,
-          start_time: document.getElementById("id_start_time").value,
-          end: document.getElementById("id_end_time").value
-        };
-
-        console.log((document.getElementById('id_startday').value),"document.getElementById('id_startday').value")
-
-        var baseURL = location.protocol + "//" + location.hostname + (location.port && ":" + location.port);
-
-        fetch(`${baseURL}/api/applications/create/`, {
-          method: "POST", // or 'PUT'
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": csrftoken
-          },
-          body: JSON.stringify(data)
-        })
-          .then(function(res) {
-            return res.json();
-          })
-          .then(function(data) {
-            console.log(data, "final data");
-            localStorage.clear("geom");
-            if (data.ResultDesc === "Reserve Airspace Created successfully") {
-                window.location.href = "/applications/myreserve/";
-            } else {
-                alert("Error: " + JSON.stringify(data.ReserveAirspaceError));
-            }
-          })
-          .catch(function(error) {
-            console.log(error, "error");
-            localStorage.clear("geom");
-          });
-      }
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="{% static 'bootstrap/js/collapse.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap-for-picker.js' %}"></script>
-    <script src="{% static 'bootstrap/js/datepicker.min.js' %}"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script> -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
-            crossorigin="anonymous"></script>
-  </body>
-</html>
+                    fetch("{% url 'create_reserve_api' %}", {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                        body: JSON.stringify(data),
+                    })
+                        .then((response) => response.json())
+                        .then((result) => {
+                            if (result.ResultDesc === 'Reserve Airspace Created successfully') {
+                                window.location.href = "{% url 'my_reserve_list' %}";
+                            } else {
+                                showError(result.ReserveAirspaceError || result.detail || 'The flight plan could not be submitted.');
+                                refresh();
+                            }
+                        })
+                        .catch(() => {
+                            showError('The flight plan could not be submitted. Check your connection and try again.');
+                            refresh();
+                        });
+                });
+            })();
+        </script>
+    {% endif %}
+{% endblock %}

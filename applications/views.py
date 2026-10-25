@@ -182,6 +182,7 @@ class ReserveAirspaceCreateView(CreateView):
             organization=org, is_complete=False
         )
 
+        context["mission_types"] = ReserveAirspace.OBJECTIVE
         context["AIRMAP_API_KEY"] = config("AIRMAP_API_KEY")
         context["MAPBOX_ACCESS_TOKEN"] = config("MAPBOX_ACCESS_TOKEN")
 
