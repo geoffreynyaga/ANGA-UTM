@@ -2585,6 +2585,10 @@ body {
   height: 38px;
 }
 
+.h-\[42px\] {
+  height: 42px;
+}
+
 .h-\[450px\] {
   height: 450px;
 }
@@ -2841,6 +2845,10 @@ body {
   flex: 1 1 260px;
 }
 
+.flex-\[1_1_280px\] {
+  flex: 1 1 280px;
+}
+
 .flex-\[1_1_340px\] {
   flex: 1 1 340px;
 }
@@ -2953,6 +2961,10 @@ body {
 
 .grid-cols-\[repeat\(auto-fill\2c minmax\(12rem\2c 1fr\)\)\] {
   grid-template-columns: repeat(auto-fill,minmax(12rem,1fr));
+}
+
+.grid-cols-\[repeat\(auto-fill\2c minmax\(160px\2c 1fr\)\)\] {
+  grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
 }
 
 .grid-cols-\[repeat\(auto-fill\2c minmax\(260px\2c 1fr\)\)\] {
@@ -3069,6 +3081,10 @@ body {
 
 .gap-\[18px\] {
   gap: 18px;
+}
+
+.gap-px {
+  gap: 1px;
 }
 
 .gap-x-4 {
@@ -3556,6 +3572,11 @@ body {
 .bg-line {
   --tw-bg-opacity: 1;
   background-color: rgb(var(--color-line) / var(--tw-bg-opacity));
+}
+
+.bg-line-soft {
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--color-line-soft) / var(--tw-bg-opacity));
 }
 
 .bg-purple-100 {
@@ -4057,6 +4078,10 @@ body {
 
 .text-\[28px\] {
   font-size: 28px;
+}
+
+.text-\[32px\] {
+  font-size: 32px;
 }
 
 .text-\[9px\] {
