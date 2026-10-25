@@ -1,0 +1,6 @@
+<a href="{{ href }}"{% if external %} target="_blank" rel="noopener"{% endif %}
+   class="flex h-[38px] items-center gap-3 rounded-lg px-2.5 text-sm font-semibold no-underline transition-colors hover:no-underline {% if section == key %}bg-sidebar-hover/15 text-sidebar-active hover:text-sidebar-active{% else %}text-sidebar-text hover:bg-white/5 hover:text-white{% endif %}"
+   {% if section == key %}aria-current="page"{% endif %}>
+    <span class="icon" aria-hidden="true">{{ icon }}</span>
+    <span>{{ label }}</span>
+</a>

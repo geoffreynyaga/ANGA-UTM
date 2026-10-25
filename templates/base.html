@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   {% load static %}
-  {% load group_perms %}
+  {% load group_perms navigation %}
   {% load static tailwind_tags %}
   {% comment %} {% load pwa %} {% endcomment %}
   {% comment %} <!-- TO DO: PWA BASE.HTML is the above supposed to be above <head> ? --> {% endcomment %}
@@ -120,182 +120,139 @@
   }
 
   </script> {% endcomment %}
-  <body x-data="{ sidebarOpen: false }" class="flex flex-col min-h-screen bg-gray-50">
-    <!-- Mobile Sidebar Overlay -->
+  {% nav_section as section %}
+  <body x-data="{ sidebarOpen: false }" class="flex h-screen min-h-[560px] overflow-hidden bg-surface-page">
+    <!-- Mobile sidebar overlay -->
     <div x-show="sidebarOpen"
-         x-transition:enter="transition-opacity ease-linear duration-300"
+         x-cloak
+         x-transition:enter="transition-opacity ease-linear duration-200"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
-         x-transition:leave="transition-opacity ease-linear duration-300"
+         x-transition:leave="transition-opacity ease-linear duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 lg:hidden"
+         class="fixed inset-0 z-[1100] bg-sidebar/60 lg:hidden"
          @click="sidebarOpen = false"></div>
 
-    <!-- Header / Navbar -->
-    <header class="sticky top-0 z-30 bg-white border-b border-gray-200">
-        <div class="flex items-center justify-between h-16 px-4">
-            <div class="flex items-center">
-                <!-- Mobile menu button -->
-                <button type="button"
-                        class="p-2 text-gray-500 lg:hidden hover:text-gray-600 focus:outline-none"
-                        @click="sidebarOpen = true">
-                    <span class="sr-only">Open sidebar</span>
-                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+    <!-- Sidebar -->
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+           class="fixed inset-y-0 left-0 z-[1200] flex w-[248px] flex-none -translate-x-full flex-col overflow-y-auto bg-sidebar transition-transform duration-300 ease-in-out lg:static lg:translate-x-0">
+        <a href="{% if user.is_authenticated %}{% url 'home' %}{% else %}{% url 'accounts:login' %}{% endif %}"
+           class="flex flex-col items-start gap-1.5 border-b border-white/5 px-[22px] pb-[22px] pt-6 no-underline hover:no-underline">
+            <img src="{% static 'logo/wing-teal.png' %}" alt="" class="h-auto w-[58px]">
+            <span class="font-display text-base tracking-[0.16em] text-white">ANGA UTM</span>
+            <span class="text-[9px] font-bold uppercase tracking-[0.2em] text-ink-faint">Powered by <span class="font-extrabold text-accent">Precision</span></span>
+        </a>
+        <nav class="flex flex-col gap-5 px-3 py-5" aria-label="Main">
+            {% if user.is_authenticated %}
+                <div class="flex flex-col gap-0.5">
+                    <div class="px-2.5 pb-1.5 text-[10.5px] font-bold uppercase tracking-[0.14em] text-ink-subtle">Workspace</div>
+                    {% url 'home' as href %}{% include "includes/nav_item.html" with key="dashboard" label="Dashboard" icon="space_dashboard" %}
+                    {% url 'projects_index' as href %}{% include "includes/nav_item.html" with key="projects" label="Projects" icon="folder_open" %}
+                    {% url 'messages:calendar' as href %}{% include "includes/nav_item.html" with key="calendar" label="Calendar" icon="calendar_month" %}
+                    {% url 'messages:inbox' as href %}{% include "includes/nav_item.html" with key="mailbox" label="Mailbox" icon="mail" %}
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <div class="px-2.5 pb-1.5 text-[10.5px] font-bold uppercase tracking-[0.14em] text-ink-subtle">Operations</div>
+                    {% url 'reserve_main' as href %}{% include "includes/nav_item.html" with key="airspace" label="Airspace" icon="public" %}
+                    {% url 'logs_list' as href %}{% include "includes/nav_item.html" with key="flight_logs" label="Flight logs" icon="description" %}
+                    {% url 'rpas_main' as href %}{% include "includes/nav_item.html" with key="rpas" label="RPAS fleet" icon="flight" %}
+                    {% include "includes/nav_item.html" with href="/ui/inventory/" key="components" label="Components" icon="inventory_2" %}
+                    {% include "includes/nav_item.html" with href="/ui/maintenance/" key="maintenance" label="Maintenance" icon="build" %}
+                    {% url 'checklist_list' as href %}{% include "includes/nav_item.html" with key="checklists" label="Checklists" icon="checklist" %}
+                    {% url 'weather' as href %}{% include "includes/nav_item.html" with key="weather" label="Weather" icon="partly_cloudy_day" %}
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <div class="px-2.5 pb-1.5 text-[10.5px] font-bold uppercase tracking-[0.14em] text-ink-subtle">Admin</div>
+                    {% if request.user|has_group:"CAA" %}
+                        {% url 'applied_reserves' as href %}{% include "includes/nav_item.html" with key="approvals" label="Approve plans" icon="verified" %}
+                    {% else %}
+                        {% url 'all_company_flight_logs' as href %}{% include "includes/nav_item.html" with key="organization" label="Organization" icon="apartment" %}
+                    {% endif %}
+                    {% include "includes/nav_item.html" with href="http://www.kcaa.or.ke/index.php/statutes-and-regulations/regulations" key="regulations" label="Regulations" icon="menu_book" external=True %}
+                </div>
+            {% else %}
+                <div class="flex flex-col gap-0.5">
+                    {% url 'accounts:login' as href %}{% include "includes/nav_item.html" with key="login" label="Sign in" icon="login" %}
+                    {% url 'accounts:signup' as href %}{% include "includes/nav_item.html" with key="signup" label="Create account" icon="person_add" %}
+                    {% include "includes/nav_item.html" with href="http://www.kcaa.or.ke/index.php/statutes-and-regulations/regulations" key="regulations" label="Regulations" icon="menu_book" external=True %}
+                </div>
+            {% endif %}
+        </nav>
+    </aside>
 
-                <!-- Logo -->
-                <a href="{% url 'home' %}" class="flex items-center ml-4 lg:ml-0">
-                    <img class="w-auto h-10" src="{% static 'logo/logo.png' %}" alt="Anga UTM">
-                </a>
+    <div class="flex min-w-0 flex-1 flex-col">
+        <!-- Header -->
+        <header class="flex h-16 flex-none items-center justify-between gap-4 border-b border-line bg-white px-4 sm:px-7">
+            <div class="flex min-w-0 items-center gap-2">
+                <button type="button"
+                        class="-ml-1 flex h-9 w-9 items-center justify-center rounded-lg text-ink-body hover:bg-surface-hover lg:hidden"
+                        @click="sidebarOpen = true">
+                    <span class="sr-only">Open menu</span>
+                    <span class="icon" aria-hidden="true">menu</span>
+                </button>
+                <nav aria-label="Breadcrumb" class="flex min-w-0 items-center gap-2 overflow-hidden whitespace-nowrap text-[13px] text-ink-muted">
+                    {% block breadcrumb %}{% endblock %}
+                </nav>
             </div>
 
-            <!-- Navbar Menu -->
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center gap-3.5">
                 {% if user.is_authenticated %}
-                    <!-- Messages Dropdown (Simplified Tailwind version) -->
+                    <a href="{% url 'messages:inbox' %}"
+                       class="relative flex h-[38px] w-[38px] items-center justify-center rounded-lg border border-line bg-white text-ink-body hover:bg-surface-hover hover:text-ink-body">
+                        <span class="sr-only">Mailbox</span>
+                        <span class="icon" aria-hidden="true">mail</span>
+                        {% if unread_messages_number > 0 %}
+                            <span class="absolute right-[7px] top-[7px] h-2 w-2 rounded-full border-2 border-white bg-accent"></span>
+                        {% endif %}
+                    </a>
+                    <div class="hidden h-7 w-px bg-line sm:block"></div>
                     <div x-data="{ open: false }" class="relative">
-                        <button @click="open = !open" class="relative p-1 text-gray-400 hover:text-gray-500 focus:outline-none">
-                            <span class="sr-only">View messages</span>
-                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                            {% if unread_messages_number > 0 %}
-                                <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
-                            {% endif %}
-                        </button>
-                        <div x-show="open" @click.away="open = false"
-                             class="absolute right-0 z-50 mt-2 origin-top-right bg-white rounded-md shadow-lg w-80 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <div class="py-1">
-                                <div class="px-4 py-2 text-sm font-medium text-gray-700 border-b">Messages ({{ unread_messages_number }})</div>
-                                <div class="overflow-y-auto max-h-60">
-                                    {% for unread_message in unread_messages %}
-                                        <a href="{% url 'messages:message_detail' pk=unread_message.pk %}" class="block px-4 py-2 text-sm hover:bg-gray-50">
-                                            <div class="font-bold">{{ unread_message.sender }}</div>
-                                            <div class="text-gray-500 truncate">{{ unread_message.title }}</div>
-                                        </a>
-                                    {% empty %}
-                                        <div class="px-4 py-2 text-sm text-gray-400">No new messages</div>
-                                    {% endfor %}
-                                </div>
-                                <a href="{% url 'messages:inbox' %}" class="block px-4 py-2 text-sm font-medium text-center text-blue-600 border-t hover:bg-gray-50">See all</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- User Profile Dropdown -->
-                    <div x-data="{ open: false }" class="relative">
-                        <button @click="open = !open" class="flex items-center focus:outline-none">
+                        <button type="button"
+                                @click="open = !open"
+                                @keydown.escape.window="open = false"
+                                :aria-expanded="open"
+                                class="flex items-center gap-2.5 rounded-lg p-1 hover:bg-surface-hover">
                             {% if request.user.userprofile.profile_pic %}
-                                <img class="w-8 h-8 rounded-full" src="{{ request.user.userprofile.profile_pic.url }}" alt="">
+                                <img class="h-[34px] w-[34px] rounded-full object-cover" src="{{ request.user.userprofile.profile_pic.url }}" alt="">
                             {% else %}
-                                <div class="flex items-center justify-center w-8 h-8 text-xs font-bold text-white bg-blue-500 rounded-full">
-                                    {{ user.username|slice:":1"|upper }}
-                                </div>
+                                <span class="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-brand text-[13px] font-bold text-white">
+                                    {% if user.first_name or user.last_name %}{{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}{% else %}{{ user.username|slice:":2"|upper }}{% endif %}
+                                </span>
                             {% endif %}
-                            <span class="hidden ml-2 text-sm font-medium text-gray-700 md:block">{{ user.get_full_name|default:user.username }}</span>
+                            <span class="hidden flex-col items-start leading-tight md:flex">
+                                <span class="text-[13px] font-bold text-ink">{{ user.get_full_name|default:user.username }}</span>
+                                <span class="text-xs text-ink-muted">{{ user.email }}</span>
+                            </span>
+                            <span class="icon text-[18px] text-ink-muted" aria-hidden="true">expand_more</span>
                         </button>
-                        <div x-show="open" @click.away="open = false"
-                             class="absolute right-0 z-50 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <div class="py-1">
-                                <div class="px-4 py-2 text-xs text-gray-500 border-b">{{ user.email }}</div>
-                                <a href="{% url 'accounts:view_profile' pk=request.user.pk %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                                <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
-                            </div>
+                        <div x-show="open"
+                             x-cloak
+                             @click.away="open = false"
+                             class="absolute right-0 top-[52px] z-[1000] w-[220px] rounded-[10px] border border-line bg-white p-1.5 shadow-[0_12px_32px_rgba(13,26,34,0.12)]">
+                            <a href="{% url 'accounts:view_profile' pk=request.user.pk %}"
+                               class="flex h-9 w-full items-center gap-2.5 rounded-md px-2.5 text-sm text-ink no-underline hover:bg-surface-hover hover:text-ink hover:no-underline">
+                                <span class="icon text-[18px]" aria-hidden="true">person</span>Profile &amp; organization
+                            </a>
+                            <a href="{% url 'accounts:logout' %}"
+                               class="flex h-9 w-full items-center gap-2.5 rounded-md px-2.5 text-sm text-danger no-underline hover:bg-danger-soft hover:text-danger hover:no-underline">
+                                <span class="icon text-[18px]" aria-hidden="true">logout</span>Sign out
+                            </a>
                         </div>
                     </div>
                 {% else %}
-                    <a href="{% url 'accounts:login' %}" class="text-sm font-medium text-gray-700 hover:text-blue-600">Login</a>
-                    <a href="{% url 'accounts:signup' %}" class="inline-flex items-center px-4 py-2 ml-4 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">Sign up</a>
+                    <a href="{% url 'accounts:login' %}" class="link text-sm">Sign in</a>
+                    <a href="{% url 'accounts:signup' %}" class="btn-primary">Create account</a>
                 {% endif %}
             </div>
-        </div>
-    </header>
-
-    <div class="flex flex-1 overflow-hidden h-[calc(100vh-4rem)]">
-        <!-- Sidebar -->
-        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-               class="fixed inset-y-0 left-0 z-50 w-64 text-white transition-transform duration-300 ease-in-out transform bg-gray-900 shadow-xl lg:translate-x-0 lg:static lg:inset-0 lg:flex lg:flex-col">
-            <div class="flex flex-col h-full overflow-y-auto">
-                <nav class="flex-1 px-4 py-6 space-y-1">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'home' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                            Dashboard
-                        </a>
-
-                        <a href="{% url 'projects_index' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                            Projects
-                        </a>
-
-                        <a href="{% url 'reserve_main' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            Airspace
-                        </a>
-                        <a href="{% url 'logs_list' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                            Flight Logs
-                        </a>
-
-                        <a href="{% url 'rpas_main' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-                            RPAS
-                        </a>
-
-                        <a href="/ui/inventory/" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                            Components
-                        </a>
-
-                        <a href="/ui/maintenance/" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085" /></svg>
-                            Maintenance
-                        </a>
-
-                        {% if request.user|has_group:"CAA" %}
-                            <a href="{% url 'applied_reserves' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                                <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                Approve Plans
-                            </a>
-                        {% else %}
-                            <a href="{% url 'all_company_flight_logs' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                                <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                                Organization
-                            </a>
-                        {% endif %}
-
-                        <a href="{% url 'messages:calendar' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                            Calendar
-                        </a>
-                        <a href="{% url 'messages:inbox' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">
-                            <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                            Mailbox
-                        </a>
-                    {% else %}
-                        <a href="{% url 'accounts:login' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">Login</a>
-                        <a href="{% url 'accounts:signup' %}" class="flex items-center px-2 py-2 text-sm font-medium text-gray-300 rounded-md group hover:bg-gray-800 hover:text-white">Sign Up</a>
-                    {% endif %}
-
-                    <a href="http://www.kcaa.or.ke/index.php/statutes-and-regulations/regulations" target="_blank" class="flex items-center px-2 py-2 pt-4 mt-4 text-sm font-medium text-gray-300 border-t border-gray-700 rounded-md group hover:bg-gray-800 hover:text-white">
-                        <svg class="w-6 h-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13c-1.168-.776-2.754-1.253-4.5-1.253-1.746 0-3.332.477-4.5 1.253" /></svg>
-                        Regulations
-                    </a>
-                </nav>
-            </div>
-        </aside>
+        </header>
 
         <!-- Main content area -->
-        <main class="flex-1 p-6 overflow-y-auto">
+        <main class="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 pb-10 pt-7 sm:px-8">
             {% block body %}{% endblock %}
         </main>
     </div>
 
-    <!-- AdminLTE and Bootstrap JS removed — using Alpine.js for UI interactions.
-         If you need jQuery/Bootstrap for legacy plugins, add them via CDN in block extra_js -->
     {% block extra_js %}{% endblock extra_js %}
-</body>
+  </body>
 </html>

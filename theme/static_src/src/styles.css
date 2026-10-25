@@ -59,6 +59,10 @@
     body {
         @apply bg-surface-page font-sans text-ink antialiased;
     }
+
+    [x-cloak] {
+        display: none !important;
+    }
 }
 
 @layer components {
