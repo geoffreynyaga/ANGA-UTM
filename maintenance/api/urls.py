@@ -20,6 +20,11 @@ urlpatterns = [
         name="maintenance_installable_requests_api",
     ),
     path(
+        "v1/units/",
+        views.ServiceableUnitListAPIView.as_view(),
+        name="maintenance_units_api",
+    ),
+    path(
         "v1/report-template/",
         views.ReportTemplateAPIView.as_view(),
         name="maintenance_report_template_api",

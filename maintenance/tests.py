@@ -149,3 +149,15 @@ class MaintenanceAPITests(MaintenanceTestData):
             {r["id"] for r in response.data},
             {self.unit_request.pk, self.lot_request.pk},
         )
+
+    def test_units_on_the_drone_are_listed_first(self):
+        spare = ComponentUnit.objects.create(
+            organization=self.organization,
+            component_type=self.battery,
+            serial_number="A0",
+        )
+        self.record(component_requests=[self.unit_request])
+
+        response = self.client.get(reverse("maintenance_units_api"), {"rpas": self.rpas.pk})
+
+        self.assertEqual([u["id"] for u in response.data], [self.unit.pk, spare.pk])
