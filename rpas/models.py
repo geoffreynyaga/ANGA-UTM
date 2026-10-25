@@ -152,6 +152,13 @@ class Rpas(models.Model):
     payload = models.ForeignKey(
         Payload, on_delete=models.CASCADE, blank=True, null=True
     )
+    aircraft_model = models.ForeignKey(
+        "inventory.AircraftModel",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        help_text="Used to show which components fit this drone",
+    )
 
     rpas_serial = models.CharField(max_length=20, unique=True)
     rpas_nickname = models.CharField(
