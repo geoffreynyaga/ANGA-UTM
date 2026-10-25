@@ -1,66 +1,29 @@
-<!DOCTYPE html>
 {% extends 'base.html' %}
-
 {% load static %}
+{% block head %}<title>Dashboard | ANGA UTM</title>{% endblock %}
+{% block breadcrumb %}{% include "includes/breadcrumb.html" with parent="Home" current="Dashboard" %}{% endblock %}
+{% block body %}
+    {% now "G" as hour %}
+    <div class="flex flex-col gap-6">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+                <h1 class="page-title">
+                    {% if hour|add:0 < 12 %}Good morning{% elif hour|add:0 < 17 %}Good afternoon{% else %}Good evening{% endif %}{% if user.first_name %}, {{ user.first_name }}{% endif %}
+                </h1>
+                <p class="page-subtitle">Everything you need to plan and fly safely.</p>
+            </div>
+            <a href="{% url 'create_reserve' %}" class="btn-primary">
+                <span class="icon" aria-hidden="true">add</span>New flight plan
+            </a>
+        </div>
 
-
-
-{%block body%}
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">My Dashboard</h1>
-        <nav class="flex mt-1 text-sm text-gray-500" aria-label="Breadcrumb">
-          <ol class="flex items-center space-x-2">
-            <li><a href="{%url 'home'%}" class="hover:text-blue-600">Home</a></li>
-            <li><span class="mx-2 text-gray-400">/</span></li>
-            <li class="font-medium text-gray-700">My Dashboard</li>
-          </ol>
-        </nav>
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4">
+            {% url 'reserve_main' as href %}{% include "includes/module_card.html" with icon="public" title="Airspace reservations" desc="Apply for airspace and track approvals." cta="Open" %}
+            {% url 'rpas_main' as href %}{% include "includes/module_card.html" with icon="flight" title="My RPAS" desc="Register aircraft and finish their setup." cta="View fleet" %}
+            {% url 'logs_list' as href %}{% include "includes/module_card.html" with icon="description" title="Flight logs" desc="Planned and completed flights in one list." cta="View logs" %}
+            {% url 'view_geofences' as href %}{% include "includes/module_card.html" with icon="fence" title="Geofences" desc="Controlled, restricted and protected zones." cta="Open map" %}
+            {% url 'weather' as href %}{% include "includes/module_card.html" with icon="partly_cloudy_day" title="Weather" desc="Wind and visibility before you fly." cta="Check weather" %}
+            {% url 'checklist_list' as href %}{% include "includes/module_card.html" with icon="checklist" title="Checklists" desc="Pre-flight templates per aircraft model." cta="Manage" %}
+        </div>
     </div>
-
-    <!-- Main content -->
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div class="flex items-center justify-between p-5 text-white rounded-lg bg-gradient-to-br from-blue-500 to-blue-600">
-            <div>
-              <h4 class="text-xl font-bold">Airspace Reservations</h4>
-            </div>
-            <a href="{% url 'reserve_main' %}" class="inline-block px-3 py-2 bg-white rounded bg-opacity-20">Go</a>
-          </div>
-
-          <div class="flex items-center justify-between p-5 text-white rounded-lg bg-gradient-to-br from-green-500 to-green-600">
-            <div>
-              <h4 class="text-xl font-bold">My Rpas</h4>
-            </div>
-            <a href="{% url 'rpas_list' %}" class="inline-block px-3 py-2 bg-white rounded bg-opacity-20">More</a>
-          </div>
-
-          <div class="flex items-center justify-between p-5 text-white rounded-lg bg-gradient-to-br from-yellow-400 to-yellow-500">
-            <div>
-              <h4 class="text-xl font-bold">Flight Logs</h4>
-            </div>
-            <a href="{% url 'logs_list' %}" class="inline-block px-3 py-2 bg-white rounded bg-opacity-20">More</a>
-          </div>
-
-          <div class="flex items-center justify-between p-5 text-white rounded-lg bg-gradient-to-br from-red-500 to-red-600">
-            <div>
-              <h4 class="text-xl font-bold">Geofences</h4>
-            </div>
-            <a href="{% url 'view_geofences' %}" class="inline-block px-3 py-2 bg-white rounded bg-opacity-20">More</a>
-          </div>
-
-          <div class="flex items-center justify-between p-5 text-white rounded-lg bg-gradient-to-br from-blue-400 to-blue-500">
-            <div>
-              <h4 class="text-xl font-bold">Weather</h4>
-            </div>
-            <a href="{% url 'weather' %}" class="inline-block px-3 py-2 bg-white rounded bg-opacity-20">More</a>
-          </div>
-
-          <div class="flex items-center justify-between p-5 bg-white border rounded-lg">
-            <div>
-              <h4 class="text-xl font-bold">Checklists</h4>
-            </div>
-            <a href="{% url 'checklist_list' %}" class="inline-block px-3 py-2 text-blue-600 rounded">More</a>
-          </div>
-
-    </div>
-
-    {% endblock%}
+{% endblock %}
