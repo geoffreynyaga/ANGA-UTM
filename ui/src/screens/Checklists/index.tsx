@@ -521,48 +521,62 @@ export default function ChecklistBuilder() {
     a + data[tab].reduce((b, s) => b + s.items.length, 0), 0);
 
   if (step === "setup") {
+    const canStart = title.trim() !== "" && selectedRpas !== "";
     return (
-      <div style={{ minHeight: "100vh", background: "#f1f5f9", fontFamily: "'IBM Plex Sans', sans-serif", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ background: "#fff", padding: 32, borderRadius: 8, width: "100%", maxWidth: 400, boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}>
-          <h2 style={{ margin: "0 0 20px", fontSize: 20 }}>Create a new checklist template</h2>
-          
-          <div style={{ marginBottom: 16 }}>
-            <label style={{ display: "block", marginBottom: 6, fontSize: 13, fontWeight: 600 }}>Checklist Name</label>
-            <input 
-              style={inputStyle} 
-              value={title} 
-              onChange={e => setTitle(e.target.value)} 
-              placeholder="e.g. Agras T50 Checklist" 
-            />
-          </div>
-
-          <div style={{ marginBottom: 24 }}>
-            <label style={{ display: "block", marginBottom: 6, fontSize: 13, fontWeight: 600 }}>Select RPAS Model</label>
-            <select style={inputStyle} value={selectedRpas} onChange={e => setSelectedRpas(e.target.value)}>
-              <option value="">-- Select RPAS Model --</option>
-              {rpasModels.map(r => (
-                <option key={r.id} value={r.id.toString()}>
-                  {r.manufacturer} - {r.model_name || r.rpas_model_type}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <button 
-            style={{ 
-              ...btnPrimary, 
-              width: "100%", 
-              justifyContent: "center", 
-              padding: "10px",
-              opacity: (!title || !selectedRpas) ? 0.5 : 1,
-              cursor: (!title || !selectedRpas) ? "not-allowed" : "pointer"
-            }}
-            onClick={() => setStep("builder")}
-            disabled={!title || !selectedRpas}
-          >
-            Start Building
-          </button>
+      <div className="flex w-full flex-col gap-6">
+        <div>
+          <h1 className="page-title">Checklists</h1>
+          <p className="page-subtitle">Pre-flight checklist templates for each aircraft model.</p>
         </div>
+        <form
+          className="card max-w-[600px]"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (canStart) setStep("builder");
+          }}
+        >
+          <div className="border-b border-line px-5 py-[18px]">
+            <h2 className="card-title">New checklist template</h2>
+          </div>
+          <div className="flex flex-col gap-[18px] p-5">
+            <label className="field">
+              <span className="field-label">
+                Checklist name <span className="text-accent">*</span>
+              </span>
+              <input
+                className="input"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="e.g. Agras T50 pre-flight"
+                required
+              />
+            </label>
+            <label className="field">
+              <span className="field-label">
+                RPAS model <span className="text-accent">*</span>
+              </span>
+              <select className="input pr-9" value={selectedRpas} onChange={(e) => setSelectedRpas(e.target.value)} required>
+                <option value="">Select a model</option>
+                {rpasModels.map((r) => (
+                  <option key={r.id} value={r.id.toString()}>
+                    {r.manufacturer} - {r.model_name || r.rpas_model_type}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="card-footer">
+            <a href="/home" className="btn-secondary">
+              Cancel
+            </a>
+            <button type="submit" className="btn-primary" disabled={!canStart}>
+              Start building
+              <span className="icon" aria-hidden="true">
+                arrow_forward
+              </span>
+            </button>
+          </div>
+        </form>
       </div>
     );
   }

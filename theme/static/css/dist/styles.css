@@ -2809,6 +2809,10 @@ body {
   max-width: 440px;
 }
 
+.max-w-\[600px\] {
+  max-width: 600px;
+}
+
 .max-w-\[760px\] {
   max-width: 760px;
 }
