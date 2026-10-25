@@ -26,6 +26,9 @@ module.exports = {
          */
         '../../**/templates/**/*.html',
 
+        /* React screens served under /ui/ use the same stylesheet. */
+        '../../ui/src/**/*.{js,jsx,ts,tsx}',
+
         /**
          * JS: If you use Tailwind CSS in JavaScript, uncomment the following lines and make sure
          * patterns match your project structure.

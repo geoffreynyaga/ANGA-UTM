@@ -3,6 +3,7 @@ import { Suspense, lazy } from "react";
 
 import About from "./about";
 import ChecklistBuilder from "../screens/Checklists";
+import InventoryPage from "../screens/Inventory";
 import RootLayout from "./navbar";
 
 function RoutesApp() {
@@ -21,6 +22,7 @@ function RoutesApp() {
                 */}
                     <Route path="/ui/about/" element={<About />} />
 					<Route path="/ui/checklists/" element={<ChecklistBuilder />} />
+					<Route path="/ui/inventory/" element={<InventoryPage />} />
 			</Routes>
 	);
 }

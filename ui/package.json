@@ -8,6 +8,7 @@
         "@changey/react-leaflet-markercluster": "4.0.0-rc1",
         "@tanstack/react-query": "^5.32.1",
         "@tanstack/react-query-devtools": "^5.32.1",
+        "@tanstack/react-table": "^8.21.3",
         "@testing-library/jest-dom": "^6.4.2",
         "@testing-library/react": "^15.0.5",
         "@testing-library/user-event": "^14.5.2",
