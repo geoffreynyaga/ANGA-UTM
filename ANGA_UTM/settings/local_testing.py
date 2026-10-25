@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     "utm_messages",
     "notams",
     "notifications",
+    "administration",
+    "inventory",
 ]
 
 MIDDLEWARE = [
@@ -77,6 +79,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "ANGA_UTM.urls"
+
+AUTH_USER_MODEL = "accounts.User"
 
 TEMPLATES = [
     {

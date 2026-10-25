@@ -85,6 +85,7 @@ MY_APPS = [
     "notifications",
     "ui",
     "administration",
+    "inventory",
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + MY_APPS
