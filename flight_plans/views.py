@@ -1,5 +1,11 @@
+from datetime import date
+
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.views.generic import ListView
+
+from applications.models import ReserveAirspace
 from .models import DailyWorkLog
 from rpas.models import Rpas
 
@@ -33,3 +39,40 @@ def unfinished_logs_notifications(request):
     }
 
     return render(request, "flight_plans/unfinished_logs_notifications.html", args)
+
+
+class FlightLogListView(LoginRequiredMixin, ListView):
+    """Every flight the user has planned, filtered by the All / Upcoming / Completed tabs."""
+
+    template_name = "flight_plans/flightlog_list.html"
+    context_object_name = "flights"
+    paginate_by = 25
+    TABS = ("All", "Upcoming", "Completed")
+
+    def get_tab(self):
+        tab = self.request.GET.get("tab", "All")
+        return tab if tab in self.TABS else "All"
+
+    def get_queryset(self):
+        today = date.today()
+        flights = (
+            ReserveAirspace.objects.filter(created_by=self.request.user)
+            .select_related("project")
+            .prefetch_related("rpas")
+        )
+        tab = self.get_tab()
+        if tab == "Upcoming":
+            return flights.filter(
+                start_day__gte=today,
+                status__in=[ReserveAirspace.PENDING, ReserveAirspace.APPROVED],
+            ).order_by("start_day", "start_time")
+        if tab == "Completed":
+            flights = flights.filter(start_day__lt=today, status=ReserveAirspace.APPROVED)
+        return flights.order_by("-start_day", "-start_time")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tab"] = self.get_tab()
+        context["tabs"] = self.TABS
+        context["today"] = date.today()
+        return context

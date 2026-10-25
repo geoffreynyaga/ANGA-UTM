@@ -3,12 +3,8 @@ from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
+    re_path(r"^logs/$", views.FlightLogListView.as_view(), name="logs_list"),
     # Redirect old HTML-driven URLs to the new React UI routes
-    re_path(
-        r"^logs/$",
-        RedirectView.as_view(url="/ui/logs/", permanent=False),
-        name="logs_list",
-    ),
     re_path(
         r"^checklist/$",
         RedirectView.as_view(url="/ui/checklists/", permanent=False),
