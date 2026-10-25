@@ -1847,6 +1847,20 @@ body {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(var(--color-line) / var(--tw-border-opacity));
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .card-title {
   margin: 0px;
   font-size: 1rem;
@@ -1954,6 +1968,87 @@ body {
 }
 
 /* Status chips */
+
+.chip {
+  display: inline-flex;
+  height: 1.5rem;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+}
+
+.chip-neutral {
+  display: inline-flex;
+  height: 1.5rem;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--color-surface-chip) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(var(--color-ink-body) / var(--tw-text-opacity));
+}
+
+.chip-brand {
+  display: inline-flex;
+  height: 1.5rem;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--color-brand-soft) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(var(--color-brand-strong) / var(--tw-text-opacity));
+}
+
+.chip-warning {
+  display: inline-flex;
+  height: 1.5rem;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--color-accent-soft) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(var(--color-accent-strong) / var(--tw-text-opacity));
+}
+
+.chip-danger {
+  display: inline-flex;
+  height: 1.5rem;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--color-danger-soft) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(var(--color-danger) / var(--tw-text-opacity));
+}
 
 /* Links */
 
@@ -2563,6 +2658,10 @@ body {
   min-width: 0px;
 }
 
+.min-w-\[720px\] {
+  min-width: 720px;
+}
+
 .min-w-full {
   min-width: 100%;
 }
@@ -2701,6 +2800,10 @@ body {
 
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-\[140px_minmax\(160px\2c 1\.4fr\)_minmax\(110px\2c 1fr\)_130px_110px\] {
+  grid-template-columns: 140px minmax(160px,1.4fr) minmax(110px,1fr) 130px 110px;
 }
 
 .grid-cols-\[auto\2c 1fr\] {
@@ -3096,6 +3199,11 @@ body {
   border-color: rgb(var(--color-line) / var(--tw-border-opacity));
 }
 
+.border-line-soft {
+  --tw-border-opacity: 1;
+  border-color: rgb(var(--color-line-soft) / var(--tw-border-opacity));
+}
+
 .border-red-100 {
   --tw-border-opacity: 1;
   border-color: rgb(254 226 226 / var(--tw-border-opacity));
@@ -3358,6 +3466,11 @@ body {
   background-color: rgb(var(--color-surface-page) / var(--tw-bg-opacity));
 }
 
+.bg-surface-subtle {
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--color-surface-subtle) / var(--tw-bg-opacity));
+}
+
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -3613,6 +3726,11 @@ body {
   padding-bottom: 0.75rem;
 }
 
+.py-3\.5 {
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+}
+
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -3766,6 +3884,10 @@ body {
   font-size: 10px;
 }
 
+.text-\[11px\] {
+  font-size: 11px;
+}
+
 .text-\[13\.5px\] {
   font-size: 13.5px;
 }
@@ -3898,6 +4020,10 @@ body {
 
 .leading-tight {
   line-height: 1.25;
+}
+
+.tracking-\[0\.12em\] {
+  letter-spacing: 0.12em;
 }
 
 .tracking-\[0\.14em\] {
@@ -4428,6 +4554,10 @@ body {
  * opacity modifiers work (e.g. bg-brand/20). Colour names are mapped in
  * tailwind.config.js.
  */
+
+.last\:border-b-0:last-child {
+  border-bottom-width: 0px;
+}
 
 .empty\:hidden:empty {
   display: none;

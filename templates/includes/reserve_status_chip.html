@@ -1,0 +1,4 @@
+{% comment %}Status chip for a ReserveAirspace. Pass `reserve`; past approved flights show as Completed.{% endcomment %}
+{% if reserve.status == 1 %}<span class="chip-danger">Rejected</span>
+{% elif reserve.status == 2 %}{% if reserve.start_day < today %}<span class="chip-neutral">Completed</span>{% else %}<span class="chip-brand">Approved</span>{% endif %}
+{% else %}<span class="chip-warning">Pending</span>{% endif %}

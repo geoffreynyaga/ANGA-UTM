@@ -1,167 +1,72 @@
-<!DOCTYPE html>
-{% extends "home/mainhome.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% load group_perms %}
-
-
-{% block head %}
-    <title>AIRSPACE</title>
-{% endblock %}
-
-
-
+{% block head %}<title>Airspace | ANGA UTM</title>{% endblock %}
+{% block breadcrumb %}{% include "includes/breadcrumb.html" with parent="Operations" current="Airspace" %}{% endblock %}
 {% block body %}
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">My Dashboard</h1>
-        <nav class="flex text-sm text-gray-500 mt-1" aria-label="Breadcrumb">
-          <ol class="flex items-center space-x-2">
-            <li><a href="{% url 'home' %}" class="hover:text-blue-600">Home</a></li>
-            <li><span class="mx-2 text-gray-400">/</span></li>
-            <li class="font-medium text-gray-700">Reserve Airspace</li>
-          </ol>
-        </nav>
-    </div>
-
-    <!-- Main content -->
-    {% if user.is_authenticated %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-            {% if request.user|has_group:"CAA" %}
-                <!-- Approve Airspace Reserves -->
-                <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-medium opacity-80 uppercase tracking-wider">CAA Action</p>
-                            <h3 class="text-2xl font-bold mt-1">Approve Reserves</h3>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-3 rounded-lg">
-                            <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        </div>
-                    </div>
-                    <a href="{% url 'applied_reserves' %}" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
-                        Go to Approvals
-                        <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                    </a>
-                </div>
-
-                <!-- Add Geofences -->
-                <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Management</p>
-                            <h3 class="text-2xl font-bold mt-1">Add Geofences</h3>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-3 rounded-lg">
-                            <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                        </div>
-                    </div>
-                    <a href="{% url 'create_location' %}" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
-                        Create Geofence
-                        <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
-                    </a>
-                </div>
-
-                <!-- Create Notams -->
-                <div class="bg-gradient-to-br from-yellow-400 to-yellow-500 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Public Info</p>
-                            <h3 class="text-2xl font-bold mt-1">Create Notams</h3>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-3 rounded-lg">
-                            <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
-                        </div>
-                    </div>
-                    <a href="{% url 'create_notam' %}" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
-                        Post Notam
-                        <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                    </a>
-                </div>
-
-                <!-- View Airspace -->
-                <div class="bg-gradient-to-br from-red-500 to-red-600 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Mapping</p>
-                            <h3 class="text-2xl font-bold mt-1">View Airspace</h3>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-3 rounded-lg">
-                            <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.447-.894L15 4m0 13V4m0 0L9 7" /></svg>
-                        </div>
-                    </div>
-                    <a href="{% url 'view_airspace' %}" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
-                        Open Map
-                        <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                    </a>
-                </div>
-            {% else %}
-                <!-- Apply for Reserve -->
-                <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Permission</p>
-                            <h3 class="text-2xl font-bold mt-1">Apply for Reserve</h3>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-3 rounded-lg">
-                            <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                        </div>
-                    </div>
-                    <a href="{% url 'create_reserve' %}" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
-                        Apply Now
-                        <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
-                    </a>
-                </div>
-
-                <!-- My Reserves History -->
-                <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Archive</p>
-                            <h3 class="text-2xl font-bold mt-1">My Reserves History</h3>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-3 rounded-lg">
-                            <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                        </div>
-                    </div>
-                    <a href="{% url 'my_reserve_list' %}" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
-                        View History
-                        <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                    </a>
-                </div>
-
-                <!-- Approval Letters -->
-                <div class="bg-gradient-to-br from-red-500 to-red-600 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Documents</p>
-                            <h3 class="text-2xl font-bold mt-1">Approval Letters</h3>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-3 rounded-lg">
-                            <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
-                        </div>
-                    </div>
-                    <a href="{% url 'my_approval_letters_list' %}" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
-                        View Letters
-                        <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                    </a>
-                </div>
-
-                <!-- View Airspace -->
-                <div class="bg-gradient-to-br from-yellow-400 to-yellow-500 text-white rounded-lg shadow-md p-6 flex flex-col justify-between h-48 hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-medium opacity-80 uppercase tracking-wider">Mapping</p>
-                            <h3 class="text-2xl font-bold mt-1">View Airspace</h3>
-                        </div>
-                        <div class="bg-white bg-opacity-20 p-3 rounded-lg">
-                            <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.447-.894L15 4m0 13V4m0 0L9 7" /></svg>
-                        </div>
-                    </div>
-                    <a href="{% url 'view_airspace' %}" class="mt-4 flex items-center text-sm font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-all rounded px-3 py-2 w-fit">
-                        Open Map
-                        <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                    </a>
-                </div>
+    <div class="flex flex-col gap-6">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+                <h1 class="page-title">Airspace</h1>
+                <p class="page-subtitle">
+                    {% if request.user|has_group:"CAA" %}Review reservations, publish geofences and NOTAMs.{% else %}Reserve airspace for your missions and track approvals.{% endif %}
+                </p>
+            </div>
+            {% if not request.user|has_group:"CAA" %}
+                <a href="{% url 'create_reserve' %}" class="btn-primary">
+                    <span class="icon" aria-hidden="true">add</span>Apply for reservation
+                </a>
             {% endif %}
         </div>
-    {% endif %}
+
+        {% if user.is_authenticated %}
+            <div class="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4">
+                {% if request.user|has_group:"CAA" %}
+                    {% url 'applied_reserves' as href %}{% include "includes/module_card.html" with icon="verified" title="Approve reservations" desc="Review and decide on submitted flight plans." cta="Go to approvals" %}
+                    {% url 'create_location' as href %}{% include "includes/module_card.html" with icon="fence" title="Add geofences" desc="Draw controlled and restricted zones." cta="Create geofence" %}
+                    {% url 'create_notam' as href %}{% include "includes/module_card.html" with icon="campaign" title="Create NOTAMs" desc="Publish notices to airmen." cta="Post NOTAM" %}
+                    {% url 'view_airspace' as href %}{% include "includes/module_card.html" with icon="map" title="View airspace" desc="See controlled and restricted zones." cta="Open map" %}
+                {% else %}
+                    {% url 'create_reserve' as href %}{% include "includes/module_card.html" with icon="edit_square" title="Apply for reservation" desc="Draw your flight area and submit for approval." cta="Apply now" %}
+                    {% url 'view_airspace' as href %}{% include "includes/module_card.html" with icon="map" title="View airspace" desc="See controlled and restricted zones." cta="Open map" %}
+                    {% url 'my_approval_letters_list' as href %}{% include "includes/module_card.html" with icon="folder_open" title="Approval letters" desc="Download letters for approved flights." cta="View letters" %}
+                {% endif %}
+            </div>
+
+            {% if not request.user|has_group:"CAA" %}
+                <section class="card overflow-hidden">
+                    <div class="card-header">
+                        <h2 class="card-title">Upcoming reservations</h2>
+                        <a href="{% url 'my_reserve_list' %}" class="link text-[13px] font-bold">View all</a>
+                    </div>
+                    {% if upcoming_reserves %}
+                        <div class="overflow-x-auto">
+                            <div class="min-w-[720px]">
+                                <div class="grid grid-cols-[140px_minmax(160px,1.4fr)_minmax(110px,1fr)_130px_110px] gap-4 border-b border-line bg-surface-subtle px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-ink-subtle">
+                                    <span>Date</span><span>Mission</span><span>Project</span><span>Aircraft</span><span>Status</span>
+                                </div>
+                                {% for reserve in upcoming_reserves %}
+                                    <div class="grid grid-cols-[140px_minmax(160px,1.4fr)_minmax(110px,1fr)_130px_110px] items-center gap-4 border-b border-line-soft px-5 py-3.5 text-sm last:border-b-0">
+                                        <span class="flex flex-col">
+                                            <span class="font-semibold">{{ reserve.start_day|date:"j M Y" }}</span>
+                                            <span class="text-xs text-ink-muted">{{ reserve.start_time|time:"H:i" }} – {{ reserve.end|time:"H:i" }}</span>
+                                        </span>
+                                        <span class="font-semibold">{{ reserve.get_mission_type_display }}</span>
+                                        <span class="truncate text-ink-body">{{ reserve.project.name|default:"—" }}</span>
+                                        <span class="truncate text-ink-body">{% for rpas in reserve.rpas.all %}{{ rpas.rpas_nickname|default:rpas.rpas_serial }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</span>
+                                        <span>{% include "includes/reserve_status_chip.html" %}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="flex flex-col items-center gap-2 px-6 py-10 text-center">
+                            <p class="m-0 text-sm text-ink-muted">No upcoming reservations.</p>
+                            <a href="{% url 'create_reserve' %}" class="link text-sm">Apply for a reservation</a>
+                        </div>
+                    {% endif %}
+                </section>
+            {% endif %}
+        {% endif %}
+    </div>
 {% endblock %}
