@@ -86,6 +86,7 @@ MY_APPS = [
     "ui",
     "administration",
     "inventory",
+    "maintenance",
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + MY_APPS
