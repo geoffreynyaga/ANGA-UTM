@@ -1,0 +1,38 @@
+{% comment %}
+Shared Leaflet setup for the airspace maps. Defines `addAirspaceLayers(map)`,
+which adds the base map, layer switcher, controlled zones (airports),
+restricted zones (geofences) and reserved airspace.
+{% endcomment %}
+<script>
+    const AIRSPACE_STYLE = {
+        controlled: { color: '#0B7F83', weight: 1.5, dashArray: '5 5', fillColor: '#0B7F83', fillOpacity: 0.04 },
+        restricted: { color: '#F37021', weight: 1.5, fillColor: '#F37021', fillOpacity: 0.14 },
+        reserved: { color: '#0B7F83', weight: 2, fillColor: '#0B7F83', fillOpacity: 0.3 },
+    };
+
+    function addAirspaceLayers(map) {
+        const attribution = '© OpenStreetMap contributors · Esri';
+        const baseLayers = {
+            Light: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', { maxZoom: 16, attribution }),
+            Streets: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap contributors' }),
+            Satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, attribution: '© Esri' }),
+        };
+        baseLayers.Light.addTo(map);
+
+        const overlays = {
+            OpenAIP: L.tileLayer('https://api.tiles.openaip.net/api/data/openaip/{z}/{x}/{y}.png?apiKey=58803704f98f6c1261d5d57e34bb27f6', { maxZoom: 18, attribution: '© OpenAIP' }),
+        };
+
+        const load = (url, style, tooltip) =>
+            fetch(url)
+                .then((response) => response.json())
+                .then((data) => L.geoJSON(data, { style, onEachFeature: (feature, layer) => layer.bindTooltip(tooltip(feature.properties)) }).addTo(map))
+                .catch(() => null);
+
+        load("{% url 'location_datasets' %}", AIRSPACE_STYLE.controlled, (p) => `${p.name}${p.ICAO_shortcode ? ' · ' + p.ICAO_shortcode : ''}`);
+        load("{% url 'geofence_datasets' %}", AIRSPACE_STYLE.restricted, (p) => `${p.name} — restricted`);
+        load("{% url 'all_reserve_datasets' %}", AIRSPACE_STYLE.reserved, (p) => `Reserved · ${p.start_day} ${String(p.start_time).slice(0, 5)}–${String(p.end).slice(0, 5)}`);
+
+        L.control.layers(baseLayers, overlays, { position: 'topright' }).addTo(map);
+    }
+</script>
