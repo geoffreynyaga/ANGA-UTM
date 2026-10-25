@@ -1,0 +1,2274 @@
+{
+  "source": "T50 Parts Diagram.xlsx",
+  "aircraft": {
+    "manufacturer": "DJI",
+    "name": "Agras T50"
+  },
+  "parts": [
+    {
+      "part_number": "YC.JG.MY001043",
+      "name": "Auxiliary Bottom Light Sealing Ring",
+      "diagram_name": "Front Cover of Front Shell",
+      "diagram_number": "1",
+      "tags": [
+        "front cover of front shell"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000677",
+      "name": "Auxiliary Bottom Light Module",
+      "diagram_name": "Front Cover of Front Shell",
+      "diagram_number": "2",
+      "tags": [
+        "front cover of front shell"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.L00870",
+      "name": "Screw M30-HC060060-55-85",
+      "diagram_name": "Front Cover of Front Shell",
+      "diagram_number": "3",
+      "tags": [
+        "cable distribution module",
+        "front cover of front shell",
+        "front frame",
+        "impeller pump",
+        "m1 aircraft arm",
+        "m3 aircraft arm",
+        "rear frame",
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000235",
+      "name": "T30-HC00800080-057030-5103-N",
+      "diagram_name": "Front Cover of Front Shell",
+      "diagram_number": "4",
+      "tags": [
+        "front cover of front shell",
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS000998",
+      "name": "Buckle Base (Female)",
+      "diagram_name": "Front Cover of Front Shell",
+      "diagram_number": "5",
+      "tags": [
+        "front cover of front shell"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003386",
+      "name": "Front Cover of Front Shell",
+      "diagram_name": "Front Cover of Front Shell",
+      "diagram_number": "6",
+      "tags": [
+        "front cover of front shell"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX000999",
+      "name": "Auxiliary Bottom Light Signal Cable",
+      "diagram_name": "Front Cover of Front Shell",
+      "diagram_number": "7",
+      "tags": [
+        "front cover of front shell"
+      ]
+    },
+    {
+      "part_number": "YC.DZ.AA000326",
+      "name": "SDR Antenna (Front)",
+      "diagram_name": "Front Frame",
+      "diagram_number": "2",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000122",
+      "name": "Screw M25-HC00780040-040020-5108-N",
+      "diagram_name": "Front Frame",
+      "diagram_number": "3",
+      "tags": [
+        "cable",
+        "cable distribution module",
+        "flow meter module",
+        "front frame",
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX001013",
+      "name": "Forward Vision Sensor Signal Cable",
+      "diagram_name": "Front Frame",
+      "diagram_number": "4",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001038",
+      "name": "Damping Silicone Rubber",
+      "diagram_name": "Front Frame",
+      "diagram_number": "5",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000671",
+      "name": "Forward Vision Sensor Module",
+      "diagram_name": "Front Frame",
+      "diagram_number": "6",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000226",
+      "name": "M30-HC01450080-100020-5103-Y",
+      "diagram_name": "Front Frame",
+      "diagram_number": "7",
+      "tags": [
+        "cable distribution module",
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003455",
+      "name": "RF Cable Clip",
+      "diagram_name": "Front Frame",
+      "diagram_number": "9",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003389",
+      "name": "Top Cover of Front Shell",
+      "diagram_name": "Front Frame",
+      "diagram_number": "10",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.YZ000671",
+      "name": "Forward Radar Bracket",
+      "diagram_name": "Front Frame",
+      "diagram_number": "11",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX003038",
+      "name": "FPV Camera Bracket Supporting Piece",
+      "diagram_name": "Front Frame",
+      "diagram_number": "12",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000013",
+      "name": "Screw M40-HC01400140-070039-0003-Y",
+      "diagram_name": "Front Frame",
+      "diagram_number": "13",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.LL000232",
+      "name": "M40-HC01000100-072028-5103-N_01",
+      "diagram_name": "Front Frame",
+      "diagram_number": "14",
+      "tags": [
+        "front frame",
+        "middle frame",
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000228",
+      "name": "M20-PC00400040-040010-5103-Y",
+      "diagram_name": "Front Frame",
+      "diagram_number": "16",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003435",
+      "name": "Auxiliary Arm",
+      "diagram_name": "Front Frame",
+      "diagram_number": "17",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000985",
+      "name": "Lens Cap Sealing Gasket",
+      "diagram_name": "Front Frame",
+      "diagram_number": "18",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000682",
+      "name": "Lens Cap Module",
+      "diagram_name": "Front Frame",
+      "diagram_number": "19",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000681",
+      "name": "FPV Camera Module",
+      "diagram_name": "Front Frame",
+      "diagram_number": "21",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001079",
+      "name": "Front Shell Sealing Stopper",
+      "diagram_name": "Front Frame",
+      "diagram_number": "22",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000148",
+      "name": "M40-HC01400140-070039-4105-Y",
+      "diagram_name": "Front Frame",
+      "diagram_number": "23",
+      "tags": [
+        "front frame",
+        "m1 aircraft arm",
+        "m3 aircraft arm",
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003388",
+      "name": "Front Shell Bottom Plate",
+      "diagram_name": "Front Frame",
+      "diagram_number": "24",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000672",
+      "name": "Front Frame Aluminum Tube",
+      "diagram_name": "Front Frame",
+      "diagram_number": "25",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003425",
+      "name": "FPV Camera Bracket",
+      "diagram_name": "Front Frame",
+      "diagram_number": "26",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001044",
+      "name": "Binocular Vision Sensors Sealing Ring",
+      "diagram_name": "Front Frame",
+      "diagram_number": "29",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003452",
+      "name": "Outer Shell Side Cover",
+      "diagram_name": "Front Frame",
+      "diagram_number": "31",
+      "tags": [
+        "front frame",
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003387",
+      "name": "Front Shell Module",
+      "diagram_name": "Front Frame",
+      "diagram_number": "32",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001041",
+      "name": "Radar Sealing Ring",
+      "diagram_name": "Front Frame",
+      "diagram_number": "33",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.YZ000672",
+      "name": "Forward Radar Base",
+      "diagram_name": "Front Frame",
+      "diagram_number": "34",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001042",
+      "name": "Radar Base Sealing Ring",
+      "diagram_name": "Front Frame",
+      "diagram_number": "35",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000939.02.F",
+      "name": "Forward Radar Module",
+      "diagram_name": "Front Frame",
+      "diagram_number": "36",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX001011",
+      "name": "Forward Radar Signal Cable",
+      "diagram_name": "Front Frame",
+      "diagram_number": "37",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003493",
+      "name": "Radar Left Supporting Piece",
+      "diagram_name": "Front Frame",
+      "diagram_number": "38",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003492",
+      "name": "Radar Right Supporting Piece",
+      "diagram_name": "Front Frame",
+      "diagram_number": "39",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000940.02.F",
+      "name": "Rear Radar Module",
+      "diagram_name": "Front Frame",
+      "diagram_number": "40",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX001012",
+      "name": "Rear Vision Radar Signal Cable",
+      "diagram_name": "Front Frame",
+      "diagram_number": "41",
+      "tags": [
+        "front frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003438",
+      "name": "Battery Supporting Piece (Left)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "1",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MQ001385",
+      "name": "Battery Supporting Piece Patch (Left)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "3",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.SJ.WS002500",
+      "name": "Spray Tank Fixing Piece_Internal Roller",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "4",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.XJ.QT000247",
+      "name": "Battery Fixing Piece_External Roller",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "5",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.ZZ002618",
+      "name": "Spray Tank Fixing Piece_Roller Shaft",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "6",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000685",
+      "name": "M3 Aircraft Arm Connector",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "7",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000687",
+      "name": "Middle Frame Aluminum Tube (Left)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "8",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003589",
+      "name": "Cable Clip",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "9",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX003017",
+      "name": "Middle Frame Insert Part",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "10",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003479",
+      "name": "Hose Clip",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "11",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001051",
+      "name": "Cable Tube Rubber Stopper",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "12",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.JS000035",
+      "name": "Cable Tube",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "13",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000688",
+      "name": "Middle Frame Aluminum Tube (Right)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "14",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000686",
+      "name": "M4 Aircraft Arm Connector",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "15",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MQ001386",
+      "name": "Battery Supporting Piece Patch (Right)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "16",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003439",
+      "name": "Battery Supporting Piece (Right)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "17",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003599",
+      "name": "Weighing Sensor Bracket (Right)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "18",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003463",
+      "name": "Aircraft Arm Fixing Piece (Right)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "19",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000683",
+      "name": "M1 Aircraft Arm Connector",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "20",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003601",
+      "name": "Weighing Sensor Bracket (Front)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "21",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002229",
+      "name": "Load Sensor Cable Clip",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "22",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000327",
+      "name": "Screw (M40-HC01050056-070039-5103-Y)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "23",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000684",
+      "name": "M2 Aircraft Arm Connector",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "24",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003462",
+      "name": "Aircraft Arm Fixing Piece (Left)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "25",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001055",
+      "name": "Anti-Collision Pad",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "27",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003600",
+      "name": "Weighing Sensor Bracket (Left)",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "28",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003602",
+      "name": "Weighing Sensor Bracket Roller",
+      "diagram_name": "Middle Frame",
+      "diagram_number": "29",
+      "tags": [
+        "middle frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003396",
+      "name": "Rear Cover of Rear Shell",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "1",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003443",
+      "name": "Lower Cover of Rear Shell",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "2",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003395",
+      "name": "Rear Shell Bottom Plate",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "4",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001058",
+      "name": "Rear Shell Sealing Stopper",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "6",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000690",
+      "name": "Spraying Power Module",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "7",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000691",
+      "name": "Power Distribution Board Module",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "9",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001054",
+      "name": "Damping Pad",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "10",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000335",
+      "name": "Screw (M30-HC01150050-120020-5103-Y)",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "11",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX001001",
+      "name": "Spraying Adaptive Cable",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "12",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000692",
+      "name": "Rear Frame Aluminum Tube",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "13",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001057",
+      "name": "Adaptive Cable Rubber Sleeve",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "14",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.FM000122",
+      "name": "Battery Buckle",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "15",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000336",
+      "name": "Screw (M30-HC100100-55-85)",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "16",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003588",
+      "name": "Power Distribution Board Waterproof Cover",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "17",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000382",
+      "name": "Screw (M30-HC00550045-055012-5103-Y)",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "18",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MQ001973",
+      "name": "Glue Baffle Plate",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "19",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000694",
+      "name": "RTK Antenna Module",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "20",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001073",
+      "name": "RTK Rubber Ring",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "23",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003397",
+      "name": "Rear Shell Module",
+      "diagram_name": "Rear Frame",
+      "diagram_number": "25",
+      "tags": [
+        "rear frame"
+      ]
+    },
+    {
+      "part_number": "YC.JG.BJ001821",
+      "name": "Landing Gear Aluminum Tube",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "1",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.L00873",
+      "name": "Screw M30-HC1880-55-85",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "2",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003558",
+      "name": "Landing Gear Bottom Rubber Pad",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "3",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.L00877",
+      "name": "M3 Nut",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "4",
+      "tags": [
+        "landing gear",
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.L00871",
+      "name": "Screw M30-HC100100-55-85",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "5",
+      "tags": [
+        "landing gear",
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003468",
+      "name": "Landing Gear Y-tee Part",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "7",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.LL000426",
+      "name": "T30-HC01000100-057030-0323-N",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "8",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000017",
+      "name": "Screw M30-HC02800070-055030-0003-Y",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "9",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003725",
+      "name": "Landing Gear Cable Clip",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "10",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.JG.XW000110",
+      "name": "Landing Gear Crossbeam (Rear)",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "11",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003467",
+      "name": "Landing Gear Fixing Piece (Rear Right)",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "12",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000339",
+      "name": "Screw (M40-HC03500120-070040-5103-N)",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "13",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.L00961",
+      "name": "M4 Stainless Locknut",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "14",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000330",
+      "name": "Screw (M40-HC01510056-070039-5103-Y)",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "15",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003466",
+      "name": "Landing Gear Fixing Piece (Rear Left)",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "17",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003465",
+      "name": "Landing Gear Fixing Piece (Front Left)",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "18",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003464",
+      "name": "Landing Gear Fixing Piece (Front Right)",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "19",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.JG.XW000111",
+      "name": "Landing Gear Crossbeam (Front)",
+      "diagram_name": "Landing Gear",
+      "diagram_number": "20",
+      "tags": [
+        "landing gear"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000797",
+      "name": "Barometer Curving Connector",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "2",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.QT.QT000167",
+      "name": "Barometer Waterproof Permeability Film",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "3",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002301",
+      "name": "Barometer Outer Shell",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "4",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "BC.AG.PP000354",
+      "name": "Barometer Board",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "5",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.PM.QT000137",
+      "name": "Barometer Protection Foam",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "6",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000236",
+      "name": "T20-PC00400040-040010-5103-N",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "7",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000699",
+      "name": "Barometer Module Sealing Ring",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "9",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001046",
+      "name": "Aerial-Electronics Module Sealing Ring",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "10",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000674",
+      "name": "Aerial-Electronics System Module (CN)",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "12",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000837",
+      "name": "Aerial-Electronics System Module (H)",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "12",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000838",
+      "name": "Aerial-Electronics System Module (L)",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "12",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000675",
+      "name": "RF Module",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "14",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001045",
+      "name": "RF Sealing Ring",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "15",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MQ001294",
+      "name": "Aerial-Electronics Module RF Thermal Conductive Pad",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "16",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000676",
+      "name": "Cable Distribution Board Module",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "17",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000757",
+      "name": "Damping Pad",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "18",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX001014",
+      "name": "FPV Camera Signal Cable",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "20",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.LL000235",
+      "name": "M20-HPW00600060-065016-5103-Y_02",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "22",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000389",
+      "name": "Type-C Port Waterproof Cover",
+      "diagram_name": "Cable Distribution Module",
+      "diagram_number": "23",
+      "tags": [
+        "cable distribution module"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.LL000340",
+      "name": "Screw (M30-HC01600120-057030-0323-Y)",
+      "diagram_name": "Cable",
+      "diagram_number": "1",
+      "tags": [
+        "cable"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003453",
+      "name": "Propulsion Cable Clip",
+      "diagram_name": "Cable",
+      "diagram_number": "2",
+      "tags": [
+        "cable"
+      ]
+    },
+    {
+      "part_number": "YC.XC.DD000576",
+      "name": "Front Arm ESC Power Adapter Cable",
+      "diagram_name": "Cable",
+      "diagram_number": "3",
+      "tags": [
+        "cable"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX000997",
+      "name": "Throttle Cable (Cable Distribution Board-Spraying Module)",
+      "diagram_name": "Cable",
+      "diagram_number": "4",
+      "tags": [
+        "cable"
+      ]
+    },
+    {
+      "part_number": "YC.XC.TT000132",
+      "name": "RTK Coaxial Cable",
+      "diagram_name": "Cable",
+      "diagram_number": "5",
+      "tags": [
+        "cable"
+      ]
+    },
+    {
+      "part_number": "YC.DZ.AA000325",
+      "name": "SDR Antenna (Rear)",
+      "diagram_name": "Cable",
+      "diagram_number": "6",
+      "tags": [
+        "cable"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000673",
+      "name": "Weighing Sensor Module",
+      "diagram_name": "Cable",
+      "diagram_number": "7",
+      "tags": [
+        "cable"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001011",
+      "name": "Weighing Sensor Rubber Cover",
+      "diagram_name": "Cable",
+      "diagram_number": "8",
+      "tags": [
+        "cable"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX001009",
+      "name": "Communicate Cable (Cable Distribution Board-Spraying Module)",
+      "diagram_name": "Cable",
+      "diagram_number": "12",
+      "tags": [
+        "cable"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX000993",
+      "name": "Front Atomized Sprinkler Power Cable",
+      "diagram_name": "Cable",
+      "diagram_number": "13",
+      "tags": [
+        "cable"
+      ]
+    },
+    {
+      "part_number": "YC.JG.CS000016",
+      "name": "Spray Tank (40L)",
+      "diagram_name": "Tank 1",
+      "diagram_number": "1",
+      "tags": [
+        "tank 1"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.L00876",
+      "name": "Screw M40-HC060060-55-85",
+      "diagram_name": "Tank 2",
+      "diagram_number": "1",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003392",
+      "name": "Impeller Pump Bracket",
+      "diagram_name": "Tank 2",
+      "diagram_number": "2",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000687",
+      "name": "Spray Tank Y-tee Part Sealing Ring",
+      "diagram_name": "Tank 2",
+      "diagram_number": "3",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002235",
+      "name": "Quick-Release Filter",
+      "diagram_name": "Tank 2",
+      "diagram_number": "4",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002250",
+      "name": "Spray Tank Cover Waterproof Permeability Cover",
+      "diagram_name": "Tank 2",
+      "diagram_number": "5",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002251",
+      "name": "Spray Tank Cover",
+      "diagram_name": "Tank 2",
+      "diagram_number": "6",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000678",
+      "name": "Spray Tank Cover Waterproof Permeability Film",
+      "diagram_name": "Tank 2",
+      "diagram_number": "7",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000679",
+      "name": "Spray Tank Cover Sealing Ring",
+      "diagram_name": "Tank 2",
+      "diagram_number": "8",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS001085",
+      "name": "Spray Tank Inlet Filter",
+      "diagram_name": "Tank 2",
+      "diagram_number": "9",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000709",
+      "name": "Liquid Level Gauge Sensor Module",
+      "diagram_name": "Tank 2",
+      "diagram_number": "10",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.BZ.RB000011",
+      "name": "Spread Tank Lanyard",
+      "diagram_name": "Tank 2",
+      "diagram_number": "11",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002237",
+      "name": "Liquid Level Gauge Bracket",
+      "diagram_name": "Tank 2",
+      "diagram_number": "13",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.LL000211",
+      "name": "M30-HC02050080-070020-5103-Y_01",
+      "diagram_name": "Tank 2",
+      "diagram_number": "14",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000845",
+      "name": "Spray Tank Y-tee Part Sealing Ring",
+      "diagram_name": "Tank 2",
+      "diagram_number": "15",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002233",
+      "name": "Water Outlet Rotation Cover",
+      "diagram_name": "Tank 2",
+      "diagram_number": "16",
+      "tags": [
+        "impeller pump",
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002232",
+      "name": "Spray Tank Y-tee Part",
+      "diagram_name": "Tank 2",
+      "diagram_number": "17",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.SJ.WS002423",
+      "name": "Spray Tank_Spray Tank Cover Ring",
+      "diagram_name": "Tank 2",
+      "diagram_number": "19",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS000984",
+      "name": "Flow Meter Bracket",
+      "diagram_name": "Tank 2",
+      "diagram_number": "20",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.LL000188",
+      "name": "Screw M40-HC00750040-060030-5103-N_01",
+      "diagram_name": "Tank 2",
+      "diagram_number": "21",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.SJ.J01186",
+      "name": "Spray Tank_Filter Rubber Ring",
+      "diagram_name": "Tank 2",
+      "diagram_number": "22",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002429",
+      "name": "Filter With 50 Holes",
+      "diagram_name": "Tank 2",
+      "diagram_number": "23",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.XJ.QT000194",
+      "name": "Spray Tank_Liquid Level Meter Installation Nut Sealing Ring",
+      "diagram_name": "Tank 2",
+      "diagram_number": "24",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003393",
+      "name": "Spray Tank Cable Clip",
+      "diagram_name": "Tank 2",
+      "diagram_number": "25",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.SJ.WS002412",
+      "name": "Spray Tank_Liquid Level Meter Installation Nut",
+      "diagram_name": "Tank 2",
+      "diagram_number": "27",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000471",
+      "name": "Spray Tank Liquid Level Meter",
+      "diagram_name": "Tank 2",
+      "diagram_number": "28",
+      "tags": [
+        "tank 2"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002389",
+      "name": "Impeller Pump Protective Hood",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "2",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000543",
+      "name": "Impeller Pump Motor",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "3",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000704",
+      "name": "Motor Sealing Ring",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "4",
+      "tags": [
+        "impeller pump",
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000712",
+      "name": "Centrifugal Valve Rubber Pad",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "5",
+      "tags": [
+        "impeller pump",
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003418",
+      "name": "Impeller Pump Shell",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "6",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001052",
+      "name": "Pump Sealing Ring",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "8",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX001002",
+      "name": "Spraying Signal Cable",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "9",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001053",
+      "name": "Y-tee Part Sealing Pad",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "10",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003420",
+      "name": "Impeller Pump Curving Connector",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "11",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "YC.XJ.QT000350",
+      "name": "Pump_Connector Sealing Ring",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "12",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX002485",
+      "name": "Anti-Wear Gasket",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "13",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000832",
+      "name": "Damping Pad",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "14",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.LL000138",
+      "name": "Screw M25-HC00400040-050020-0003-N",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "15",
+      "tags": [
+        "impeller pump",
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003417",
+      "name": "Impeller Pump Spacing Sleeve",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "16",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000710",
+      "name": "Impeller Pump Module",
+      "diagram_name": "Impeller Pump",
+      "diagram_number": "17",
+      "tags": [
+        "impeller pump"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX001004",
+      "name": "Flow Meter Signal Cable",
+      "diagram_name": "Flow Meter Module",
+      "diagram_number": "1",
+      "tags": [
+        "flow meter module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002255",
+      "name": "Hose Nut",
+      "diagram_name": "Flow Meter Module",
+      "diagram_number": "2",
+      "tags": [
+        "flow meter module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.JS000032",
+      "name": "Flow Meter Water Inlet Hose",
+      "diagram_name": "Flow Meter Module",
+      "diagram_number": "3",
+      "tags": [
+        "flow meter module"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000972",
+      "name": "Flow Meter Module",
+      "diagram_name": "Flow Meter Module",
+      "diagram_number": "4",
+      "tags": [
+        "flow meter module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.JS000033",
+      "name": "Flow Meter Water Outlet Hose",
+      "diagram_name": "Flow Meter Module",
+      "diagram_number": "5",
+      "tags": [
+        "flow meter module"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003594",
+      "name": "Thumb Nut",
+      "diagram_name": "Flow Meter Module",
+      "diagram_number": "6",
+      "tags": [
+        "flow meter module",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003478",
+      "name": "Hose Curving Connector (M15)",
+      "diagram_name": "Flow Meter Module",
+      "diagram_number": "8",
+      "tags": [
+        "flow meter module"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.L01234",
+      "name": "Screw M40-HC080080-68-85",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "1",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000700",
+      "name": "ESC Module",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "2",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000399",
+      "name": "Cable Sealing Pad",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "3",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY000397",
+      "name": "Three Phase Cable Sealing Silicone Rubber",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "5",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000326",
+      "name": "Screw (M50-HF01900080-095050-5103-Y)",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "6",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.MY001062",
+      "name": "Hose Rubber Sleeve",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "7",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX003096",
+      "name": "Motor Base (Upper)",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "8",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000380",
+      "name": "Screw (M20-PC01200100-040010-0323-Y)",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "9",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX003097",
+      "name": "Motor Base (Lower)",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "10",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000668",
+      "name": "10033 Propulsion Motor",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "11",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.FP000028",
+      "name": "Motor Cover",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "13",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.LL000213",
+      "name": "M30-HT01930060-110025-5103-Y",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "14",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000208",
+      "name": "M20-TC00700060-033010-0004-Y",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "16",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002379",
+      "name": "Motor Upper Cover",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "17",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003557",
+      "name": "Anti-Wear Sleeve",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "20",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.LD000039",
+      "name": "Aircraft Arm Fixing Screw",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "22",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002278",
+      "name": "In-Position Detector Bracket",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "23",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX002314",
+      "name": "Aircraft Arm Fixing Screw Bolt",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "24",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000696",
+      "name": "M1 Aircraft Arm (Front Right)",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "25",
+      "tags": [
+        "m1 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000844",
+      "name": "M1 Aircraft Arm (Front Right) (H)",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "25",
+      "tags": [
+        "m1 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.XC.DD000573",
+      "name": "M1&M2 Aircraft Arm ESC Composite Cable",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "26",
+      "tags": [
+        "m1 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX003012",
+      "name": "Locking Piece Handle",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "28",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003560",
+      "name": "Locking Piece Handle Rubber Sleeve",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "29",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX001243",
+      "name": "Locking Piece_Handle Connecting Rod Shaft",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "30",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000701",
+      "name": "Buckle Module",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "31",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.BJ002409",
+      "name": "E-Shaped Circlip (6 mm)",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "32",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.TT000165",
+      "name": "Buckle Torsion Spring",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "33",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX003014",
+      "name": "Buckle Rotation Shaft",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "34",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX002089",
+      "name": "Locking Piece Aircraft Arm Shaft",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "35",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.LD000041",
+      "name": "Locking Piece Fixing Screw Bolt",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "36",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.WJ.LM000044",
+      "name": "M60-HX100060-5103_01",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "37",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX002088",
+      "name": "Locking Piece Connection Rod",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "38",
+      "tags": [
+        "m1 aircraft arm",
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000697",
+      "name": "M2 Aircraft Arm (Front Left)",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "25",
+      "tags": [
+        "m1 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000845",
+      "name": "M2 Aircraft Arm (Front Left) (H)",
+      "diagram_name": "M1 Aircraft Arm",
+      "diagram_number": "25",
+      "tags": [
+        "m1 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.CS000020",
+      "name": "Elbow Connector (180 Degrees)",
+      "diagram_name": "M3 Aircraft Arm",
+      "diagram_number": "13",
+      "tags": [
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003460",
+      "name": "Hose Nut (M15)",
+      "diagram_name": "M3 Aircraft Arm",
+      "diagram_number": "14",
+      "tags": [
+        "m3 aircraft arm",
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX002177",
+      "name": "Lower Propeller Adapter",
+      "diagram_name": "M3 Aircraft Arm",
+      "diagram_number": "15",
+      "tags": [
+        "m3 aircraft arm",
+        "propeller"
+      ]
+    },
+    {
+      "part_number": "YC.JG.JS000030",
+      "name": "Aircraft Arm Hose",
+      "diagram_name": "M3 Aircraft Arm",
+      "diagram_number": "28",
+      "tags": [
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000698",
+      "name": "M3 Aircraft Arm (Rear Left)",
+      "diagram_name": "M3 Aircraft Arm",
+      "diagram_number": "29",
+      "tags": [
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000846",
+      "name": "M3 Aircraft Arm (Rear Left) (H)",
+      "diagram_name": "M3 Aircraft Arm",
+      "diagram_number": "29",
+      "tags": [
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "YC.XC.DD000572",
+      "name": "M3&M4 Aircraft Arm ESC Composite Cable",
+      "diagram_name": "M3 Aircraft Arm",
+      "diagram_number": "31",
+      "tags": [
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000699",
+      "name": "M4 Aircraft Arm (Rear Right)",
+      "diagram_name": "M3 Aircraft Arm",
+      "diagram_number": "29",
+      "tags": [
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000847",
+      "name": "M4 Aircraft Arm (Rear Right) (H)",
+      "diagram_name": "M3 Aircraft Arm",
+      "diagram_number": "29",
+      "tags": [
+        "m3 aircraft arm"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000565",
+      "name": "Centrifugal Motor",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "1",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000752",
+      "name": "Spray Lance Nut",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "2",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003399",
+      "name": "Spray Lance Shell (Rear)",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "3",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000708",
+      "name": "Atomized Sprinkler Lower Cover",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "7",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "BC.AG.SS000707",
+      "name": "Solenoid Valve Module",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "9",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.XC.XX001000",
+      "name": "Atomized Sprinkler Adapter Cable (Rear)",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "10",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.JS000031",
+      "name": "Spray Lance Bellow Hose (Rear)",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "11",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.JS000041",
+      "name": "Spray Lance Soft Hose (Rear)",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "14",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003459",
+      "name": "Spinner Disk Upper Disk",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "16",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.FM000092",
+      "name": "Centrifugal Sprinkler Thumb Nut",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "17",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS002289",
+      "name": "Centrifugal Sprinkler Spring Bracket",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "18",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003458",
+      "name": "Spinner Disk Lower Disk",
+      "diagram_name": "Spray Lance",
+      "diagram_number": "19",
+      "tags": [
+        "spray lance"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS005016",
+      "name": "Upper Propeller (CCW)",
+      "diagram_name": "Propeller",
+      "diagram_number": "1",
+      "tags": [
+        "propeller"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS003829",
+      "name": "Propeller Gasket",
+      "diagram_name": "Propeller",
+      "diagram_number": "2",
+      "tags": [
+        "propeller"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS005018",
+      "name": "Lower Propeller (CCW)",
+      "diagram_name": "Propeller",
+      "diagram_number": "3",
+      "tags": [
+        "propeller"
+      ]
+    },
+    {
+      "part_number": "YC.ST.LL000209",
+      "name": "M50-HF01430102-116041-0003-Y",
+      "diagram_name": "Propeller",
+      "diagram_number": "5",
+      "tags": [
+        "propeller"
+      ]
+    },
+    {
+      "part_number": "YC.JG.QX002715",
+      "name": "Upper Propeller Adapter",
+      "diagram_name": "Propeller",
+      "diagram_number": "6",
+      "tags": [
+        "propeller"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS005017",
+      "name": "Upper Propeller (CW)",
+      "diagram_name": "Propeller",
+      "diagram_number": "7",
+      "tags": [
+        "propeller"
+      ]
+    },
+    {
+      "part_number": "YC.JG.ZS005019",
+      "name": "Lower Propeller (CW)",
+      "diagram_name": "Propeller",
+      "diagram_number": "8",
+      "tags": [
+        "propeller"
+      ]
+    },
+    {
+      "part_number": "YC.BZ.RB000090",
+      "name": "Propeller Holder (Beige)",
+      "diagram_name": "Propeller",
+      "diagram_number": "9",
+      "tags": [
+        "propeller"
+      ]
+    }
+  ]
+}

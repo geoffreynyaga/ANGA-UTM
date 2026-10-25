@@ -1,3 +1,5 @@
+from io import StringIO
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.test import TestCase
@@ -303,3 +305,16 @@ class MergeTests(InventoryTestData):
         self.assertEqual(request.component_type, self.propeller)
         self.assertEqual(request.lot.component_type, self.propeller)
         self.assertEqual(list(self.propeller.tags.values_list("name", flat=True)), ["prop"])
+
+
+class ImportCatalogTests(TestCase):
+    def test_import_is_repeatable(self):
+        from django.core.management import call_command
+
+        call_command("import_component_catalog", stdout=StringIO())
+        call_command("import_component_catalog", stdout=StringIO())
+
+        part = ComponentType.objects.get(part_number="YC.JG.MY001043")
+        self.assertEqual(part.diagram_name, "Front Cover of Front Shell")
+        self.assertEqual(part.aircraft_models.get().name, "Agras T50")
+        self.assertEqual(ComponentType.objects.count(), 245)
