@@ -121,7 +121,8 @@
 
   </script> {% endcomment %}
   {% nav_section as section %}
-  <body x-data="{ sidebarOpen: false }" class="flex h-screen min-h-[560px] overflow-hidden bg-surface-page">
+  <body x-data="{ sidebarOpen: false }" class="{% block body_class %}flex h-screen min-h-[560px] overflow-hidden bg-surface-page{% endblock %}">
+    {% block layout %}
     <!-- Mobile sidebar overlay -->
     <div x-show="sidebarOpen"
          x-cloak
@@ -252,6 +253,7 @@
             {% block body %}{% endblock %}
         </main>
     </div>
+    {% endblock layout %}
 
     {% block extra_js %}{% endblock extra_js %}
   </body>
