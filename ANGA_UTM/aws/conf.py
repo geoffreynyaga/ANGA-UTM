@@ -11,8 +11,16 @@ AWS_FILE_EXPIRE = 200
 AWS_PRELOAD_METADATA = True
 AWS_QUERYSTRING_AUTH = False
 
-DEFAULT_FILE_STORAGE = "ANGA_UTM.aws.utils.MediaRootS3BotoStorage"
-STATICFILES_STORAGE = "ANGA_UTM.aws.utils.StaticRootS3BotoStorage"
+# Django 5.1+ ignores DEFAULT_FILE_STORAGE / STATICFILES_STORAGE, which silently
+# sent uploads to local disk. Use STORAGES instead.
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {"location": "media"},
+    },
+    # Static files keep using local storage (unchanged behaviour).
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+}
 AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_CUSTOM_DOMAIN = config(
     "AWS_S3_CUSTOM_DOMAIN", default=f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
@@ -21,7 +29,10 @@ AWS_S3_CUSTOM_DOMAIN = config(
 S3DIRECT_REGION = "eu-west-1"
 S3_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 MEDIA_URL = "https://%s/media/" % AWS_S3_CUSTOM_DOMAIN
-MEDIA_ROOT = MEDIA_URL
+# MEDIA_ROOT must be a local filesystem path, not a URL. Setting it to the S3 URL
+# made Django write files into a "./https:/..." folder in the project root.
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_URL = S3_URL + "static/"
 ADMIN_MEDIA_PREFIX = STATIC_URL + "admin/"
 
