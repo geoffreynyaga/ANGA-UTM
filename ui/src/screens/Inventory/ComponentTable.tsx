@@ -15,6 +15,9 @@ import { ComponentImage, StockBadge } from "./ui";
 
 export type StockFilter = "available" | "out" | "all";
 
+// Catalog tag for small items used in numbers (screws, nuts, seals)
+const SMALL_PARTS_TAG = "bulk";
+
 // Matches name, part number, diagram and tags, so "gen" finds generator parts
 const searchComponent: FilterFn<IComponent> = (row, _columnId, value: string) => {
   const query = value.trim().toLowerCase();
@@ -30,6 +33,7 @@ export default function ComponentTable({
   aircraftModels,
   search,
   stockFilter,
+  showSmallParts,
   aircraftFilter,
   view,
   onSelect,
@@ -39,6 +43,7 @@ export default function ComponentTable({
   aircraftModels: IAircraftModel[];
   search: string;
   stockFilter: StockFilter;
+  showSmallParts: boolean;
   aircraftFilter: number | null;
   view: "list" | "grid";
   onSelect: (component: IComponent) => void;
@@ -55,11 +60,13 @@ export default function ComponentTable({
     () =>
       components.filter((c) => {
         if (aircraftFilter !== null && !c.aircraft_models.includes(aircraftFilter)) return false;
+        const hidden = !showSmallParts && search.trim() === "" && c.tags.includes(SMALL_PARTS_TAG);
+        if (hidden) return false;
         if (stockFilter === "available") return c.available > 0;
         if (stockFilter === "out") return c.available === 0 && c.has_stock_history;
         return true;
       }),
-    [components, stockFilter, aircraftFilter],
+    [components, stockFilter, showSmallParts, search, aircraftFilter],
   );
 
   const tagList = (c: IComponent) => (
