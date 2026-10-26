@@ -35,7 +35,9 @@ export default function InventoryPage() {
 
   const [tab, setTab] = useState<"components" | "requests">("components");
   const [search, setSearch] = useState("");
-  const [stockFilter, setStockFilter] = useState<StockFilter>("available");
+  // null until the user picks a filter; then we default based on whether the organization has stock
+  const [chosenStockFilter, setStockFilter] = useState<StockFilter | null>(null);
+  const [showSmallParts, setShowSmallParts] = useState(false);
   const [aircraftFilter, setAircraftFilter] = useState<number | null>(null);
   const [view, setView] = useState<"list" | "grid">(readView);
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -43,6 +45,10 @@ export default function InventoryPage() {
 
   const all = components.data ?? [];
   const requestList = requests.data ?? [];
+
+  // A new organization has no stock yet, so start on the whole catalog instead of an empty list
+  const stockFilter: StockFilter =
+    chosenStockFilter ?? (all.some((c) => c.has_stock_history) ? "available" : "all");
 
   const summary = useMemo(
     () => ({
@@ -119,6 +125,18 @@ export default function InventoryPage() {
               <option value="out">Out of stock</option>
               <option value="all">Whole catalog</option>
             </select>
+            <label
+              className="inline-flex items-center gap-2 text-sm text-gray-600"
+              title="Screws, nuts, seals and other bulk items. Search always finds them."
+            >
+              <input
+                type="checkbox"
+                className="rounded border-gray-300"
+                checked={showSmallParts}
+                onChange={(e) => { setShowSmallParts(e.target.checked); }}
+              />
+              Show small parts
+            </label>
             <select
               className={controlClass}
               value={aircraftFilter ?? ""}
@@ -152,6 +170,7 @@ export default function InventoryPage() {
               aircraftModels={aircraftModels}
               search={search}
               stockFilter={stockFilter}
+              showSmallParts={showSmallParts}
               aircraftFilter={aircraftFilter}
               view={view}
               onSelect={(c) => { setSelectedId(c.id); }}
