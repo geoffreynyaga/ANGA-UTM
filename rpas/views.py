@@ -10,7 +10,6 @@ from django.views.generic import (
     CreateView,
     DetailView,
     ListView,
-    TemplateView,
     UpdateView,
 )
 
@@ -91,18 +90,20 @@ def home(request):
     return render(request, "home/mainhome.html", args)
 
 
-class RpasMainView(TemplateView):
-    template_name = "rpas/includes/rpas_main.html"
-
-
 class RpasListView(LoginRequiredMixin, ListView):
     context_object_name = "myrpas"
     model = Rpas
 
     def get_queryset(self):
         queryset = super(RpasListView, self).get_queryset()
-        queryset = queryset.filter(user=self.request.user)
+        queryset = queryset.filter(user=self.request.user).select_related(
+            "rpas_model__manufacturer", "rpas_model__rpas_model_type", "payload"
+        )
         return queryset
+
+
+class RpasMainView(RpasListView):
+    """The RPAS fleet page linked from the sidebar."""
 
 
 class RpasDetailView(DetailView):

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from decouple import config
 from django.contrib.auth import get_user_model
@@ -76,6 +76,23 @@ class ProjectCreateView(CreateView):
 
 class ReserveAirspaceMainView(TemplateView):
     template_name = "applications/includes/reserve_main.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context["today"] = date.today()
+        if user.is_authenticated:
+            context["upcoming_reserves"] = (
+                ReserveAirspace.objects.filter(
+                    created_by=user,
+                    start_day__gte=date.today(),
+                    status__in=[ReserveAirspace.PENDING, ReserveAirspace.APPROVED],
+                )
+                .select_related("project")
+                .prefetch_related("rpas")
+                .order_by("start_day", "start_time")[:5]
+            )
+        return context
 
 
 class OldReserveAirspaceCreateView(CreateView):
@@ -165,6 +182,7 @@ class ReserveAirspaceCreateView(CreateView):
             organization=org, is_complete=False
         )
 
+        context["mission_types"] = ReserveAirspace.OBJECTIVE
         context["AIRMAP_API_KEY"] = config("AIRMAP_API_KEY")
         context["MAPBOX_ACCESS_TOKEN"] = config("MAPBOX_ACCESS_TOKEN")
 

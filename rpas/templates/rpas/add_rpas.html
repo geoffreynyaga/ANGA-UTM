@@ -1,99 +1,87 @@
-<!DOCTYPE html>
 {% extends "base.html" %}
-
-{% block head %}
-    <title>Add RPAS</title>
-{%endblock%}
-
+{% block head %}<title>Add aircraft | ANGA UTM</title>{% endblock %}
+{% block breadcrumb %}{% include "includes/breadcrumb.html" with parent="Operations / RPAS fleet" current="Add aircraft" %}{% endblock %}
 {% block body %}
-    {% load crispy_forms_tags %}
-
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Add RPAS</h1>
-        <nav class="flex mt-1 text-sm text-gray-500" aria-label="Breadcrumb">
-          <ol class="flex items-center space-x-2">
-            <li><a href="{% url 'home' %}" class="hover:text-blue-600">Home</a></li>
-            <li><span class="mx-2 text-gray-400">/</span></li>
-            <li><a href="{% url 'rpas_list' %}" class="hover:text-blue-600">RPAS Fleet</a></li>
-            <li><span class="mx-2 text-gray-400">/</span></li>
-            <li class="font-medium text-gray-700">Add New Aircraft</li>
-          </ol>
-        </nav>
-    </div>
-
-    <div class="flex flex-col gap-8 lg:flex-row">
-        <!-- Main Form -->
-        <div class="lg:w-2/3">
-            <div class="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-xl">
-                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                    <h3 class="text-lg font-bold text-gray-800">New RPAS Registration</h3>
-                </div>
-                <div class="p-6">
-                    {% if not user.userprofile.organization %}
-                    <div class="p-6 text-center border-2 border-dashed border-amber-300 rounded-xl bg-amber-50">
-                        <div class="flex flex-col items-center">
-                            <svg class="w-12 h-12 mb-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <h3 class="text-lg font-bold text-amber-800">Organization Required</h3>
-                            <p class="mt-2 text-amber-700">You must be associated with an organization before you can register an aircraft. Please contact your administrator or update your profile.</p>
-                            <div class="mt-6">
-                                <a href="{% url 'accounts:view_profile' pk=user.pk %}" class="px-6 py-2 font-semibold text-white transition-colors rounded-lg bg-amber-600 hover:bg-amber-700">
-                                    Go to Profile
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <form method="POST" enctype="multipart/form-data" class="space-y-6">
-                        {% csrf_token %}
-
-                        {% if form.errors %}
-                        <div class="p-4 mb-4 border border-red-200 rounded-lg bg-red-50">
-                            <h4 class="mb-1 text-sm font-bold text-red-800">Please correct the following:</h4>
-                            {{form.errors}}
-                        </div>
-                        {% endif %}
-
-                        <div class="tailwind-form-wrapper">
-                            {{ form|crispy }}
-                        </div>
-
-                        <div class="flex items-center gap-4 pt-6 border-t border-gray-100">
-                            <button type="submit" class="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all">
-                                Save Aircraft
-                            </button>
-                            <a href="{% url 'rpas_list' %}" class="px-6 py-2.5 bg-white text-gray-700 font-semibold rounded-lg border border-gray-300 hover:bg-gray-50 transition-all">
-                                Cancel
-                            </a>
-                        </div>
-                    </form>
-                    {% endif %}
-                </div>
-            </div>
+    <div class="flex flex-col gap-6">
+        <div>
+            <h1 class="page-title">Add aircraft</h1>
+            <p class="page-subtitle">Register a new RPAS to your fleet.</p>
         </div>
 
-        <!-- Info Sidebar -->
-        <div class="lg:w-1/3">
-            <div class="overflow-hidden border bg-amber-50 rounded-xl border-amber-200">
-                <div class="flex items-center px-6 py-4 border-b border-amber-200 bg-amber-100">
-                    <svg class="w-5 h-5 mr-2 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    <h3 class="font-bold text-amber-800">Registration Guides</h3>
-                </div>
-                <div class="p-6">
-                    <ul class="space-y-4">
-                        <li class="flex gap-3 text-sm text-amber-900">
-                            <span class="flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full shrink-0 bg-amber-200 text-amber-700">1</span>
-                            <span><strong>Serial Number:</strong> Use the official serial number found on the drone's airframe or flight controller.</span>
-                        </li>
-                        <li class="flex gap-3 text-sm text-amber-900">
-                            <span class="flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full shrink-0 bg-amber-200 text-amber-700">2</span>
-                            <span><strong>Nickname:</strong> (Optional) A common name for easy identification in your flight logs.</span>
-                        </li>
-                    </ul>
-                </div>
+        <div class="flex flex-wrap items-start gap-5">
+            <div class="card max-w-[760px] flex-[2_1_460px]">
+                <div class="border-b border-line px-5 py-[18px]"><h2 class="card-title">Registration details</h2></div>
+                {% if not user.userprofile.organization %}
+                    <div class="flex flex-col items-center gap-3 px-6 py-12 text-center">
+                        <span class="flex h-14 w-14 items-center justify-center rounded-[14px] bg-accent-soft text-accent-strong"><span class="icon text-[28px]" aria-hidden="true">apartment</span></span>
+                        <h3 class="mt-1 text-lg font-bold">Organization required</h3>
+                        <p class="m-0 max-w-[360px] text-sm text-ink-muted">Aircraft are registered to an organization. Ask your administrator to add you to one, or update your profile.</p>
+                        <a href="{% url 'accounts:view_profile' pk=user.pk %}" class="btn-secondary mt-2">Go to profile</a>
+                    </div>
+                {% else %}
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <div class="flex flex-col gap-[18px] p-5">
+                            {% if form.non_field_errors %}
+                                <div class="flex items-start gap-2.5 rounded-lg bg-danger-soft px-3 py-2.5 text-sm text-danger" role="alert">
+                                    <span class="icon text-[18px]" aria-hidden="true">error</span>
+                                    <div>{% for error in form.non_field_errors %}{{ error }} {% endfor %}</div>
+                                </div>
+                            {% endif %}
+                            <div class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-[18px]">
+                                <label class="field" for="{{ form.rpas_serial.id_for_label }}">
+                                    <span class="field-label">Serial number <span class="text-accent">*</span></span>
+                                    <input type="text" name="{{ form.rpas_serial.html_name }}" id="{{ form.rpas_serial.id_for_label }}" value="{{ form.rpas_serial.value|default:'' }}" maxlength="20" required placeholder="e.g. 0AXDE4R0A20187" class="input font-mono text-[13.5px]">
+                                    {% for error in form.rpas_serial.errors %}<span class="field-error">{{ error }}</span>{% empty %}<span class="field-help">As printed on the airframe or flight controller.</span>{% endfor %}
+                                </label>
+                                <label class="field" for="{{ form.cor_number.id_for_label }}">
+                                    <span class="field-label">CoR number</span>
+                                    <input type="text" name="{{ form.cor_number.html_name }}" id="{{ form.cor_number.id_for_label }}" value="{{ form.cor_number.value|default:'' }}" maxlength="50" placeholder="e.g. KCAA/COR/2025/0412" class="input font-mono text-[13.5px]">
+                                    {% for error in form.cor_number.errors %}<span class="field-error">{{ error }}</span>{% empty %}<span class="field-help">Certificate of Registration, if issued.</span>{% endfor %}
+                                </label>
+                            </div>
+                            <label class="field" for="{{ form.rpas_nickname.id_for_label }}">
+                                <span class="field-label">Nickname</span>
+                                <input type="text" name="{{ form.rpas_nickname.html_name }}" id="{{ form.rpas_nickname.id_for_label }}" value="{{ form.rpas_nickname.value|default:'' }}" maxlength="20" placeholder="e.g. Phantom Bird" class="input">
+                                {% for error in form.rpas_nickname.errors %}<span class="field-error">{{ error }}</span>{% empty %}<span class="field-help">Optional. Shown in flight logs and plans.</span>{% endfor %}
+                            </label>
+                            <div class="field" x-data="{ fileName: '' }">
+                                <span class="field-label">Aircraft photo <span class="text-accent">*</span></span>
+                                <label class="dropzone relative cursor-pointer hover:border-brand focus-within:border-brand focus-within:ring-[3px] focus-within:ring-brand/15" for="{{ form.rpas_pic.id_for_label }}">
+                                    <input type="file" name="{{ form.rpas_pic.html_name }}" id="{{ form.rpas_pic.id_for_label }}" accept="image/jpeg,image/png" required
+                                           class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                                           @change="fileName = $event.target.files.length ? $event.target.files[0].name : ''">
+                                    <span class="icon text-[28px] text-brand" aria-hidden="true">add_photo_alternate</span>
+                                    <span class="text-sm font-semibold" x-show="!fileName">Drop an image here or <span class="text-brand">browse</span></span>
+                                    <span class="text-sm font-semibold" x-show="fileName" x-text="fileName" x-cloak></span>
+                                    <span class="text-xs text-ink-muted">JPG or PNG, up to 10 MB</span>
+                                </label>
+                                {% for error in form.rpas_pic.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'rpas_main' %}" class="btn-secondary">Cancel</a>
+                            <button type="submit" class="btn-primary">Save aircraft</button>
+                        </div>
+                    </form>
+                {% endif %}
             </div>
+
+            <aside class="card flex max-w-[360px] flex-[1_1_260px] flex-col gap-4 p-5">
+                <div class="flex items-center gap-2.5"><span class="icon text-accent" aria-hidden="true">info</span><h2 class="m-0 text-[15px] font-bold">Before you start</h2></div>
+                <div class="flex gap-3 text-[13.5px] leading-relaxed text-ink-body">
+                    <span class="flex h-[22px] w-[22px] flex-none items-center justify-center rounded-full bg-accent-soft text-xs font-extrabold text-accent-strong">1</span>
+                    <span><strong class="text-ink">Serial number</strong> — use the official serial found on the airframe or flight controller.</span>
+                </div>
+                <div class="flex gap-3 text-[13.5px] leading-relaxed text-ink-body">
+                    <span class="flex h-[22px] w-[22px] flex-none items-center justify-center rounded-full bg-accent-soft text-xs font-extrabold text-accent-strong">2</span>
+                    <span><strong class="text-ink">Nickname</strong> — a short name makes the aircraft easy to spot in your logs.</span>
+                </div>
+                <div class="flex gap-3 text-[13.5px] leading-relaxed text-ink-body">
+                    <span class="flex h-[22px] w-[22px] flex-none items-center justify-center rounded-full bg-accent-soft text-xs font-extrabold text-accent-strong">3</span>
+                    <span><strong class="text-ink">Model &amp; payload</strong> — you'll complete these after saving.</span>
+                </div>
+            </aside>
         </div>
     </div>
 {% endblock %}
-

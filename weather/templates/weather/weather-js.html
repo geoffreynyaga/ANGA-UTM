@@ -1,128 +1,55 @@
-<html>
-
-{% load static %} 
-
-<head>
-
-  <title>Weather</title>
-
-  <meta charset="utf-8">
-  <link rel="shortcut icon" href="{% static 'favicons/favicon.ico' %}" type="image/x-icon" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="{% static 'adminlite/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" type="text/css">
-
-  <link rel="stylesheet" href="{% static 'adminlite/bower_components/font-awesome/css/font-awesome.min.css' %}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
-  <link rel="stylesheet" type="text/css" href="{% static 'weather/weather.css' %}">
-
-<style>
-  .change-units{
-    font-size: 12;
-    color: aliceblue;
-  }
-</style>
-</head>
-
-
-<div class="row">
-  <div class="col-xs-12">
-    <a href="{% url 'home' %}" class="btn btn-primary btn-block">Home </a>
-  </div>
-</div>
-
-  <body id="weather-background" class="default-weather">
-    <canvas id="rain-canvas"> </canvas>
-    <canvas id="cloud-canvas"> </canvas>
-    <canvas id="weather-canvas"> </canvas>
-    <canvas id="time-canvas"> </canvas>
-    <canvas id="lightning-canvas"> </canvas>
-  
-    <div class="page-wrap">
-      <header class="search-bar">
-        <span>
-        <p class="search-text">
-          <span class="search-location-text ">
-            <input id="search-location-input" class="search-location-input pull-left" type="text" placeholder="City/Town">
-          
-          
-            <button id="search-location-button" class="fa fa-search search-location-button search-button "></button>
-          
-          
-          <button id="geo-button" class="geo-button fa fa-location-arrow search-button pull-right"></button>
-
-          </span>
-        </p>
-        
-        </span>
-      </header>
-      <div id="geo-error-message" class="geo-error-message hide">
-        <button id='close-error' class='fa fa-times close-error'></button>
-        Uh oh! It looks like we can't find your location. Please type your city into the search box above!</div>
-      <div id="front-page-description" class="front-page-description middle">
-        <h3>Type your City/town in the box above</h3>
-        <h3>OR</h3>
-        <h3> Click on <i class="fa fa-location-arrow" aria-hidden="true"></i>
-           to get weather of your current location </h3>
-      </div>
-
-      <div id="weather" class="weather middle hide">
-        <div class="location" id="location"></div>
-        <div class="weather-container">
-          <div id="temperature-info" class="temperature-info">
-            <div class="temperature" id="temperature"></div>
-            <div class="weather-description" id="weather-description"></div>
-          </div>
-          <div class="weather-box">
-            <ul class="weather-info" id="weather-info">
-              <li class="weather-item humidity">Humidity:
-                <span id="humidity"></span>%</li>
-              <!--
-                       -->
-              <li class="weather-item wind">Wind:
-                <span id="wind-direction"></span>
-                <span id="wind"></span>
-                <span id="speed-unit"></span>
-              </li>
-            </ul>
-          </div>
-          <div class="temp-change">
-            <p id="change-units">Change Units </p>
-            <button id="celsius" class="temp-change-button celsius">&deg;C</button>
-            <button id="fahrenheit" class="temp-change-button fahrenheit">&deg;F</button>
-          </div>
+{% extends "base.html" %}
+{% load static %}
+{% block head %}<title>Weather | ANGA UTM</title>{% endblock %}
+{% block breadcrumb %}{% include "includes/breadcrumb.html" with parent="Operations" current="Weather" %}{% endblock %}
+{% block body %}
+    <div class="flex flex-col gap-6">
+        <div>
+            <h1 class="page-title">Weather</h1>
+            <p class="page-subtitle">Check flying conditions before you take off.</p>
         </div>
-      </div>
+
+        <form id="weather-search" class="card flex flex-wrap items-end gap-2.5 p-5">
+            <label class="field flex-[1_1_280px]" for="weather-city">
+                <span class="field-label">City or town</span>
+                <input id="weather-city" type="text" placeholder="e.g. Nairobi" autocomplete="address-level2" class="input">
+            </label>
+            <button type="submit" class="btn-primary h-[42px]"><span class="icon" aria-hidden="true">search</span>Search</button>
+            <button type="button" id="weather-locate" class="btn-secondary h-[42px]"><span class="icon" aria-hidden="true">my_location</span>Use my location</button>
+        </form>
+
+        <div id="weather-error" class="hidden rounded-lg bg-danger-soft px-3 py-2.5 text-sm text-danger" role="alert"></div>
+
+        <div id="weather-empty" class="card flex flex-col items-center gap-3 px-6 py-14 text-center">
+            <span class="flex h-14 w-14 items-center justify-center rounded-[14px] bg-brand-soft text-brand"><span class="icon text-[28px]" aria-hidden="true">partly_cloudy_day</span></span>
+            <h2 class="mt-1 text-lg font-bold">No location selected</h2>
+            <p class="m-0 max-w-[360px] text-sm text-ink-muted">Search for a city or use your current location to see wind, visibility and precipitation.</p>
+        </div>
+
+        <section id="weather-result" class="card hidden" aria-live="polite">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-line px-5 py-4">
+                <div class="flex items-center gap-3">
+                    <img id="weather-icon" src="" alt="" class="-my-2 h-14 w-14 rounded-[14px] bg-brand">
+                    <div>
+                        <h2 id="weather-place" class="m-0 text-lg font-bold"></h2>
+                        <p id="weather-description" class="m-0 text-sm capitalize text-ink-muted"></p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div id="weather-temp" class="text-[32px] font-bold leading-none tracking-tight"></div>
+                    <div id="weather-feels" class="mt-1 text-xs text-ink-muted"></div>
+                </div>
+            </div>
+            <dl class="m-0 grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-px bg-line-soft">
+                <div class="flex flex-col gap-1 bg-white px-5 py-4"><dt class="flex items-center gap-1.5 text-[13px] text-ink-muted"><span class="icon text-[18px]" aria-hidden="true">air</span>Wind</dt><dd id="weather-wind" class="m-0 text-base font-bold"></dd></div>
+                <div class="flex flex-col gap-1 bg-white px-5 py-4"><dt class="flex items-center gap-1.5 text-[13px] text-ink-muted"><span class="icon text-[18px]" aria-hidden="true">storm</span>Gusts</dt><dd id="weather-gust" class="m-0 text-base font-bold"></dd></div>
+                <div class="flex flex-col gap-1 bg-white px-5 py-4"><dt class="flex items-center gap-1.5 text-[13px] text-ink-muted"><span class="icon text-[18px]" aria-hidden="true">visibility</span>Visibility</dt><dd id="weather-visibility" class="m-0 text-base font-bold"></dd></div>
+                <div class="flex flex-col gap-1 bg-white px-5 py-4"><dt class="flex items-center gap-1.5 text-[13px] text-ink-muted"><span class="icon text-[18px]" aria-hidden="true">rainy</span>Rain</dt><dd id="weather-rain" class="m-0 text-base font-bold"></dd></div>
+                <div class="flex flex-col gap-1 bg-white px-5 py-4"><dt class="flex items-center gap-1.5 text-[13px] text-ink-muted"><span class="icon text-[18px]" aria-hidden="true">cloud</span>Cloud cover</dt><dd id="weather-clouds" class="m-0 text-base font-bold"></dd></div>
+                <div class="flex flex-col gap-1 bg-white px-5 py-4"><dt class="flex items-center gap-1.5 text-[13px] text-ink-muted"><span class="icon text-[18px]" aria-hidden="true">humidity_percentage</span>Humidity</dt><dd id="weather-humidity" class="m-0 text-base font-bold"></dd></div>
+            </dl>
+            <p class="m-0 border-t border-line px-5 py-3 text-xs text-ink-subtle">Current conditions from <a href="https://openweathermap.org/" rel="nofollow noopener" target="_blank" class="link">OpenWeatherMap</a>.</p>
+        </section>
     </div>
-
-
-    <footer class="site-footer">
-      <div class="attribution site-footer-section">Powered by
-        <a href="http://openweathermap.org/" rel="nofollow">OpenWeatherMap</a>, Icons from
-        <button id="noun-project" class="noun-project">Noun Project</button>
-      </div>
-
-      <p class="author site-footer-section">Made by
-        <a href="" rel="nofollow">Heather Tovey</a> for
-        <a href="" rel="nofollow">Free Code Camp</a>
-      </p>
-    </footer>
-    
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-      <script src="{% static 'weather/weather.js' %}"></script>
- 
-  </body>
-
-
-
-
-
-</html>
-
-
-
+    <script src="{% static 'weather/weather-search.js' %}"></script>
+{% endblock %}

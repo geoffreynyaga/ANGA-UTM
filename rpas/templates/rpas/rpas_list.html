@@ -1,121 +1,77 @@
-<!DOCTYPE html>
 {% extends "base.html" %}
-{% load static %}
-
-
-{% block head %}
-    <title>View Rpas</title>
-{%endblock%}
-
+{% block head %}<title>RPAS fleet | ANGA UTM</title>{% endblock %}
+{% block breadcrumb %}{% include "includes/breadcrumb.html" with parent="Operations" current="RPAS fleet" %}{% endblock %}
 {% block body %}
-    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-800">My RPAS List</h1>
-            <nav class="flex text-sm text-gray-500 mt-1" aria-label="Breadcrumb">
-              <ol class="flex items-center space-x-2">
-                <li><a href="{% url 'home' %}" class="hover:text-blue-600">Home</a></li>
-                <li><span class="mx-2 text-gray-400">/</span></li>
-                <li class="font-medium text-gray-700">RPAS Fleet</li>
-              </ol>
-            </nav>
-        </div>
-        <div class="flex items-center gap-4">
-            <span class="hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
-                User: {{user.first_name}}
-            </span>
-            <a href="{% url 'rpas_add' %}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                <svg class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
-                Add RPAS
-            </a>
-        </div>
-    </div>
-
-    <!-- RPAS Cards Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {% for rpas in myrpas %}
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col hover:shadow-md transition-shadow overflow-hidden">
-            <div class="px-5 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
-                <h3 class="text-lg font-bold text-gray-800 truncate">{{rpas.cor_number}}</h3>
-                <div class="shrink-0 text-blue-500">
-                    {% if rpas.rpas_model.rpas_model_type.airframe_type == 'PLANE' %}
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-                    {% elif rpas.rpas_model.rpas_model_type.airframe_type == 'QUAD' %}
-                        <img src="{% static 'icons/quad.png' %}" alt="Quad" class="h-6 w-6">
-                    {% else %}
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                    {% endif %}
-                </div>
+    <div class="flex flex-col gap-6">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+                <h1 class="page-title">RPAS fleet</h1>
+                <p class="page-subtitle">Registered aircraft and their setup progress.</p>
             </div>
-
-            <div class="p-5 flex-grow space-y-4">
-                <div class="space-y-1">
-                    <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Specifications</p>
-                    <p class="text-sm text-gray-700 flex justify-between">
-                        <span>Model:</span>
-                        <span class="font-medium text-gray-900">{{ rpas.rpas_model }}</span>
-                    </p>
-                    <p class="text-sm text-gray-700 flex justify-between">
-                        <span>Type:</span>
-                        <span class="font-medium text-gray-900">{{ rpas.rpas_model.rpas_model_type }}</span>
-                    </p>
-                    <p class="text-sm text-gray-700 flex justify-between">
-                        <span>Serial No:</span>
-                        <span class="font-mono text-gray-900">{{rpas.rpas_serial}}</span>
-                    </p>
-                </div>
-
-                <!-- Progress Bars -->
-                <div class="space-y-4 pt-2">
-                    {% if rpas.get_rpas_model_completion != 100 %}
-                    <div class="space-y-1.5">
-                        <div class="flex justify-between items-end">
-                            <label class="text-xs font-semibold text-gray-500">RPAS Model Setup</label>
-                            <a href="{% url 'rpas_model_update' pk=rpas.get_rpas_model_pk %}" class="text-[10px] text-blue-600 hover:text-blue-800 font-bold flex items-center">
-                                COMPLETE
-                                <svg class="ml-0.5 h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                            </a>
-                        </div>
-                        <div class="overflow-hidden h-2 bg-gray-100 rounded-full">
-                            <div style="width:{{rpas.get_rpas_model_completion}}%" class="h-full bg-blue-500 rounded-full shadow-sm"></div>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    {% if rpas.get_payload_completion != 100 %}
-                    <div class="space-y-1.5">
-                        <div class="flex justify-between items-end">
-                            <label class="text-xs font-semibold text-gray-500">Payload Setup</label>
-                            <a href="{% url 'payload_update' pk=rpas.payload.pk %}" class="text-[10px] text-green-600 hover:text-green-800 font-bold flex items-center">
-                                COMPLETE
-                                <svg class="ml-0.5 h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                            </a>
-                        </div>
-                        <div class="overflow-hidden h-2 bg-gray-100 rounded-full">
-                            <div style="width:{{rpas.get_payload_completion}}%" class="h-full bg-green-500 rounded-full shadow-sm"></div>
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="px-5 py-3 border-t border-gray-100 bg-gray-50">
-                <a href="{% url 'rpas_detail' pk=rpas.pk %}" class="w-full inline-flex justify-center items-center py-2 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
-                    View Full Details
-                    <svg class="ml-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                </a>
-            </div>
+            <a href="{% url 'rpas_add' %}" class="btn-primary"><span class="icon" aria-hidden="true">add</span>Add aircraft</a>
         </div>
-        {% empty %}
-        <div class="col-span-full py-16 text-center bg-white rounded-xl border-2 border-dashed border-gray-200">
-            <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-            <h3 class="mt-2 text-sm font-medium text-gray-900">No RPAS found</h3>
-            <p class="mt-1 text-sm text-gray-500">Get started by adding your first aircraft.</p>
-            <div class="mt-6">
-                <a href="{% url 'rpas_add' %}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                    Add RPAS
-                </a>
+
+        {% if myrpas %}
+            <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
+                {% for rpas in myrpas %}
+                    {% with model_pct=rpas.get_rpas_model_completion payload_pct=rpas.get_payload_completion %}
+                        <article class="card flex flex-col">
+                            <div class="flex items-start justify-between gap-3 px-5 pb-4 pt-[18px]">
+                                <div class="flex min-w-0 items-center gap-3">
+                                    {% if rpas.rpas_pic %}
+                                        <img src="{{ rpas.rpas_pic.url }}" alt="" class="h-11 w-11 flex-none rounded-[10px] object-cover">
+                                    {% else %}
+                                        <span class="flex h-11 w-11 flex-none items-center justify-center rounded-[10px] bg-brand-soft text-brand"><span class="icon text-2xl" aria-hidden="true">flight</span></span>
+                                    {% endif %}
+                                    <div class="min-w-0">
+                                        <div class="truncate text-base font-bold">{{ rpas.rpas_nickname|default:rpas.rpas_serial }}</div>
+                                        <div class="truncate text-[13px] text-ink-muted">
+                                            {% if rpas.rpas_model.model_name %}{% if rpas.rpas_model.manufacturer %}{{ rpas.rpas_model.manufacturer }} {% endif %}{{ rpas.rpas_model.model_name }}{% else %}Model not set{% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if model_pct == 100 and payload_pct == 100 %}
+                                    <span class="chip-success flex-none">Active</span>
+                                {% else %}
+                                    <span class="chip-warning flex-none">Setup incomplete</span>
+                                {% endif %}
+                            </div>
+                            <dl class="m-0 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 px-5 pb-4 text-[13.5px]">
+                                <dt class="text-ink-muted">Type</dt><dd class="m-0 text-right font-semibold">{{ rpas.rpas_model.rpas_model_type|default:"—" }}</dd>
+                                <dt class="text-ink-muted">Serial no.</dt><dd class="m-0 text-right font-mono text-[13px]">{{ rpas.rpas_serial }}</dd>
+                                <dt class="text-ink-muted">CoR no.</dt><dd class="m-0 text-right font-mono text-[13px]">{{ rpas.cor_number|default:"—" }}</dd>
+                            </dl>
+                            <div class="flex flex-col gap-3 border-t border-line-soft px-5 py-4">
+                                <div class="flex flex-col gap-1.5">
+                                    <span class="flex justify-between text-[13px]"><span class="font-semibold">Model setup</span><span class="text-ink-muted">{{ model_pct|floatformat:0 }}%</span></span>
+                                    <span class="h-1.5 overflow-hidden rounded-full bg-surface-track"><span class="block h-full rounded-full bg-brand" style="width: {{ model_pct|floatformat:0 }}%"></span></span>
+                                </div>
+                                <div class="flex flex-col gap-1.5">
+                                    <span class="flex justify-between text-[13px]"><span class="font-semibold">Payload setup</span><span class="text-ink-muted">{{ payload_pct|floatformat:0 }}%</span></span>
+                                    <span class="h-1.5 overflow-hidden rounded-full bg-surface-track"><span class="block h-full rounded-full bg-success" style="width: {{ payload_pct|floatformat:0 }}%"></span></span>
+                                </div>
+                            </div>
+                            <div class="mt-auto flex items-center justify-between border-t border-line-soft px-5 py-3">
+                                {% if model_pct < 100 %}
+                                    <a href="{% url 'rpas_model_update' pk=rpas.get_rpas_model_pk %}" class="link text-[13px] font-bold">Continue setup</a>
+                                {% elif payload_pct < 100 %}
+                                    <a href="{% url 'payload_update' pk=rpas.get_payload_pk %}" class="link text-[13px] font-bold">Continue setup</a>
+                                {% else %}
+                                    <a href="{% url 'rpas_update' pk=rpas.pk %}" class="link text-[13px] font-bold">Edit</a>
+                                {% endif %}
+                                <a href="{% url 'rpas_detail' pk=rpas.pk %}" class="flex items-center gap-0.5 text-[13px] font-bold text-ink-body no-underline hover:text-ink hover:no-underline">Details<span class="icon text-[18px]" aria-hidden="true">chevron_right</span></a>
+                            </div>
+                        </article>
+                    {% endwith %}
+                {% endfor %}
             </div>
-        </div>
-        {% endfor %}
+        {% else %}
+            <div class="card flex flex-col items-center gap-3 px-6 py-14 text-center">
+                <span class="flex h-14 w-14 items-center justify-center rounded-[14px] bg-brand-soft text-brand"><span class="icon text-[28px]" aria-hidden="true">flight</span></span>
+                <h2 class="mt-1 text-lg font-bold">No aircraft yet</h2>
+                <p class="m-0 max-w-[340px] text-sm text-ink-muted">Register your first RPAS to start planning flights and reserving airspace.</p>
+                <a href="{% url 'rpas_add' %}" class="btn-primary mt-2"><span class="icon" aria-hidden="true">add</span>Add aircraft</a>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
