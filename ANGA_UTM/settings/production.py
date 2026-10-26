@@ -60,8 +60,7 @@ MEDIA_URL = "/media/"
 STATIC_URL = "/static/"
 
 
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
-STATICFILES_STORAGE = "storages.backends.s3boto.S3BotoStorage"
+# Storage backends are configured via STORAGES in ANGA_UTM/aws/conf.py
 
 
 LOGIN_URL = "accounts:login"

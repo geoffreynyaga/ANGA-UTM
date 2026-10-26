@@ -318,3 +318,38 @@ class ImportCatalogTests(TestCase):
         self.assertEqual(part.diagram_name, "Front Cover of Front Shell")
         self.assertEqual(part.aircraft_models.get().name, "Agras T50")
         self.assertEqual(ComponentType.objects.count(), 245)
+
+    def test_import_sets_kind_serial_and_parent(self):
+        from django.core.management import call_command
+
+        call_command("import_component_catalog", stdout=StringIO())
+
+        tank = ComponentType.objects.get(part_number="YC.JG.CS000016")
+        pump = ComponentType.objects.get(part_number="BC.AG.SS000710")
+        thumb_nut = ComponentType.objects.get(part_number="YC.JG.ZS003594")
+        arm = ComponentType.objects.get(part_number="BC.AG.SS000696")
+
+        self.assertTrue(tank.is_serialized)
+        self.assertIsNone(tank.parent)
+        self.assertEqual(pump.parent, tank)
+        self.assertFalse(arm.is_serialized)
+        self.assertIsNone(thumb_nut.parent)
+        self.assertEqual(
+            set(thumb_nut.tags.values_list("name", flat=True)),
+            {"bulk", "fastener", "flow meter module", "m3 aircraft arm"},
+        )
+        counts = {
+            kind: ComponentType.objects.filter(tags__name=kind).count()
+            for kind in ("assembly", "unit", "part", "bulk")
+        }
+        self.assertEqual(counts, {"assembly": 11, "unit": 21, "part": 132, "bulk": 81})
+        self.assertFalse(StockLot.objects.exists())
+        self.assertFalse(ComponentUnit.objects.exists())
+
+    def test_dry_run_saves_nothing(self):
+        from django.core.management import call_command
+
+        call_command("import_component_catalog", "--dry-run", stdout=StringIO())
+
+        self.assertFalse(ComponentType.objects.exists())
+        self.assertFalse(Tag.objects.exists())
