@@ -3525,8 +3525,8 @@ packages:
     resolution: {integrity: sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==}
     engines: {node: '>= 4'}
 
-  dompurify@2.5.2:
-    resolution: {integrity: sha512-5vSyvxRAb45EoWwAktUT3AYqAwXK4FL7si22Cgj46U6ICsj/YJczCN+Bk7WNABIQmpWRymGfslMhrRUZkQNnqA==}
+  dompurify@2.5.9:
+    resolution: {integrity: sha512-i6mvVmWN4xo9LrhCOZrDgSs9noW6nOahbrmzjRbPF36YPyj5Ue5lgok0MHDWkG7xzpWFO2OYttXdzM7rJxHvNA==}
 
   domutils@1.7.0:
     resolution: {integrity: sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg==}
@@ -12060,7 +12060,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@2.5.2: {}
+  dompurify@2.5.9: {}
 
   domutils@1.7.0:
     dependencies:
@@ -13277,7 +13277,7 @@ snapshots:
   isomorphic-dompurify@0.20.0(bufferutil@4.0.8)(supports-color@8.1.1):
     dependencies:
       '@types/dompurify': 2.4.0
-      dompurify: 2.5.2
+      dompurify: 2.5.9
       jsdom: 20.0.3(bufferutil@4.0.8)(supports-color@8.1.1)
     transitivePeerDependencies:
       - bufferutil
