@@ -10,7 +10,6 @@ class DailyWorkLogModelTests(TestCase):
 	def test_str_handles_missing_reserve_airspace(self):
 		user_model = get_user_model()
 		user = user_model.objects.create_user(
-			username="flightlog-test-user",
 			email="flightlog-test@example.com",
 			password="safe-password-123",
 		)
